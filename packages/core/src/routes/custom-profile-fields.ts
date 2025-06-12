@@ -27,7 +27,7 @@ export default function customProfileFieldsRoutes<T extends ManagementApiRouter>
     '/custom-profile-fields',
     koaGuard({
       response: z.array(CustomProfileFields.guard),
-      status: [200, 400],
+      status: [200],
     }),
     async (ctx, next) => {
       ctx.body = await findAllCustomProfileFields();
@@ -43,7 +43,7 @@ export default function customProfileFieldsRoutes<T extends ManagementApiRouter>
         id: z.string().min(1),
       }),
       response: CustomProfileFields.guard,
-      status: [200, 400, 404],
+      status: [200, 404],
     }),
     async (ctx, next) => {
       const { params } = ctx.guard;
@@ -58,7 +58,7 @@ export default function customProfileFieldsRoutes<T extends ManagementApiRouter>
     koaGuard({
       body: createCustomProfileFieldDataGuard,
       response: CustomProfileFields.guard,
-      status: [201, 400],
+      status: [201],
     }),
     async (ctx, next) => {
       const { body } = ctx.guard;
@@ -77,7 +77,7 @@ export default function customProfileFieldsRoutes<T extends ManagementApiRouter>
       }),
       body: updateCustomProfileFieldDataGuard,
       response: CustomProfileFields.guard,
-      status: [200, 400, 404],
+      status: [200, 404],
     }),
     async (ctx, next) => {
       const { params, body } = ctx.guard;
@@ -101,7 +101,7 @@ export default function customProfileFieldsRoutes<T extends ManagementApiRouter>
       params: z.object({
         id: z.string().min(1),
       }),
-      status: [204, 400, 404],
+      status: [204, 404],
     }),
     async (ctx, next) => {
       const { params } = ctx.guard;
@@ -121,7 +121,7 @@ export default function customProfileFieldsRoutes<T extends ManagementApiRouter>
         order: z.array(updateCustomProfileFieldSieOrderGuard),
       }),
       response: z.array(CustomProfileFields.guard),
-      status: [200, 400],
+      status: [200],
     }),
     async (ctx, next) => {
       const { body } = ctx.guard;
