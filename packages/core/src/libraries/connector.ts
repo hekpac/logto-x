@@ -10,6 +10,7 @@ import { validateConfig, ServiceConnector, ConnectorType } from '@logto/connecto
 import { type Nullable, conditional, pick, trySafe } from '@silverhand/essentials';
 
 import RequestError from '#src/errors/RequestError/index.js';
+import ServerError from '#src/errors/ServerError/index.js';
 import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
 import { loadConnectorFactories } from '#src/utils/connectors/index.js';
@@ -128,7 +129,7 @@ export const createConnectorLibrary = (
 
   const getLogtoConnectorByTargetAndPlatform = async (
     target: string,
-    platform: Nullable<ConnectorPlatform>
+    platform?: ConnectorPlatform
   ) => {
     const connectors = await getLogtoConnectors();
 
@@ -156,12 +157,7 @@ export const createConnectorLibrary = (
     );
     assertThat(
       connector,
-      // TODO: @gao refactor RequestError and ServerError to share the same base class
-      new RequestError({
-        code: 'connector.not_found',
-        type,
-        status: 501,
-      })
+      new ServerError(`Connector for type ${type} is not implemented.`)
     );
     return connector;
   };

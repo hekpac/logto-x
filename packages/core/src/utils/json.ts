@@ -1,6 +1,6 @@
 import { type JsonObject, jsonObjectGuard } from '@logto/schemas';
 import { trySafe } from '@silverhand/essentials';
-import cleanDeep from 'clean-deep';
+import { cleanDeep } from '@logto/shared';
 
 export const safeParseJson = (jsonString: string): unknown =>
   // eslint-disable-next-line no-restricted-syntax

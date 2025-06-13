@@ -13,7 +13,8 @@ const applicationsSearchParams = new URLSearchParams([
   ['types', ApplicationType.Traditional],
   ['types', ApplicationType.SPA],
   ['types', ApplicationType.SAML],
-  // TODO: for now we allow all third-party applications here, including SAML and OIDC
+  // Only include first-party applications
+  ['isThirdParty', 'false'],
 ]);
 
 export const applicationsSearchUrl = `api/applications?${applicationsSearchParams.toString()}`;

@@ -54,7 +54,7 @@ export class ProvisionLibrary {
    * - Provision all JIT organizations for the user if necessary.
    * - Assign the first user to the admin role and the default tenant organization membership. [OSS only]
    */
-  async createUser(profile: InteractionProfile) {
+  async createUser(profile: InteractionProfile, emailVerified = true) {
     const {
       libraries: {
         users: { generateUserId, insertUser },
@@ -84,7 +84,9 @@ export class ProvisionLibrary {
       await this.provisionForFirstAdminUser(user);
     }
 
-    await this.provisionNewUserJitOrganizations(user.id, profile);
+    if (emailVerified) {
+      await this.provisionNewUserJitOrganizations(user.id, profile);
+    }
 
     this.ctx.appendDataHookContext('User.Created', { user });
 

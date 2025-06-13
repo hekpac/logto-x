@@ -12,7 +12,7 @@ import { z } from 'zod';
 import { type SearchOptions } from '#src/database/utils.js';
 import { buildManagementApiContext } from '#src/libraries/hook/utils.js';
 import koaGuard from '#src/middleware/koa-guard.js';
-import { type WithHookContext } from '#src/middleware/koa-management-api-hooks.js';
+import { type WithHookContext } from '#src/middleware/koa-api-hooks.js';
 import koaPagination from '#src/middleware/koa-pagination.js';
 
 import { type TwoRelationsQueries } from './RelationQueries.js';
