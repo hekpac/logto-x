@@ -1,8 +1,12 @@
 import { generateStandardShortId } from '@logto/shared/universal';
+ <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
+import { conditional } from '@silverhand/essentials';
+=======
  <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
 =======
 import { conditional } from '@silverhand/essentials';
 import { useCallback } from 'react';
+ >>>>>>> master
  >>>>>>> master
 import { useFormContext } from 'react-hook-form';
 
@@ -19,10 +23,13 @@ export type Props = {
   readonly onChange: (values: InviteeEmailItem[]) => void;
   readonly error?: string | boolean;
   readonly placeholder?: string;
+ <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
+=======
   /**
    * Function to check for duplicated or invalid email addresses. It should return
    * valid email addresses and an error message if any.
    */
+ >>>>>>> master
   readonly parseEmailOptions: (values: InviteeEmailItem[]) => {
     values: InviteeEmailItem[];
     errorMessage?: string;
@@ -39,16 +46,50 @@ function InviteEmailsInput({
   parseEmailOptions,
 }: Props) {
   const { setError, clearErrors } = useFormContext();
+ <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
+=======
 
  <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
   const handleChange = (newValues: InviteeEmailItem[]) => {
     const { values: parsedValues, errorMessage } = parseEmailOptions(newValues);
+ >>>>>>> master
 
+  const handleChange = (nextValues: InviteeEmailItem[]) => {
+    const { values: parsedValues, errorMessage } = parseEmailOptions(nextValues);
     if (errorMessage) {
       setError(formName, { type: 'custom', message: errorMessage });
     } else {
       clearErrors(formName);
     }
+ <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
+    rawOnChange(parsedValues);
+  };
+
+  return (
+    <MultiOptionInput<InviteeEmailItem>
+      className={className}
+      values={values}
+      valueClassName={(option) => option.status ? styles[option.status] : undefined}
+      getId={(option) => option.id}
+      renderValue={(option) => option.value}
+      validateInput={(text) => {
+        const item: InviteeEmailItem = {
+          id: generateStandardShortId(),
+          value: text,
+          ...conditional(!emailRegEx.test(text) && { status: 'error' }),
+        };
+        const { errorMessage } = parseEmailOptions([...values, item]);
+        if (errorMessage) {
+          return errorMessage;
+        }
+        return { value: item };
+      }}
+      placeholder={placeholder}
+      error={error}
+      onChange={handleChange}
+      onError={(err) => {
+        setError(formName, { type: 'custom', message: err });
+=======
 
     rawOnChange(parsedValues);
   };
@@ -117,14 +158,18 @@ function InviteEmailsInput({
       onChange={handleChange}
       onError={(message) => {
         setError(formName, { type: 'custom', message });
+ >>>>>>> master
       }}
       onClearError={() => {
         clearErrors(formName);
       }}
+ <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
+=======
  <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
 =======
       validateInput={validateInput}
       error={error}
+ >>>>>>> master
  >>>>>>> master
     />
   );
