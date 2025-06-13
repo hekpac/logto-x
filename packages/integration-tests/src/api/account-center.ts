@@ -1,14 +1,14 @@
 import { AccountCenterControlValue, type AccountCenter } from '@logto/schemas';
 import { type KyInstance } from 'ky';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
-export const getAccountCenter = async (api: KyInstance = authedAdminApi) =>
+export const getAccountCenter = async (api: KyInstance = authedApi) =>
   api.get('account-center').json<AccountCenter>();
 
 export const updateAccountCenter = async (
   accountCenter: Partial<AccountCenter>,
-  api: KyInstance = authedAdminApi
+  api: KyInstance = authedApi
 ) =>
   api
     .patch('account-center', {
@@ -16,7 +16,7 @@ export const updateAccountCenter = async (
     })
     .json<AccountCenter>();
 
-export const disableAccountCenter = async (api: KyInstance = authedAdminApi) => {
+export const disableAccountCenter = async (api: KyInstance = authedApi) => {
   await updateAccountCenter(
     {
       enabled: false,
@@ -26,7 +26,7 @@ export const disableAccountCenter = async (api: KyInstance = authedAdminApi) => 
   );
 };
 
-export const enableAllAccountCenterFields = async (api: KyInstance = authedAdminApi) => {
+export const enableAllAccountCenterFields = async (api: KyInstance = authedApi) => {
   await updateAccountCenter(
     {
       enabled: true,

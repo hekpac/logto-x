@@ -1,14 +1,14 @@
 import type { Log } from '@logto/schemas';
 import { conditionalString } from '@silverhand/essentials';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 export const getAuditLogs = async (params?: URLSearchParams) =>
-  authedAdminApi.get('logs?' + conditionalString(params?.toString())).json<Log[]>();
+  authedApi.get('logs?' + conditionalString(params?.toString())).json<Log[]>();
 
 export const getWebhookRecentLogs = async (hookId: string, params?: URLSearchParams) =>
-  authedAdminApi
+  authedApi
     .get(`hooks/${hookId}/recent-logs?` + conditionalString(params?.toString()))
     .json<Log[]>();
 
-export const getLog = async (logId: string) => authedAdminApi.get(`logs/${logId}`).json<Log>();
+export const getLog = async (logId: string) => authedApi.get(`logs/${logId}`).json<Log>();

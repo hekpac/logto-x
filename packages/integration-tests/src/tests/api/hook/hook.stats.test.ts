@@ -8,7 +8,7 @@ import {
 } from '@logto/schemas';
 
 import { deleteUser } from '#src/api/admin-user.js';
-import { authedAdminApi } from '#src/api/api.js';
+import { authedApi } from '#src/api/api.js';
 import { getHookCreationPayload } from '#src/helpers/hook.js';
 import { createMockServer } from '#src/helpers/index.js';
 import { registerNewUser } from '#src/helpers/interactions.js';
@@ -32,7 +32,7 @@ describe('hook logs', () => {
   });
 
   it('should get recent hook logs correctly', async () => {
-    const createdHook = await authedAdminApi
+    const createdHook = await authedApi
       .post('hooks', {
         json: getHookCreationPayload(InteractionHookEvent.PostRegister, 'http://localhost:9999'),
       })
@@ -41,7 +41,7 @@ describe('hook logs', () => {
     const { username, password } = generateNewUserProfile({ username: true, password: true });
     const userId = await registerNewUser(username, password);
 
-    const logs = await authedAdminApi
+    const logs = await authedApi
       .get(`hooks/${createdHook.id}/recent-logs?page_size=100`)
       .json<Log[]>();
     expect(
@@ -51,19 +51,19 @@ describe('hook logs', () => {
       )
     ).toBeTruthy();
 
-    await authedAdminApi.delete(`hooks/${createdHook.id}`);
+    await authedApi.delete(`hooks/${createdHook.id}`);
 
     await deleteUser(userId);
   });
 
   it('should get hook execution stats correctly', async () => {
-    const createdHook = await authedAdminApi
+    const createdHook = await authedApi
       .post('hooks', {
         json: getHookCreationPayload(InteractionHookEvent.PostRegister, 'http://localhost:9999'),
       })
       .json<Hook>();
 
-    const hooksWithExecutionStats = await authedAdminApi
+    const hooksWithExecutionStats = await authedApi
       .get('hooks?includeExecutionStats=true')
       .json<HookResponse[]>();
 
@@ -74,7 +74,7 @@ describe('hook logs', () => {
     const { username, password } = generateNewUserProfile({ username: true, password: true });
     const userId = await registerNewUser(username, password);
 
-    const hookWithExecutionStats = await authedAdminApi
+    const hookWithExecutionStats = await authedApi
       .get(`hooks/${createdHook.id}?includeExecutionStats=true`)
       .json<HookResponse>();
 
@@ -84,7 +84,7 @@ describe('hook logs', () => {
     expect(executionStats.requestCount).toBe(1);
     expect(executionStats.successCount).toBe(1);
 
-    await authedAdminApi.delete(`hooks/${createdHook.id}`);
+    await authedApi.delete(`hooks/${createdHook.id}`);
 
     await deleteUser(userId);
   });

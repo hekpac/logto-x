@@ -14,8 +14,7 @@ export const baseApi = ky.extend({
   prefixUrl: new URL(logtoUrl),
 });
 
-// TODO: @gao rename
-export const authedAdminApi = api.extend({
+export const authedApi = api.extend({
   headers: {
     'development-user-id': 'integration-test-admin-user',
   },

@@ -4,7 +4,7 @@ import { SignInIdentifier } from '@logto/schemas';
 import { PhoneNumberParser } from '@logto/shared';
 
 import { enableAllAccountCenterFields } from '#src/api/account-center.js';
-import { authedAdminApi } from '#src/api/api.js';
+import { authedApi } from '#src/api/api.js';
 import {
   deletePrimaryEmail,
   deletePrimaryPhone,
@@ -30,9 +30,9 @@ import { generateEmail, generatePhone, generateNationalPhoneNumber } from '#src/
 describe('account (email and phone)', () => {
   beforeAll(async () => {
     await enableAllPasswordSignInMethods();
-    await setEmailConnector(authedAdminApi);
-    await setSmsConnector(authedAdminApi);
-    await enableAllAccountCenterFields(authedAdminApi);
+    await setEmailConnector(authedApi);
+    await setSmsConnector(authedApi);
+    await enableAllAccountCenterFields(authedApi);
   });
 
   describe('POST /my-account/primary-email', () => {

@@ -8,6 +8,7 @@ import {
   getApplications,
   updateApplication,
 } from '#src/api/index.js';
+import { createSamlApplication, deleteSamlApplication } from '#src/api/saml-application.js';
 import { expectRejects } from '#src/helpers/index.js';
 
 describe('application APIs', () => {
@@ -42,7 +43,17 @@ describe('application APIs', () => {
     });
   });
 
-  // TODO: add tests for blocking updating SAML application with `PATCH /applications/:id` API, we can not do it before we implement the `POST /saml-applications` API
+
+  it('should not update SAML application with applications API', async () => {
+    const { id } = await createSamlApplication({ name: 'test-saml', description: 'test' });
+
+    await expectRejects(updateApplication(id, { description: 'new' }), {
+      code: 'application.saml.use_saml_app_api',
+      status: 400,
+    });
+
+    await deleteSamlApplication(id);
+  });
 
   it('should create OIDC third party application successfully', async () => {
     const applicationName = 'test-third-party-app';

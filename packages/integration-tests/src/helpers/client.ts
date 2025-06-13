@@ -13,7 +13,7 @@ export const initClient = async (
 ) => {
   const client = new MockClient(config);
   await client.initSession(redirectUri, options);
-  assert(client.interactionCookie, new Error('Session not found'));
+  assert(client.sessionCookie, new Error('Session not found'));
 
   return client;
 };
@@ -35,7 +35,7 @@ export const initExperienceClient = async ({
 } = {}) => {
   const client = new ExperienceClient(config, api);
   await client.initSession(redirectUri, options);
-  assert(client.interactionCookie, new Error('Session not found'));
+  assert(client.sessionCookie, new Error('Session not found'));
   await client.initInteraction({ interactionEvent, captchaToken });
 
   return client;

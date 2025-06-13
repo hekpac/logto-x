@@ -11,7 +11,7 @@ import {
 } from '@logto/schemas';
 import { conditional } from '@silverhand/essentials';
 
-import { authedAdminApi, oidcApi } from './api.js';
+import { authedApi, oidcApi } from './api.js';
 
 export const createApplication = async (
   name: string,
@@ -23,7 +23,7 @@ export const createApplication = async (
     }
   >
 ) =>
-  authedAdminApi
+  authedApi
     .post('applications', {
       json: {
         name,
@@ -48,11 +48,11 @@ export const getApplications = async (
     ...(conditional(isThirdParty && [['isThirdParty', isThirdParty]]) ?? []),
   ]);
 
-  return authedAdminApi.get('applications', { searchParams }).json<Application[]>();
+  return authedApi.get('applications', { searchParams }).json<Application[]>();
 };
 
 export const getApplication = async (applicationId: string) =>
-  authedAdminApi.get(`applications/${applicationId}`).json<Application & { isAdmin: boolean }>();
+  authedApi.get(`applications/${applicationId}`).json<Application & { isAdmin: boolean }>();
 
 export const updateApplication = async (
   applicationId: string,
@@ -62,7 +62,7 @@ export const updateApplication = async (
     } & { protectedAppMetadata: Partial<ProtectedAppMetadata> }
   > & { isAdmin?: boolean }
 ) =>
-  authedAdminApi
+  authedApi
     .patch(`applications/${applicationId}`, {
       json: {
         ...payload,
@@ -71,7 +71,7 @@ export const updateApplication = async (
     .json<Application>();
 
 export const deleteApplication = async (applicationId: string) =>
-  authedAdminApi.delete(`applications/${applicationId}`);
+  authedApi.delete(`applications/${applicationId}`);
 
 /**
  * Get roles assigned to the m2m app.
@@ -82,21 +82,21 @@ export const deleteApplication = async (applicationId: string) =>
  */
 export const getApplicationRoles = async (applicationId: string, keyword?: string) => {
   const searchParams = new URLSearchParams(conditional(keyword && [['search', `%${keyword}%`]]));
-  return authedAdminApi.get(`applications/${applicationId}/roles`, { searchParams }).json<Role[]>();
+  return authedApi.get(`applications/${applicationId}/roles`, { searchParams }).json<Role[]>();
 };
 
 export const assignRolesToApplication = async (applicationId: string, roleIds: string[]) =>
-  authedAdminApi.post(`applications/${applicationId}/roles`, {
+  authedApi.post(`applications/${applicationId}/roles`, {
     json: { roleIds },
   });
 
 export const putRolesToApplication = async (applicationId: string, roleIds: string[]) =>
-  authedAdminApi.put(`applications/${applicationId}/roles`, {
+  authedApi.put(`applications/${applicationId}/roles`, {
     json: { roleIds },
   });
 
 export const deleteRoleFromApplication = async (applicationId: string, roleId: string) =>
-  authedAdminApi.delete(`applications/${applicationId}/roles/${roleId}`);
+  authedApi.delete(`applications/${applicationId}/roles/${roleId}`);
 
 export const generateM2mLog = async (applicationId: string) => {
   const { id, secret, type, isThirdParty } = await getApplication(applicationId);
@@ -127,7 +127,7 @@ export const getOrganizations = async (applicationId: string, page?: number, pag
     searchParams.append('page_size', String(pageSize));
   }
 
-  return authedAdminApi
+  return authedApi
     .get(`applications/${applicationId}/organizations`, {
       searchParams,
     })
@@ -138,35 +138,35 @@ export const createApplicationSecret = async ({
   applicationId,
   ...body
 }: Omit<CreateApplicationSecret, 'value'>) =>
-  authedAdminApi
+  authedApi
     .post(`applications/${applicationId}/secrets`, { json: body })
     .json<ApplicationSecret>();
 
 export const getApplicationSecrets = async (applicationId: string) =>
-  authedAdminApi.get(`applications/${applicationId}/secrets`).json<ApplicationSecret[]>();
+  authedApi.get(`applications/${applicationId}/secrets`).json<ApplicationSecret[]>();
 
 export const deleteApplicationSecret = async (applicationId: string, secretName: string) =>
-  authedAdminApi.delete(`applications/${applicationId}/secrets/${secretName}`);
+  authedApi.delete(`applications/${applicationId}/secrets/${secretName}`);
 
 export const updateApplicationSecret = async (
   applicationId: string,
   secretName: string,
   body: Record<string, unknown>
 ) =>
-  authedAdminApi
+  authedApi
     .patch(`applications/${applicationId}/secrets/${secretName}`, {
       json: body,
     })
     .json<ApplicationSecret>();
 
 export const deleteLegacyApplicationSecret = async (applicationId: string) =>
-  authedAdminApi.delete(`applications/${applicationId}/legacy-secret`);
+  authedApi.delete(`applications/${applicationId}/legacy-secret`);
 
 export const patchApplicationCustomData = async (
   applicationId: string,
   customData: Record<string, unknown>
 ) => {
-  return authedAdminApi
+  return authedApi
     .patch(`applications/${applicationId}/custom-data`, {
       json: customData,
     })

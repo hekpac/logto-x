@@ -1,7 +1,7 @@
 import { OneTimeTokenStatus } from '@logto/schemas';
 import { generateStandardId } from '@logto/shared';
 
-import { authedAdminApi } from '#src/api/api.js';
+import { authedApi } from '#src/api/api.js';
 import {
   createOneTimeToken,
   verifyOneTimeToken,
@@ -337,7 +337,7 @@ describe('one-time tokens API', () => {
     const tokens = await getOneTimeTokens();
     expect(tokens).toEqual(expect.arrayContaining([oneTimeToken1, oneTimeToken2, oneTimeToken3]));
 
-    const response = await authedAdminApi.get('one-time-tokens?page=1&page_size=2');
+    const response = await authedApi.get('one-time-tokens?page=1&page_size=2');
     expect(response.headers.get('Total-Number')).toBe('3');
     expect(await response.json()).toEqual(expect.arrayContaining([oneTimeToken2, oneTimeToken3]));
 

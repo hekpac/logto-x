@@ -1,26 +1,26 @@
 import type { Hook } from '@logto/schemas';
 import { InteractionHookEvent } from '@logto/schemas';
 
-import { authedAdminApi } from '#src/api/index.js';
+import { authedApi } from '#src/api/index.js';
 import { getHookCreationPayload } from '#src/helpers/hook.js';
 import { expectRejects } from '#src/helpers/index.js';
 
 describe('hooks', () => {
   it('should be able to create, query, update, and delete a hook', async () => {
     const payload = getHookCreationPayload(InteractionHookEvent.PostRegister);
-    const created = await authedAdminApi.post('hooks', { json: payload }).json<Hook>();
+    const created = await authedApi.post('hooks', { json: payload }).json<Hook>();
 
     expect(created).toMatchObject(payload);
 
-    expect(await authedAdminApi.get('hooks').json<Hook[]>()).toContainEqual(created);
-    expect(await authedAdminApi.get(`hooks/${created.id}`).json<Hook>()).toEqual(created);
+    expect(await authedApi.get('hooks').json<Hook[]>()).toContainEqual(created);
+    expect(await authedApi.get(`hooks/${created.id}`).json<Hook>()).toEqual(created);
     expect(
-      await authedAdminApi
+      await authedApi
         .patch(`hooks/${created.id}`, { json: { events: [InteractionHookEvent.PostSignIn] } })
         .json<Hook>()
     ).toMatchObject({ ...created, events: [InteractionHookEvent.PostSignIn] });
-    expect(await authedAdminApi.delete(`hooks/${created.id}`)).toHaveProperty('status', 204);
-    await expectRejects(authedAdminApi.get(`hooks/${created.id}`), {
+    expect(await authedApi.delete(`hooks/${created.id}`)).toHaveProperty('status', 204);
+    await expectRejects(authedApi.get(`hooks/${created.id}`), {
       code: 'entity.not_exists_with_id',
       status: 404,
     });
@@ -34,22 +34,22 @@ describe('hooks', () => {
         retries: 2,
       },
     };
-    const created = await authedAdminApi.post('hooks', { json: payload }).json<Hook>();
+    const created = await authedApi.post('hooks', { json: payload }).json<Hook>();
 
     expect(created).toMatchObject(payload);
 
-    expect(await authedAdminApi.get('hooks').json<Hook[]>()).toContainEqual(created);
-    expect(await authedAdminApi.get(`hooks/${created.id}`).json<Hook>()).toEqual(created);
+    expect(await authedApi.get('hooks').json<Hook[]>()).toContainEqual(created);
+    expect(await authedApi.get(`hooks/${created.id}`).json<Hook>()).toEqual(created);
     expect(
-      await authedAdminApi
+      await authedApi
         .patch(`hooks/${created.id}`, { json: { event: InteractionHookEvent.PostSignIn } })
         .json<Hook>()
     ).toMatchObject({
       ...created,
       event: InteractionHookEvent.PostSignIn,
     });
-    expect(await authedAdminApi.delete(`hooks/${created.id}`)).toHaveProperty('status', 204);
-    await expectRejects(authedAdminApi.get(`hooks/${created.id}`), {
+    expect(await authedApi.delete(`hooks/${created.id}`)).toHaveProperty('status', 204);
+    await expectRejects(authedApi.get(`hooks/${created.id}`), {
       code: 'entity.not_exists_with_id',
       status: 404,
     });
@@ -57,15 +57,15 @@ describe('hooks', () => {
 
   it('should return hooks with pagination if pagination-related query params are provided', async () => {
     const payload = getHookCreationPayload(InteractionHookEvent.PostRegister);
-    const created = await authedAdminApi.post('hooks', { json: payload }).json<Hook>();
+    const created = await authedApi.post('hooks', { json: payload }).json<Hook>();
 
-    const response = await authedAdminApi.get('hooks?page=1&page_size=20');
+    const response = await authedApi.get('hooks?page=1&page_size=20');
 
     expect(response.status).toBe(200);
     expect(response.headers.get('total-number')).toEqual(expect.any(String));
 
     // Clean up
-    await authedAdminApi.delete(`hooks/${created.id}`);
+    await authedApi.delete(`hooks/${created.id}`);
   });
 
   it('should throw error when creating a hook with an empty hook name', async () => {
@@ -76,7 +76,7 @@ describe('hooks', () => {
         url: 'not_work_url',
       },
     };
-    await expectRejects(authedAdminApi.post('hooks', { json: payload }), {
+    await expectRejects(authedApi.post('hooks', { json: payload }), {
       code: 'guard.invalid_input',
       status: 400,
     });
@@ -89,7 +89,7 @@ describe('hooks', () => {
         url: 'not_work_url',
       },
     };
-    await expectRejects(authedAdminApi.post('hooks', { json: payload }), {
+    await expectRejects(authedApi.post('hooks', { json: payload }), {
       code: 'hook.missing_events',
       status: 400,
     });
@@ -100,14 +100,14 @@ describe('hooks', () => {
       name: 'new_hook_name',
     };
 
-    await expectRejects(authedAdminApi.patch('hooks/invalid_id', { json: payload }), {
+    await expectRejects(authedApi.patch('hooks/invalid_id', { json: payload }), {
       code: 'entity.not_exists',
       status: 404,
     });
   });
 
   it('should throw error if regenerate a hook signing key with a invalid hook id', async () => {
-    await expectRejects(authedAdminApi.patch('hooks/invalid_id/signing-key'), {
+    await expectRejects(authedApi.patch('hooks/invalid_id/signing-key'), {
       code: 'entity.not_exists',
       status: 404,
     });

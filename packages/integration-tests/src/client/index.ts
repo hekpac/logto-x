@@ -37,8 +37,7 @@ export default class MockClient {
     });
   }
 
-  // TODO: Rename to sessionCookies or something accurate
-  public get interactionCookie(): string {
+  public get sessionCookie(): string {
     return this.rawCookies.join('; ');
   }
 
@@ -87,7 +86,7 @@ export default class MockClient {
 
     // Get session cookie
     this.rawCookies = response.headers.getSetCookie();
-    assert(this.interactionCookie, new Error('Get cookie from authorization endpoint failed'));
+    assert(this.sessionCookie, new Error('Get cookie from authorization endpoint failed'));
   }
 
   /**
@@ -104,7 +103,7 @@ export default class MockClient {
 
     const authResponse = await ky.get(redirectTo, {
       headers: {
-        cookie: this.interactionCookie,
+        cookie: this.sessionCookie,
       },
       redirect: 'manual',
       throwHttpErrors: false,
@@ -130,7 +129,7 @@ export default class MockClient {
   public async manualConsent(redirectTo: string) {
     const authCodeResponse = await ky.get(redirectTo, {
       headers: {
-        cookie: this.interactionCookie,
+        cookie: this.sessionCookie,
       },
       redirect: 'manual',
       throwHttpErrors: false,
@@ -190,28 +189,28 @@ export default class MockClient {
     api: (cookie: string, ...args: Args) => Promise<T>,
     ...payload: Args
   ) {
-    return api(this.interactionCookie, ...payload);
+    return api(this.sessionCookie, ...payload);
   }
 
   public async successSend<Args extends unknown[], T>(
     api: (cookie: string, ...args: Args) => Promise<T>,
     ...payload: Args
   ) {
-    return expect(api(this.interactionCookie, ...payload)).resolves.not.toThrow();
+    return expect(api(this.sessionCookie, ...payload)).resolves.not.toThrow();
   }
 
   public async submitInteraction() {
-    return submitInteraction(this.api, this.interactionCookie);
+    return submitInteraction(this.api, this.sessionCookie);
   }
 
   private readonly consent = async () => {
     // Note: If sign in action completed successfully, we will get `_session.sig` in the cookie.
-    assert(this.interactionCookie, new Error('Session not found'));
-    assert(this.interactionCookie.includes('_session.sig'), new Error('Session not found'));
+    assert(this.sessionCookie, new Error('Session not found'));
+    assert(this.sessionCookie.includes('_session.sig'), new Error('Session not found'));
 
     const consentResponse = await ky.get(`${this.config.endpoint}/consent`, {
       headers: {
-        cookie: this.interactionCookie,
+        cookie: this.sessionCookie,
       },
       redirect: 'manual',
       throwHttpErrors: false,
@@ -226,7 +225,7 @@ export default class MockClient {
 
     const authCodeResponse = await ky.get(redirectTo, {
       headers: {
-        cookie: this.interactionCookie,
+        cookie: this.sessionCookie,
       },
       redirect: 'manual',
       throwHttpErrors: false,

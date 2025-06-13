@@ -10,7 +10,7 @@ import {
 import { assert } from '@silverhand/essentials';
 import { z } from 'zod';
 
-import { authedAdminApi } from '#src/api/api.js';
+import { authedApi } from '#src/api/api.js';
 import { createApplication, deleteApplication } from '#src/api/application.js';
 import { createResource } from '#src/api/resource.js';
 import { createScope } from '#src/api/scope.js';
@@ -119,7 +119,7 @@ describe('user data hook events', () => {
   it.each(userDataHookTestCases)(
     'test case %#: %p',
     async ({ route, event, method, endpoint, payload }) => {
-      await authedAdminApi[method](endpoint.replace('{userId}', userId), { json: payload });
+      await authedApi[method](endpoint.replace('{userId}', userId), { json: payload });
       const hook = await getWebhookResult(route);
       expect(hook?.payload.event).toBe(event);
     }
@@ -127,7 +127,7 @@ describe('user data hook events', () => {
 
   // Clean up
   afterAll(async () => {
-    await authedAdminApi.delete(`users/${userId}`);
+    await authedApi.delete(`users/${userId}`);
   });
 });
 
@@ -140,7 +140,7 @@ describe('role data hook events', () => {
 
   beforeAll(async () => {
     // Create a role to trigger the Role.Created event.
-    const role = await authedAdminApi
+    const role = await authedApi
       .post('roles', {
         json: { name: generateName(), description: 'data-hook-role', type: RoleType.User },
       })
@@ -161,13 +161,13 @@ describe('role data hook events', () => {
   });
 
   afterAll(async () => {
-    await authedAdminApi.delete(`resources/${resourceId}`);
+    await authedApi.delete(`resources/${resourceId}`);
   });
 
   it.each(roleDataHookTestCases)(
     'test case %#: %p',
     async ({ route, event, method, endpoint, payload }) => {
-      await authedAdminApi[method](
+      await authedApi[method](
         endpoint.replace('{roleId}', roleId).replace('{scopeId}', scopeId),
         // Replace all the scopeId placeholder in the payload
         { json: JSON.parse(JSON.stringify(payload).replace('{scopeId}', scopeId)) }
@@ -198,13 +198,13 @@ describe('scope data hook events', () => {
   });
 
   afterAll(async () => {
-    await authedAdminApi.delete(`resources/${resourceId}`);
+    await authedApi.delete(`resources/${resourceId}`);
   });
 
   it.each(scopesDataHookTestCases)(
     'test case %#: %p',
     async ({ route, event, method, endpoint, payload }) => {
-      await authedAdminApi[method](
+      await authedApi[method](
         endpoint.replace('{resourceId}', resourceId).replace('{scopeId}', scopeId),
         { json: payload }
       );
@@ -251,12 +251,9 @@ describe('organization data hook events', () => {
   it.each(organizationDataHookTestCases)(
     'test case %#: %p',
     async ({ route, event, method, endpoint, payload, hookPayload }) => {
-      // TODO: Remove this check
-      if (route.includes('applications') && !isDevFeaturesEnabled) {
-        return;
-      }
 
-      await authedAdminApi[method](
+
+      await authedApi[method](
         endpoint
           .replace('{organizationId}', organizationId)
           .replace('{userId}', userId)
@@ -306,7 +303,7 @@ describe('organization scope data hook events', () => {
   it.each(organizationScopeDataHookTestCases)(
     'test case %#: %p',
     async ({ route, event, method, endpoint, payload }) => {
-      await authedAdminApi[method](endpoint.replace('{organizationScopeId}', scopeId), {
+      await authedApi[method](endpoint.replace('{organizationScopeId}', scopeId), {
         json: payload,
       });
       const hook = await getWebhookResult(route);
@@ -351,7 +348,7 @@ describe('organization role data hook events', () => {
   it.each(organizationRoleDataHookTestCases)(
     'test case %#: %p',
     async ({ route, event, method, endpoint, payload }) => {
-      await authedAdminApi[method](
+      await authedApi[method](
         endpoint.replace('{organizationRoleId}', roleId).replace('{scopeId}', scopeId),
         { json: JSON.parse(JSON.stringify(payload).replace('{scopeId}', scopeId)) }
       );

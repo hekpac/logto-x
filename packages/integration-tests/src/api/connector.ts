@@ -6,7 +6,7 @@ import type {
 } from '@logto/schemas';
 import { type KyInstance } from 'ky';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 /**
  * We are using `id` and `connectorFactoryId` here:
@@ -16,23 +16,23 @@ import { authedAdminApi } from './api.js';
  * that contain metadata (considered connectors' FIXED properties) and code implementation (which determines how connectors work).
  */
 
-export const listConnectors = async (api: KyInstance = authedAdminApi) =>
+export const listConnectors = async (api: KyInstance = authedApi) =>
   api.get('connectors').json<ConnectorResponse[]>();
 
-export const getConnector = async (id: string, api: KyInstance = authedAdminApi) =>
+export const getConnector = async (id: string, api: KyInstance = authedApi) =>
   api.get(`connectors/${id}`).json<ConnectorResponse>();
 
-export const listConnectorFactories = async (api: KyInstance = authedAdminApi) =>
+export const listConnectorFactories = async (api: KyInstance = authedApi) =>
   api.get('connector-factories').json<ConnectorFactoryResponse[]>();
 
 export const getConnectorFactory = async (
   connectorFactoryId: string,
-  api: KyInstance = authedAdminApi
+  api: KyInstance = authedApi
 ) => api.get(`connector-factories/${connectorFactoryId}`).json<ConnectorFactoryResponse>();
 
 export const postConnector = async (
   payload: Pick<CreateConnector, 'connectorId' | 'config' | 'metadata' | 'syncProfile'>,
-  api: KyInstance = authedAdminApi
+  api: KyInstance = authedApi
 ) =>
   api
     .post('connectors', {
@@ -40,7 +40,7 @@ export const postConnector = async (
     })
     .json<Connector>();
 
-export const deleteConnectorById = async (id: string, api: KyInstance = authedAdminApi) =>
+export const deleteConnectorById = async (id: string, api: KyInstance = authedApi) =>
   api.delete(`connectors/${id}`).json();
 
 export const updateConnectorConfig = async (
@@ -48,7 +48,7 @@ export const updateConnectorConfig = async (
   config: Record<string, unknown>,
   metadata?: Record<string, unknown>
 ) =>
-  authedAdminApi
+  authedApi
     .patch(`connectors/${id}`, {
       json: { config, metadata },
     })
@@ -74,7 +74,7 @@ const sendTestMessage = async (
   config: Record<string, unknown>,
   locale?: string
 ) =>
-  authedAdminApi.post(`connectors/${connectorFactoryId}/test`, {
+  authedApi.post(`connectors/${connectorFactoryId}/test`, {
     json: { [receiverType]: receiver, config, locale },
   });
 
@@ -82,7 +82,7 @@ export const getConnectorAuthorizationUri = async (
   connectorId: string,
   state: string,
   redirectUri: string,
-  api: KyInstance = authedAdminApi
+  api: KyInstance = authedApi
 ) =>
   api
     .post(`connectors/${connectorId}/authorization-uri`, {

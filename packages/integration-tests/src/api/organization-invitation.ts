@@ -4,7 +4,7 @@ import {
   type OrganizationInvitationEntity,
 } from '@logto/schemas';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 import { ApiFactory } from './factory.js';
 
 export type PostOrganizationInvitationData = {
@@ -25,11 +25,11 @@ export class OrganizationInvitationApi extends ApiFactory<
   }
 
   override async create(json: PostOrganizationInvitationData) {
-    return authedAdminApi.post(this.path, { json }).json<OrganizationInvitationEntity>();
+    return authedApi.post(this.path, { json }).json<OrganizationInvitationEntity>();
   }
 
   async updateStatus(id: string, status: OrganizationInvitationStatus, acceptedUserId?: string) {
-    return authedAdminApi
+    return authedApi
       .put(`${this.path}/${id}/status`, {
         json: {
           status,
@@ -40,7 +40,7 @@ export class OrganizationInvitationApi extends ApiFactory<
   }
 
   async resendMessage(id: string, messagePayload: SendMessagePayload) {
-    return authedAdminApi
+    return authedApi
       .post(`${this.path}/${id}/message`, {
         json: messagePayload,
       })

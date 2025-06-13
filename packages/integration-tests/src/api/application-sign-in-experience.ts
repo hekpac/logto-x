@@ -3,17 +3,17 @@ import {
   type ApplicationSignInExperience,
 } from '@logto/schemas';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 export const setApplicationSignInExperience = async (
   applicationId: string,
   payload: ApplicationSignInExperienceCreate
 ) =>
-  authedAdminApi
+  authedApi
     .put(`applications/${applicationId}/sign-in-experience`, { json: payload })
     .json<ApplicationSignInExperience>();
 
 export const getApplicationSignInExperience = async (applicationId: string) =>
-  authedAdminApi
+  authedApi
     .get(`applications/${applicationId}/sign-in-experience`)
     .json<ApplicationSignInExperience>();

@@ -1,4 +1,4 @@
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 export type StatisticsData = {
   count: number;
@@ -22,10 +22,10 @@ export type ActiveUserStatistics = {
 };
 
 export const getTotalUsersCount = async () =>
-  authedAdminApi.get('dashboard/users/total').json<TotalUserCountData>();
+  authedApi.get('dashboard/users/total').json<TotalUserCountData>();
 
 export const getNewUsersData = async () =>
-  authedAdminApi.get('dashboard/users/new').json<NewUserStatistics>();
+  authedApi.get('dashboard/users/new').json<NewUserStatistics>();
 
 export const getActiveUsersData = async () =>
-  authedAdminApi.get('dashboard/users/active').json<ActiveUserStatistics>();
+  authedApi.get('dashboard/users/active').json<ActiveUserStatistics>();

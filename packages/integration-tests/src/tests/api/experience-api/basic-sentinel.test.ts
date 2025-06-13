@@ -1,6 +1,6 @@
 import { SignInIdentifier } from '@logto/schemas';
 
-import { authedAdminApi } from '#src/api/api.js';
+import { authedApi } from '#src/api/api.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { initExperienceClient } from '#src/helpers/client.js';
 import { signInWithPassword } from '#src/helpers/experience/index.js';
@@ -67,7 +67,7 @@ describe('basic sentinel', () => {
     });
 
     it('should unblock the identifier by calling management API', async () => {
-      await authedAdminApi.post('sentinel-activities/delete', {
+      await authedApi.post('sentinel-activities/delete', {
         json: {
           targetType: 'User',
           targets: [fakeUsername],
@@ -162,7 +162,7 @@ describe('basic sentinel', () => {
     });
 
     it('should unblock the identifier by calling management API', async () => {
-      await authedAdminApi.post('sentinel-activities/delete', {
+      await authedApi.post('sentinel-activities/delete', {
         json: {
           targetType: 'User',
           targets: [username],

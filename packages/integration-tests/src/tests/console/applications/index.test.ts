@@ -226,11 +226,6 @@ describe('applications', () => {
   it.each(applicationTypesMetadata)(
     'can create and modify a(n) $type application without framework',
     async (app: ApplicationMetadata) => {
-      if (app.type === ApplicationType.Protected) {
-        // TODO @wangsijie: Remove this guard once protected app is ready
-        expect(true).toBe(true);
-        return;
-      }
 
       await expect(page).toClick('div[class$=main] div[class$=headline] button span', {
         text: 'Create application',

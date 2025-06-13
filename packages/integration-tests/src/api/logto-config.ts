@@ -10,29 +10,29 @@ import {
   type Json,
 } from '@logto/schemas';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 export const getAdminConsoleConfig = async () =>
-  authedAdminApi.get('configs/admin-console').json<AdminConsoleData>();
+  authedApi.get('configs/admin-console').json<AdminConsoleData>();
 
 export const updateAdminConsoleConfig = async (payload: Partial<AdminConsoleData>) =>
-  authedAdminApi
+  authedApi
     .patch(`configs/admin-console`, {
       json: payload,
     })
     .json<AdminConsoleData>();
 
 export const getOidcKeys = async (keyType: LogtoOidcConfigKeyType) =>
-  authedAdminApi.get(`configs/oidc/${keyType}`).json<OidcConfigKeysResponse[]>();
+  authedApi.get(`configs/oidc/${keyType}`).json<OidcConfigKeysResponse[]>();
 
 export const deleteOidcKey = async (keyType: LogtoOidcConfigKeyType, id: string) =>
-  authedAdminApi.delete(`configs/oidc/${keyType}/${id}`);
+  authedApi.delete(`configs/oidc/${keyType}/${id}`);
 
 export const rotateOidcKeys = async (
   keyType: LogtoOidcConfigKeyType,
   signingKeyAlgorithm: SupportedSigningKeyAlgorithm = SupportedSigningKeyAlgorithm.EC
 ) =>
-  authedAdminApi
+  authedApi
     .post(`configs/oidc/${keyType}/rotate`, { json: { signingKeyAlgorithm } })
     .json<OidcConfigKeysResponse[]>();
 
@@ -40,31 +40,31 @@ export const upsertJwtCustomizer = async (
   keyTypePath: 'access-token' | 'client-credentials',
   value: unknown
 ) =>
-  authedAdminApi
+  authedApi
     .put(`configs/jwt-customizer/${keyTypePath}`, { json: value })
     .json<AccessTokenJwtCustomizer | ClientCredentialsJwtCustomizer>();
 
 export const getJwtCustomizer = async (keyTypePath: 'access-token' | 'client-credentials') =>
-  authedAdminApi
+  authedApi
     .get(`configs/jwt-customizer/${keyTypePath}`)
     .json<AccessTokenJwtCustomizer | ClientCredentialsJwtCustomizer>();
 
 export const getJwtCustomizers = async () =>
-  authedAdminApi.get(`configs/jwt-customizer`).json<JwtCustomizerConfigs[]>();
+  authedApi.get(`configs/jwt-customizer`).json<JwtCustomizerConfigs[]>();
 
 export const deleteJwtCustomizer = async (keyTypePath: 'access-token' | 'client-credentials') =>
-  authedAdminApi.delete(`configs/jwt-customizer/${keyTypePath}`);
+  authedApi.delete(`configs/jwt-customizer/${keyTypePath}`);
 
 export const updateJwtCustomizer = async (
   keyTypePath: 'access-token' | 'client-credentials',
   value: unknown
 ) =>
-  authedAdminApi
+  authedApi
     .patch(`configs/jwt-customizer/${keyTypePath}`, { json: value })
     .json<AccessTokenJwtCustomizer | ClientCredentialsJwtCustomizer>();
 
 export const testJwtCustomizer = async (payload: JwtCustomizerTestRequestBody) =>
-  authedAdminApi
+  authedApi
     .post(`configs/jwt-customizer/test`, {
       json: payload,
     })

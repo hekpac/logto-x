@@ -4,7 +4,7 @@ import {
   type ApplicationUserConsentScopesResponse,
 } from '@logto/schemas';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 export const assignUserConsentScopes = async (
   applicationId: string,
@@ -14,10 +14,10 @@ export const assignUserConsentScopes = async (
     organizationResourceScopes?: string[];
     userScopes?: UserScope[];
   }
-) => authedAdminApi.post(`applications/${applicationId}/user-consent-scopes`, { json: payload });
+) => authedApi.post(`applications/${applicationId}/user-consent-scopes`, { json: payload });
 
 export const getUserConsentScopes = async (applicationId: string) =>
-  authedAdminApi
+  authedApi
     .get(`applications/${applicationId}/user-consent-scopes`)
     .json<ApplicationUserConsentScopesResponse>();
 
@@ -26,6 +26,6 @@ export const deleteUserConsentScopes = async (
   scopeType: ApplicationUserConsentScopeType,
   scopeId: string
 ) =>
-  authedAdminApi.delete(
+  authedApi.delete(
     `applications/${applicationId}/user-consent-scopes/${scopeType}/${scopeId}`
   );

@@ -1,6 +1,6 @@
 import { type CreateHook, type Hook, type HookConfig, type HookEvent } from '@logto/schemas';
 
-import { authedAdminApi } from '#src/api/api.js';
+import { authedApi } from '#src/api/api.js';
 
 type HookCreationPayload = Pick<Hook, 'name' | 'events'> & {
   config: HookConfig;
@@ -26,7 +26,7 @@ export class WebHookApiTest {
   }
 
   async create(json: Omit<CreateHook, 'id'>): Promise<Hook> {
-    const hook = await authedAdminApi.post('hooks', { json }).json<Hook>();
+    const hook = await authedApi.post('hooks', { json }).json<Hook>();
     this.#hooks.set(hook.name, hook);
 
     return hook;
@@ -36,7 +36,7 @@ export class WebHookApiTest {
     const hook = this.#hooks.get(name);
 
     if (hook) {
-      await authedAdminApi.delete(`hooks/${hook.id}`);
+      await authedApi.delete(`hooks/${hook.id}`);
       this.#hooks.delete(name);
     }
   }
