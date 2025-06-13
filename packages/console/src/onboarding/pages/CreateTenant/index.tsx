@@ -26,7 +26,8 @@ import useCurrentUser from '@/hooks/use-current-user';
 import useTheme from '@/hooks/use-theme';
 import useUserOnboardingData from '@/onboarding/hooks/use-user-onboarding-data';
 import pageLayout from '@/onboarding/scss/layout.module.scss';
-import InviteEmailsInput from '@/pages/TenantSettings/TenantMembers/InviteEmailsInput';
+import MultiOptionInput from '@/components/MultiOptionInput';
+import { generateStandardShortId } from '@logto/shared/universal';
 import { type InviteeEmailItem } from '@/pages/TenantSettings/TenantMembers/types';
 import { trySubmitSafe } from '@/utils/form';
 
@@ -41,6 +42,8 @@ function CreateTenant() {
     handleSubmit,
     formState: { errors, isSubmitting },
     register,
+    setError,
+    clearErrors,
   } = methods;
   const { prependTenant } = useContext(TenantsContext);
   const theme = useTheme();
@@ -159,13 +162,44 @@ function CreateTenant() {
                   },
                 }}
                 render={({ field: { onChange, value } }) => (
-                  <InviteEmailsInput
-                    formName="collaboratorEmails"
+                  <MultiOptionInput
                     values={value}
-                    error={errors.collaboratorEmails?.message}
+                    getId={(item) => item.id}
+                    renderValue={(item) => item.value}
                     placeholder={t('tenant_members.invite_modal.email_input_placeholder')}
-                    parseEmailOptions={parseEmailOptions}
-                    onChange={onChange}
+                    validateInput={(input) => {
+                      const newOption = {
+                        value: input,
+                        id: generateStandardShortId(),
+                        ...conditional(!emailRegEx.test(input) && { status: 'error' }),
+                      };
+
+                      const { errorMessage } = parseEmailOptions([...value, newOption]);
+
+                      if (errorMessage) {
+                        return errorMessage;
+                      }
+
+                      return { value: newOption };
+                    }}
+                    error={errors.collaboratorEmails?.message}
+                    onChange={(nextValues) => {
+                      const { values: parsedValues, errorMessage } = parseEmailOptions(nextValues);
+
+                      if (errorMessage) {
+                        setError('collaboratorEmails', { type: 'custom', message: errorMessage });
+                      } else {
+                        clearErrors('collaboratorEmails');
+                      }
+
+                      onChange(parsedValues);
+                    }}
+                    onError={(errMsg) => {
+                      setError('collaboratorEmails', { type: 'custom', message: errMsg });
+                    }}
+                    onClearError={() => {
+                      clearErrors('collaboratorEmails');
+                    }}
                   />
                 )}
               />

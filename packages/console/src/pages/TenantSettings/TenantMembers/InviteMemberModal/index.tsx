@@ -21,7 +21,9 @@ import useUserPreferences from '@/hooks/use-user-preferences';
 import modalStyles from '@/scss/modal.module.scss';
 import { isPaidPlan } from '@/utils/subscription';
 
-import InviteEmailsInput from '../InviteEmailsInput';
+import MultiOptionInput from '@/components/MultiOptionInput';
+import { generateStandardShortId } from '@logto/shared/universal';
+import { emailRegEx } from '@logto/core-kit';
 import useEmailInputUtils from '../InviteEmailsInput/hooks';
 import styles from '../index.module.scss';
 import { type InviteMemberForm } from '../types';
@@ -65,6 +67,8 @@ function InviteMemberModal({ isOpen, onClose }: Props) {
     reset,
     watch,
     formState: { errors },
+    setError,
+    clearErrors,
   } = formMethods;
 
   useEffect(() => {
@@ -182,12 +186,44 @@ function InviteMemberModal({ isOpen, onClose }: Props) {
                 },
               }}
               render={({ field: { onChange, value } }) => (
-                <InviteEmailsInput
+                <MultiOptionInput
                   values={value}
-                  error={errors.emails?.message}
+                  getId={(item) => item.id}
+                  renderValue={(item) => item.value}
                   placeholder={t('tenant_members.invite_modal.email_input_placeholder')}
-                  parseEmailOptions={parseEmailOptions}
-                  onChange={onChange}
+                  validateInput={(input) => {
+                    const newOption = {
+                      value: input,
+                      id: generateStandardShortId(),
+                      ...conditional(!emailRegEx.test(input) && { status: 'error' }),
+                    };
+
+                    const { errorMessage } = parseEmailOptions([...value, newOption]);
+
+                    if (errorMessage) {
+                      return errorMessage;
+                    }
+
+                    return { value: newOption };
+                  }}
+                  error={errors.emails?.message}
+                  onChange={(nextValues) => {
+                    const { values: parsedValues, errorMessage } = parseEmailOptions(nextValues);
+
+                    if (errorMessage) {
+                      setError('emails', { type: 'custom', message: errorMessage });
+                    } else {
+                      clearErrors('emails');
+                    }
+
+                    onChange(parsedValues);
+                  }}
+                  onError={(errorMsg) => {
+                    setError('emails', { type: 'custom', message: errorMsg });
+                  }}
+                  onClearError={() => {
+                    clearErrors('emails');
+                  }}
                 />
               )}
             />
