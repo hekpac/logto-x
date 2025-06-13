@@ -5,8 +5,10 @@ import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
 /**
- * Provides utilities for validating and parsing email lists when inviting tenant
- * members with the `<MultiOptionInput />` component.
+ * Utility helpers for validating and parsing email lists when inviting tenant
+ * members. Originally bundled with `InviteEmailsInput`, these functions are now
+ * shared by the `<MultiOptionInput />` component in both the onboarding and
+ * invite member flows.
  */
 import useSWR from 'swr';
 
