@@ -3,6 +3,11 @@ import { OrganizationInvitationStatus } from '@logto/schemas';
 import { conditional, conditionalArray, conditionalString } from '@silverhand/essentials';
 import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+
+/**
+ * Provides utilities for validating and parsing email lists when inviting tenant
+ * members with the `<MultiOptionInput />` component.
+ */
 import useSWR from 'swr';
 
 import { useAuthedCloudApi } from '@/cloud/hooks/use-cloud-api';
