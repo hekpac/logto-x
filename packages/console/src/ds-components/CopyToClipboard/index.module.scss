@@ -71,4 +71,14 @@
   .dot {
     -webkit-text-stroke: 1px var(--color-text);
   }
+
+  .copyToolTipAnchor {
+    margin-inline-start: _.unit(2);
+  }
+
+  &.icon {
+    .copyToolTipAnchor {
+      margin-inline-start: 0;
+    }
+  }
 }

@@ -113,7 +113,10 @@ function CopyToClipboard(
           </div>
         )}
         {hasVisibilityToggle && (
-          <Tooltip content={t(showHiddenContent ? 'hide' : 'view')}>
+          <Tooltip
+            content={t(showHiddenContent ? 'hide' : 'view')}
+            anchorClassName={styles.copyToolTipAnchor}
+          >
             <IconButton
               className={styles.iconButton}
               iconClassName={styles.icon}
@@ -124,7 +127,11 @@ function CopyToClipboard(
             </IconButton>
           </Tooltip>
         )}
-        <Tooltip isSuccessful={copyState === 'copied'} content={t(copyState)}>
+        <Tooltip
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+          anchorClassName={styles.copyToolTipAnchor}
+        >
           <IconButton
             ref={copyIconReference}
             className={styles.iconButton}
