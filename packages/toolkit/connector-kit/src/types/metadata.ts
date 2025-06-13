@@ -37,13 +37,13 @@ export type I18nPhrases = { en: string } & {
 };
 
 export type SocialConnectorMetadata = {
-  platform: Nullable<ConnectorPlatform>;
+  platform?: ConnectorPlatform;
   isStandard?: boolean;
 };
 
 export const socialConnectorMetadataGuard = z.object({
-  // Social connector platform. TODO: @darcyYe considering remove the nullable and make all the social connector field optional
-  platform: z.nativeEnum(ConnectorPlatform).nullable(),
+  // Social connector platform.
+  platform: z.nativeEnum(ConnectorPlatform).optional(),
   // Indicates custom connector that follows standard protocol. Currently supported standard connectors are OIDC, OAuth2, and SAML2
   isStandard: z.boolean().optional(),
 }) satisfies ToZodObject<SocialConnectorMetadata>;

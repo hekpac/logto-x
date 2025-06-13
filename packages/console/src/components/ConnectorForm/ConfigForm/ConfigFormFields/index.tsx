@@ -1,4 +1,4 @@
-import type { ConnectorConfigFormItem } from '@logto/connector-kit';
+import type { ConnectorConfigFormItem, I18nPhrases } from '@logto/connector-kit';
 import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 import { useCallback } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 import { CheckboxGroup } from '@/ds-components/Checkbox';
 import CodeEditor from '@/ds-components/CodeEditor';
-import DangerousRaw from '@/ds-components/DangerousRaw';
 import FormField from '@/ds-components/FormField';
 import Select from '@/ds-components/Select';
 import Switch from '@/ds-components/Switch';
@@ -14,6 +13,7 @@ import TextInput from '@/ds-components/TextInput';
 import Textarea from '@/ds-components/Textarea';
 import type { ConnectorFormType } from '@/types/connector';
 import { jsonValidator } from '@/utils/validator';
+import { getLocaleString, isKeyOfI18nPhrases } from '@/utils/translation';
 
 import styles from './index.module.scss';
 
@@ -30,7 +30,18 @@ function ConfigFormFields({ formItems }: Props) {
       errors: { formConfig: formConfigErrors },
     },
   } = useFormContext<ConnectorFormType>();
-  const { t } = useTranslation(undefined, { keyPrefix: 'admin_console' });
+  const { t, i18n } = useTranslation(undefined, { keyPrefix: 'admin_console' });
+
+  const translate = useCallback(
+    (value?: string | I18nPhrases) => {
+      if (!value) {
+        return undefined;
+      }
+
+      return typeof value === 'string' ? t(value) : getLocaleString(i18n.language, value);
+    },
+    [t, i18n.language]
+  );
 
   const values = watch('formConfig');
 
@@ -61,7 +72,7 @@ function ConfigFormFields({ formItems }: Props) {
         required: item.required,
         valueAsNumber: item.type === ConnectorConfigFormItemType.Number,
       }),
-      placeholder: item.placeholder,
+      placeholder: translate(item.placeholder),
       error,
     });
 
@@ -101,7 +112,7 @@ function ConfigFormFields({ formItems }: Props) {
           if (item.type === ConnectorConfigFormItemType.Switch) {
             return (
               <Switch
-                label={item.label}
+                label={translate(item.label)}
                 checked={typeof value === 'boolean' ? value : false}
                 onChange={({ currentTarget: { checked } }) => {
                   onChange(checked);
@@ -113,7 +124,10 @@ function ConfigFormFields({ formItems }: Props) {
           if (item.type === ConnectorConfigFormItemType.Select) {
             return (
               <Select
-                options={item.selectItems}
+                options={item.selectItems.map(({ value, title }) => ({
+                  value,
+                  title: translate(title),
+                }))}
                 value={typeof value === 'string' ? value : undefined}
                 error={error}
                 onChange={onChange}
@@ -124,7 +138,10 @@ function ConfigFormFields({ formItems }: Props) {
           if (item.type === ConnectorConfigFormItemType.MultiSelect) {
             return (
               <CheckboxGroup
-                options={item.selectItems}
+                options={item.selectItems.map(({ value, title }) => ({
+                  value,
+                  title: title ? translate(title) : undefined,
+                }))}
                 value={
                   Array.isArray(value) &&
                   value.every((item): item is string => typeof item === 'string')
@@ -169,17 +186,12 @@ function ConfigFormFields({ formItems }: Props) {
           <FormField
             key={item.key}
             isRequired={item.required}
-            // Tooltip is currently string and does not support i18n.
-            tip={item.tooltip}
-            title={
-              <DangerousRaw>
-                {item.type !== ConnectorConfigFormItemType.Switch && item.label}
-              </DangerousRaw>
-            }
+            tip={translate(item.tooltip)}
+            title={item.type !== ConnectorConfigFormItemType.Switch ? translate(item.label) : undefined}
           >
             {renderFormItem(item)}
             {Boolean(item.description) && (
-              <div className={styles.description}>{item.description}</div>
+              <div className={styles.description}>{translate(item.description)}</div>
             )}
           </FormField>
         ) : null

@@ -3,7 +3,7 @@ import { type MiddlewareType } from 'koa';
 import { type IRouterParamContext } from 'koa-router';
 import { type Provider } from 'oidc-provider';
 
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import type Libraries from '#src/tenants/Libraries.js';
 import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
@@ -58,7 +58,7 @@ export default function koaConsentGuard<
           });
         }
       } catch (error: unknown) {
-        if (error instanceof RequestError) {
+        if (isRequestError(error)) {
           // Green light for token in consumed state
           if (error.code === 'one_time_token.token_consumed') {
             return next();

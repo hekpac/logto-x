@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'vonage-sms',
   target: 'vonage-sms',
-  platform: null,
   name: {
     en: 'Vonage SMS Service',
   },
