@@ -1,4 +1,7 @@
 import { generateStandardShortId } from '@logto/shared/universal';
+ <<<<<<< codex/reemplazar-componente-de-correo-personalizado
+import classNames from 'classnames';
+=======
  <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
 import { conditional } from '@silverhand/essentials';
 =======
@@ -6,6 +9,7 @@ import { conditional } from '@silverhand/essentials';
 =======
 import { conditional } from '@silverhand/essentials';
 import { useCallback } from 'react';
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
 import { useFormContext } from 'react-hook-form';
@@ -46,6 +50,11 @@ function InviteEmailsInput({
   parseEmailOptions,
 }: Props) {
   const { setError, clearErrors } = useFormContext();
+ <<<<<<< codex/reemplazar-componente-de-correo-personalizado
+
+  const handleChange = (nextValues: InviteeEmailItem[]) => {
+    const { values: parsedValues, errorMessage } = parseEmailOptions(nextValues);
+=======
  <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
 =======
 
@@ -53,6 +62,7 @@ function InviteEmailsInput({
   const handleChange = (newValues: InviteeEmailItem[]) => {
     const { values: parsedValues, errorMessage } = parseEmailOptions(newValues);
  >>>>>>> master
+  >>>>>>> master
 
   const handleChange = (nextValues: InviteeEmailItem[]) => {
     const { values: parsedValues, errorMessage } = parseEmailOptions(nextValues);
@@ -93,6 +103,20 @@ function InviteEmailsInput({
 
     rawOnChange(parsedValues);
   };
+ <<<<<<< codex/reemplazar-componente-de-correo-personalizado
+
+  return (
+    <MultiOptionInput
+      className={classNames(styles.input, Boolean(error) && styles.error, className)}
+      values={values}
+      getId={(option) => option.id}
+      renderValue={(option) => option.value}
+      valueClassName={(option) => (option.status ? styles[option.status] : undefined)}
+      validateInput={(text) => ({ value: { id: generateStandardShortId(), value: text } })}
+      placeholder={placeholder}
+      error={error}
+      onChange={handleChange}
+=======
 
   return (
     <MultiOptionInput<InviteeEmailItem>
@@ -169,6 +193,7 @@ function InviteEmailsInput({
 =======
       validateInput={validateInput}
       error={error}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
     />
