@@ -108,6 +108,13 @@ If you find Logto helpful, here's how you can support us:
 - 🙋 [Open an issue](https://github.com/logto-io/logto/issues/new) to report bugs or suggest features.
 - 💻 [Contribute to Logto](https://github.com/logto-io/logto/blob/master/.github/CONTRIBUTING.md) - we'd love your help! Check out [Logto awesome](https://github.com/logto-io/logto/blob/master/AWESOME.md) of community-contributed resources.
 
+## Refactor Notes
+
+- [Tenant usage refactor](./docs-ref/tenant-usage-refactor.md)
+- [WebAuthn utils refactor](./docs-ref/webauthn-refactor.md)
+- [Verification records refactor](./docs-ref/verification-records-refactor.md)
+
+
 ## Licensing
 
 [MPL-2.0](LICENSE).
