@@ -3,7 +3,7 @@ import { adminTenantId, ReservedPlanId } from '@logto/schemas';
 import { type Nullable } from '@silverhand/essentials';
 import { type MiddlewareType } from 'koa';
 
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import { type SubscriptionLibrary } from '#src/libraries/subscription.js';
 import assertThat from '#src/utils/assert-that.js';
 import { buildAppInsightsTelemetry } from '#src/utils/request.js';
@@ -64,7 +64,7 @@ export default function koaTokenUsageGuard<StateT, ContextT, ResponseBodyT>(
         })
       );
     } catch (error: unknown) {
-      if (error instanceof RequestError) {
+      if (isRequestError(error)) {
         throw error;
       }
 

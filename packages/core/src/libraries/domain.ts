@@ -1,7 +1,7 @@
 import { type CloudflareData, type Domain, DomainStatus } from '@logto/schemas';
 import { generateStandardId } from '@logto/shared';
 
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import type Queries from '#src/tenants/Queries.js';
 import SystemContext from '#src/tenants/SystemContext.js';
 import assertThat from '#src/utils/assert-that.js';
@@ -104,7 +104,7 @@ export const createDomainLibrary = (queries: Queries) => {
         await deleteCustomHostname(hostnameProviderConfig, domain.cloudflareData.id);
       } catch (error: unknown) {
         // Ignore not found error, since we are deleting the domain anyway
-        if (!(error instanceof RequestError) || error.code !== 'domain.cloudflare_not_found') {
+        if (!isRequestError(error) || error.code !== 'domain.cloudflare_not_found') {
           throw error;
         }
       }
