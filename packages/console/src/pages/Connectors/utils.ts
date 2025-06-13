@@ -11,41 +11,26 @@ export const getConnectorGroups = <
 >(
   connectors: T[]
 ) => {
-  return connectors.reduce<Array<ConnectorGroup<T>>>((previous, item) => {
-    const groupIndex = previous.findIndex(
-      // Only group social connectors
-      ({ target }) => target === item.target && item.type === ConnectorType.Social
-    );
+  return Object.values(
+    Array.groupBy(connectors, (item) =>
+      item.type === ConnectorType.Social ? item.target : item.id
+    )
+  ).map((items) => {
+    const [first] = items;
 
-    if (groupIndex === -1) {
-      return [
-        ...previous,
-        {
-          id: item.id, // Take first connector's id as groupId, only used for indexing.
-          isDemo: item.isDemo,
-          name: item.name,
-          logo: item.logo,
-          logoDark: item.logoDark,
-          description: item.description,
-          target: item.target,
-          type: item.type,
-          isStandard: item.isStandard,
-          connectors: [item],
-        },
-      ];
-    }
-
-    return previous.map((group, index) => {
-      if (index !== groupIndex) {
-        return group;
-      }
-
-      return {
-        ...group,
-        connectors: [...group.connectors, item],
-      };
-    });
-  }, []);
+    return {
+      id: first.id, // Take first connector's id as groupId, only used for indexing.
+      isDemo: first.isDemo,
+      name: first.name,
+      logo: first.logo,
+      logoDark: first.logoDark,
+      description: first.description,
+      target: first.target,
+      type: first.type,
+      isStandard: first.isStandard,
+      connectors: items,
+    } as ConnectorGroup<T>;
+  });
 };
 
 export const splitMarkdownByTitle = (markdown: string) => {
