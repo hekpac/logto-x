@@ -67,6 +67,7 @@ Pick your path:
 # MongoDB: mongodb://localhost:27017/?replicaSet=rs0
 # OpenSearch: http://localhost:9200
 # Redis: redis://localhost:6379
+# Redis cluster (optional): redis://localhost:7000?cluster=1
 
 # Using Node.js
 =======
@@ -86,6 +87,8 @@ Set required environment variables in a `.env` file or export them directly:
 ```env
 DB_URL=postgres://postgres:postgres@localhost:5432/logto
 REDIS_URL=redis://localhost:6379
+# Use the cluster URL if running the "cluster" profile
+# REDIS_URL=redis://localhost:7000?cluster=1
 ENDPOINT=http://localhost:3001
 ADMIN_ENDPOINT=http://localhost:3002
 ```
