@@ -1,4 +1,7 @@
 import { generateStandardShortId } from '@logto/shared/universal';
+ <<<<<<< codex/sustituir-componente-email-por-multioptioninput
+import { conditional } from '@silverhand/essentials';
+=======
  <<<<<<< codex/reemplazar-componente-de-correo-personalizado
 import classNames from 'classnames';
 =======
@@ -9,6 +12,7 @@ import { conditional } from '@silverhand/essentials';
 =======
 import { conditional } from '@silverhand/essentials';
 import { useCallback } from 'react';
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
@@ -50,6 +54,11 @@ function InviteEmailsInput({
   parseEmailOptions,
 }: Props) {
   const { setError, clearErrors } = useFormContext();
+ <<<<<<< codex/sustituir-componente-email-por-multioptioninput
+
+  const handleChange = (newValues: InviteeEmailItem[]) => {
+    const { values: parsedValues, errorMessage } = parseEmailOptions(newValues);
+=======
  <<<<<<< codex/reemplazar-componente-de-correo-personalizado
 
   const handleChange = (nextValues: InviteeEmailItem[]) => {
@@ -63,6 +72,7 @@ function InviteEmailsInput({
     const { values: parsedValues, errorMessage } = parseEmailOptions(newValues);
  >>>>>>> master
   >>>>>>> master
+ >>>>>>> master
 
   const handleChange = (nextValues: InviteeEmailItem[]) => {
     const { values: parsedValues, errorMessage } = parseEmailOptions(nextValues);
@@ -103,6 +113,8 @@ function InviteEmailsInput({
 
     rawOnChange(parsedValues);
   };
+ <<<<<<< codex/sustituir-componente-email-por-multioptioninput
+=======
  <<<<<<< codex/reemplazar-componente-de-correo-personalizado
 
   return (
@@ -169,11 +181,27 @@ function InviteEmailsInput({
     },
     [parseEmailOptions, values]
   );
+ >>>>>>> master
 
   return (
     <MultiOptionInput
       className={className}
       values={values}
+ <<<<<<< codex/sustituir-componente-email-por-multioptioninput
+      placeholder={placeholder}
+      error={error}
+      onChange={handleChange}
+      getId={(item) => item.id}
+      renderValue={(item) => item.value}
+      valueClassName={(item) => item.status && styles[item.status]}
+      validateInput={(text) => ({
+        value: {
+          value: text,
+          id: generateStandardShortId(),
+          ...conditional(!emailRegEx.test(text) && { status: 'error' }),
+        },
+      })}
+=======
       getId={(option) => option.id}
       renderValue={(option) => option.value}
       valueClassName={(option) => option.status && styles[option.status]}
@@ -193,6 +221,7 @@ function InviteEmailsInput({
 =======
       validateInput={validateInput}
       error={error}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
