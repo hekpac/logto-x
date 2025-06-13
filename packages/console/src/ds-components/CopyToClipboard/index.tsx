@@ -114,6 +114,10 @@ function CopyToClipboard(
         )}
         {hasVisibilityToggle && (
           <Tooltip
+ <<<<<<< x8lgw4-codex/actualizar-estilo-de-copytoclipboard
+            anchorClassName={styles.copyToolTipAnchor}
+            content={t(showHiddenContent ? 'hide' : 'view')}
+=======
  <<<<<<< codex/actualizar-estilo-de-copytoclipboard-y-eliminar-hack-de-marg
             content={t(showHiddenContent ? 'hide' : 'view')}
             anchorClassName={styles.copyToolTipAnchor}
@@ -124,6 +128,7 @@ function CopyToClipboard(
 =======
             anchorClassName={styles.copyToolTipAnchor}
             content={t(showHiddenContent ? 'hide' : 'view')}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
           >
@@ -138,6 +143,11 @@ function CopyToClipboard(
           </Tooltip>
         )}
         <Tooltip
+ <<<<<<< x8lgw4-codex/actualizar-estilo-de-copytoclipboard
+          anchorClassName={styles.copyToolTipAnchor}
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+=======
  <<<<<<< codex/actualizar-estilo-de-copytoclipboard-y-eliminar-hack-de-marg
           isSuccessful={copyState === 'copied'}
           content={t(copyState)}
@@ -156,6 +166,7 @@ function CopyToClipboard(
           isSuccessful={copyState === 'copied'}
           content={t(copyState)}
           anchorClassName={styles.copyToolTipAnchor}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
