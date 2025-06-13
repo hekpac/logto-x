@@ -4,6 +4,7 @@ import { object, string } from 'zod';
 import koaGuard from '#src/middleware/koa-guard.js';
 import koaPagination from '#src/middleware/koa-pagination.js';
 import { type AllowedKeyPrefix } from '#src/queries/log.js';
+import { parseLogSearchParams } from '#src/utils/log.js';
 
 import type { ManagementApiRouter, RouterInitArgs } from './types.js';
 
@@ -15,20 +16,10 @@ export default function logRoutes<T extends ManagementApiRouter>(
   router.get(
     '/logs',
     koaPagination(),
-    koaGuard({
-      query: object({
-        userId: string().optional(),
-        applicationId: string().optional(),
-        logKey: string().optional(),
-      }),
-      response: Logs.guard.array(),
-      status: 200,
-    }),
+    koaGuard({ response: Logs.guard.omit({ tenantId: true }).array(), status: 200 }),
     async (ctx, next) => {
       const { limit, offset } = ctx.pagination;
-      const {
-        query: { userId, applicationId, logKey },
-      } = ctx.guard;
+      const { userId, applicationId, logKey } = parseLogSearchParams(ctx.request.URL.searchParams);
 
       const includeKeyPrefix: AllowedKeyPrefix[] = [
         token.Type.ExchangeTokenBy,
@@ -39,7 +30,6 @@ export default function logRoutes<T extends ManagementApiRouter>(
         LogKeyUnknown,
       ];
 
-      // TODO: @Gao refactor like user search
       const [{ count }, logs] = await Promise.all([
         countLogs({
           logKey,
