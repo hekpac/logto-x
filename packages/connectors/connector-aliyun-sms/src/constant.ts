@@ -58,6 +58,7 @@ export const defaultMetadata: ConnectorMetadata = {
       label: 'Access Key Secret',
       type: ConnectorConfigFormItemType.Text,
       required: true,
+      isConfidential: true,
       placeholder: '<access-key-secret>',
     },
     {
