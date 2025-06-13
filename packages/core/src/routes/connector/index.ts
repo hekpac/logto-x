@@ -14,6 +14,7 @@ import assertThat from '#src/utils/assert-that.js';
 import { buildExtraInfo } from '#src/utils/connectors/extra-information.js';
 import { loadConnectorFactories, transpileLogtoConnector } from '#src/utils/connectors/index.js';
 import { checkSocialConnectorTargetAndPlatformUniqueness } from '#src/utils/connectors/platform.js';
+import { createConnectorQueries } from '#src/queries/connector.js';
 
 import type { ManagementApiRouter, RouterInitArgs } from '../types.js';
 
@@ -136,30 +137,32 @@ export default function connectorRoutes<T extends ManagementApiRouter>(
 
       const insertConnectorId = proposedId ?? generateStandardShortId();
 
-      await insertConnector({
-        id: insertConnectorId,
-        connectorId,
-        ...cleanDeep({ syncProfile, config, metadata }),
-      });
+      await queries.pool.transaction(async (connection) => {
+        const transactionQueries = createConnectorQueries(connection, tenant.wellKnownCache);
+        await transactionQueries.insertConnector({
+          id: insertConnectorId,
+          connectorId,
+          ...cleanDeep({ syncProfile, config, metadata }),
+        });
 
-      /**
-       * We can have only one working email/sms connector:
-       * once we insert a new one, old connectors with same type should be deleted.
-       * TODO: should using transaction to ensure the atomicity of the operation. LOG-7260
-       */
-      if (passwordlessConnector.has(connectorFactory.type)) {
-        const logtoConnectors = await getLogtoConnectors();
-        const conflictingConnectorIds = logtoConnectors
-          .filter(
-            ({ dbEntry: { id }, type }) =>
-              type === connectorFactory.type && id !== insertConnectorId
-          )
-          .map(({ dbEntry: { id } }) => id);
+        /**
+         * We can have only one working email/sms connector:
+         * once we insert a new one, old connectors with same type should be deleted.
+         */
+        if (passwordlessConnector.has(connectorFactory.type)) {
+          const databaseConnectors = await transactionQueries.findAllConnectors();
+          const conflictingConnectorIds = databaseConnectors
+            .filter(({ id, connectorId: dbConnectorId }) =>
+              connectorFactories.find(({ metadata }) => metadata.id === dbConnectorId)?.type ===
+                connectorFactory.type && id !== insertConnectorId
+            )
+            .map(({ id }) => id);
 
-        if (conflictingConnectorIds.length > 0) {
-          await deleteConnectorByIds(conflictingConnectorIds);
+          if (conflictingConnectorIds.length > 0) {
+            await transactionQueries.deleteConnectorByIds(conflictingConnectorIds);
+          }
         }
-      }
+      });
 
       const connector = await getLogtoConnectorById(insertConnectorId);
       ctx.body = await transpileLogtoConnector(connector, buildExtraInfo(connector.metadata));

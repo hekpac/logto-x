@@ -90,6 +90,11 @@ const connectorDataRoutes = await pickDefault(import('./index.js'));
 
 describe('connector data route', () => {
   const connectorRequest = createRequester({ authedRoutes: connectorDataRoutes, tenantContext });
+  const transaction = jest.fn(async (callback) => callback({} as never));
+
+  beforeEach(() => {
+    tenantContext.queries.pool.transaction = transaction;
+  });
 
   describe('POST /connectors', () => {
     afterEach(() => {
@@ -270,6 +275,35 @@ describe('connector data route', () => {
         })
       );
       expect(deleteConnectorByIds).toHaveBeenCalledWith(['id']);
+      expect(transaction).toHaveBeenCalledTimes(1);
+    });
+
+    it('rolls back when deletion fails', async () => {
+      loadConnectorFactories.mockResolvedValueOnce([
+        {
+          ...mockConnectorFactory,
+          type: ConnectorType.Sms,
+          metadata: { ...mockConnectorFactory.metadata, id: 'id1' },
+        },
+      ]);
+      getLogtoConnectors.mockResolvedValueOnce([
+        {
+          dbEntry: { ...mockConnector, connectorId: 'id0' },
+          metadata: { ...mockMetadata, id: 'id0' },
+          type: ConnectorType.Sms,
+          ...mockLogtoConnector,
+        },
+      ]);
+      countConnectorByConnectorId.mockResolvedValueOnce({ count: 0 });
+      validateConfig.mockReturnValueOnce(null);
+      buildRawConnector.mockResolvedValueOnce({ rawConnector: { configGuard: any() } });
+      deleteConnectorByIds.mockRejectedValueOnce(new Error('fail'));
+      const response = await connectorRequest.post('/connectors').send({
+        connectorId: 'id1',
+        config: { cliend_id: 'client_id', client_secret: 'client_secret' },
+      });
+      expect(response).toHaveProperty('statusCode', 500);
+      expect(transaction).toHaveBeenCalledTimes(1);
     });
 
     it('throws when add more than 1 social connector instance with same target and platform (add from standard connector)', async () => {
