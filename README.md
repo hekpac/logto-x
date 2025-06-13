@@ -59,17 +59,49 @@ Pick your path:
 - **Local development:**  
 
   ```bash
-  # Using Docker Compose (requires Docker Desktop)
+ <<<<<<< codex/reemplazar-servicio-postgres-con-mongodb,-opensearch-y-redis
+# Using Docker Compose (requires Docker Desktop)
   docker compose up
 
-  # The services are available on the following URLs:
-  # MongoDB: mongodb://localhost:27017/?replicaSet=rs0
-  # OpenSearch: http://localhost:9200
-  # Redis: redis://localhost:6379
+# The services are available on the following URLs:
+# MongoDB: mongodb://localhost:27017/?replicaSet=rs0
+# OpenSearch: http://localhost:9200
+# Redis: redis://localhost:6379
 
-  # Using Node.js
+# Using Node.js
+=======
+# Using Docker Compose(requires Docker Desktop)
+  curl -fsSL https://raw.githubusercontent.com/logto-io/logto/HEAD/docker-compose.yml | \
+  docker compose -p logto -f - up
+
+# Using Node.js (requires PostgreSQL)
+ >>>>>>> master
   npm init @logto
   ```
+
+### Run locally
+
+Set required environment variables in a `.env` file or export them directly:
+
+```env
+DB_URL=postgres://postgres:postgres@localhost:5432/logto
+REDIS_URL=redis://localhost:6379
+ENDPOINT=http://localhost:3001
+ADMIN_ENDPOINT=http://localhost:3002
+```
+
+Seed initial data and start the development server:
+
+```bash
+pnpm cli db seed
+pnpm dev
+```
+
+Run the test suite with:
+
+```bash
+pnpm ci:test
+```
 
 [📚 Full OSS installation guide →](https://docs.logto.io/logto-oss/get-started-with-oss?ref=readme)
 
@@ -110,7 +142,14 @@ If you find Logto helpful, here's how you can support us:
 - 🏆 Write a review or tutorial on [dev.to](https://dev.to/logto), [Medium](https://medium.com/@logto), [G2](https://www.g2.com/products/logto/reviewer_verification) or your blog.
 - 💬 [Share your use case](mailto:contact@logto.io?subject=[Share%20Logto%20User%20Story]) with us and get featured on the [Logto website](https://logto.io/).
 - 🙋 [Open an issue](https://github.com/logto-io/logto/issues/new) to report bugs or suggest features.
-- 💻 [Contribute to Logto](https://github.com/logto-io/logto/blob/master/.github/CONTRIBUTING.md) - we'd love your help! Check out [Logto awesome](https://github.com/logto-io/logto/blob/master/AWESOME.md) of community-contributed resources.
+- 💻 [Contribute to Logto](./CONTRIBUTING.md) - we'd love your help! Check out [Logto awesome](https://github.com/logto-io/logto/blob/master/AWESOME.md) of community-contributed resources.
+
+## Refactor Notes
+
+- [Tenant usage refactor](./docs-ref/tenant-usage-refactor.md)
+- [WebAuthn utils refactor](./docs-ref/webauthn-refactor.md)
+- [Verification records refactor](./docs-ref/verification-records-refactor.md)
+
 
 ## Licensing
 
