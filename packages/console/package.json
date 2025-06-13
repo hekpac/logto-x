@@ -1,7 +1,7 @@
 {
   "name": "@logto/console",
   "version": "1.25.0",
-  "description": "> TODO: description",
+  "description": "The web admin console for Logto.",
   "author": "Silverhand Inc. <contact@silverhand.io>",
   "homepage": "https://github.com/logto-io/logto#readme",
   "license": "MPL-2.0",
