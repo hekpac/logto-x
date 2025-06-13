@@ -8,6 +8,7 @@ import ky from 'ky';
 import { z } from 'zod';
 
 import { type LogEntry } from '#src/middleware/koa-audit-log.js';
+import RequestError from '#src/errors/RequestError/index.js';
 
 function isRecaptchaEnterprise(
   config: CaptchaProvider['config']
@@ -36,7 +37,10 @@ export class CaptchaValidator {
       return this.verifyTurnstile(config, captchaToken);
     }
 
-    throw new Error('Invalid captcha provider');
+    throw new RequestError({
+      code: 'captcha_provider.invalid_provider',
+      status: 500,
+    });
   }
 
   private async verifyTurnstile(config: TurnstileConfig, captchaToken: string) {

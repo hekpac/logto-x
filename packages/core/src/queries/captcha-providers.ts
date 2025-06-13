@@ -8,6 +8,7 @@ import { generateStandardId } from '@logto/shared';
 import { type CommonQueryMethods } from '@silverhand/slonik';
 
 import SchemaQueries from '../utils/SchemaQueries.js';
+import RequestError from '#src/errors/RequestError/index.js';
 
 export class CaptchaProviderQueries extends SchemaQueries<
   CaptchaProviderKeys,
@@ -27,7 +28,10 @@ export class CaptchaProviderQueries extends SchemaQueries<
 
     if (providers.length > 1) {
       // Not expected to happen
-      throw new Error('Multiple captcha providers are not allowed.');
+      throw new RequestError({
+        code: 'captcha_provider.multiple_providers_not_allowed',
+        status: 500,
+      });
     }
 
     return providers[0];
