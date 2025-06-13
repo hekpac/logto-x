@@ -41,7 +41,7 @@ jobs:
     env:
       INTEGRATION_TEST: true
       DEV_FEATURES_ENABLED: ${{ matrix.dev-features-enabled }}
-      DB_URL: postgres://postgres:postgres@localhost:5432/postgres
+      MONGODB_URI: mongodb://localhost:27017/logto
 
     steps:
       - uses: logto-io/actions-run-logto-integration-tests@v4

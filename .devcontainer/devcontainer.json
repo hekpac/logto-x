@@ -15,9 +15,9 @@
       ]
     }
   },
-  "postStartCommand": "docker run -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=p0stgr3s postgres:14-alpine",
+  "postStartCommand": "docker run -d -p 27017:27017 mongo:7",
   "containerEnv": {
-    "DB_URL": "postgres://postgres:p0stgr3s@localhost:5432/logto",
+    "MONGODB_URI": "mongodb://localhost:27017/logto",
     "TRUST_PROXY_HEADER": "1",
     "ADMIN_ENDPOINT": "http://localhost:3002"
   }

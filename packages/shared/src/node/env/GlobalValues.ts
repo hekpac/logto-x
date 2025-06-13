@@ -91,7 +91,10 @@ export default class GlobalValues {
   public readonly isCloud = yes(getEnv('IS_CLOUD'));
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  public readonly databaseUrl = tryThat(() => assertEnv('DB_URL'), throwErrorWithDsnMessage);
+  public readonly mongodbUri = tryThat(
+    () => assertEnv('MONGODB_URI'),
+    throwErrorWithDsnMessage
+  );
   public readonly developmentTenantId = getEnv('DEVELOPMENT_TENANT_ID');
   /** @deprecated Use the built-in user default role configuration (`Roles.isDefault`) instead. */
   public readonly userDefaultRoleNames = getEnvAsStringArray('USER_DEFAULT_ROLE_NAMES');
@@ -120,7 +123,7 @@ export default class GlobalValues {
   public readonly opensearchUrl = getEnv('OPENSEARCH_URL');
 
   public get dbUrl(): string {
-    return this.databaseUrl;
+    return this.mongodbUri;
   }
 
   public get endpoint(): URL {

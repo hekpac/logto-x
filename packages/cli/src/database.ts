@@ -13,20 +13,20 @@ import { DatabaseError } from 'pg-protocol';
 import { convertToPrimitiveOrSql } from './sql.js';
 import { ConfigKey, consoleLog, getCliConfigWithPrompt } from './utils.js';
 
-export const defaultDatabaseUrl = 'postgresql://localhost:5432/logto';
+export const defaultMongodbUri = 'mongodb://localhost:27017/logto';
 
-export const getDatabaseUrlFromConfig = async () =>
+export const getMongodbUriFromConfig = async () =>
   (await getCliConfigWithPrompt({
-    key: ConfigKey.DatabaseUrl,
-    readableKey: 'Logto database URL',
-    defaultValue: defaultDatabaseUrl,
+    key: ConfigKey.MongodbUri,
+    readableKey: 'Logto MongoDB URI',
+    defaultValue: defaultMongodbUri,
   })) ?? '';
 
 export const createPoolFromConfig = async () => {
-  const databaseUrl = await getDatabaseUrlFromConfig();
-  assert(parseDsn(databaseUrl).databaseName, new Error('Database name is required in URL'));
+  const mongodbUri = await getMongodbUriFromConfig();
+  assert(parseDsn(mongodbUri).databaseName, new Error('Database name is required in URL'));
 
-  return createPool(databaseUrl, {
+  return createPool(mongodbUri, {
     interceptors: createInterceptorsPreset(),
   });
 };
@@ -47,8 +47,8 @@ export const createPoolAndDatabaseIfNeeded = async () => {
       consoleLog.fatal(error);
     }
 
-    const databaseUrl = await getDatabaseUrlFromConfig();
-    const dsn = parseDsn(databaseUrl);
+    const mongodbUri = await getMongodbUriFromConfig();
+    const dsn = parseDsn(mongodbUri);
     // It's ok to fall back to '?' since:
     // - Database name is required to connect in the previous pool
     // - It will throw error when creating database using '?'

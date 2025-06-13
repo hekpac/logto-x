@@ -111,7 +111,7 @@ export const oraPromise = async <T>(
 export const isTty = () => process.stdin.isTTY;
 
 export enum ConfigKey {
-  DatabaseUrl = 'DB_URL',
+  MongodbUri = 'MONGODB_URI',
 }
 
 export const cliConfig = new Map<ConfigKey, Optional<string>>();

@@ -86,7 +86,7 @@ export const inquireInstallPath = async (initialPath?: string) => {
 };
 
 export const validateDatabase = async () => {
-  if (cliConfig.has(ConfigKey.DatabaseUrl) || !isTty()) {
+  if (cliConfig.has(ConfigKey.MongodbUri) || !isTty()) {
     return;
   }
 
@@ -182,10 +182,10 @@ export const seedDatabase = async (instancePath: string, cloud: boolean) => {
   }
 };
 
-export const createEnv = async (installPath: string, databaseUrl: string) => {
+export const createEnv = async (installPath: string, mongodbUri: string) => {
   const dotEnvPath = path.resolve(installPath, '.env');
-  await fs.writeFile(dotEnvPath, `DB_URL=${databaseUrl}`, 'utf8');
-  consoleLog.info(`Saved database URL to ${chalk.blue(dotEnvPath)}`);
+  await fs.writeFile(dotEnvPath, `MONGODB_URI=${mongodbUri}`, 'utf8');
+  consoleLog.info(`Saved MongoDB URI to ${chalk.blue(dotEnvPath)}`);
 };
 
 export const logFinale = (installPath: string) => {

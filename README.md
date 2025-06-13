@@ -76,8 +76,12 @@ docker compose up
 Set required environment variables in a `.env` file or export them directly:
 
 ```env
+ <<<<<<< codex/add-mongodburi-and-deprecate-db_url
+MONGODB_URI=mongodb://localhost:27017/logto
+=======
 MONGODB_URI=mongodb://localhost:27017/?replicaSet=rs0
 OPENSEARCH_URL=http://localhost:9200
+ >>>>>>> master
 REDIS_URL=redis://localhost:6379
 OPENSEARCH_URL=http://localhost:9200
 ENDPOINT=http://localhost:3001

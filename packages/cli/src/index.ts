@@ -18,7 +18,7 @@ void yargs(hideBin(process.argv))
   })
   .option('db', {
     alias: ['db-url', 'database-url'],
-    describe: 'The Postgres URL to Logto database',
+    describe: 'The MongoDB URI to Logto database',
     type: 'string',
   })
   .option('version', {
@@ -34,13 +34,13 @@ void yargs(hideBin(process.argv))
       process.exit(0);
     }
   }, true)
-  .middleware(({ env, db: databaseUrl }) => {
+  .middleware(({ env, db: mongodbUri }) => {
     dotenv.config({ path: env });
 
-    const initialDatabaseUrl = databaseUrl ?? process.env[ConfigKey.DatabaseUrl];
+    const initialMongodbUri = mongodbUri ?? process.env[ConfigKey.MongodbUri];
 
-    if (initialDatabaseUrl) {
-      cliConfig.set(ConfigKey.DatabaseUrl, initialDatabaseUrl);
+    if (initialMongodbUri) {
+      cliConfig.set(ConfigKey.MongodbUri, initialMongodbUri);
     }
   })
   .command(install)
