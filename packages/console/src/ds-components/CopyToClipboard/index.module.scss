@@ -30,10 +30,6 @@
     cursor: text;
     gap: _.unit(2);
 
-    .copyToolTipAnchor {
-      margin-inline-start: 0;
-    }
-
     .content {
       flex: 1;
       overflow: hidden;
@@ -56,16 +52,16 @@
 
   &.small {
     .row {
-      gap: _.unit(1);
+      gap: _.unit(0.5);
 
       .iconButton {
-        height: 24px;
-        width: 24px;
+        height: 20px;
+        width: 20px;
 
         .icon {
           svg {
-            width: 16px;
-            height: 16px;
+            width: 12px;
+            height: 12px;
           }
         }
       }
@@ -77,30 +73,6 @@
   }
 
   .copyToolTipAnchor {
- <<<<<<< l471i2-codex/actualizar-estilo-de-copytoclipboard
-=======
- <<<<<<< x8lgw4-codex/actualizar-estilo-de-copytoclipboard
-=======
- <<<<<<< codex/actualizar-estilo-de-copytoclipboard-y-eliminar-hack-de-marg
-    margin-inline-start: _.unit(2);
-  }
-
-  &.icon {
-    .copyToolTipAnchor {
-      margin-inline-start: 0;
-    }
-  }
-=======
-    display: flex;
-    align-items: center;
- >>>>>>> master
- >>>>>>> master
     margin-inline-start: 0;
   }
 }
-
-.copyToolTipAnchor {
-  margin-inline-start: 0;
- >>>>>>> master
-}
-
