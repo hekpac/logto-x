@@ -80,8 +80,7 @@ function ConfigFormFields({ formItems }: Props) {
       return (
         <TextInput
           {...buildCommonProperties()}
-          // TODO: update connectors form config and remove RegExp check
-          isConfidential={item.isConfidential ?? /(Key|Secret)$/.test(item.key)}
+          isConfidential={item.isConfidential}
         />
       );
     }
