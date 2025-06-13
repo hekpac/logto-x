@@ -275,15 +275,6 @@ export default function authnRoutes<T extends AnonymousRouter>(
         return;
       }
 
-      // TODO: remove this assertion after the IdP initiated SSO flow is implemented
-      assertThat(
-        jti,
-        new RequestError({
-          code: 'session.connector_validation_session_not_found',
-          status: 404,
-        })
-      );
-
       // Retrieve the single sign on session data using the jti
       const singleSignOnSession = await getSingleSignOnSessionResultByJti(jti, provider);
       const { redirectUri, state, connectorId: sessionConnectorId } = singleSignOnSession;
