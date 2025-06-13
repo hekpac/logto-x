@@ -1,6 +1,6 @@
 import { type TFuncKey } from 'i18next';
 
-import { type LogtoSkuQuota } from '@/types/skus';
+import { type LogtoSkuQuota } from '@logto/cloud-models';
 
 /* === for new pricing model === */
 export const skuQuotaItemPhrasesMap: Record<

@@ -11,7 +11,7 @@ import {
   skuQuotaItemNotEligiblePhrasesMap,
 } from '@/consts/quota-item-phrases';
 import DynamicT from '@/ds-components/DynamicT';
-import { type LogtoSkuQuota, type LogtoSkuQuotaEntries } from '@/types/skus';
+import { type LogtoSkuQuota, type LogtoSkuQuotaEntries } from '@logto/cloud-models';
 import { sortBy } from '@/utils/sort';
 import { isProPlan } from '@/utils/subscription';
 
