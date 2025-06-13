@@ -17,7 +17,7 @@ export type WithHookContext<ContextT extends IRouterParamContext = IRouterParamC
  * @param hooks The hooks library.
  * @returns The middleware function.
  */
-export const koaManagementApiHooks = <StateT, ContextT extends IRouterParamContext, ResponseT>(
+export const koaApiHooks = <StateT, ContextT extends IRouterParamContext, ResponseT>(
   hooks: Libraries['hooks']
 ): MiddlewareType<StateT, WithHookContext<ContextT>, ResponseT> => {
   return async (ctx, next) => {
