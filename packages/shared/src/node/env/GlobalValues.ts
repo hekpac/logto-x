@@ -116,8 +116,11 @@ export default class GlobalValues {
    * The Redis endpoint (optional). If it's set, the central cache mechanism will be automatically enabled.
    *
    * You can set it to a truthy value like `true` or `1` to enable cache with the default Redis URL.
-   */
+  */
   public readonly redisUrl = getEnv('REDIS_URL');
+
+  /** OpenSearch endpoint for search service. */
+  public readonly opensearchUrl = getEnv('OPENSEARCH_URL');
 
   public get dbUrl(): string {
     return this.mongodbUri;

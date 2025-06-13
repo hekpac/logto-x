@@ -59,9 +59,8 @@ Pick your path:
 - **Local development:**  
 
   ```bash
- <<<<<<< codex/reemplazar-servicio-postgres-con-mongodb,-opensearch-y-redis
 # Using Docker Compose (requires Docker Desktop)
-  docker compose up
+docker compose up
 
 # The services are available on the following URLs:
 # MongoDB: mongodb://localhost:27017/?replicaSet=rs0
@@ -69,13 +68,6 @@ Pick your path:
 # Redis: redis://localhost:6379
 
 # Using Node.js
-=======
-# Using Docker Compose(requires Docker Desktop)
-  curl -fsSL https://raw.githubusercontent.com/logto-io/logto/HEAD/docker-compose.yml | \
-  docker compose -p logto -f - up
-
-# Using Node.js (requires PostgreSQL)
- >>>>>>> master
   npm init @logto
   ```
 
@@ -84,8 +76,14 @@ Pick your path:
 Set required environment variables in a `.env` file or export them directly:
 
 ```env
+ <<<<<<< codex/add-mongodburi-and-deprecate-db_url
 MONGODB_URI=mongodb://localhost:27017/logto
+=======
+MONGODB_URI=mongodb://localhost:27017/?replicaSet=rs0
+OPENSEARCH_URL=http://localhost:9200
+ >>>>>>> master
 REDIS_URL=redis://localhost:6379
+OPENSEARCH_URL=http://localhost:9200
 ENDPOINT=http://localhost:3001
 ADMIN_ENDPOINT=http://localhost:3002
 ```
