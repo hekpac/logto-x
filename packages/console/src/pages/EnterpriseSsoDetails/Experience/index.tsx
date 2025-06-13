@@ -5,7 +5,7 @@ import {
 } from '@logto/schemas';
 import { generateStandardShortId } from '@logto/shared/universal';
 import { conditional } from '@silverhand/essentials';
-import cleanDeep from 'clean-deep';
+import { cleanDeep } from '@logto/shared/universal';
 import { HTTPError } from 'ky';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import { toast } from 'react-hot-toast';

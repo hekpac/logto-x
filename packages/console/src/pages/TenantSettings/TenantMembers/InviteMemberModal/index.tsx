@@ -9,7 +9,8 @@ import ReactModal from 'react-modal';
 import { useAuthedCloudApi } from '@/cloud/hooks/use-cloud-api';
 import AddOnNoticeFooter from '@/components/AddOnNoticeFooter';
 import { addOnPricingExplanationLink } from '@/consts/external-links';
-import { latestProPlanId, tenantMembersAddOnUnitPrice } from '@/consts/subscriptions';
+import { latestProPlanId } from '@/consts/subscriptions';
+import useAddOnPricing from '@/hooks/use-add-on-pricing';
 import { SubscriptionDataContext } from '@/contexts/SubscriptionDataProvider';
 import { TenantsContext } from '@/contexts/TenantsProvider';
 import FormField from '@/ds-components/FormField';
@@ -50,6 +51,7 @@ function InviteMemberModal({ isOpen, onClose }: Props) {
     data: { tenantMembersUpsellNoticeAcknowledged },
     update,
   } = useUserPreferences();
+  const { data: addOnPrices } = useAddOnPricing();
   const isPaidTenant = isPaidPlan(planId, isEnterprisePlan);
 
   const formMethods = useForm<InviteMemberForm>({
@@ -151,7 +153,7 @@ function InviteMemberModal({ isOpen, onClose }: Props) {
                     }}
                   >
                     {t('upsell.add_on.footer.tenant_members', {
-                      price: tenantMembersAddOnUnitPrice,
+                      price: addOnPrices.tenantMembersLimit,
                     })}
                   </Trans>
                 </AddOnNoticeFooter>

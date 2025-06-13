@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'postmark-mail',
   target: 'postmark-mail',
-  platform: null,
   name: {
     en: 'Postmark Mail',
   },

@@ -9,7 +9,12 @@ import Switch from '@/ds-components/Switch';
 import TextInput from '@/ds-components/TextInput';
 import { uriValidator } from '@/utils/validator';
 
+ <<<<<<< codex/mover-definiciones-oidc/saml-a-paquete-compartido
 import { type OidcConnectorConfig, type OidcProviderConfig } from '@logto/schemas';
+=======
+import { type OidcConnectorConfig, type OidcProviderConfig } from '../../types/oidc';
+import { googleIssuer } from '../../../../../../core/src/sso/GoogleWorkspaceSsoConnector';
+ >>>>>>> master
 
 import ParsedConfigPreview from './ParsedConfigPreview';
 import styles from './index.module.scss';
@@ -56,14 +61,13 @@ function OidcMetadataForm({ providerConfig, config, providerName }: Props) {
         isRequired={providerName !== SsoProviderName.GOOGLE_WORKSPACE}
         title="enterprise_sso.metadata.oidc.issuer_field_name"
       >
-        {providerName === SsoProviderName.GOOGLE_WORKSPACE ? (
+          {providerName === SsoProviderName.GOOGLE_WORKSPACE ? (
           <CopyToClipboard
             displayType="block"
             variant="border"
-            // TODO: this hard-coded value should align with the `googleIssuer` value defined in `packages/core/src/sso/GoogleWorkspaceSsoConnector/index.ts`.
-            value={providerConfig?.issuer ?? 'https://accounts.google.com'}
+            value={providerConfig?.issuer ?? googleIssuer}
           />
-        ) : (
+          ) : (
           <TextInput
             {...register('issuer', {
               required: true,

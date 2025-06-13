@@ -5,7 +5,7 @@ import Router from 'koa-router';
 import { EnvSet } from '#src/env-set/index.js';
 import koaAuditLog from '#src/middleware/koa-audit-log.js';
 import koaBodyEtag from '#src/middleware/koa-body-etag.js';
-import { koaManagementApiHooks } from '#src/middleware/koa-management-api-hooks.js';
+import { koaApiHooks } from '#src/middleware/koa-api-hooks.js';
 import koaTenantGuard from '#src/middleware/koa-tenant-guard.js';
 import type TenantContext from '#src/tenants/TenantContext.js';
 
@@ -17,13 +17,6 @@ import { accountApiPrefix } from './account/constants.js';
 import accountRoutes from './account/index.js';
 import accountCentersRoutes from './account-center/index.js';
 import adminUserRoutes from './admin-user/index.js';
-import applicationOrganizationRoutes from './applications/application-organization.js';
-import applicationProtectedAppMetadataRoutes from './applications/application-protected-app-metadata.js';
-import applicationRoleRoutes from './applications/application-role.js';
-import applicationSecretRoutes from './applications/application-secret.js';
-import applicationSignInExperienceRoutes from './applications/application-sign-in-experience.js';
-import applicationUserConsentOrganizationRoutes from './applications/application-user-consent-organization.js';
-import applicationUserConsentScopeRoutes from './applications/application-user-consent-scope.js';
 import applicationRoutes from './applications/application.js';
 import authnRoutes from './authn.js';
 import captchaProviderRoutes from './captcha-provider/index.js';
@@ -72,19 +65,9 @@ const createRouters = (tenant: TenantContext) => {
   const managementRouter: ManagementApiRouter = new Router();
   managementRouter.use(koaAuth(tenant.envSet, getManagementApiResourceIndicator(tenant.id)));
   managementRouter.use(koaTenantGuard(tenant.id, tenant.queries));
-  managementRouter.use(koaManagementApiHooks(tenant.libraries.hooks));
+  managementRouter.use(koaApiHooks(tenant.libraries.hooks));
 
-  // TODO: FIXME @sijie @darcy mount these routes in `applicationRoutes` instead
   applicationRoutes(managementRouter, tenant);
-  applicationRoleRoutes(managementRouter, tenant);
-  applicationProtectedAppMetadataRoutes(managementRouter, tenant);
-  applicationOrganizationRoutes(managementRouter, tenant);
-  applicationSecretRoutes(managementRouter, tenant);
-
-  // Third-party application related routes
-  applicationUserConsentScopeRoutes(managementRouter, tenant);
-  applicationSignInExperienceRoutes(managementRouter, tenant);
-  applicationUserConsentOrganizationRoutes(managementRouter, tenant);
 
   logtoConfigRoutes(managementRouter, tenant);
   connectorRoutes(managementRouter, tenant);
@@ -116,8 +99,8 @@ const createRouters = (tenant: TenantContext) => {
 
   const userRouter: UserRouter = new Router();
   userRouter.use(koaOidcAuth(tenant));
-  // TODO(LOG-10147): Rename to koaApiHooks, this middleware is used for both management API and user API
-  userRouter.use(koaManagementApiHooks(tenant.libraries.hooks));
+  // TODO(LOG-10147): koaApiHooks middleware is used for both management API and user API
+  userRouter.use(koaApiHooks(tenant.libraries.hooks));
   accountRoutes(userRouter, tenant);
   verificationRoutes(userRouter, tenant);
 
@@ -138,8 +121,6 @@ const createRouters = (tenant: TenantContext) => {
     anonymousRouter,
     experienceRouter,
     userRouter,
-    // TODO: interactionRouter should be removed from swagger.json
-    interactionRouter,
   ]);
 
   return [experienceRouter, interactionRouter, managementRouter, anonymousRouter, userRouter];

@@ -6,7 +6,7 @@ import {
   skuQuotaItemLimitedPhrasesMap,
 } from '@/consts/quota-item-phrases';
 import DynamicT from '@/ds-components/DynamicT';
-import { type LogtoSkuQuota } from '@/types/skus';
+import { type LogtoSkuQuota } from '@logto/cloud-models';
 
 const quotaItemPhraseKeyPrefix = 'subscription.quota_item';
 

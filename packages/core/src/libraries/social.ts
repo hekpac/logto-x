@@ -6,7 +6,7 @@ import type { Nullable } from '@silverhand/essentials';
 import type { InteractionResults } from 'oidc-provider';
 import { z } from 'zod';
 
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import type { ConnectorLibrary } from '#src/libraries/connector.js';
 import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
@@ -44,7 +44,7 @@ export const createSocialLibrary = (queries: Queries, connectorLibrary: Connecto
       return await getLogtoConnectorById(connectorId);
     } catch (error: unknown) {
       // Throw a new error with status 422 when connector not found.
-      if (error instanceof RequestError && error.code === 'entity.not_found') {
+      if (isRequestError(error) && error.code === 'entity.not_found') {
         throw new RequestError({
           code: 'session.invalid_connector_id',
           status: 422,

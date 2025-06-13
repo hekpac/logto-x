@@ -6,7 +6,6 @@ export const endpoint = 'https://api.sendgrid.com/v3/mail/send';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'sendgrid-email-service',
   target: 'sendgrid-mail',
-  platform: null,
   name: {
     en: 'SendGrid Email',
     'zh-CN': 'SendGrid 邮件',
@@ -26,6 +25,7 @@ export const defaultMetadata: ConnectorMetadata = {
       label: 'API Key',
       type: ConnectorConfigFormItemType.Text,
       required: true,
+      isConfidential: true,
       placeholder: '<your-sendgrid-api-key>',
     },
     {

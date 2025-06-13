@@ -57,6 +57,8 @@
   - @logto/shared@3.3.0
   - @logto/schemas@1.28.0
   - @logto/cli@1.28.0
+- Read SAML certificate subject and issuer from tenant settings or CLI options
+  before generating
 
 ## 1.27.0
 

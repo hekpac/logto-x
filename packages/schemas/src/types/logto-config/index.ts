@@ -126,11 +126,19 @@ export enum LogtoTenantConfigKey {
   CloudConnection = 'cloudConnection',
   /** The URL to redirect when session not found in Sign-in Experience. */
   SessionNotFoundRedirectUrl = 'sessionNotFoundRedirectUrl',
+  /** Default subject and issuer for generated SAML certificates */
+  SamlCertificate = 'samlCertificate',
 }
 export type LogtoTenantConfigType = {
   [LogtoTenantConfigKey.AdminConsole]: AdminConsoleData;
   [LogtoTenantConfigKey.CloudConnection]: CloudConnectionData;
   [LogtoTenantConfigKey.SessionNotFoundRedirectUrl]: { url: string };
+  [LogtoTenantConfigKey.SamlCertificate]: {
+    subjectCommonName: string;
+    issuerCommonName: string;
+    issuerOrganizationName: string;
+    issuerCountryName: string;
+  };
 };
 
 export const logtoTenantConfigGuard: Readonly<{
@@ -139,6 +147,12 @@ export const logtoTenantConfigGuard: Readonly<{
   [LogtoTenantConfigKey.AdminConsole]: adminConsoleDataGuard,
   [LogtoTenantConfigKey.CloudConnection]: cloudConnectionDataGuard,
   [LogtoTenantConfigKey.SessionNotFoundRedirectUrl]: z.object({ url: z.string() }),
+  [LogtoTenantConfigKey.SamlCertificate]: z.object({
+    subjectCommonName: z.string(),
+    issuerCommonName: z.string(),
+    issuerOrganizationName: z.string(),
+    issuerCountryName: z.string(),
+  }),
 });
 
 /* --- Summary --- */

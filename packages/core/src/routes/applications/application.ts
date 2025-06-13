@@ -23,7 +23,15 @@ import { parseSearchParamsForSearch } from '#src/utils/search.js';
 import type { ManagementApiRouter, RouterInitArgs } from '../types.js';
 
 import applicationCustomDataRoutes from './application-custom-data.js';
-import { generateInternalSecret } from './application-secret.js';
+import applicationOrganizationRoutes from './application-organization.js';
+import applicationProtectedAppMetadataRoutes from './application-protected-app-metadata.js';
+import applicationRoleRoutes from './application-role.js';
+import applicationSecretRoutes, {
+  generateInternalSecret,
+} from './application-secret.js';
+import applicationSignInExperienceRoutes from './application-sign-in-experience.js';
+import applicationUserConsentOrganizationRoutes from './application-user-consent-organization.js';
+import applicationUserConsentScopeRoutes from './application-user-consent-scope.js';
 import { applicationCreateGuard, applicationPatchGuard } from './types.js';
 
 const includesInternalAdminRole = (roles: Readonly<Array<{ role: Role }>>) =>
@@ -388,5 +396,12 @@ export default function applicationRoutes<T extends ManagementApiRouter>(
   );
 
   applicationCustomDataRoutes(router, tenant);
+  applicationRoleRoutes(router, tenant);
+  applicationProtectedAppMetadataRoutes(router, tenant);
+  applicationOrganizationRoutes(router, tenant);
+  applicationSecretRoutes(router, tenant);
+  applicationUserConsentScopeRoutes(router, tenant);
+  applicationSignInExperienceRoutes(router, tenant);
+  applicationUserConsentOrganizationRoutes(router, tenant);
 }
 /* eslint-enable max-lines */

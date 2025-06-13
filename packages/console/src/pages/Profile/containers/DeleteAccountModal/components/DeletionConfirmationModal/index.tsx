@@ -20,24 +20,24 @@ type RoleMap = { [key in string]?: string[] };
  * A user may have multiple roles in the same tenant.
  */
 const getRoleMap = (organizationRoles: string[]) =>
-  organizationRoles.reduce<RoleMap>((accumulator, value) => {
-    const [organizationId, roleName] = value.split(':');
+  Object.fromEntries(
+    Object.entries(
+      Array.groupBy(organizationRoles, (value) => {
+        const [organizationId, roleName] = value.split(':');
 
-    if (!organizationId || !roleName) {
-      return accumulator;
-    }
+        if (!organizationId || !roleName) {
+          return '';
+        }
 
-    const tenantId = getTenantIdFromOrganizationId(organizationId);
-
-    if (!tenantId) {
-      return accumulator;
-    }
-
-    return {
-      ...accumulator,
-      [tenantId]: [...(accumulator[tenantId] ?? []), roleName],
-    };
-  }, {});
+        return getTenantIdFromOrganizationId(organizationId) ?? '';
+      })
+    )
+      .filter(([tenantId]) => tenantId)
+      .map(([tenantId, roles]) => [
+        tenantId,
+        roles.map((role) => role.split(':')[1]),
+      ])
+  ) as RoleMap;
 
 type Props = {
   readonly onClose: () => void;

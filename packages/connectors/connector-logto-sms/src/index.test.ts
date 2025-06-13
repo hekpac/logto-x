@@ -1,4 +1,5 @@
 import nock from 'nock';
+import { HTTPError } from 'got';
 
 import { TemplateType } from '@logto/connector-kit';
 
@@ -24,5 +25,17 @@ describe('sendMessage()', () => {
         payload: { code: '1234' },
       })
     ).resolves.not.toThrow();
+  });
+
+  it('should throw when service returns error', async () => {
+    nock(mockedConfig.endpoint).post(smsEndpoint).reply(500);
+    const connector = await createConnector({ getConfig });
+    await expect(
+      connector.sendMessage({
+        to: '13000000000',
+        type: TemplateType.SignIn,
+        payload: { code: '1234' },
+      })
+    ).rejects.toThrow(HTTPError);
   });
 });

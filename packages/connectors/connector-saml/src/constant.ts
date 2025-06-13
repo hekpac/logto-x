@@ -81,6 +81,7 @@ export const formItems: ConnectorConfigFormItem[] = [
     label: 'Signature Private Key',
     key: 'privateKey',
     required: true,
+
     showConditions: [{ targetKey: 'signAuthnRequest', expectValue: true }],
     placeholder:
       '-----BEGIN RSA PRIVATE KEY-----\n[private-key-content]\n-----END RSA PRIVATE KEY-----',
@@ -103,6 +104,7 @@ export const formItems: ConnectorConfigFormItem[] = [
     label: 'Decryption Private Key',
     key: 'encPrivateKey',
     required: true,
+      isConfidential: true,
     showConditions: [{ targetKey: 'encryptAssertion', expectValue: true }],
     placeholder:
       '-----BEGIN RSA PRIVATE KEY-----\n[private-key-content]\n-----END RSA PRIVATE KEY-----',

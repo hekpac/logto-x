@@ -25,12 +25,38 @@ const pemCertificateGuard = z
 // Add base64 validation schema
 const base64Guard = z.string().regex(/^[\d+/A-Za-z]*={0,2}$/);
 
-export const generateKeyPairAndCertificate = async (lifeSpanInYears: number) => {
-  const keypair = forge.pki.rsa.generateKeyPair({ bits: 4096 });
-  return createCertificate(keypair, lifeSpanInYears);
+export type SamlCertificateConfig = {
+  subjectCommonName: string;
+  issuerCommonName: string;
+  issuerOrganizationName: string;
+  issuerCountryName: string;
 };
 
-const createCertificate = (keypair: forge.pki.KeyPair, lifeSpanInYears: number) => {
+export const defaultSamlCertificateConfig: SamlCertificateConfig = {
+  subjectCommonName: 'example.com',
+  issuerCommonName: 'logto.io',
+  issuerOrganizationName: 'Logto',
+  issuerCountryName: 'US',
+};
+
+export const generateKeyPairAndCertificate = async (
+  lifeSpanInYears: number,
+  certConfig: SamlCertificateConfig = defaultSamlCertificateConfig
+) => {
+  const keypair = forge.pki.rsa.generateKeyPair({ bits: 4096 });
+  return createCertificate(keypair, lifeSpanInYears, certConfig);
+};
+
+const createCertificate = (
+  keypair: forge.pki.KeyPair,
+  lifeSpanInYears: number,
+  {
+    subjectCommonName,
+    issuerCommonName,
+    issuerOrganizationName,
+    issuerCountryName,
+  }: SamlCertificateConfig
+) => {
   const cert = forge.pki.createCertificate();
   const notBefore = new Date();
   const notAfter = addYears(notBefore, lifeSpanInYears);
@@ -45,26 +71,25 @@ const createCertificate = (keypair: forge.pki.KeyPair, lifeSpanInYears: number) 
   cert.validity.notAfter = notAfter;
   /* eslint-enable @silverhand/fp/no-mutation */
 
-  // TODO: read from tenant config or let user customize before downloading
   const subjectAttributes: forge.pki.CertificateField[] = [
     {
       name: 'commonName',
-      value: 'example.com',
+      value: subjectCommonName,
     },
   ];
 
   const issuerAttributes: forge.pki.CertificateField[] = [
     {
       name: 'commonName',
-      value: 'logto.io',
+      value: issuerCommonName,
     },
     {
       name: 'organizationName',
-      value: 'Logto',
+      value: issuerOrganizationName,
     },
     {
       name: 'countryName',
-      value: 'US',
+      value: issuerCountryName,
     },
   ];
 
