@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'logto-sms',
   target: 'logto-sms',
-  platform: null,
   name: {
     en: 'Logto SMS',
   },

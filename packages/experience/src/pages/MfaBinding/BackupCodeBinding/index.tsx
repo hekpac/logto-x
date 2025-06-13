@@ -1,4 +1,4 @@
-import { MfaFactor } from '@logto/schemas';
+import { InteractionEvent, MfaFactor } from '@logto/schemas';
 import { t } from 'i18next';
 import { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -8,7 +8,9 @@ import SecondaryPageLayout from '@/Layout/SecondaryPageLayout';
 import UserInteractionContext from '@/Providers/UserInteractionContextProvider/UserInteractionContext';
 import Button from '@/components/Button';
 import DynamicT from '@/components/DynamicT';
+import useErrorHandler from '@/hooks/use-error-handler';
 import useSendMfaPayload from '@/hooks/use-send-mfa-payload';
+import useSubmitInteractionErrorHandler from '@/hooks/use-submit-interaction-error-handler';
 import useTextHandler from '@/hooks/use-text-handler';
 import ErrorPage from '@/pages/ErrorPage';
 import { UserMfaFlow } from '@/types';
@@ -20,6 +22,10 @@ import styles from './index.module.scss';
 const BackupCodeBinding = () => {
   const { copyText, downloadText } = useTextHandler();
   const sendMfaPayload = useSendMfaPayload();
+  const handleError = useErrorHandler();
+  const preSignInErrorHandler = useSubmitInteractionErrorHandler(InteractionEvent.SignIn, {
+    replace: true,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { verificationIdsMap } = useContext(UserInteractionContext);
   const verificationId = verificationIdsMap[MfaFactor.BackupCode];
@@ -72,11 +78,16 @@ const BackupCodeBinding = () => {
           isLoading={isSubmitting}
           onClick={async () => {
             setIsSubmitting(true);
-            await sendMfaPayload({
+            const [error] = await sendMfaPayload({
               flow: UserMfaFlow.MfaBinding,
               payload: { type: MfaFactor.BackupCode },
               verificationId,
             });
+
+            if (error) {
+              await handleError(error, preSignInErrorHandler);
+            }
+
             setIsSubmitting(false);
           }}
         />
