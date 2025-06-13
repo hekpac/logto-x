@@ -1,13 +1,13 @@
 import { type User } from '@logto/schemas';
 
-import { authedAdminApi, deleteUser } from '#src/api/index.js';
+import { authedApi, deleteUser } from '#src/api/index.js';
 import { createUserByAdmin, expectRejects } from '#src/helpers/index.js';
 import { generateUsername } from '#src/utils.js';
 
 const getUsers = async <T>(
   init: string[][] | Record<string, string> | URLSearchParams
 ): Promise<{ headers: Headers; json: T }> => {
-  const response = await authedAdminApi.get('users', {
+  const response = await authedApi.get('users', {
     searchParams: new URLSearchParams(init),
   });
 

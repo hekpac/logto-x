@@ -2,7 +2,7 @@ import { MfaPolicy, OrganizationRequiredMfaPolicy, SignInIdentifier } from '@log
 import { HTTPError, type ResponsePromise } from 'ky';
 
 import {
-  authedAdminApi,
+  authedApi,
   createUser,
   deleteUser,
   getSignInExperience,
@@ -96,7 +96,7 @@ describe('password policy', () => {
 
   it('should throw if rejects user info is enabled but no user id is provided', async () => {
     try {
-      await authedAdminApi.post('sign-in-exp/default/check-password', {
+      await authedApi.post('sign-in-exp/default/check-password', {
         json: {
           password: 'johnny13',
         },
@@ -123,7 +123,7 @@ describe('password policy', () => {
     const user = await createUser({ name: 'Johnny' });
     await Promise.all([
       expectPasswordIssues(
-        authedAdminApi.post('sign-in-exp/default/check-password', {
+        authedApi.post('sign-in-exp/default/check-password', {
           json: {
             password: '123',
             userId: user.id,
@@ -136,7 +136,7 @@ describe('password policy', () => {
         ]
       ),
       expectPasswordIssues(
-        authedAdminApi.post('sign-in-exp/default/check-password', {
+        authedApi.post('sign-in-exp/default/check-password', {
           json: {
             password: 'johnny13',
             userId: user.id,
@@ -145,7 +145,7 @@ describe('password policy', () => {
         ['password_rejected.character_types', 'password_rejected.restricted.user_info']
       ),
       expectPasswordIssues(
-        authedAdminApi.post('sign-in-exp/default/check-password', {
+        authedApi.post('sign-in-exp/default/check-password', {
           json: {
             password: '123456aA',
             userId: user.id,
@@ -162,7 +162,7 @@ describe('password policy', () => {
     const user = await createUser({ name: 'Johnny' });
 
     await expect(
-      authedAdminApi
+      authedApi
         .post('sign-in-exp/default/check-password', {
           json: {
             password: generatePassword(),

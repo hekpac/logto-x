@@ -6,7 +6,7 @@ import {
   type RoleType,
 } from '@logto/schemas';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 import { ApiFactory } from './factory.js';
 
 export type CreateOrganizationRolePostData = {
@@ -36,30 +36,30 @@ export class OrganizationRoleApi extends ApiFactory<
   }
 
   async addScopes(id: string, organizationScopeIds: string[]): Promise<void> {
-    await authedAdminApi.post(`${this.path}/${id}/scopes`, { json: { organizationScopeIds } });
+    await authedApi.post(`${this.path}/${id}/scopes`, { json: { organizationScopeIds } });
   }
 
   async getScopes(id: string, searchParams?: URLSearchParams): Promise<OrganizationScope[]> {
-    return authedAdminApi
+    return authedApi
       .get(`${this.path}/${id}/scopes`, { searchParams })
       .json<OrganizationScope[]>();
   }
 
   async deleteScope(id: string, scopeId: string): Promise<void> {
-    await authedAdminApi.delete(`${this.path}/${id}/scopes/${scopeId}`);
+    await authedApi.delete(`${this.path}/${id}/scopes/${scopeId}`);
   }
 
   async addResourceScopes(id: string, scopeIds: string[]): Promise<void> {
-    await authedAdminApi.post(`${this.path}/${id}/resource-scopes`, { json: { scopeIds } });
+    await authedApi.post(`${this.path}/${id}/resource-scopes`, { json: { scopeIds } });
   }
 
   async getResourceScopes(id: string, searchParams?: URLSearchParams): Promise<Scope[]> {
-    return authedAdminApi
+    return authedApi
       .get(`${this.path}/${id}/resource-scopes`, { searchParams })
       .json<Scope[]>();
   }
 
   async deleteResourceScope(id: string, scopeId: string): Promise<void> {
-    await authedAdminApi.delete(`${this.path}/${id}/resource-scopes/${scopeId}`);
+    await authedApi.delete(`${this.path}/${id}/resource-scopes/${scopeId}`);
   }
 }

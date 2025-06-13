@@ -1,4 +1,4 @@
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 /**
  * Transform the data to a new object or array without modifying the original data.
@@ -26,27 +26,27 @@ export class ApiFactory<
   constructor(public readonly path: string) {}
 
   async create(data: PostData): Promise<Schema> {
-    return transform(await authedAdminApi.post(this.path, { json: data }).json<Schema>());
+    return transform(await authedApi.post(this.path, { json: data }).json<Schema>());
   }
 
   async getList(params?: URLSearchParams): Promise<Schema[]> {
     return transform(
-      await authedAdminApi.get(this.path + '?' + (params?.toString() ?? '')).json<Schema[]>()
+      await authedApi.get(this.path + '?' + (params?.toString() ?? '')).json<Schema[]>()
     );
   }
 
   async get(id: string): Promise<Schema> {
-    return transform(await authedAdminApi.get(this.path + '/' + id).json<Schema>());
+    return transform(await authedApi.get(this.path + '/' + id).json<Schema>());
   }
 
   async update(id: string, data: PatchData): Promise<Schema> {
     return transform(
-      await authedAdminApi.patch(this.path + '/' + id, { json: data }).json<Schema>()
+      await authedApi.patch(this.path + '/' + id, { json: data }).json<Schema>()
     );
   }
 
   async delete(id: string): Promise<void> {
-    await authedAdminApi.delete(this.path + '/' + id);
+    await authedApi.delete(this.path + '/' + id);
   }
 }
 
@@ -103,24 +103,24 @@ export class RelationApiFactory<RelationSchema extends Record<string, unknown>> 
     }
 
     return transform(
-      await authedAdminApi
+      await authedApi
         .get(`${this.basePath}/${id}/${this.relationPath}`, { searchParams })
         .json<RelationSchema[]>()
     );
   }
 
   async add(id: string, relationIds: string[]): Promise<void> {
-    await authedAdminApi.post(`${this.basePath}/${id}/${this.relationPath}`, {
+    await authedApi.post(`${this.basePath}/${id}/${this.relationPath}`, {
       json: { [this.relationKey]: relationIds },
     });
   }
 
   async delete(id: string, relationId: string): Promise<void> {
-    await authedAdminApi.delete(`${this.basePath}/${id}/${this.relationPath}/${relationId}`);
+    await authedApi.delete(`${this.basePath}/${id}/${this.relationPath}/${relationId}`);
   }
 
   async replace(id: string, relationIds: string[]): Promise<void> {
-    await authedAdminApi.put(`${this.basePath}/${id}/${this.relationPath}`, {
+    await authedApi.put(`${this.basePath}/${id}/${this.relationPath}`, {
       json: { [this.relationKey]: relationIds },
     });
   }

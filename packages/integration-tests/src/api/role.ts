@@ -3,7 +3,7 @@ import { RoleType } from '@logto/schemas';
 
 import { generateRoleName } from '#src/utils.js';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 export type GetRoleOptions = {
   excludeUserId?: string;
@@ -25,7 +25,7 @@ export const createRole = async ({
   isDefault?: boolean;
   scopeIds?: string[];
 }) =>
-  authedAdminApi
+  authedApi
     .post('roles', {
       json: {
         name: name ?? generateRoleName(),
@@ -38,12 +38,12 @@ export const createRole = async ({
     .json<Role>();
 
 export const getRoles = async (options?: GetRoleOptions) =>
-  authedAdminApi.get('roles', { searchParams: new URLSearchParams(options) }).json<Role[]>();
+  authedApi.get('roles', { searchParams: new URLSearchParams(options) }).json<Role[]>();
 
-export const getRole = async (roleId: string) => authedAdminApi.get(`roles/${roleId}`).json<Role>();
+export const getRole = async (roleId: string) => authedApi.get(`roles/${roleId}`).json<Role>();
 
 export const updateRole = async (roleId: string, payload: Partial<Omit<CreateRole, 'id'>>) =>
-  authedAdminApi
+  authedApi
     .patch(`roles/${roleId}`, {
       json: {
         ...payload,
@@ -51,20 +51,20 @@ export const updateRole = async (roleId: string, payload: Partial<Omit<CreateRol
     })
     .json<Role>();
 
-export const deleteRole = async (roleId: string) => authedAdminApi.delete(`roles/${roleId}`);
+export const deleteRole = async (roleId: string) => authedApi.delete(`roles/${roleId}`);
 
 export const getRoleScopes = async (roleId: string) =>
-  authedAdminApi.get(`roles/${roleId}/scopes`).json<Scope[]>();
+  authedApi.get(`roles/${roleId}/scopes`).json<Scope[]>();
 
 export const assignScopesToRole = async (scopeIds: string[], roleId: string) =>
-  authedAdminApi
+  authedApi
     .post(`roles/${roleId}/scopes`, {
       json: { scopeIds },
     })
     .json<Scope[]>();
 
 export const deleteScopeFromRole = async (scopeId: string, roleId: string) =>
-  authedAdminApi.delete(`roles/${roleId}/scopes/${scopeId}`);
+  authedApi.delete(`roles/${roleId}/scopes/${scopeId}`);
 
 /**
  * Get users assigned to the role.
@@ -75,16 +75,16 @@ export const deleteScopeFromRole = async (scopeId: string, roleId: string) =>
  */
 export const getRoleUsers = async (roleId: string, keyword?: string) => {
   const searchParams = new URLSearchParams(keyword && [['search', `%${keyword}%`]]);
-  return authedAdminApi.get(`roles/${roleId}/users`, { searchParams }).json<User[]>();
+  return authedApi.get(`roles/${roleId}/users`, { searchParams }).json<User[]>();
 };
 
 export const assignUsersToRole = async (userIds: string[], roleId: string) =>
-  authedAdminApi.post(`roles/${roleId}/users`, {
+  authedApi.post(`roles/${roleId}/users`, {
     json: { userIds },
   });
 
 export const deleteUserFromRole = async (userId: string, roleId: string) =>
-  authedAdminApi.delete(`roles/${roleId}/users/${userId}`);
+  authedApi.delete(`roles/${roleId}/users/${userId}`);
 
 /**
  * Get apps assigned to the role.
@@ -95,13 +95,13 @@ export const deleteUserFromRole = async (userId: string, roleId: string) =>
  */
 export const getRoleApplications = async (roleId: string, keyword?: string) => {
   const searchParams = new URLSearchParams(keyword && [['search', `%${keyword}%`]]);
-  return authedAdminApi.get(`roles/${roleId}/applications`, { searchParams }).json<Application[]>();
+  return authedApi.get(`roles/${roleId}/applications`, { searchParams }).json<Application[]>();
 };
 
 export const assignApplicationsToRole = async (applicationIds: string[], roleId: string) =>
-  authedAdminApi.post(`roles/${roleId}/applications`, {
+  authedApi.post(`roles/${roleId}/applications`, {
     json: { applicationIds },
   });
 
 export const deleteApplicationFromRole = async (applicationId: string, roleId: string) =>
-  authedAdminApi.delete(`roles/${roleId}/applications/${applicationId}`);
+  authedApi.delete(`roles/${roleId}/applications/${applicationId}`);

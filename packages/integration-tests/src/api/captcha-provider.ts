@@ -1,14 +1,14 @@
 import { type CaptchaProvider } from '@logto/schemas';
 import { type KyInstance } from 'ky';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
-export const getCaptchaProvider = async (api: KyInstance = authedAdminApi) =>
+export const getCaptchaProvider = async (api: KyInstance = authedApi) =>
   api.get('captcha-provider').json<CaptchaProvider>();
 
 export const updateCaptchaProvider = async (
   captchaProvider: Partial<CaptchaProvider>,
-  api: KyInstance = authedAdminApi
+  api: KyInstance = authedApi
 ) =>
   api
     .put('captcha-provider', {
@@ -16,5 +16,5 @@ export const updateCaptchaProvider = async (
     })
     .json<CaptchaProvider>();
 
-export const deleteCaptchaProvider = async (api: KyInstance = authedAdminApi) =>
+export const deleteCaptchaProvider = async (api: KyInstance = authedApi) =>
   api.delete('captcha-provider').json<CaptchaProvider>();

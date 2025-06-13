@@ -1,6 +1,6 @@
 import type { Role, User } from '@logto/schemas';
 
-import { assignRolesToUser, authedAdminApi, createUser, deleteUser } from '#src/api/index.js';
+import { assignRolesToUser, authedApi, createUser, deleteUser } from '#src/api/index.js';
 import { createRole, deleteRole } from '#src/api/role.js';
 import { createUserByAdmin, expectRejects } from '#src/helpers/index.js';
 import { OrganizationApiTest } from '#src/helpers/organization.js';
@@ -9,7 +9,7 @@ import { UserApiTest } from '#src/helpers/user.js';
 const getUsers = async <T>(
   init: string[][] | Record<string, string> | URLSearchParams
 ): Promise<{ headers: Headers; json: T }> => {
-  const response = await authedAdminApi.get('users', {
+  const response = await authedApi.get('users', {
     searchParams: new URLSearchParams(init),
   });
 

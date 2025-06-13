@@ -1,6 +1,6 @@
 import { type OrganizationRole, type OrganizationJitEmailDomain } from '@logto/schemas';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 import { RelationApiFactory } from './factory.js';
 
 export class OrganizationJitApi {
@@ -33,20 +33,20 @@ export class OrganizationJitApi {
       searchParams.append('page_size', String(pageSize));
     }
 
-    return authedAdminApi
+    return authedApi
       .get(`${this.path}/${id}/jit/email-domains`, { searchParams })
       .json<OrganizationJitEmailDomain[]>();
   }
 
   async addEmailDomain(id: string, emailDomain: string): Promise<void> {
-    await authedAdminApi.post(`${this.path}/${id}/jit/email-domains`, { json: { emailDomain } });
+    await authedApi.post(`${this.path}/${id}/jit/email-domains`, { json: { emailDomain } });
   }
 
   async deleteEmailDomain(id: string, emailDomain: string): Promise<void> {
-    await authedAdminApi.delete(`${this.path}/${id}/jit/email-domains/${emailDomain}`);
+    await authedApi.delete(`${this.path}/${id}/jit/email-domains/${emailDomain}`);
   }
 
   async replaceEmailDomains(id: string, emailDomains: string[]): Promise<void> {
-    await authedAdminApi.put(`${this.path}/${id}/jit/email-domains`, { json: { emailDomains } });
+    await authedApi.put(`${this.path}/${id}/jit/email-domains`, { json: { emailDomains } });
   }
 }

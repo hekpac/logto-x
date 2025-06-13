@@ -1,7 +1,7 @@
 import { type SignInExperience, type Translation, type SsoConnectorMetadata } from '@logto/schemas';
 import { HTTPError } from 'ky';
 
-import api, { adminTenantApi, authedAdminApi } from '#src/api/api.js';
+import api, { adminTenantApi, authedApi } from '#src/api/api.js';
 import { updateSignInExperience } from '#src/api/index.js';
 import { createSsoConnector, deleteSsoConnectorById } from '#src/api/sso-connector.js';
 import { newOidcSsoConnectorPayload } from '#src/constants.js';
@@ -55,7 +55,7 @@ describe('.well-known api', () => {
 
     expect(original.translation.list).not.toHaveProperty('and', and);
 
-    await authedAdminApi.put('custom-phrases/en', { json: { list: { and } } });
+    await authedApi.put('custom-phrases/en', { json: { list: { and } } });
     const updated = await api
       .get('.well-known/phrases?lng=en')
       .json<{ translation: Translation }>();

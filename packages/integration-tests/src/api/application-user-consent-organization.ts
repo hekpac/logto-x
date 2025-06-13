@@ -1,6 +1,6 @@
 import { type Organization } from '@logto/schemas';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 
 export const postApplicationUserConsentOrganization = async (
   applicationId: string,
@@ -9,7 +9,7 @@ export const postApplicationUserConsentOrganization = async (
     organizationIds: string[];
   }
 ) =>
-  authedAdminApi.post(`applications/${applicationId}/users/${userId}/consent-organizations`, {
+  authedApi.post(`applications/${applicationId}/users/${userId}/consent-organizations`, {
     json: payload,
   });
 
@@ -20,7 +20,7 @@ export const putApplicationUserConsentOrganization = async (
     organizationIds: string[];
   }
 ) =>
-  authedAdminApi.put(`applications/${applicationId}/users/${userId}/consent-organizations`, {
+  authedApi.put(`applications/${applicationId}/users/${userId}/consent-organizations`, {
     json: payload,
   });
 
@@ -28,7 +28,7 @@ export const getApplicationUserConsentOrganization = async (
   applicationId: string,
   userId: string
 ) =>
-  authedAdminApi.get(`applications/${applicationId}/users/${userId}/consent-organizations`).json<{
+  authedApi.get(`applications/${applicationId}/users/${userId}/consent-organizations`).json<{
     organizations: Organization[];
   }>();
 
@@ -37,6 +37,6 @@ export const deleteApplicationUserConsentOrganization = async (
   userId: string,
   organizationId: string
 ) =>
-  authedAdminApi.delete(
+  authedApi.delete(
     `applications/${applicationId}/users/${userId}/consent-organizations/${organizationId}`
   );

@@ -318,7 +318,7 @@ describe('register with passwordless identifier', () => {
     });
 
     const client = await initClient();
-    assert(client.interactionCookie, new Error('Session not found'));
+    assert(client.sessionCookie, new Error('Session not found'));
 
     await client.successSend(putInteraction, {
       event: InteractionEvent.Register,

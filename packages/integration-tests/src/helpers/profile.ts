@@ -6,7 +6,7 @@ import { type InteractionPayload } from '#src/api/interaction.js';
 import { demoAppRedirectUri, logtoUrl } from '#src/constants.js';
 import { generatePassword, generateUsername } from '#src/utils.js';
 
-import api, { baseApi, authedAdminApi } from '../api/api.js';
+import api, { baseApi, authedApi } from '../api/api.js';
 
 import { initClient } from './client.js';
 
@@ -19,7 +19,7 @@ export const createDefaultTenantUserWithPassword = async ({
 } = {}) => {
   const username = generateUsername();
   const password = generatePassword();
-  const user = await authedAdminApi
+  const user = await authedApi
     .post('users', {
       json: { username, password, primaryEmail, primaryPhone },
     })
@@ -29,7 +29,7 @@ export const createDefaultTenantUserWithPassword = async ({
 };
 
 export const deleteDefaultTenantUser = async (id: string) => {
-  await authedAdminApi.delete(`users/${id}`);
+  await authedApi.delete(`users/${id}`);
 };
 
 export const putInteraction = async (cookie: string, payload: InteractionPayload) =>

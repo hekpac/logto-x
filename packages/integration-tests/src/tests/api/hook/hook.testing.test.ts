@@ -1,6 +1,6 @@
 import { InteractionHookEvent, type Hook } from '@logto/schemas';
 
-import { authedAdminApi } from '#src/api/api.js';
+import { authedApi } from '#src/api/api.js';
 import { getHookCreationPayload } from '#src/helpers/hook.js';
 import { createMockServer, expectRejects } from '#src/helpers/index.js';
 
@@ -36,20 +36,20 @@ describe('hook testing', () => {
       InteractionHookEvent.PostRegister,
       responseSuccessEndpoint
     );
-    const created = await authedAdminApi.post('hooks', { json: payload }).json<Hook>();
-    const response = await authedAdminApi.post(`hooks/${created.id}/test`, {
+    const created = await authedApi.post('hooks', { json: payload }).json<Hook>();
+    const response = await authedApi.post(`hooks/${created.id}/test`, {
       json: { events: [InteractionHookEvent.PostSignIn], config: { url: responseSuccessEndpoint } },
     });
     expect(response.status).toBe(204);
 
     // Clean Up
-    await authedAdminApi.delete(`hooks/${created.id}`);
+    await authedApi.delete(`hooks/${created.id}`);
   });
 
   it('should return 404 if the hook to test does not exist', async () => {
     const invalidHookId = 'invalid_id';
     await expectRejects(
-      authedAdminApi.post(`hooks/${invalidHookId}/test`, {
+      authedApi.post(`hooks/${invalidHookId}/test`, {
         json: {
           events: [InteractionHookEvent.PostSignIn],
           config: { url: responseSuccessEndpoint },
@@ -64,9 +64,9 @@ describe('hook testing', () => {
 
   it('should return 422 if the hook endpoint is not working', async () => {
     const payload = getHookCreationPayload(InteractionHookEvent.PostRegister);
-    const created = await authedAdminApi.post('hooks', { json: payload }).json<Hook>();
+    const created = await authedApi.post('hooks', { json: payload }).json<Hook>();
     await expectRejects(
-      authedAdminApi.post(`hooks/${created.id}/test`, {
+      authedApi.post(`hooks/${created.id}/test`, {
         json: { events: [InteractionHookEvent.PostSignIn], config: { url: 'not_work_url' } },
       }),
       {
@@ -76,14 +76,14 @@ describe('hook testing', () => {
     );
 
     // Clean Up
-    await authedAdminApi.delete(`hooks/${created.id}`);
+    await authedApi.delete(`hooks/${created.id}`);
   });
 
   it('should return 422 and contains endpoint response if the hook endpoint return 500', async () => {
     const payload = getHookCreationPayload(InteractionHookEvent.PostRegister);
-    const created = await authedAdminApi.post('hooks', { json: payload }).json<Hook>();
+    const created = await authedApi.post('hooks', { json: payload }).json<Hook>();
     await expectRejects(
-      authedAdminApi.post(`hooks/${created.id}/test`, {
+      authedApi.post(`hooks/${created.id}/test`, {
         json: { events: [InteractionHookEvent.PostSignIn], config: { url: responseErrorEndpoint } },
       }),
       {
@@ -93,6 +93,6 @@ describe('hook testing', () => {
     );
 
     // Clean Up
-    await authedAdminApi.delete(`hooks/${created.id}`);
+    await authedApi.delete(`hooks/${created.id}`);
   });
 });

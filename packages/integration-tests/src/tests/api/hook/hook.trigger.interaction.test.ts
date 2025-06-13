@@ -5,7 +5,7 @@ import {
   hookEvents,
 } from '@logto/schemas';
 
-import { authedAdminApi } from '#src/api/api.js';
+import { authedApi } from '#src/api/api.js';
 import { resetPasswordlessConnectors } from '#src/helpers/connector.js';
 import { WebHookApiTest } from '#src/helpers/hook.js';
 import {
@@ -140,7 +140,7 @@ describe('interaction api trigger hooks', () => {
     });
 
     // Clean up
-    await authedAdminApi.delete(`users/${userId}`);
+    await authedApi.delete(`users/${userId}`);
   });
 
   it('user sign in interaction API  without profile update', async () => {

@@ -9,7 +9,7 @@ import {
   type OrganizationRole,
 } from '@logto/schemas';
 
-import { authedAdminApi } from './api.js';
+import { authedApi } from './api.js';
 import { ApiFactory, RelationApiFactory } from './factory.js';
 import { OrganizationJitApi } from './organization-jit.js';
 
@@ -41,29 +41,29 @@ export class OrganizationApi extends ApiFactory<Organization, Omit<CreateOrganiz
     applicationIds: string[],
     organizationRoleIds: string[]
   ): Promise<void> {
-    await authedAdminApi.post(`${this.path}/${id}/applications/roles`, {
+    await authedApi.post(`${this.path}/${id}/applications/roles`, {
       json: { applicationIds, organizationRoleIds },
     });
   }
 
   async addUsers(id: string, userIds: string[]): Promise<void> {
-    await authedAdminApi.post(`${this.path}/${id}/users`, { json: { userIds } });
+    await authedApi.post(`${this.path}/${id}/users`, { json: { userIds } });
   }
 
   async replaceUsers(id: string, userIds: string[]): Promise<void> {
-    await authedAdminApi.put(`${this.path}/${id}/users`, { json: { userIds } });
+    await authedApi.put(`${this.path}/${id}/users`, { json: { userIds } });
   }
 
   async getUsers(
     id: string,
     query?: Query
   ): Promise<[rows: UserWithOrganizationRoles[], totalCount: number]> {
-    const got = await authedAdminApi.get(`${this.path}/${id}/users`, { searchParams: query });
+    const got = await authedApi.get(`${this.path}/${id}/users`, { searchParams: query });
     return [await got.json(), Number(got.headers.get('total-number') ?? 0)];
   }
 
   async deleteUser(id: string, userId: string): Promise<void> {
-    await authedAdminApi.delete(`${this.path}/${id}/users/${userId}`);
+    await authedApi.delete(`${this.path}/${id}/users/${userId}`);
   }
 
   async addUserRoles(
@@ -72,7 +72,7 @@ export class OrganizationApi extends ApiFactory<Organization, Omit<CreateOrganiz
     organizationRoleIds: string[],
     organizationRoleNames?: string[]
   ): Promise<void> {
-    await authedAdminApi.post(`${this.path}/${id}/users/${userId}/roles`, {
+    await authedApi.post(`${this.path}/${id}/users/${userId}/roles`, {
       json: { organizationRoleIds, organizationRoleNames },
     });
   }
@@ -83,33 +83,33 @@ export class OrganizationApi extends ApiFactory<Organization, Omit<CreateOrganiz
     organizationRoleIds: string[],
     organizationRoleNames?: string[]
   ): Promise<void> {
-    await authedAdminApi.put(`${this.path}/${id}/users/${userId}/roles`, {
+    await authedApi.put(`${this.path}/${id}/users/${userId}/roles`, {
       json: { organizationRoleIds, organizationRoleNames },
     });
   }
 
   async addUsersRoles(id: string, userIds: string[], organizationRoleIds: string[]): Promise<void> {
-    await authedAdminApi.post(`${this.path}/${id}/users/roles`, {
+    await authedApi.post(`${this.path}/${id}/users/roles`, {
       json: { userIds, organizationRoleIds },
     });
   }
 
   async getUserRoles(id: string, userId: string, query?: Query): Promise<OrganizationRole[]> {
-    return authedAdminApi
+    return authedApi
       .get(`${this.path}/${id}/users/${userId}/roles`, { searchParams: query })
       .json<OrganizationRole[]>();
   }
 
   async deleteUserRole(id: string, userId: string, roleId: string): Promise<void> {
-    await authedAdminApi.delete(`${this.path}/${id}/users/${userId}/roles/${roleId}`);
+    await authedApi.delete(`${this.path}/${id}/users/${userId}/roles/${roleId}`);
   }
 
   async getUserOrganizations(userId: string): Promise<OrganizationWithRoles[]> {
-    return authedAdminApi.get(`users/${userId}/organizations`).json<OrganizationWithRoles[]>();
+    return authedApi.get(`users/${userId}/organizations`).json<OrganizationWithRoles[]>();
   }
 
   async getUserOrganizationScopes(id: string, userId: string): Promise<OrganizationScope[]> {
-    return authedAdminApi
+    return authedApi
       .get(`${this.path}/${id}/users/${userId}/scopes`)
       .json<OrganizationScope[]>();
   }
@@ -119,7 +119,7 @@ export class OrganizationApi extends ApiFactory<Organization, Omit<CreateOrganiz
     applicationId: string,
     organizationRoleIds: string[]
   ): Promise<void> {
-    await authedAdminApi.post(`${this.path}/${id}/applications/${applicationId}/roles`, {
+    await authedApi.post(`${this.path}/${id}/applications/${applicationId}/roles`, {
       json: { organizationRoleIds },
     });
   }
@@ -140,12 +140,12 @@ export class OrganizationApi extends ApiFactory<Organization, Omit<CreateOrganiz
       search.set('page_size', String(pageSize));
     }
 
-    return authedAdminApi
+    return authedApi
       .get(`${this.path}/${id}/applications/${applicationId}/roles`, { searchParams: search })
       .json<OrganizationRole[]>();
   }
 
   async deleteApplicationRole(id: string, applicationId: string, roleId: string): Promise<void> {
-    await authedAdminApi.delete(`${this.path}/${id}/applications/${applicationId}/roles/${roleId}`);
+    await authedApi.delete(`${this.path}/${id}/applications/${applicationId}/roles/${roleId}`);
   }
 }

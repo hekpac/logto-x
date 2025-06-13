@@ -173,6 +173,25 @@ describe('manual data hook tests', () => {
 
       await assertOrganizationMembershipUpdated(organization.id);
     });
+
+    it('should trigger `Organization.Membership.Updated` event when user is removed from organization', async () => {
+      await setEmailConnector();
+      await setSmsConnector();
+      await enableAllVerificationCodeSignInMethods({
+        identifiers: [SignInIdentifier.Email],
+        password: false,
+        verify: true,
+      });
+
+      const organization = await organizationApi.create({ name: 'baz' });
+      const domain = 'delete.com';
+      await organizationApi.jit.addEmailDomain(organization.id, domain);
+
+      const { id: userId } = await registerWithEmail(`${randomString()}@${domain}`);
+      await organizationApi.deleteUser(organization.id, userId);
+
+      await assertOrganizationMembershipUpdated(organization.id);
+    });
   });
 
   describe('organization membership update by accept organization invitation', () => {
