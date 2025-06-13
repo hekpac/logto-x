@@ -153,6 +153,7 @@ If you find Logto helpful, here's how you can support us:
 - [Tenant usage refactor](./docs-ref/tenant-usage-refactor.md)
 - [WebAuthn utils refactor](./docs-ref/webauthn-refactor.md)
 - [Verification records refactor](./docs-ref/verification-records-refactor.md)
+- [Optional Redis Cluster](./docs-ref/optional-redis-cluster.md)
 
 
 ## Licensing
