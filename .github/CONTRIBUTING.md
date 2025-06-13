@@ -67,6 +67,8 @@ You'll need these installed to proceed:
 - [Node.js](https://nodejs.org/) `^18.12.0`
 - [pnpm](https://pnpm.io/) `^9.0`
 - A local MongoDB replica set, OpenSearch, and Redis instance (see `docker-compose.yml`)
+  - Start them with `docker compose up -d`
+  - For Redis cluster support run `docker compose --profile cluster up -d` and set `REDIS_URL=redis://localhost:7000?cluster=1`
 
 ### Clone and install dependencies
 
@@ -86,6 +88,8 @@ Create a `.env` file with the following content in the project root, or set the 
 MONGODB_URI=mongodb://localhost:27017/?replicaSet=rs0
 OPENSEARCH_URL=http://localhost:9200
 REDIS_URL=redis://localhost:6379
+# Use the cluster URL if the Redis cluster profile is enabled
+# REDIS_URL=redis://localhost:7000?cluster=1
 ```
 
 ### Database alteration

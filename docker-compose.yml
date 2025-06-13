@@ -19,6 +19,8 @@ services:
       - MONGODB_URI=mongodb://mongodb:27017/?replicaSet=rs0
       - OPENSEARCH_URL=http://opensearch:9200
       - REDIS_URL=redis://redis:6379
+      # Use the line below for Redis cluster (enable the "cluster" profile)
+      # - REDIS_URL=redis://redis-cluster:7000?cluster=1
       # Mandatory for GitPod to map host env to the container, thus GitPod can dynamically configure the public URL of Logto;
       # Or, you can leverage it for local testing.
       - ENDPOINT
@@ -57,3 +59,11 @@ services:
     image: redis:7-alpine
     ports:
       - 6379:6379
+  redis-cluster:
+    image: bitnami/redis-cluster:7
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "7000-7005:7000-7005"
+    profiles:
+      - cluster

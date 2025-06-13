@@ -66,6 +66,7 @@ docker compose up
 # MongoDB: mongodb://localhost:27017/?replicaSet=rs0
 # OpenSearch: http://localhost:9200
 # Redis: redis://localhost:6379
+# Redis cluster (optional): redis://localhost:7000?cluster=1
 
 # Using Node.js
   npm init @logto
@@ -83,7 +84,12 @@ MONGODB_URI=mongodb://localhost:27017/?replicaSet=rs0
 OPENSEARCH_URL=http://localhost:9200
  >>>>>>> master
 REDIS_URL=redis://localhost:6379
+ <<<<<<< codex/configurar-redis-en-modo-clúster
+# Use the cluster URL if running the "cluster" profile
+# REDIS_URL=redis://localhost:7000?cluster=1
+=======
 OPENSEARCH_URL=http://localhost:9200
+ >>>>>>> master
 ENDPOINT=http://localhost:3001
 ADMIN_ENDPOINT=http://localhost:3002
 ```
