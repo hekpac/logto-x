@@ -1,13 +1,13 @@
 import { ConsoleLog, GlobalValues } from '@logto/shared';
 import type { Optional } from '@silverhand/essentials';
 import { appendPath } from '@silverhand/essentials';
-import type { DatabasePool } from '@silverhand/slonik';
+import type { MongoClient } from 'mongodb';
 import chalk from 'chalk';
 
 import { createLogtoConfigLibrary } from '#src/libraries/logto-config.js';
 import { createLogtoConfigQueries } from '#src/queries/logto-config.js';
 
-import createPoolByEnv from './create-pool.js';
+import createConnectionByEnv from './mongo-connection.js';
 import loadOidcValues from './oidc.js';
 import { throwNotLoadedError } from './throw-errors.js';
 import { getTenantEndpoint } from './utils.js';
@@ -35,14 +35,11 @@ export class EnvSet {
     return this.values.dbUrl;
   }
 
-  static sharedPool = createPoolByEnv(
+  static sharedClient = createConnectionByEnv(
     this.dbUrl,
-    EnvSet.values.isUnitTest,
-    this.values.databasePoolSize,
-    EnvSet.values.databaseConnectionTimeout
+    EnvSet.values.isUnitTest
   );
-
-  #pool: Optional<DatabasePool>;
+  #client: Optional<MongoClient>;
   #oidc: Optional<Awaited<ReturnType<typeof loadOidcValues>>>;
   #endpoint: Optional<URL>;
 
@@ -51,12 +48,12 @@ export class EnvSet {
     public readonly mongodbUri: string
   ) {}
 
-  get pool() {
-    if (!this.#pool) {
+  get client() {
+    if (!this.#client) {
       return throwNotLoadedError();
     }
 
-    return this.#pool;
+    return this.#client;
   }
 
   get oidc() {
@@ -76,18 +73,16 @@ export class EnvSet {
   }
 
   async load(customDomain?: string) {
-    const pool = await createPoolByEnv(
+    const client = await createConnectionByEnv(
       this.mongodbUri,
-      EnvSet.values.isUnitTest,
-      EnvSet.values.databasePoolSize,
-      EnvSet.values.databaseConnectionTimeout
+      EnvSet.values.isUnitTest
     );
 
-    this.#pool = pool;
+    this.#client = client;
 
     const consoleLog = new ConsoleLog(chalk.magenta('env-set'));
     const { getOidcConfigs } = createLogtoConfigLibrary({
-      logtoConfigs: createLogtoConfigQueries(pool),
+      logtoConfigs: createLogtoConfigQueries(client),
     });
 
     const oidcConfigs = await getOidcConfigs(consoleLog);
@@ -98,7 +93,7 @@ export class EnvSet {
   }
 
   async end() {
-    await this.#pool?.end();
+    await this.#client?.close();
   }
 }
 
