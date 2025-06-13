@@ -3,28 +3,57 @@ version: "3.9"
 services:
   app:
     depends_on:
-      postgres:
-        condition: service_healthy
+      mongodb-setup:
+        condition: service_completed_successfully
+      opensearch:
+        condition: service_started
+      redis:
+        condition: service_started
     image: svhd/logto:${TAG-latest}
-    entrypoint: ["sh", "-c", "npm run cli db seed -- --swe && npm start"]
+    entrypoint: ["sh", "-c", "npm start"]
     ports:
       - 3001:3001
       - 3002:3002
     environment:
       - TRUST_PROXY_HEADER=1
-      - DB_URL=postgres://postgres:p0stgr3s@postgres:5432/logto
+      - MONGODB_URI=mongodb://mongodb:27017/?replicaSet=rs0
+      - OPENSEARCH_URL=http://opensearch:9200
+      - REDIS_URL=redis://redis:6379
       # Mandatory for GitPod to map host env to the container, thus GitPod can dynamically configure the public URL of Logto;
       # Or, you can leverage it for local testing.
       - ENDPOINT
       - ADMIN_ENDPOINT
-  postgres:
-    image: postgres:17-alpine
-    user: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: p0stgr3s
+  mongodb:
+    image: mongo:7
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - 27017:27017
+  mongodb-setup:
+    image: mongo:7
+    depends_on:
+      mongodb:
+        condition: service_started
+    entrypoint: ["sh", "-c", "for i in $(seq 1 30); do mongosh mongodb://mongodb:27017 --eval 'db.adminCommand({ping:1})' && break || sleep 1; done && mongosh mongodb://mongodb:27017 --eval 'rs.initiate()' && sleep infinity"]
+  opensearch:
+    image: opensearchproject/opensearch:2
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+      - cluster.name=logto-opensearch
+      - node.name=node-1
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - 9200:9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379

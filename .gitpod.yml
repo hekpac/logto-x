@@ -1,7 +1,18 @@
 tasks:
-  - name: Database
-    init: docker pull postgres:14-alpine
-    command: docker run -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=p0stgr3s postgres:14-alpine
+  - name: Services
+    init: |
+      docker pull mongo:7
+      docker pull opensearchproject/opensearch:2
+      docker pull redis:7-alpine
+    command: |
+      docker run -d --name mongodb -p 27017:27017 mongo:7 mongod --replSet rs0 --bind_ip_all
+      sleep 5
+      docker exec mongodb mongosh --eval "rs.initiate()"
+      docker run -d --name opensearch -p 9200:9200 \
+        -e discovery.type=single-node \
+        -e plugins.security.disabled=true \
+        opensearchproject/opensearch:2
+      docker run -d --name redis -p 6379:6379 redis:7-alpine
 
   - name: Logto dev
     init: |
@@ -15,15 +26,18 @@ tasks:
       pnpm connectors build
       pnpm cli connector link
     command: |
-      gp ports await 5432
+      gp ports await 27017
+      gp ports await 9200
+      gp ports await 6379
       sleep 3
       export ENDPOINT=$(gp url 3001)
       export ADMIN_ENDPOINT=$(gp url 3002)
-      pnpm cli db seed
       pnpm start:dev
     env:
       TRUST_PROXY_HEADER: 1
-      DB_URL: postgres://postgres:p0stgr3s@127.0.0.1:5432/logto
+      MONGODB_URI: mongodb://127.0.0.1:27017/?replicaSet=rs0
+      OPENSEARCH_URL: http://127.0.0.1:9200
+      REDIS_URL: redis://127.0.0.1:6379
 
 ports:
   - name: Logto
@@ -34,8 +48,16 @@ ports:
     description: The Admin Console for Logto core service
     port: 3002
     visibility: public
-  - name: Postgres
-    port: 5432
+  - name: MongoDB
+    port: 27017
+    visibility: public
+    onOpen: ignore
+  - name: OpenSearch
+    port: 9200
+    visibility: public
+    onOpen: ignore
+  - name: Redis
+    port: 6379
     visibility: public
     onOpen: ignore
   - port: 5001

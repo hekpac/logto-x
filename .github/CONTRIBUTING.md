@@ -66,7 +66,7 @@ You'll need these installed to proceed:
 
 - [Node.js](https://nodejs.org/) `^18.12.0`
 - [pnpm](https://pnpm.io/) `^9.0`
-- A [Postgres](https://postgresql.org/) `^14.0` instance
+- A local MongoDB replica set, OpenSearch, and Redis instance (see `docker-compose.yml`)
 
 ### Clone and install dependencies
 
@@ -78,15 +78,15 @@ pnpm i && pnpm prepack
 
 `pnpm i` installs dependencies, which might take some time, and `pnpm prepack` builds the necessary workspace dependencies, enabling editors such as VSCode to locate their declarations.
 
-### Set up database
+### Configure services
 
-Create a `.env` file with the following content in the project root, or set the environment variable directly:
+Create a `.env` file with the following content in the project root, or set the environment variables directly:
 
 ```env
-DB_URL=postgresql://your-postgres-dsn/logto # Replace with your own
+MONGODB_URI=mongodb://localhost:27017/?replicaSet=rs0
+OPENSEARCH_URL=http://localhost:9200
+REDIS_URL=redis://localhost:6379
 ```
-
-Then run `pnpm cli db seed` to seed data into your database.
 
 ### Database alteration
 
