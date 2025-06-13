@@ -62,10 +62,34 @@ Pick your path:
   # Using Docker Compose(requires Docker Desktop)
   curl -fsSL https://raw.githubusercontent.com/logto-io/logto/HEAD/docker-compose.yml | \
   docker compose -p logto -f - up
-  
+
   # Using Node.js (requires PostgreSQL)
   npm init @logto
   ```
+
+### Run locally
+
+Set required environment variables in a `.env` file or export them directly:
+
+```env
+DB_URL=postgres://postgres:postgres@localhost:5432/logto
+REDIS_URL=redis://localhost:6379
+ENDPOINT=http://localhost:3001
+ADMIN_ENDPOINT=http://localhost:3002
+```
+
+Seed initial data and start the development server:
+
+```bash
+pnpm cli db seed
+pnpm dev
+```
+
+Run the test suite with:
+
+```bash
+pnpm ci:test
+```
 
 [📚 Full OSS installation guide →](https://docs.logto.io/logto-oss/get-started-with-oss?ref=readme)
 
