@@ -1,13 +1,11 @@
-/* eslint-disable max-lines */
 import {
   type Application,
   type SsoConnectorWithProviderConfig,
   ApplicationType,
   type SsoConnectorIdpInitiatedAuthConfig,
 } from '@logto/schemas';
-import { type ReactElement, useEffect, useMemo } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
+import { type ReactElement, useMemo } from 'react';
+import { Controller } from 'react-hook-form';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { type KeyedMutator } from 'swr';
@@ -20,18 +18,10 @@ import RadioGroup, { Radio } from '@/ds-components/RadioGroup';
 import Select from '@/ds-components/Select';
 import Switch from '@/ds-components/Switch';
 import TextInput from '@/ds-components/TextInput';
-import useApi from '@/hooks/use-api';
 import useTenantPathname from '@/hooks/use-tenant-pathname';
-import { trySubmitSafe } from '@/utils/form';
-import { uriValidator } from '@/utils/validator';
 
 import styles from './index.module.scss';
-import {
-  buildIdpInitiatedAuthConfigEndpoint,
-  type IdpInitiatedAuthConfigFormData,
-  parseResponseToFormData,
-  parseFormDataToRequestPayload,
-} from './utils';
+import useConfigForm from './use-config-form';
 
 type FormProps = {
   readonly ssoConnector: SsoConnectorWithProviderConfig;
@@ -48,27 +38,25 @@ function ConfigForm({
 }: FormProps) {
   const { t } = useTranslation(undefined, { keyPrefix: 'admin_console' });
   const { getTo } = useTenantPathname();
-  const api = useApi();
 
   const {
-    control,
-    register,
-    formState: { isDirty, isSubmitting, errors },
-    reset,
-    setValue,
-    handleSubmit,
-    watch,
-  } = useForm<IdpInitiatedAuthConfigFormData>({
-    defaultValues: parseResponseToFormData(idpInitiatedAuthConfig, applications),
+    formMethods: {
+      control,
+      register,
+      formState: { isDirty, isSubmitting, errors },
+      reset,
+    },
+    onSubmit,
+    isIdpInitiatedSsoEnabled,
+    autoSendAuthorizationRequest,
+    defaultApplication,
+    defaultApplicationRedirectUris,
+  } = useConfigForm({
+    ssoConnectorId: ssoConnector.id,
+    applications,
+    idpInitiatedAuthConfig,
+    mutateIdpInitiatedConfig,
   });
-
-  const isIdpInitiatedSsoEnabled = watch('isIdpInitiatedSsoEnabled');
-  const defaultApplicationId = watch('config.defaultApplicationId');
-  const autoSendAuthorizationRequest = watch('config.autoSendAuthorizationRequest');
-
-  const defaultApplication = useMemo(() => {
-    return applications.find((application) => application.id === defaultApplicationId);
-  }, [applications, defaultApplicationId]);
 
   const emptyApplicationsError = useMemo<ReactElement | undefined>(() => {
     if (applications.length === 0) {
@@ -84,55 +72,11 @@ function ConfigForm({
     }
   }, [applications, getTo, t]);
 
-  const defaultApplicationRedirectUris = useMemo(
-    () => defaultApplication?.oidcClientMetadata.redirectUris ?? [],
-    [defaultApplication]
-  );
-
   const emptyRedirectUrisError = useMemo(() => {
     if (defaultApplication && defaultApplicationRedirectUris.length === 0) {
       return t('enterprise_sso_details.idp_initiated_auth_config.empty_redirect_uris_error');
     }
   }, [defaultApplication, defaultApplicationRedirectUris.length, t]);
-
-  // Force set autoSendAuthorizationRequest to false if the default application is set to SPA
-  useEffect(() => {
-    if (defaultApplication?.type === ApplicationType.SPA) {
-      setValue('config.autoSendAuthorizationRequest', false);
-      setValue('config.redirectUri', undefined);
-    }
-  }, [defaultApplication, setValue]);
-
-  const onSubmit = handleSubmit(
-    trySubmitSafe(async (data) => {
-      const { config, isIdpInitiatedSsoEnabled } = data;
-
-      if (isSubmitting) {
-        return;
-      }
-
-      if (!isIdpInitiatedSsoEnabled || !config) {
-        await api.delete(buildIdpInitiatedAuthConfigEndpoint(ssoConnector.id));
-        await mutateIdpInitiatedConfig();
-        toast.success(t('general.saved'));
-        reset(parseResponseToFormData(undefined, applications));
-        return;
-      }
-
-      const result = parseFormDataToRequestPayload(config);
-      if (!result.success) {
-        return;
-      }
-      const payload = result.data;
-
-      const updated = await api
-        .put(buildIdpInitiatedAuthConfigEndpoint(ssoConnector.id), { json: payload })
-        .json<SsoConnectorIdpInitiatedAuthConfig>();
-      await mutateIdpInitiatedConfig(updated);
-      toast.success(t('general.saved'));
-      reset(parseResponseToFormData(updated));
-    })
-  );
 
   return (
     <DetailsForm
@@ -323,4 +267,3 @@ function ConfigForm({
 }
 
 export default ConfigForm;
-/* eslint-enable max-lines */
