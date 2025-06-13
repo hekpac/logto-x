@@ -1,4 +1,7 @@
 import { generateStandardShortId } from '@logto/shared/universal';
+ <<<<<<< codex/reemplazar-componente-de-email-por-multioptioninput
+import { conditional } from '@silverhand/essentials';
+=======
  <<<<<<< gwbyv4-codex/reemplazar-componente-de-email-con-multioptioninput
 import classNames from 'classnames';
 import { useCallback } from 'react';
@@ -16,6 +19,7 @@ import { conditional } from '@silverhand/essentials';
 =======
 import { conditional } from '@silverhand/essentials';
 import { useCallback } from 'react';
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
@@ -59,6 +63,11 @@ function InviteEmailsInput({
   parseEmailOptions,
 }: Props) {
   const { setError, clearErrors } = useFormContext();
+ <<<<<<< codex/reemplazar-componente-de-email-por-multioptioninput
+
+  const handleChange = (newValues: InviteeEmailItem[]) => {
+    const { values: parsedValues, errorMessage } = parseEmailOptions(newValues);
+=======
  <<<<<<< gwbyv4-codex/reemplazar-componente-de-email-con-multioptioninput
 
   const onChange = useCallback(
@@ -106,6 +115,7 @@ function InviteEmailsInput({
     const { values: parsedValues, errorMessage } = parseEmailOptions(newValues);
  >>>>>>> master
   >>>>>>> master
+ >>>>>>> master
  >>>>>>> master
 
   const handleChange = (nextValues: InviteeEmailItem[]) => {
@@ -168,6 +178,27 @@ function InviteEmailsInput({
     <MultiOptionInput<InviteeEmailItem>
       className={className}
       values={values}
+ <<<<<<< codex/reemplazar-componente-de-email-por-multioptioninput
+      getId={(value) => value.id}
+      valueClassName={(option) => (option.status ? styles[option.status] : undefined)}
+      renderValue={(option) => option.value}
+      placeholder={placeholder}
+      error={error}
+      validateInput={(input) => {
+        const item: InviteeEmailItem = {
+          value: input,
+          id: generateStandardShortId(),
+          ...conditional(!emailRegEx.test(input) && { status: 'error' }),
+        };
+
+        const { errorMessage } = parseEmailOptions([...values, item]);
+
+        return errorMessage ?? { value: item };
+      }}
+      onChange={handleChange}
+      onError={(message) => {
+        setError(formName, { type: 'custom', message });
+=======
       renderValue={(option) => option.value}
       valueClassName={(option) => option.status && styles[option.status]}
       validateInput={(input) => {
@@ -245,16 +276,20 @@ function InviteEmailsInput({
       onError={(message) => {
         setError(formName, { type: 'custom', message });
  >>>>>>> master
+ >>>>>>> master
       }}
       onClearError={() => {
         clearErrors(formName);
       }}
+ <<<<<<< codex/reemplazar-componente-de-email-por-multioptioninput
+=======
  <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
 =======
  <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
 =======
       validateInput={validateInput}
       error={error}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
