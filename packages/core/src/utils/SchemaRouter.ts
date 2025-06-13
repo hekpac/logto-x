@@ -383,7 +383,7 @@ export default class SchemaRouter<
           // @ts-expect-error -- `.omit()` doesn't play well with generics
           body: schema.createGuard.omit({ id: true }),
           response: entityGuard ?? schema.guard,
-          status: [201], // TODO: 409/422 for conflict?
+          status: [201, 422],
         }),
         this.#ensembleQualifiedMiddlewares('post'),
         async (ctx, next) => {
@@ -421,7 +421,7 @@ export default class SchemaRouter<
           params: z.object({ id: z.string().min(1) }),
           body: schema.updateGuard,
           response: entityGuard ?? schema.guard,
-          status: [200, 404], // TODO: 409/422 for conflict?
+          status: [200, 404, 422],
         }),
         this.#ensembleQualifiedMiddlewares('patch'),
         async (ctx, next) => {
