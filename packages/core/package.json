@@ -136,7 +136,9 @@
     "sinon": "^19.0.0",
     "supertest": "^7.0.0",
     "tsup": "^8.3.0",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "mongoose": "^7.6.1",
+    "mongodb-memory-server": "^9.7.1"
   },
   "engines": {
     "node": "^22.14.0"
