@@ -15,11 +15,13 @@ import { type PublicKeyCredentialRequestOptionsJSON } from 'node_modules/@simple
 
 import { type WithLogContext } from '#src/middleware/koa-audit-log.js';
 import {
-  generateWebAuthnAuthenticationOptions,
-  generateWebAuthnRegistrationOptions,
   verifyWebAuthnAuthentication,
   verifyWebAuthnRegistration,
 } from '#src/routes/interaction/utils/webauthn.js';
+import {
+  generateWebAuthnAuthenticationOptions,
+  generateWebAuthnRegistrationOptions,
+} from '#src/routes/interaction/utils/webauthn-options.js';
 import type Libraries from '#src/tenants/Libraries.js';
 import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
