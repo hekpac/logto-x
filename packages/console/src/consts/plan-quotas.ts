@@ -36,6 +36,3 @@ export const skuQuotaItemOrder: Array<keyof LogtoSkuQuota> = [
   'bringYourUiEnabled',
   'ticketSupportResponseTime',
 ];
-
-// TODO: @sijie remove this after the captcha quota is removed from the plan
-export const comingSoonSkuQuotaKeys: Array<keyof LogtoSkuQuota> = ['captchaEnabled'];

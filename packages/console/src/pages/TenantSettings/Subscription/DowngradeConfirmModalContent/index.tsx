@@ -4,8 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 
 import { type LogtoSkuResponse } from '@/cloud/types/router';
 import SkuName from '@/components/SkuName';
-import { comingSoonSkuQuotaKeys } from '@/consts/plan-quotas';
-import { type LogtoSkuQuota, type LogtoSkuQuotaEntries } from '@/types/skus';
+import { type LogtoSkuQuota } from '@/types/skus';
 
 import PlanQuotaDiffCard from './PlanQuotaDiffCard';
 import styles from './index.module.scss';
@@ -17,11 +16,7 @@ type Props = {
 
 const excludeSkuComingSoonFeatures = (
   quotaDiff: Partial<LogtoSkuQuota>
-): Partial<LogtoSkuQuota> => {
-  // eslint-disable-next-line no-restricted-syntax
-  const entries = Object.entries(quotaDiff) as LogtoSkuQuotaEntries;
-  return Object.fromEntries(entries.filter(([key]) => !comingSoonSkuQuotaKeys.includes(key)));
-};
+): Partial<LogtoSkuQuota> => quotaDiff;
 
 function DowngradeConfirmModalContent({ currentSku, targetSku }: Props) {
   const { t } = useTranslation(undefined, { keyPrefix: 'admin_console' });
