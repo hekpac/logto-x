@@ -10,7 +10,7 @@ import ContactUsPhraseLink from '@/components/ContactUsPhraseLink';
 import QuotaGuardFooter from '@/components/QuotaGuardFooter';
 import { isCloud } from '@/consts/env';
 import { addOnPricingExplanationLink } from '@/consts/external-links';
-import { latestProPlanId, organizationAddOnUnitPrice } from '@/consts/subscriptions';
+import { latestProPlanId } from '@/consts/subscriptions';
 import { SubscriptionDataContext } from '@/contexts/SubscriptionDataProvider';
 import Button from '@/ds-components/Button';
 import FormField from '@/ds-components/FormField';
@@ -19,6 +19,7 @@ import TextInput from '@/ds-components/TextInput';
 import TextLink from '@/ds-components/TextLink';
 import useApi from '@/hooks/use-api';
 import useUserPreferences from '@/hooks/use-user-preferences';
+import useAddOnPricing from '@/hooks/use-add-on-pricing';
 import modalStyles from '@/scss/modal.module.scss';
 import { trySubmitSafe } from '@/utils/form';
 import { isPaidPlan, isFeatureEnabled } from '@/utils/subscription';
@@ -41,6 +42,7 @@ function CreateOrganizationModal({ isOpen, onClose }: Props) {
     data: { organizationUpsellNoticeAcknowledged },
     update,
   } = useUserPreferences();
+  const { data: addOnPrices } = useAddOnPricing();
   const isPaidTenant = isPaidPlan(planId, isEnterprisePlan);
   const isOrganizationsDisabled =
     // Check if the organizations feature is disabled except for paid tenants.
@@ -103,7 +105,7 @@ function CreateOrganizationModal({ isOpen, onClose }: Props) {
                   }}
                 >
                   {t('upsell.add_on.footer.organization', {
-                    price: organizationAddOnUnitPrice,
+                    price: addOnPrices.organizationsLimit,
                     planName: t(
                       isEnterprisePlan ? 'subscription.enterprise' : 'subscription.pro_plan'
                     ),
