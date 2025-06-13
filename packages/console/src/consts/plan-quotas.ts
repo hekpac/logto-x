@@ -1,6 +1,6 @@
 import { ReservedPlanId } from '@logto/schemas';
 
-import { type LogtoSkuQuota } from '@/types/skus';
+import { type LogtoSkuQuota } from '@logto/cloud-models';
 
 /**
  * Manually add this support quota item to the plan since it will be compared in the downgrade plan notification modal.
@@ -36,3 +36,8 @@ export const skuQuotaItemOrder: Array<keyof LogtoSkuQuota> = [
   'bringYourUiEnabled',
   'ticketSupportResponseTime',
 ];
+ <<<<<<< codex/eliminar-constantes-relacionadas-con-captcha
+=======
+
+export const comingSoonSkuQuotaKeys: Array<keyof LogtoSkuQuota> = [];
+ >>>>>>> master

@@ -32,8 +32,8 @@ function AppGuide({ className, guideId, app, secrets, isCompact, onClose }: Prop
           app,
           secrets,
           endpoint: applyCustomDomain(tenantEndpoint?.href ?? ''),
-          redirectUris: app.oidcClientMetadata.redirectUris,
-          postLogoutRedirectUris: app.oidcClientMetadata.postLogoutRedirectUris,
+          redirectUris: app.oidcClientMetadata?.redirectUris,
+          postLogoutRedirectUris: app.oidcClientMetadata?.postLogoutRedirectUris,
           isCompact: Boolean(isCompact),
         }
       ) satisfies GuideContextType | undefined,

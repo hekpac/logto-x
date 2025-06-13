@@ -2,7 +2,9 @@
 
 import type { ZodError } from 'zod';
 
-export default class ServerError extends Error {
+import BaseError from '#src/errors/BaseError/index.js';
+
+export default class ServerError extends BaseError {
   constructor(public readonly message: string) {
     super(message);
     this.name = 'ServerError';

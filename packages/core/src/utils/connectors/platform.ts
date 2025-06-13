@@ -16,7 +16,7 @@ export const checkSocialConnectorTargetAndPlatformUniqueness = (connectors: Logt
   for (const targetAndPlatformObject of targetAndPlatformObjectsInUse) {
     const { target, platform } = targetAndPlatformObject;
 
-    if (platform === null) {
+    if (platform == null) {
       continue;
     }
 

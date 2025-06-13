@@ -7,7 +7,7 @@ import { addMinutes } from 'date-fns';
 import { z } from 'zod';
 
 import { spInitiatedSamlSsoSessionCookieName } from '#src/constants/index.js';
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import koaAuditLog from '#src/middleware/koa-audit-log.js';
 import koaGuard from '#src/middleware/koa-guard.js';
 import type { AnonymousRouter, RouterInitArgs } from '#src/routes/types.js';
@@ -320,7 +320,7 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
 
         ctx.redirect(signInUrl.toString());
       } catch (error: unknown) {
-        if (error instanceof RequestError) {
+        if (isRequestError(error)) {
           throw error;
         }
 
@@ -418,7 +418,7 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
 
         ctx.redirect(signInUrl.toString());
       } catch (error: unknown) {
-        if (error instanceof RequestError) {
+        if (isRequestError(error)) {
           throw error;
         }
 

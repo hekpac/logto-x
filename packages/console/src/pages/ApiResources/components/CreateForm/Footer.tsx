@@ -7,7 +7,7 @@ import ContactUsPhraseLink from '@/components/ContactUsPhraseLink';
 import QuotaGuardFooter from '@/components/QuotaGuardFooter';
 import SkuName from '@/components/SkuName';
 import { addOnPricingExplanationLink } from '@/consts/external-links';
-import { resourceAddOnUnitPrice } from '@/consts/subscriptions';
+import useAddOnPricing from '@/hooks/use-add-on-pricing';
 import { SubscriptionDataContext } from '@/contexts/SubscriptionDataProvider';
 import Button from '@/ds-components/Button';
 import TextLink from '@/ds-components/TextLink';
@@ -34,6 +34,7 @@ function Footer({ isCreationLoading, onClickCreate }: Props) {
     data: { apiResourceUpsellNoticeAcknowledged },
     update,
   } = useUserPreferences();
+  const { data: addOnPrices } = useAddOnPricing();
 
   if (
     hasReachedLimit &&
@@ -80,7 +81,7 @@ function Footer({ isCreationLoading, onClickCreate }: Props) {
           }}
         >
           {t('upsell.add_on.footer.api_resource', {
-            price: resourceAddOnUnitPrice,
+            price: addOnPrices.resourcesLimit,
           })}
         </Trans>
       </AddOnNoticeFooter>

@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { i18nPhrasesGuard } from './metadata.js';
+
 export enum ConnectorConfigFormItemType {
   Text = 'Text',
   Number = 'Number',
@@ -12,22 +14,24 @@ export enum ConnectorConfigFormItemType {
 
 const baseConfigFormItem = {
   key: z.string(),
-  label: z.string(),
-  placeholder: z.string().optional(),
+  label: z.string().or(i18nPhrasesGuard),
+  placeholder: z.string().or(i18nPhrasesGuard).optional(),
   required: z.boolean().optional(),
   defaultValue: z.unknown().optional(),
   showConditions: z
     .array(z.object({ targetKey: z.string(), expectValue: z.unknown().optional() }))
     .optional(),
-  description: z.string().optional(),
-  tooltip: z.string().optional(),
+  description: z.string().or(i18nPhrasesGuard).optional(),
+  tooltip: z.string().or(i18nPhrasesGuard).optional(),
   isConfidential: z.boolean().optional(), // For `Text` type only.
 };
 
 export const connectorConfigFormItemGuard = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(ConnectorConfigFormItemType.Select),
-    selectItems: z.array(z.object({ value: z.string(), title: z.string() })),
+    selectItems: z.array(
+      z.object({ value: z.string(), title: z.string().or(i18nPhrasesGuard) })
+    ),
     ...baseConfigFormItem,
   }),
   z.object({

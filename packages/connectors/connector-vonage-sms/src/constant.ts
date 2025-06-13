@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'vonage-sms',
   target: 'vonage-sms',
-  platform: null,
   name: {
     en: 'Vonage SMS Service',
   },
@@ -20,12 +19,14 @@ export const defaultMetadata: ConnectorMetadata = {
       label: 'API Key',
       type: ConnectorConfigFormItemType.Text,
       required: true,
+
     },
     {
       key: 'apiSecret',
       label: 'API Secret',
       type: ConnectorConfigFormItemType.Text,
       required: true,
+      isConfidential: true,
     },
     {
       key: 'brandName',

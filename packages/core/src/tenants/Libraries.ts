@@ -26,7 +26,7 @@ import type Queries from './Queries.js';
 export default class Libraries {
   users = createUserLibrary(this.queries);
   phrases = createPhraseLibrary(this.queries);
-  hooks = createHookLibrary(this.queries);
+  hooks = createHookLibrary(this.queries, this.users);
   scopes = createScopeLibrary(this.queries);
   socials = createSocialLibrary(this.queries, this.connectors);
   jwtCustomizers = new JwtCustomizerLibrary(

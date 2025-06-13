@@ -5,7 +5,7 @@ import { type ParameterizedContext } from 'koa';
 import type Libraries from '#src/tenants/Libraries.js';
 import { createContextWithRouteParameters } from '#src/utils/test-utils.js';
 
-import { koaManagementApiHooks, type WithHookContext } from './koa-management-api-hooks.js';
+import { koaApiHooks, type WithHookContext } from './koa-api-hooks.js';
 
 const { jest } = import.meta;
 
@@ -13,7 +13,7 @@ const notToBeCalled = () => {
   throw new Error('Should not be called');
 };
 
-describe('koaManagementApiHooks', () => {
+describe('koaApiHooks', () => {
   const next = jest.fn();
   const triggerDataHooks = jest.fn();
   // @ts-expect-error mock
@@ -27,7 +27,7 @@ describe('koaManagementApiHooks', () => {
       header: {},
       appendDataHookContext: notToBeCalled,
     };
-    await koaManagementApiHooks(mockHooksLibrary)(ctx, next);
+    await koaApiHooks(mockHooksLibrary)(ctx, next);
     expect(triggerDataHooks).not.toBeCalled();
   });
 
@@ -41,7 +41,7 @@ describe('koaManagementApiHooks', () => {
       ctx.appendDataHookContext('Role.Created', { data: { id: '123' } });
     });
 
-    await koaManagementApiHooks(mockHooksLibrary)(ctx, next);
+    await koaApiHooks(mockHooksLibrary)(ctx, next);
     expect(triggerDataHooks).toBeCalledTimes(1);
     expect(triggerDataHooks).toBeCalledWith(
       expect.any(ConsoleLog),
@@ -82,7 +82,7 @@ describe('koaManagementApiHooks', () => {
         status: 200,
       };
 
-      await koaManagementApiHooks(mockHooksLibrary)(ctx, next);
+      await koaApiHooks(mockHooksLibrary)(ctx, next);
 
       expect(triggerDataHooks).toBeCalledWith(
         expect.any(ConsoleLog),

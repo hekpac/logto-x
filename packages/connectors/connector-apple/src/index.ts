@@ -74,7 +74,6 @@ const getUserInfo =
       });
 
       if (payload.nonce) {
-        // TODO @darcy: need to specify error code
         assert(
           getSession,
           new ConnectorError(ConnectorErrorCodes.NotImplemented, {
@@ -85,14 +84,14 @@ const getUserInfo =
 
         assert(
           validationNonce,
-          new ConnectorError(ConnectorErrorCodes.General, {
+          new ConnectorError(ConnectorErrorCodes.NonceMissing, {
             message: "'nonce' not presented in session storage.",
           })
         );
 
         assert(
           validationNonce === payload.nonce,
-          new ConnectorError(ConnectorErrorCodes.SocialIdTokenInvalid, {
+          new ConnectorError(ConnectorErrorCodes.NonceMismatch, {
             message: "IdToken validation failed due to 'nonce' mismatch.",
           })
         );

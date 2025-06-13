@@ -8,7 +8,7 @@ import {
   samlAttributeKeys,
   type SamlProviderConfig,
   type SamlConnectorConfig,
-} from '@/pages/EnterpriseSsoDetails/types/saml';
+} from '@logto/schemas';
 
 import styles from './index.module.scss';
 
