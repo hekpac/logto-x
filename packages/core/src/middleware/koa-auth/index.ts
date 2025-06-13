@@ -8,7 +8,7 @@ import { HTTPError } from 'ky';
 import { z } from 'zod';
 
 import { EnvSet } from '#src/env-set/index.js';
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import assertThat from '#src/utils/assert-that.js';
 import { devConsole } from '#src/utils/console.js';
 
@@ -71,7 +71,7 @@ export const verifyBearerTokenFromRequest = async (
 
     return { sub, clientId, scopes: z.string().parse(scope).split(' ') };
   } catch (error: unknown) {
-    if (error instanceof RequestError) {
+    if (isRequestError(error)) {
       throw error;
     }
 

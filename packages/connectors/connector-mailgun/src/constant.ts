@@ -6,7 +6,6 @@ export const endpoint = 'https://api.sendgrid.com/v3/mail/send';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'mailgun-email',
   target: 'mailgun-email',
-  platform: null,
   name: {
     en: 'Mailgun',
   },
@@ -36,6 +35,7 @@ export const defaultMetadata: ConnectorMetadata = {
       label: 'API Key',
       type: ConnectorConfigFormItemType.Text,
       required: true,
+      isConfidential: true,
       placeholder: '<your-mailgun-api-key>',
     },
     {

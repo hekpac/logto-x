@@ -11,7 +11,7 @@ import { conditional, trySafe } from '@silverhand/essentials';
 import { type IRouterContext } from 'koa-router';
 
 import { EnvSet } from '#src/env-set/index.js';
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import { type CloudConnectionLibrary } from '#src/libraries/cloud-connection.js';
 import assertThat from '#src/utils/assert-that.js';
 import { getConsoleLogFromContext } from '#src/utils/console.js';
@@ -125,7 +125,7 @@ export const identifyUserByVerificationRecord = async (
         return { user, syncedProfile };
       } catch (error: unknown) {
         // Auto fallback to identify the related user if the user does not exist for enterprise SSO.
-        if (error instanceof RequestError && error.code === 'user.identity_not_exist') {
+        if (isRequestError(error) && error.code === 'user.identity_not_exist') {
           const user = await verificationRecord.identifyRelatedUser();
 
           const syncedProfile = {

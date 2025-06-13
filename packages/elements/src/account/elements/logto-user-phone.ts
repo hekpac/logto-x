@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 
 import phoneIcon from '../icons/phone.svg';
-import { formatToInternationalPhoneNumber } from '../utils/format.js';
+import { formatToInternationalPhoneNumber } from '@logto/shared/universal';
 
 import { LogtoProfileItemElement } from './LogtoProfileItemElement.js';
 

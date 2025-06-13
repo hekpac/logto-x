@@ -84,7 +84,6 @@ export const defaultLogtoSku: LogtoSkuResponse = {
     subjectTokenEnabled: true,
     bringYourUiEnabled: true,
     idpInitiatedSsoEnabled: false,
-    captchaEnabled: true,
     securityFeaturesEnabled: true,
   },
 };
@@ -113,7 +112,6 @@ export const defaultSubscriptionQuota: NewSubscriptionQuota = {
   bringYourUiEnabled: false,
   idpInitiatedSsoEnabled: false,
   samlApplicationsLimit: 0,
-  captchaEnabled: false,
   securityFeaturesEnabled: false,
 };
 
@@ -137,7 +135,6 @@ export const defaultSubscriptionUsage: NewSubscriptionCountBasedUsage = {
   bringYourUiEnabled: false,
   idpInitiatedSsoEnabled: false,
   samlApplicationsLimit: 0,
-  captchaEnabled: false,
   securityFeaturesEnabled: false,
 };
 

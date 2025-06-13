@@ -20,6 +20,16 @@ export const isSocialIdentifier = (
 ): identifier is SocialConnectorPayload =>
   'connectorId' in identifier && 'connectorData' in identifier;
 
+export const isConnectorEmailIdentifier = (
+  identifier: IdentifierPayload
+): identifier is { connectorId: string; email: string } =>
+  'connectorId' in identifier && 'email' in identifier;
+
+export const isConnectorPhoneIdentifier = (
+  identifier: IdentifierPayload
+): identifier is { connectorId: string; phone: string } =>
+  'connectorId' in identifier && 'phone' in identifier;
+
 // Social identities can take place the role of password
 export const isUserPasswordSet = ({
   passwordEncrypted,

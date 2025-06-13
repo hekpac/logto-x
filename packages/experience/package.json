@@ -16,8 +16,9 @@
     "lint": "eslint --ext .ts --ext .tsx src",
     "lint:report": "pnpm lint --format json --output-file report.json",
     "stylelint": "stylelint \"src/**/*.scss\"",
-    "test:ci": "jest --coverage --silent",
-    "test": "jest"
+    "test:only": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:ci": "NODE_OPTIONS=--experimental-vm-modules jest --coverage --silent",
+    "test": "pnpm test:only"
   },
   "devDependencies": {
     "@jest/types": "^29.5.0",

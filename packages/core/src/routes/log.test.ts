@@ -10,6 +10,7 @@ const { jest } = import.meta;
 const mockBody = { key: 'a', payload: { key: 'a', result: LogResult.Success }, createdAt: 123 };
 const mockLog: Log = { tenantId: 'fake_tenant', id: '1', ...mockBody };
 const mockLogs = [mockLog, { tenantId: 'fake_tenant', id: '2', ...mockBody }];
+const mockResponseLogs = mockLogs.map(({ tenantId, ...rest }) => rest);
 
 const logs = {
   countLogs: jest.fn().mockResolvedValue({
@@ -71,7 +72,7 @@ describe('logRoutes', () => {
     it('should return correct response', async () => {
       const response = await logRequest.get(`/logs`);
       expect(response.status).toEqual(200);
-      expect(response.body).toEqual(mockLogs);
+      expect(response.body).toEqual(mockResponseLogs);
       expect(response.header).toHaveProperty('total-number', `${mockLogs.length}`);
     });
   });

@@ -36,15 +36,12 @@ import {
 import { verifySsoOnlyEmailIdentifier } from './utils/single-sign-on-guard.js';
 import { validatePassword } from './utils/validate-password.js';
 import {
-  validateBindMfaBackupCode,
-  validateMandatoryBindMfa,
-  validateMandatoryUserProfile,
-  verifyBindMfa,
-  verifyIdentifier,
   verifyIdentifierPayload,
-  verifyMfa,
-  verifyProfile,
+  verifyIdentifier,
 } from './verifications/index.js';
+import koaInteractionVerifications, {
+  type WithVerifiedInteractionContext,
+} from './middleware/koa-interaction-verifications.js';
 
 export type RouterContext<T> = T extends Router<unknown, infer Context> ? Context : never;
 
@@ -330,8 +327,11 @@ export default function interactionRoutes<T extends AnonymousRouter>(
     }),
     koaInteractionSie(queries),
     koaInteractionHooks(libraries),
+    koaInteractionVerifications(tenant),
     async (ctx, next) => {
-      const { interactionDetails, createLog } = ctx;
+      const { interactionDetails, createLog, verifiedInteraction } = ctx as WithVerifiedInteractionContext<
+        typeof ctx
+      >;
       const interactionStorage = getInteractionStorage(interactionDetails.result);
 
       const { event } = interactionStorage;
@@ -339,38 +339,7 @@ export default function interactionRoutes<T extends AnonymousRouter>(
       const log = createLog(`Interaction.${event}.Submit`);
       log.append({ interaction: interactionStorage });
 
-      const accountVerifiedInteraction = await verifyIdentifier(ctx, tenant, interactionStorage);
-
-      const mfaVerifiedInteraction = isSignInInteractionResult(accountVerifiedInteraction)
-        ? await verifyMfa(ctx, tenant, accountVerifiedInteraction)
-        : accountVerifiedInteraction;
-
-      const profileVerifiedInteraction = await verifyProfile(tenant, mfaVerifiedInteraction);
-
-      // TODO @simeng-li: make all these verification steps in a middleware.
-      const mandatoryProfileVerifiedInteraction = isForgotPasswordInteractionResult(
-        profileVerifiedInteraction
-      )
-        ? profileVerifiedInteraction
-        : await validateMandatoryUserProfile(queries.users, ctx, profileVerifiedInteraction);
-
-      const bindMfaVerifiedInteraction = isForgotPasswordInteractionResult(
-        mandatoryProfileVerifiedInteraction
-      )
-        ? mandatoryProfileVerifiedInteraction
-        : await verifyBindMfa(tenant, mandatoryProfileVerifiedInteraction);
-
-      const mandatoryMfaVerifiedInteraction = isForgotPasswordInteractionResult(
-        bindMfaVerifiedInteraction
-      )
-        ? bindMfaVerifiedInteraction
-        : await validateMandatoryBindMfa(tenant, ctx, bindMfaVerifiedInteraction);
-
-      const interaction = isForgotPasswordInteractionResult(mandatoryMfaVerifiedInteraction)
-        ? mandatoryMfaVerifiedInteraction
-        : await validateBindMfaBackupCode(tenant, ctx, mandatoryMfaVerifiedInteraction, provider);
-
-      await submitInteraction(interaction, ctx, tenant, log);
+      await submitInteraction(verifiedInteraction, ctx, tenant, log);
 
       return next();
     }

@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import RequestError from '#src/errors/RequestError/index.js';
 import koaGuard from '#src/middleware/koa-guard.js';
-import { type WithHookContext } from '#src/middleware/koa-management-api-hooks.js';
+import { type WithHookContext } from '#src/middleware/koa-api-hooks.js';
 import koaPagination from '#src/middleware/koa-pagination.js';
 import type OrganizationQueries from '#src/queries/organization/index.js';
 

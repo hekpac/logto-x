@@ -6,7 +6,7 @@ import { removeUndefinedKeys } from '@silverhand/essentials';
 import { mockUser, mockUserResponse } from '#src/__mocks__/index.js';
 import RequestError from '#src/errors/RequestError/index.js';
 import { type InsertUserResult } from '#src/libraries/user.js';
-import { koaManagementApiHooks } from '#src/middleware/koa-management-api-hooks.js';
+import { koaApiHooks } from '#src/middleware/koa-api-hooks.js';
 import type Libraries from '#src/tenants/Libraries.js';
 import type Queries from '#src/tenants/Queries.js';
 import { MockTenant, type Partial2 } from '#src/test-utils/tenant.js';
@@ -100,7 +100,7 @@ describe('adminUserRoutes', () => {
     users: usersLibraries,
   });
   const userRequest = createRequester({
-    middlewares: [koaManagementApiHooks(tenantContext.libraries.hooks)],
+    middlewares: [koaApiHooks(tenantContext.libraries.hooks)],
     authedRoutes: adminUserRoutes,
     tenantContext,
   });
