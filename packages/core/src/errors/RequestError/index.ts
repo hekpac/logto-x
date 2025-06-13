@@ -5,6 +5,8 @@ import { conditional, pick } from '@silverhand/essentials';
 import i18next, { type i18n } from 'i18next';
 import { ZodError } from 'zod';
 
+import BaseError from '#src/errors/BaseError/index.js';
+
 export const formatZodError = ({ issues }: ZodError): string[] =>
   issues.map((issue) => {
     const base = `Error in key path "${issue.path.map(String).join('.')}": (${issue.code}) `;
@@ -16,7 +18,7 @@ export const formatZodError = ({ issues }: ZodError): string[] =>
     return base + issue.message;
   });
 
-export default class RequestError extends Error {
+export default class RequestError extends BaseError {
   /**
    * Error message generated using i18n with default language (en).
    *
