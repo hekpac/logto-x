@@ -17,6 +17,7 @@ import { z } from 'zod';
 import RequestError from '#src/errors/RequestError/index.js';
 import koaGuard from '#src/middleware/koa-guard.js';
 import koaPagination from '#src/middleware/koa-pagination.js';
+import { fetchLogsWithPagination } from './utils/log.js';
 import { koaReportSubscriptionUpdates, koaQuotaGuard } from '#src/middleware/koa-quota-guard.js';
 import { type AllowedKeyPrefix } from '#src/queries/log.js';
 import assertThat from '#src/utils/assert-that.js';
@@ -124,29 +125,19 @@ export default function hookRoutes<T extends ManagementApiRouter>(
     }),
     async (ctx, next) => {
       const { limit, offset } = ctx.pagination;
-
       const {
         params: { id },
-        query: { logKey },
       } = ctx.guard;
 
       const includeKeyPrefix: AllowedKeyPrefix[] = [hook.Type.TriggerHook];
       const startTimeExclusive = subDays(new Date(), 1).getTime();
 
-      const [{ count }, logs] = await Promise.all([
-        countLogs({
-          logKey,
-          payload: { hookId: id },
-          startTimeExclusive,
-          includeKeyPrefix,
-        }),
-        findLogs(limit, offset, {
-          logKey,
-          payload: { hookId: id },
-          startTimeExclusive,
-          includeKeyPrefix,
-        }),
-      ]);
+      const { count, logs } = await fetchLogsWithPagination(
+        { countLogs, findLogs },
+        { limit, offset },
+        ctx.request.URL.searchParams,
+        { payload: { hookId: id }, includeKeyPrefix, startTimeExclusive }
+      );
 
       ctx.pagination.totalCount = count;
       ctx.body = logs;
