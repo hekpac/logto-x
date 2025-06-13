@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'tencent-short-message-service',
   target: 'tencent-sms',
-  platform: null,
   name: {
     en: 'Tencent Short Message Service',
     'zh-CN': '腾讯云短信服务',
