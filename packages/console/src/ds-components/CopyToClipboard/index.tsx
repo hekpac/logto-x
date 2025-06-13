@@ -114,12 +114,17 @@ function CopyToClipboard(
         )}
         {hasVisibilityToggle && (
           <Tooltip
+ <<<<<<< codex/actualizar-estilo-de-copytoclipboard-y-eliminar-hack-de-marg
+            content={t(showHiddenContent ? 'hide' : 'view')}
+            anchorClassName={styles.copyToolTipAnchor}
+=======
  <<<<<<< ecvz92-codex/actualizar-estilo-de-copytoclipboard
             content={t(showHiddenContent ? 'hide' : 'view')}
             anchorClassName={styles.copyToolTipAnchor}
 =======
             anchorClassName={styles.copyToolTipAnchor}
             content={t(showHiddenContent ? 'hide' : 'view')}
+ >>>>>>> master
  >>>>>>> master
           >
             <IconButton
@@ -133,6 +138,11 @@ function CopyToClipboard(
           </Tooltip>
         )}
         <Tooltip
+ <<<<<<< codex/actualizar-estilo-de-copytoclipboard-y-eliminar-hack-de-marg
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+          anchorClassName={styles.copyToolTipAnchor}
+=======
  <<<<<<< ecvz92-codex/actualizar-estilo-de-copytoclipboard
           isSuccessful={copyState === 'copied'}
           content={t(copyState)}
@@ -146,6 +156,7 @@ function CopyToClipboard(
           isSuccessful={copyState === 'copied'}
           content={t(copyState)}
           anchorClassName={styles.copyToolTipAnchor}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
         >
