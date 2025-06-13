@@ -4,6 +4,11 @@ import { object, string } from 'zod';
 import koaGuard from '#src/middleware/koa-guard.js';
 import koaPagination from '#src/middleware/koa-pagination.js';
 import { type AllowedKeyPrefix } from '#src/queries/log.js';
+ <<<<<<< fqaw4b-codex/consolidar-parámetros-de-búsqueda-y-paginación
+import { fetchLogsWithPagination } from './utils/log.js';
+=======
+import { parseLogSearchParams } from '#src/utils/log.js';
+ >>>>>>> master
 
 import type { ManagementApiRouter, RouterInitArgs } from './types.js';
 
@@ -15,21 +20,14 @@ export default function logRoutes<T extends ManagementApiRouter>(
   router.get(
     '/logs',
     koaPagination(),
-    koaGuard({
-      query: object({
-        userId: string().optional(),
-        applicationId: string().optional(),
-        logKey: string().optional(),
-      }),
-      response: Logs.guard.array(),
-      status: 200,
-    }),
+    koaGuard({ response: Logs.guard.omit({ tenantId: true }).array(), status: 200 }),
     async (ctx, next) => {
       const { limit, offset } = ctx.pagination;
-      const {
-        query: { userId, applicationId, logKey },
-      } = ctx.guard;
+ <<<<<<< fqaw4b-codex/consolidar-parámetros-de-búsqueda-y-paginación
+=======
+      const { userId, applicationId, logKey } = parseLogSearchParams(ctx.request.URL.searchParams);
 
+ >>>>>>> master
       const includeKeyPrefix: AllowedKeyPrefix[] = [
         token.Type.ExchangeTokenBy,
         token.Type.RevokeToken,
@@ -39,7 +37,14 @@ export default function logRoutes<T extends ManagementApiRouter>(
         LogKeyUnknown,
       ];
 
-      // TODO: @Gao refactor like user search
+ <<<<<<< fqaw4b-codex/consolidar-parámetros-de-búsqueda-y-paginación
+      const { count, logs } = await fetchLogsWithPagination(
+        { countLogs, findLogs },
+        { limit, offset },
+        ctx.request.URL.searchParams,
+        { includeKeyPrefix }
+      );
+=======
       const [{ count }, logs] = await Promise.all([
         countLogs({
           logKey,
@@ -52,8 +57,8 @@ export default function logRoutes<T extends ManagementApiRouter>(
           includeKeyPrefix,
         }),
       ]);
+ >>>>>>> master
 
-      // Return totalCount to pagination middleware
       ctx.pagination.totalCount = count;
       ctx.body = logs;
 

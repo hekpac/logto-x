@@ -5,7 +5,7 @@ import { got } from 'got';
 import { z } from 'zod';
 
 import { EnvSet } from '#src/env-set/index.js';
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import assertThat from '#src/utils/assert-that.js';
 
 const validateCustomBlockListFormat = (list: string[]) => {
@@ -102,7 +102,7 @@ const validateDisposableEmailDomain = async (email: string) => {
       })
     );
   } catch (error: unknown) {
-    if (error instanceof RequestError) {
+    if (isRequestError(error)) {
       throw error;
     }
 

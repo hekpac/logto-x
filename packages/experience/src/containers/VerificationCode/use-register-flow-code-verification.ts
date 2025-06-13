@@ -1,21 +1,18 @@
 import {
   InteractionEvent,
-  SignInIdentifier,
   type VerificationCodeIdentifier,
 } from '@logto/schemas';
 import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { identifyWithVerificationCode, signInWithVerifiedIdentifier } from '@/apis/experience';
+import { identifyWithVerificationCode } from '@/apis/experience';
 import useApi from '@/hooks/use-api';
-import { useConfirmModal } from '@/hooks/use-confirm-modal';
 import type { ErrorHandlers } from '@/hooks/use-error-handler';
 import useErrorHandler from '@/hooks/use-error-handler';
 import useGlobalRedirectTo from '@/hooks/use-global-redirect-to';
 import { useSieMethods } from '@/hooks/use-sie';
 import useSubmitInteractionErrorHandler from '@/hooks/use-submit-interaction-error-handler';
-import { formatPhoneNumberWithCountryCallingCode } from '@/utils/country-code';
+import useSignInWithExistIdentifierConfirmModal from './use-sign-in-with-exist-identifier-confirm-modal';
 
 import useGeneralVerificationCodeErrorHandler from './use-general-verification-code-error-handler';
 import useIdentifierErrorAlert, { IdentifierErrorType } from './use-identifier-error-alert';
@@ -25,8 +22,6 @@ const useRegisterFlowCodeVerification = (
   verificationId: string,
   errorCallback?: () => void
 ) => {
-  const { t } = useTranslation();
-  const { show } = useConfirmModal();
   const navigate = useNavigate();
   const redirectTo = useGlobalRedirectTo();
 
@@ -34,7 +29,6 @@ const useRegisterFlowCodeVerification = (
 
   const handleError = useErrorHandler();
 
-  const signInWithIdentifierAsync = useApi(signInWithVerifiedIdentifier);
   const verifyVerificationCode = useApi(identifyWithVerificationCode);
 
   const { errorMessage, clearErrorMessage, generalVerificationCodeErrorHandlers } =
@@ -44,11 +38,8 @@ const useRegisterFlowCodeVerification = (
     replace: true,
   });
 
-  const preSignInErrorHandler = useSubmitInteractionErrorHandler(InteractionEvent.SignIn, {
-    replace: true,
-  });
-
   const showIdentifierErrorAlert = useIdentifierErrorAlert();
+  const showSignInWithExistIdentifierConfirmModal = useSignInWithExistIdentifierConfirmModal();
 
   const identifierExistsErrorHandler = useCallback(async () => {
     const { type, value } = identifier;
@@ -58,42 +49,19 @@ const useRegisterFlowCodeVerification = (
       return;
     }
 
-    // TODO: replace with use-sign-in-with-exist-identifier-confirm-model.ts
-    show({
-      confirmText: 'action.sign_in',
-      ModalContent: t('description.create_account_id_exists', {
-        type: t(`description.${type === SignInIdentifier.Email ? 'email' : 'phone_number'}`),
-        value:
-          type === SignInIdentifier.Phone ? formatPhoneNumberWithCountryCallingCode(value) : value,
-      }),
-      onConfirm: async () => {
-        const [error, result] = await signInWithIdentifierAsync(verificationId);
-
-        if (error) {
-          await handleError(error, preSignInErrorHandler);
-
-          return;
-        }
-
-        if (result?.redirectTo) {
-          await redirectTo(result.redirectTo);
-        }
-      },
-      onCancel: () => {
+    showSignInWithExistIdentifierConfirmModal({
+      identifier,
+      verificationId,
+      onCanceled: () => {
         navigate(-1);
       },
     });
   }, [
     identifier,
     isVerificationCodeEnabledForSignIn,
-    show,
-    t,
     showIdentifierErrorAlert,
-    signInWithIdentifierAsync,
+    showSignInWithExistIdentifierConfirmModal,
     verificationId,
-    handleError,
-    preSignInErrorHandler,
-    redirectTo,
     navigate,
   ]);
 

@@ -114,8 +114,13 @@ function CopyToClipboard(
         )}
         {hasVisibilityToggle && (
           <Tooltip
+ <<<<<<< ecvz92-codex/actualizar-estilo-de-copytoclipboard
             content={t(showHiddenContent ? 'hide' : 'view')}
             anchorClassName={styles.copyToolTipAnchor}
+=======
+            anchorClassName={styles.copyToolTipAnchor}
+            content={t(showHiddenContent ? 'hide' : 'view')}
+ >>>>>>> master
           >
             <IconButton
               className={styles.iconButton}
@@ -128,9 +133,21 @@ function CopyToClipboard(
           </Tooltip>
         )}
         <Tooltip
+ <<<<<<< ecvz92-codex/actualizar-estilo-de-copytoclipboard
           isSuccessful={copyState === 'copied'}
           content={t(copyState)}
           anchorClassName={styles.copyToolTipAnchor}
+=======
+ <<<<<<< f00w8s-codex/actualizar-estilo-de-copytoclipboard
+          anchorClassName={styles.copyToolTipAnchor}
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+=======
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+          anchorClassName={styles.copyToolTipAnchor}
+ >>>>>>> master
+ >>>>>>> master
         >
           <IconButton
             ref={copyIconReference}
