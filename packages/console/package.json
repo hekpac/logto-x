@@ -61,7 +61,12 @@
     "@vitejs/plugin-react": "^4.3.1",
     "@withtyped/client": "^0.8.8",
     "classnames": "^2.3.1",
+ <<<<<<< codex/actualizar-dependencias-y-usar-date-fns
+    "clean-deep": "^3.4.0",
+    "date-fns": "^2.30.0",
+=======
     "date-fns": "^2.29.3",
+ >>>>>>> master
     "dayjs": "^1.10.5",
     "debug": "^4.3.4",
     "deep-object-diff": "^1.1.9",
