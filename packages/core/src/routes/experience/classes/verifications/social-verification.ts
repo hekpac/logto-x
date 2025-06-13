@@ -19,8 +19,8 @@ import { conditional } from '@silverhand/essentials';
 import RequestError from '#src/errors/RequestError/index.js';
 import { type WithLogContext } from '#src/middleware/koa-audit-log.js';
 import {
-  createSocialAuthorizationUrl,
   verifySocialIdentity,
+  assignConnectorSessionResult,
 } from '#src/routes/interaction/utils/social-verification.js';
 import type Libraries from '#src/tenants/Libraries.js';
 import type Queries from '#src/tenants/Queries.js';
@@ -86,22 +86,19 @@ export class SocialVerification implements IdentifierVerificationRecord<Verifica
    *
    * @remarks
    * For the experience API:
-   * This method directly calls the {@link createSocialAuthorizationUrl} method in the interaction/utils/social-verification.ts file.
-   * All the intermediate connector session results are stored in the provider's interactionDetails separately, apart from the new verification record.
-   * For compatibility reasons, we keep using the old {@link createSocialAuthorizationUrl} method here as a single source of truth.
-   * Especially for the SAML connectors,
-   * SAML ACS endpoint will find the connector session result by the jti and assign it to the interaction storage.
-   * We will need to update the SAML ACS endpoint before move the logic to this new SocialVerification class.
+   * The authorization URL is generated and the connector session result is stored in the provider interaction details.
+   * This is mainly for legacy social connectors that still rely on the OIDC interaction context.
+   * SAML connectors now store the session in the verification record instead.
    *
    * For the profile API:
    * This method calls the internal {@link createSocialAuthorizationSession} method to create a social authorization session.
    * The connector session result is stored in the current verification record directly.
    * The social verification flow does not rely on the OIDC interaction context.
    *
-   * TODO: Remove the old {@link createSocialAuthorizationUrl} once the old SAML connectors are updated.
-   * Align using the new {@link createSocialAuthorizationSession} method for both experience and profile APIs.
-   * SAML ACS endpoint will find the verification record by the jti and assign the connector session result to the verification record.
-   */
+   * The goal is to align both experience and profile APIs with the
+   * {@link createSocialAuthorizationSession} approach so the connector session
+   * is stored in the verification record.
+  */
   async createAuthorizationUrl(
     ctx: WithLogContext,
     tenantContext: TenantContext,
@@ -114,11 +111,33 @@ export class SocialVerification implements IdentifierVerificationRecord<Verifica
     }
 
     // For the experience API, connector session result is stored in the provider's interactionDetails.
-    return createSocialAuthorizationUrl(ctx, tenantContext, {
-      connectorId: this.connectorId,
-      state,
-      redirectUri,
-    });
+    const {
+      provider,
+      connectors: { getLogtoConnectorById },
+    } = tenantContext;
+
+    const connector = await getLogtoConnectorById(this.connectorId);
+
+    assertThat(connector.type === ConnectorType.Social, 'connector.unexpected_type');
+
+    const {
+      headers: { 'user-agent': userAgent },
+    } = ctx.request;
+
+    const { jti } = await provider.interactionDetails(ctx.req, ctx.res);
+
+    return connector.getAuthorizationUri(
+      {
+        state,
+        redirectUri,
+        connectorId: this.connectorId,
+        connectorFactoryId: connector.metadata.id,
+        jti,
+        headers: { userAgent },
+      },
+      async (connectorSession: ConnectorSession) =>
+        assignConnectorSessionResult(ctx, provider, connectorSession)
+    );
   }
 
   /**
@@ -324,8 +343,8 @@ export class SocialVerification implements IdentifierVerificationRecord<Verifica
    * Internal method to create a social authorization session.
    *
    * @remarks
-   * This method is a alternative to the {@link createSocialAuthorizationUrl} method in the interaction/utils/social-verification.ts file.
-   * Generate the social authorization URL and store the connector session result in the current verification record directly.
+   * Generate the social authorization URL and store the connector session result
+   * in the current verification record directly.
    * This social connector session result will be used to verify the social response later.
    * This method can be used for both experience and profile APIs, w/o OIDC interaction context.
    *

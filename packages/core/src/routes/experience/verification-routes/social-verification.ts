@@ -57,7 +57,8 @@ export default function socialVerificationRoutes<T extends ExperienceInteraction
       const authorizationUri = await socialVerification.createAuthorizationUrl(
         ctx,
         tenantContext,
-        ctx.guard.body
+        ctx.guard.body,
+        'verificationRecord'
       );
 
       ctx.experienceInteraction.setVerificationRecord(socialVerification);
@@ -141,7 +142,12 @@ export default function socialVerificationRoutes<T extends ExperienceInteraction
         new RequestError({ code: 'session.verification_session_not_found', status: 404 })
       );
 
-      await socialVerificationRecord.verify(ctx, tenantContext, connectorData);
+      await socialVerificationRecord.verify(
+        ctx,
+        tenantContext,
+        connectorData,
+        'verificationRecord'
+      );
       // Skip captcha for social verification, as it's already verified by the connector
       ctx.experienceInteraction.skipCaptcha();
       await ctx.experienceInteraction.save();

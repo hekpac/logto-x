@@ -15,6 +15,11 @@ import {
   getSingleSignOnSessionResultByJti,
   assignSamlAssertionResultViaJti,
 } from '#src/utils/saml-assertion-handler.js';
+import {
+  buildVerificationRecordByIdAndType,
+  updateVerificationRecord,
+} from '../libraries/verification.js';
+import { VerificationType } from '@logto/schemas';
 
 import { idpInitiatedSamlSsoSessionCookieName } from '../constants/index.js';
 import { EnvSet } from '../env-set/index.js';
@@ -135,14 +140,28 @@ export default function authnRoutes<T extends AnonymousRouter>(
       }
 
       /**
-       * Since `RelayState` will be returned with value unchanged, we use it to pass `jti`
-       * to find the connector session we used to store essential information.
+       * The RelayState carries the verification record id when using the
+       * `createSocialAuthorizationSession` flow.
        */
-      const { RelayState: jti } = samlAssertionParseResult.data;
+      const { RelayState: verificationId } = samlAssertionParseResult.data;
 
-      const getSession = async () => getConnectorSessionResultFromJti(jti, provider);
-      const setSession = async (connectorSession: ConnectorSession) =>
-        assignConnectorSessionResultViaJti(jti, provider, connectorSession);
+      const socialVerification = await buildVerificationRecordByIdAndType({
+        type: VerificationType.Social,
+        id: verificationId,
+        queries,
+        libraries,
+      });
+
+      assertThat(
+        socialVerification.connectorId === connectorId,
+        new RequestError({ code: 'session.connector_validation_session_not_found', status: 404 })
+      );
+
+      const getSession = async () => socialVerification.connectorSession;
+      const setSession = async (connectorSession: ConnectorSession) => {
+        socialVerification.connectorSession = connectorSession;
+        await updateVerificationRecord(socialVerification, queries);
+      };
 
       const { validateSamlAssertion } = connector;
       assertThat(
