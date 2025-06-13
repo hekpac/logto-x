@@ -6,4 +6,8 @@ export * from './phone.js';
 export * from './sub-domain.js';
 export * from './ttl-cache.js';
 export * from './user-display-name.js';
+ <<<<<<< codex/añadir-helper-de-cadena-aleatoria
+export * from './random-string.js';
+=======
 export { default as cleanDeep } from './clean-deep.js';
+ >>>>>>> master
