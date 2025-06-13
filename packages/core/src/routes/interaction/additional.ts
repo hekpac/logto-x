@@ -35,7 +35,7 @@ import {
   isSignInInteractionResult,
   storeInteractionResult,
 } from './utils/interaction.js';
-import { createSocialAuthorizationUrl } from './utils/social-verification.js';
+import { SocialVerification } from '../experience/classes/verifications/social-verification.js';
 import { generateTotpSecret } from './utils/totp-validation.js';
 import { sendVerificationCodeToIdentifier } from './utils/verification-code-validation.js';
 import {
@@ -106,7 +106,17 @@ export default function additionalRoutes<T extends IRouterParamContext>(
 
       log.append(payload);
 
-      const redirectTo = await createSocialAuthorizationUrl(ctx, tenant, payload);
+      const socialVerification = SocialVerification.create(
+        tenant.libraries,
+        tenant.queries,
+        payload.connectorId
+      );
+
+      const redirectTo = await socialVerification.createAuthorizationUrl(
+        ctx,
+        tenant,
+        payload
+      );
 
       ctx.body = { redirectTo };
 
