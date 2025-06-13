@@ -29,7 +29,6 @@ export enum SmsTemplateType {
 export const defaultMetadata: ConnectorMetadata = {
   id: 'aliyun-short-message-service',
   target: 'aliyun-sms',
-  platform: null,
   name: {
     en: 'Aliyun Short Message Service',
     'zh-CN': '阿里云短信服务',
