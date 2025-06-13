@@ -1,13 +1,18 @@
-import { MfaFactor } from '@logto/schemas';
+import { InteractionEvent, MfaFactor } from '@logto/schemas';
 import { useCallback, useMemo, useState } from 'react';
 
-import { type ErrorHandlers } from '@/hooks/use-error-handler';
+import useErrorHandler, { type ErrorHandlers } from '@/hooks/use-error-handler';
 import useSendMfaPayload from '@/hooks/use-send-mfa-payload';
+import useSubmitInteractionErrorHandler from '@/hooks/use-submit-interaction-error-handler';
 import { type UserMfaFlow } from '@/types';
 
 const useTotpCodeVerification = (errorCallback?: () => void) => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const sendMfaPayload = useSendMfaPayload();
+  const handleError = useErrorHandler();
+  const preSignInErrorHandler = useSubmitInteractionErrorHandler(InteractionEvent.SignIn, {
+    replace: true,
+  });
 
   const invalidCodeErrorHandlers: ErrorHandlers = useMemo(
     () => ({
@@ -25,13 +30,26 @@ const useTotpCodeVerification = (errorCallback?: () => void) => {
         | { flow: UserMfaFlow.MfaBinding; verificationId: string }
         | { flow: UserMfaFlow.MfaVerification }
     ) => {
-      await sendMfaPayload(
-        { payload: { type: MfaFactor.TOTP, code }, ...payload },
-        invalidCodeErrorHandlers,
-        errorCallback
-      );
+      const [error] = await sendMfaPayload({
+        payload: { type: MfaFactor.TOTP, code },
+        ...payload,
+      });
+
+      if (error) {
+        await handleError(error, {
+          ...invalidCodeErrorHandlers,
+          ...preSignInErrorHandler,
+        });
+        errorCallback?.();
+      }
     },
-    [errorCallback, invalidCodeErrorHandlers, sendMfaPayload]
+    [
+      errorCallback,
+      handleError,
+      invalidCodeErrorHandlers,
+      preSignInErrorHandler,
+      sendMfaPayload,
+    ]
   );
 
   return {

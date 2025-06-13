@@ -207,8 +207,8 @@ export default function authnRoutes<T extends AnonymousRouter>(
       // All the rest of the request body will be validated and parsed by the connector.
       const { RelayState: jti } = body;
 
-      // IdP initiated SSO does not provide the RelayState, we need to check if the IdP initiated SSO flow is enabled.
-      if (!jti && EnvSet.values.isDevFeaturesEnabled) {
+      // IdP initiated SSO does not provide the RelayState
+      if (!jti) {
         const idpInitiatedAuthConfig =
           await queries.ssoConnectors.getIdpInitiatedAuthConfigByConnectorId(connectorId);
 
@@ -274,15 +274,6 @@ export default function authnRoutes<T extends AnonymousRouter>(
 
         return;
       }
-
-      // TODO: remove this assertion after the IdP initiated SSO flow is implemented
-      assertThat(
-        jti,
-        new RequestError({
-          code: 'session.connector_validation_session_not_found',
-          status: 404,
-        })
-      );
 
       // Retrieve the single sign on session data using the jti
       const singleSignOnSession = await getSingleSignOnSessionResultByJti(jti, provider);

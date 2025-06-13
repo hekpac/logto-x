@@ -126,14 +126,28 @@ export enum LogtoTenantConfigKey {
   CloudConnection = 'cloudConnection',
   /** The URL to redirect when session not found in Sign-in Experience. */
   SessionNotFoundRedirectUrl = 'sessionNotFoundRedirectUrl',
+ <<<<<<< codex/leer-expiración-de-verificación-desde-configuración
   /** Verification record expiration time in seconds */
   VerificationRecordExpiresIn = 'verificationRecordExpiresIn',
+=======
+  /** Default subject and issuer for generated SAML certificates */
+  SamlCertificate = 'samlCertificate',
+ >>>>>>> master
 }
 export type LogtoTenantConfigType = {
   [LogtoTenantConfigKey.AdminConsole]: AdminConsoleData;
   [LogtoTenantConfigKey.CloudConnection]: CloudConnectionData;
   [LogtoTenantConfigKey.SessionNotFoundRedirectUrl]: { url: string };
+ <<<<<<< codex/leer-expiración-de-verificación-desde-configuración
   [LogtoTenantConfigKey.VerificationRecordExpiresIn]: { seconds: number };
+=======
+  [LogtoTenantConfigKey.SamlCertificate]: {
+    subjectCommonName: string;
+    issuerCommonName: string;
+    issuerOrganizationName: string;
+    issuerCountryName: string;
+  };
+ >>>>>>> master
 };
 
 export const logtoTenantConfigGuard: Readonly<{
@@ -142,8 +156,16 @@ export const logtoTenantConfigGuard: Readonly<{
   [LogtoTenantConfigKey.AdminConsole]: adminConsoleDataGuard,
   [LogtoTenantConfigKey.CloudConnection]: cloudConnectionDataGuard,
   [LogtoTenantConfigKey.SessionNotFoundRedirectUrl]: z.object({ url: z.string() }),
+ <<<<<<< codex/leer-expiración-de-verificación-desde-configuración
   [LogtoTenantConfigKey.VerificationRecordExpiresIn]: z.object({
     seconds: z.number().min(1),
+=======
+  [LogtoTenantConfigKey.SamlCertificate]: z.object({
+    subjectCommonName: z.string(),
+    issuerCommonName: z.string(),
+    issuerOrganizationName: z.string(),
+    issuerCountryName: z.string(),
+ >>>>>>> master
   }),
 });
 

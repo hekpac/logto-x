@@ -6,7 +6,6 @@ export const endpoint = 'https://sms.yunpian.com/v2/sms/single_send.json';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'yunpian-sms',
   target: 'yunpian-sms',
-  platform: null,
   name: {
     en: 'YunPian SMS Service',
     zh: '云片短信服务',

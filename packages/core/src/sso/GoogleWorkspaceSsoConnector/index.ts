@@ -7,8 +7,8 @@ import { type SingleSignOn, type SingleSignOnConnectorData } from '../types/conn
 import { basicOidcConnectorConfigGuard } from '../types/oidc.js';
 import { type CreateSingleSignOnSession } from '../types/session.js';
 
-// Google use static issue endpoint.
-const googleIssuer = 'https://accounts.google.com';
+// Google uses a static issuer endpoint.
+export const googleIssuer = 'https://accounts.google.com';
 
 export class GoogleWorkspaceSsoConnector extends OidcConnector implements SingleSignOn {
   static googleIssuer = googleIssuer;

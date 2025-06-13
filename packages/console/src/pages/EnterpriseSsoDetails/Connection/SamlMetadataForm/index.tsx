@@ -8,7 +8,7 @@ import TextInput from '@/ds-components/TextInput';
 import {
   type SamlConnectorConfig,
   type SamlProviderConfig,
-} from '@/pages/EnterpriseSsoDetails/types/saml';
+} from '@logto/schemas';
 import { uriValidator } from '@/utils/validator';
 
 import FileReader, { type Props as FileReaderProps } from '../FileReader';

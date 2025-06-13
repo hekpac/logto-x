@@ -8,3 +8,11 @@ export const getPwnPasswordsForTest = () => {
   }
   return Object.freeze(['123456aA', 'test_password']);
 };
+
+export const getDisposableEmailDomainsForTest = () => {
+  if (!isIntegrationTest()) {
+    throw new Error('This function should only be called in integration tests');
+  }
+
+  return Object.freeze(['disposable.test']);
+};

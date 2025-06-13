@@ -1,8 +1,16 @@
 import type { SignInExperience, Profile, IdentifierPayload, MfaFactor } from '@logto/schemas';
-import { SignInMode, SignInIdentifier, InteractionEvent } from '@logto/schemas';
+import {
+  SignInMode,
+  SignInIdentifier,
+  InteractionEvent,
+} from '@logto/schemas';
 
 import RequestError from '#src/errors/RequestError/index.js';
 import assertThat from '#src/utils/assert-that.js';
+import {
+  isConnectorEmailIdentifier,
+  isConnectorPhoneIdentifier,
+} from './index.js';
 
 const forbiddenEventError = () => new RequestError({ code: 'auth.forbidden', status: 403 });
 
@@ -45,7 +53,11 @@ export const verifyIdentifierSettings = (
 
   // Social Identifier  TODO: @darcy, @sijie
   // should not verify connector related identifier here
-  if ('connectorId' in identifier) {
+  if (
+    'connectorId' in identifier ||
+    isConnectorEmailIdentifier(identifier) ||
+    isConnectorPhoneIdentifier(identifier)
+  ) {
     return;
   }
 

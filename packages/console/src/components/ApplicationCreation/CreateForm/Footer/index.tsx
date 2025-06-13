@@ -8,7 +8,7 @@ import QuotaGuardFooter from '@/components/QuotaGuardFooter';
 import SkuName from '@/components/SkuName';
 import { officialWebsiteContactPageLink } from '@/consts';
 import { addOnPricingExplanationLink } from '@/consts/external-links';
-import { machineToMachineAddOnUnitPrice } from '@/consts/subscriptions';
+import useAddOnPricing from '@/hooks/use-add-on-pricing';
 import { SubscriptionDataContext } from '@/contexts/SubscriptionDataProvider';
 import Button, { LinkButton } from '@/ds-components/Button';
 import TextLink from '@/ds-components/TextLink';
@@ -45,6 +45,7 @@ function Footer({ selectedType, isLoading, onClickCreate, isThirdParty }: Props)
     data: { m2mUpsellNoticeAcknowledged },
     update,
   } = useUserPreferences();
+  const { data: addOnPrices } = useAddOnPricing();
 
   if (selectedType) {
     if (
@@ -70,7 +71,7 @@ function Footer({ selectedType, isLoading, onClickCreate, isThirdParty }: Props)
             }}
           >
             {t('add_on.footer.machine_to_machine_app', {
-              price: machineToMachineAddOnUnitPrice,
+              price: addOnPrices.machineToMachineLimit,
             })}
           </Trans>
         </AddOnNoticeFooter>

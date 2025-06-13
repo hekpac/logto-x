@@ -62,6 +62,10 @@ const findHookById = jest.fn().mockResolvedValue(hook);
 const findApplicationById = jest.fn().mockResolvedValue({ id: 'app_id', extraField: 'not_ok' });
 
 const { createHookLibrary } = await import('./index.js');
+const mockUserLibrary = {
+  findUserSsoIdentities: jest.fn().mockResolvedValue([]),
+};
+
 const { triggerInteractionHooks, triggerTestHook, triggerDataHooks } = createHookLibrary(
   new MockQueries({
     users: {
@@ -76,7 +80,8 @@ const { triggerInteractionHooks, triggerTestHook, triggerDataHooks } = createHoo
     },
     logs: { insertLog, getHookExecutionStatsByHookId },
     hooks: { findAllHooks, findHookById },
-  })
+  }),
+  mockUserLibrary
 );
 
 const { DataHookContextManager, InteractionHookContextManager } = await import(

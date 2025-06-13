@@ -16,16 +16,11 @@ const groupResourceScopesByResourceId = (
 ): Array<{
   resourceId: string;
   scopes: Scope[];
-}> => {
-  const resourceMap = new Map<string, Scope[]>();
-
-  for (const scope of scopes) {
-    const existingScopes = resourceMap.get(scope.resourceId) ?? [];
-    resourceMap.set(scope.resourceId, [...existingScopes, scope]);
-  }
-
-  return Array.from(resourceMap, ([resourceId, scopes]) => ({ resourceId, scopes }));
-};
+}> =>
+  Array.from(
+    Map.groupBy(scopes, ({ resourceId }) => resourceId),
+    ([resourceId, scopes]) => ({ resourceId, scopes })
+  );
 
 export const createApplicationLibrary = (queries: Queries) => {
   const {

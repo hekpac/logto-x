@@ -62,7 +62,7 @@ export type InteractionHookEventPayload = {
 
 /**
  * The API context for management API triggered data hooks.
- * In the `koaManagementApiHooks` middleware,
+ * In the `koaApiHooks` middleware,
  * we will store the context of management API requests that triggers the DataHook events.
  * Can't put it in the DataHookMetadata because the matched API context is only available after the request is processed.
  */

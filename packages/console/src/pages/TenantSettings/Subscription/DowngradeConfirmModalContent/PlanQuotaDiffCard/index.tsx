@@ -4,7 +4,7 @@ import { Trans } from 'react-i18next';
 import SkuName from '@/components/SkuName';
 import { skuQuotaItemOrder } from '@/consts/plan-quotas';
 import DynamicT from '@/ds-components/DynamicT';
-import { type LogtoSkuQuota, type LogtoSkuQuotaEntries } from '@/types/skus';
+import { type LogtoSkuQuota, type LogtoSkuQuotaEntries } from '@logto/cloud-models';
 import { sortBy } from '@/utils/sort';
 
 import PlanQuotaList from './PlanQuotaList';
