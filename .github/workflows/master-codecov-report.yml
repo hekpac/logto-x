@@ -19,6 +19,9 @@ jobs:
           pnpm-version: 9
           node-version: ^22.14.0
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Install playwright for element tests
         working-directory: ./packages/elements
         run: pnpm exec playwright install --with-deps
