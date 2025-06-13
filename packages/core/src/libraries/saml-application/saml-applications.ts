@@ -6,6 +6,8 @@ import {
   type Domain,
   DomainStatus,
   adminTenantId,
+  LogtoTenantConfigKey,
+  logtoTenantConfigGuard,
 } from '@logto/schemas';
 import { SearchJointMode } from '@logto/schemas';
 import { generateStandardId, ConsoleLog } from '@logto/shared';
@@ -17,7 +19,11 @@ import RequestError from '#src/errors/RequestError/index.js';
 import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
 
-import { ensembleSamlApplication, generateKeyPairAndCertificate } from './utils.js';
+import {
+  ensembleSamlApplication,
+  generateKeyPairAndCertificate,
+  defaultSamlCertificateConfig,
+} from './utils.js';
 
 const consoleLog = new ConsoleLog(chalk.magenta('SAML app custom domain'));
 
@@ -47,8 +53,16 @@ export const createSamlApplicationsLibrary = (queries: Queries) => {
     lifeSpanInYears: number;
     isActive?: boolean;
   }): Promise<SamlApplicationSecret> => {
+    const {
+      rows: [configRow],
+    } = await queries.logtoConfigs.getRowsByKeys([LogtoTenantConfigKey.SamlCertificate]);
+
+    const certConfig = configRow
+      ? logtoTenantConfigGuard.samlCertificate.parse(configRow.value)
+      : defaultSamlCertificateConfig;
+
     const { privateKey, certificate, notAfter } =
-      await generateKeyPairAndCertificate(lifeSpanInYears);
+      await generateKeyPairAndCertificate(lifeSpanInYears, certConfig);
 
     const createObject = {
       id: generateStandardId(),
