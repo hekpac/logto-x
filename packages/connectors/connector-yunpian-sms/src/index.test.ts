@@ -1,6 +1,6 @@
 import nock from 'nock';
 
-import { TemplateType } from '@logto/connector-kit';
+import { TemplateType, ConnectorError } from '@logto/connector-kit';
 
 import { endpoint } from './constant.js';
 import createConnector from './index.js';
@@ -49,6 +49,24 @@ describe('yunpian SMS connector', () => {
           payload: { code: '1234' },
         })
       ).resolves.not.toThrow();
+    });
+
+    it('should throw connector error on failure', async () => {
+      const errorResponse = {
+        http_status_code: 400,
+        code: 9,
+        msg: 'error',
+      };
+
+      nock(endpoint).post('').reply(400, errorResponse);
+
+      await expect(
+        sendMessage({
+          to: '13800138000',
+          type: TemplateType.Generic,
+          payload: { code: '1234' },
+        })
+      ).rejects.toBeInstanceOf(ConnectorError);
     });
   });
 });

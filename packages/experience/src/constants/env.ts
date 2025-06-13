@@ -1,4 +1,4 @@
 import { yes } from '@silverhand/essentials';
 
 export const isDevFeaturesEnabled =
-  process.env.NODE_ENV !== 'production' || yes(process.env.DEV_FEATURES_ENABLED);
+  import.meta.env.PROD === false || yes(import.meta.env.DEV_FEATURES_ENABLED);
