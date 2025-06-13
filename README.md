@@ -59,11 +59,23 @@ Pick your path:
 - **Local development:**  
 
   ```bash
-  # Using Docker Compose(requires Docker Desktop)
+ <<<<<<< codex/reemplazar-servicio-postgres-con-mongodb,-opensearch-y-redis
+# Using Docker Compose (requires Docker Desktop)
+  docker compose up
+
+# The services are available on the following URLs:
+# MongoDB: mongodb://localhost:27017/?replicaSet=rs0
+# OpenSearch: http://localhost:9200
+# Redis: redis://localhost:6379
+
+# Using Node.js
+=======
+# Using Docker Compose(requires Docker Desktop)
   curl -fsSL https://raw.githubusercontent.com/logto-io/logto/HEAD/docker-compose.yml | \
   docker compose -p logto -f - up
 
-  # Using Node.js (requires PostgreSQL)
+# Using Node.js (requires PostgreSQL)
+ >>>>>>> master
   npm init @logto
   ```
 
