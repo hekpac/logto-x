@@ -9,7 +9,7 @@ import {
   type NewSubscriptionCountBasedUsage,
 } from '@/cloud/types/router';
 import { defaultRegionName } from '@/components/Region';
-import { LogtoSkuType } from '@/types/skus';
+import { LogtoSkuType } from '@logto/cloud-models';
 
 import { adminEndpoint, isCloud } from './env';
 

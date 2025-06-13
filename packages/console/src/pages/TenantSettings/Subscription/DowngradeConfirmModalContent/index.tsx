@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { type LogtoSkuResponse } from '@/cloud/types/router';
 import SkuName from '@/components/SkuName';
 import { comingSoonSkuQuotaKeys } from '@/consts/plan-quotas';
-import { type LogtoSkuQuota, type LogtoSkuQuotaEntries } from '@/types/skus';
+import { type LogtoSkuQuota, type LogtoSkuQuotaEntries } from '@logto/cloud-models';
 
 import PlanQuotaDiffCard from './PlanQuotaDiffCard';
 import styles from './index.module.scss';
