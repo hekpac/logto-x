@@ -1,37 +1,37 @@
-import {
-  type AccountCenter,
-  AccountCenters,
-  type AccountCenterKeys,
-  type CreateAccountCenter,
-} from '@logto/schemas';
-import { type CommonQueryMethods } from '@silverhand/slonik';
+import type { AccountCenter } from '@logto/schemas';
+import mongoose from 'mongoose';
 
-import { type WellKnownCache } from '../caches/well-known.js';
-import SchemaQueries from '../utils/SchemaQueries.js';
+import type { WellKnownCache } from '../caches/well-known.js';
+import MongoSchemaQueries from '../database/mongo-schema-queries.js';
 
-const id = 'default';
+const AccountCenterSchema = new mongoose.Schema<AccountCenter>({
+  id: { type: String, required: true, unique: true },
+  displayName: String,
+  logoUri: String,
+  primaryColor: String,
+});
 
-export class AccountCenterQueries extends SchemaQueries<
-  AccountCenterKeys,
-  CreateAccountCenter,
-  AccountCenter
-> {
+const AccountCenterModel = mongoose.models.AccountCenter ||
+  mongoose.model<AccountCenter>('AccountCenter', AccountCenterSchema);
+
+const DEFAULT_ID = 'default';
+
+export class AccountCenterQueries extends MongoSchemaQueries<AccountCenter> {
   public readonly findDefaultAccountCenter = this.wellKnownCache.memoize(
-    // eslint-disable-next-line unicorn/consistent-function-scoping
-    async () => this.findById(id),
+    async () => this.findById(DEFAULT_ID),
     ['account-center']
   );
 
   public readonly updateDefaultAccountCenter = this.wellKnownCache.mutate(
-    // eslint-disable-next-line unicorn/consistent-function-scoping
-    async (accountCenter: Partial<AccountCenter>) => this.updateById(id, accountCenter, 'replace'),
+    async (accountCenter: Partial<AccountCenter>) =>
+      this.updateById(DEFAULT_ID, accountCenter),
     ['account-center']
   );
 
-  constructor(
-    public readonly pool: CommonQueryMethods,
-    public readonly wellKnownCache: WellKnownCache
-  ) {
-    super(pool, AccountCenters);
+  constructor(public readonly wellKnownCache: WellKnownCache) {
+    super(AccountCenterModel);
   }
 }
+
+export const createAccountCenterQueries = (wellKnownCache: WellKnownCache) =>
+  new AccountCenterQueries(wellKnownCache);

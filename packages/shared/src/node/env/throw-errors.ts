@@ -7,11 +7,11 @@ export const throwNotLoadedError = () => {
 };
 
 export const throwErrorWithDsnMessage = (error: unknown) => {
-  const key = 'DB_URL';
+  const key = 'MONGODB_URI';
 
   if (error instanceof Error && error.message === `env variable ${key} not found`) {
     console.error(
-      `${chalk.red('[error]')} No Postgres DSN (${chalk.green(key)}) found in env variables.\n\n` +
+      `${chalk.red('[error]')} No MongoDB connection string (${chalk.green(key)}) found in env variables.\n\n` +
         `  Either provide it in your env, or add it to the ${chalk.blue(
           '.env'
         )} file in the Logto project root.\n\n` +

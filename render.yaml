@@ -14,7 +14,7 @@ services:
         value: 0
       - key: ALL_YES
         value: 1
-      - key: DB_URL_DEFAULT
+      - key: MONGODB_URI_DEFAULT
         fromDatabase:
           name: logto-database
           property: connectionString

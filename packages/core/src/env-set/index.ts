@@ -48,7 +48,7 @@ export class EnvSet {
 
   constructor(
     public readonly tenantId: string,
-    public readonly databaseUrl: string
+    public readonly mongodbUri: string
   ) {}
 
   get pool() {
@@ -77,7 +77,7 @@ export class EnvSet {
 
   async load(customDomain?: string) {
     const pool = await createPoolByEnv(
-      this.databaseUrl,
+      this.mongodbUri,
       EnvSet.values.isUnitTest,
       EnvSet.values.databasePoolSize,
       EnvSet.values.databaseConnectionTimeout

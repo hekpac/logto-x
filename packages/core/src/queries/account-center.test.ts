@@ -4,11 +4,11 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { type AccountCenter } from '@logto/schemas';
 
 import { WellKnownCache } from '../caches/well-known.js';
-import { AccountCenterMongoQueries } from './account-center.mongo.js';
+import { AccountCenterQueries } from './account-center.js';
 
 const DEFAULT_ID = 'default';
 
-describe('AccountCenterMongoQueries', () => {
+describe('AccountCenterQueries', () => {
   let server: MongoMemoryServer;
 
   beforeAll(async () => {
@@ -23,7 +23,7 @@ describe('AccountCenterMongoQueries', () => {
 
   it('should insert and fetch the default account center', async () => {
     const cache = new WellKnownCache('t1', new Map());
-    const queries = new AccountCenterMongoQueries(cache);
+    const queries = new AccountCenterQueries(cache);
     await queries.insert({ id: DEFAULT_ID } as AccountCenter);
 
     const result = await queries.findDefaultAccountCenter();
