@@ -124,7 +124,11 @@ function CopyToClipboard(
             </IconButton>
           </Tooltip>
         )}
-        <Tooltip isSuccessful={copyState === 'copied'} content={t(copyState)}>
+        <Tooltip
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+          anchorClassName={styles.copyToolTipAnchor}
+        >
           <IconButton
             ref={copyIconReference}
             className={styles.iconButton}
