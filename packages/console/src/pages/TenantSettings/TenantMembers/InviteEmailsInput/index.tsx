@@ -1,4 +1,8 @@
 import { generateStandardShortId } from '@logto/shared/universal';
+ <<<<<<< gwbyv4-codex/reemplazar-componente-de-email-con-multioptioninput
+import classNames from 'classnames';
+import { useCallback } from 'react';
+=======
  <<<<<<< codex/sustituir-componente-email-por-multioptioninput
 import { conditional } from '@silverhand/essentials';
 =======
@@ -12,6 +16,7 @@ import { conditional } from '@silverhand/essentials';
 =======
 import { conditional } from '@silverhand/essentials';
 import { useCallback } from 'react';
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
@@ -54,6 +59,35 @@ function InviteEmailsInput({
   parseEmailOptions,
 }: Props) {
   const { setError, clearErrors } = useFormContext();
+ <<<<<<< gwbyv4-codex/reemplazar-componente-de-email-con-multioptioninput
+
+  const onChange = useCallback(
+    (inputValues: InviteeEmailItem[]) => {
+      const { values: parsedValues, errorMessage } = parseEmailOptions(inputValues);
+
+      if (errorMessage) {
+        setError(formName, { type: 'custom', message: errorMessage });
+      } else {
+        clearErrors(formName);
+      }
+
+      rawOnChange(parsedValues);
+    },
+    [parseEmailOptions, rawOnChange, formName, setError, clearErrors]
+  );
+
+  return (
+    <MultiOptionInput<InviteeEmailItem>
+      className={classNames(styles.input, className)}
+      values={values}
+      getId={(value) => value.id}
+      renderValue={(value) => value.value}
+      valueClassName={(value) => value.status && styles[value.status]}
+      validateInput={(input) => ({ value: { id: generateStandardShortId(), value: input } })}
+      placeholder={placeholder}
+      error={error}
+      onChange={onChange}
+=======
  <<<<<<< codex/sustituir-componente-email-por-multioptioninput
 
   const handleChange = (newValues: InviteeEmailItem[]) => {
@@ -221,6 +255,7 @@ function InviteEmailsInput({
 =======
       validateInput={validateInput}
       error={error}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
