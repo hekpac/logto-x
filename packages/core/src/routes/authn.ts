@@ -275,6 +275,8 @@ export default function authnRoutes<T extends AnonymousRouter>(
         return;
       }
 
+ <<<<<<< codex/eliminar-bloque-de-comprobación-jti
+=======
       assertThat(
         jti,
         new RequestError({
@@ -283,6 +285,7 @@ export default function authnRoutes<T extends AnonymousRouter>(
         })
       );
 
+ >>>>>>> master
       // Retrieve the single sign on session data using the jti
       const singleSignOnSession = await getSingleSignOnSessionResultByJti(jti, provider);
       const { redirectUri, state, connectorId: sessionConnectorId } = singleSignOnSession;
