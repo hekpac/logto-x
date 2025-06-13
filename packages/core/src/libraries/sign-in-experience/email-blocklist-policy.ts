@@ -66,8 +66,23 @@ const disposableEmailDomainValidationResponseGuard = z.object({
 });
 
 const validateDisposableEmailDomain = async (email: string) => {
-  // TODO: Skip the validation for integration test for now
-  if (EnvSet.values.isIntegrationTest || EnvSet.values.isUnitTest) {
+  if (EnvSet.values.isUnitTest) {
+    return;
+  }
+
+  if (EnvSet.values.isIntegrationTest) {
+    const { mockDisposableEmailDomains } = await import(
+      '#src/__mocks__/disposable-email-domain.js'
+    );
+    const domain = email.split('@')[1];
+    assertThat(
+      !mockDisposableEmailDomains.includes(domain),
+      new RequestError({
+        code: 'session.email_blocklist.email_not_allowed',
+        status: 422,
+        email,
+      })
+    );
     return;
   }
 
