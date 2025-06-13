@@ -32,7 +32,10 @@ function CaptchaContent({ isDeleted, captchaProvider, onUpdate }: Props) {
     register,
   } = useForm<CaptchaFormType>({
     reValidateMode: 'onBlur',
-    defaultValues: captchaProvider.config,
+    defaultValues: {
+      ...captchaProvider.config,
+      scoreThreshold: captchaProvider.config.scoreThreshold ?? 0.5,
+    },
   });
 
   useEffect(() => {
