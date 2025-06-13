@@ -61,7 +61,6 @@
     "@vitejs/plugin-react": "^4.3.1",
     "@withtyped/client": "^0.8.8",
     "classnames": "^2.3.1",
-    "clean-deep": "^3.4.0",
     "date-fns": "^2.29.3",
     "dayjs": "^1.10.5",
     "debug": "^4.3.4",

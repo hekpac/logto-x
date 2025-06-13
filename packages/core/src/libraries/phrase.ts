@@ -1,7 +1,7 @@
 import type { LocalePhrase } from '@logto/phrases-experience';
 import resource, { isBuiltInLanguageTag } from '@logto/phrases-experience';
 import { trySafe } from '@silverhand/essentials';
-import cleanDeep from 'clean-deep';
+import { cleanDeep } from '@logto/shared';
 import deepmerge from 'deepmerge';
 
 import type Queries from '#src/tenants/Queries.js';
