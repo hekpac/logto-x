@@ -126,11 +126,14 @@ export enum LogtoTenantConfigKey {
   CloudConnection = 'cloudConnection',
   /** The URL to redirect when session not found in Sign-in Experience. */
   SessionNotFoundRedirectUrl = 'sessionNotFoundRedirectUrl',
+  /** Verification record expiration time in seconds */
+  VerificationRecordExpiresIn = 'verificationRecordExpiresIn',
 }
 export type LogtoTenantConfigType = {
   [LogtoTenantConfigKey.AdminConsole]: AdminConsoleData;
   [LogtoTenantConfigKey.CloudConnection]: CloudConnectionData;
   [LogtoTenantConfigKey.SessionNotFoundRedirectUrl]: { url: string };
+  [LogtoTenantConfigKey.VerificationRecordExpiresIn]: { seconds: number };
 };
 
 export const logtoTenantConfigGuard: Readonly<{
@@ -139,6 +142,9 @@ export const logtoTenantConfigGuard: Readonly<{
   [LogtoTenantConfigKey.AdminConsole]: adminConsoleDataGuard,
   [LogtoTenantConfigKey.CloudConnection]: cloudConnectionDataGuard,
   [LogtoTenantConfigKey.SessionNotFoundRedirectUrl]: z.object({ url: z.string() }),
+  [LogtoTenantConfigKey.VerificationRecordExpiresIn]: z.object({
+    seconds: z.number().min(1),
+  }),
 });
 
 /* --- Summary --- */

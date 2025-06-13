@@ -38,3 +38,17 @@ export const createCloudConnectionConfig = (
       resource: cloudApiIndicator,
     },
   } satisfies CreateLogtoConfig);
+
+export const createVerificationRecordExpiresInConfig = (
+  forTenantId: string,
+  seconds: number
+): Readonly<{
+  tenantId: string;
+  key: LogtoTenantConfigKey;
+  value: { seconds: number };
+}> =>
+  Object.freeze({
+    tenantId: forTenantId,
+    key: LogtoTenantConfigKey.VerificationRecordExpiresIn,
+    value: { seconds },
+  } satisfies CreateLogtoConfig);

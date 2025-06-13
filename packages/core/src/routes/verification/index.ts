@@ -9,8 +9,11 @@ import {
   verificationCodeIdentifierGuard,
   VerificationType,
   webAuthnRegistrationOptionsGuard,
+  LogtoTenantConfigKey,
+  logtoTenantConfigGuard,
 } from '@logto/schemas';
 import { z } from 'zod';
+import { trySafe } from '@silverhand/essentials';
 
 import koaGuard from '#src/middleware/koa-guard.js';
 
@@ -33,6 +36,20 @@ export default function verificationRoutes<T extends UserRouter>(
   ...[router, tenantContext]: RouterInitArgs<T>
 ) {
   const { queries, libraries, sentinel } = tenantContext;
+
+  const getExpirationInSeconds = async () => {
+    const {
+      rows: [config],
+    } = await queries.logtoConfigs.getRowsByKeys([
+      LogtoTenantConfigKey.VerificationRecordExpiresIn,
+    ]);
+
+    const parsed = trySafe(() =>
+      logtoTenantConfigGuard.verificationRecordExpiresIn.parse(config?.value)
+    );
+
+    return parsed?.seconds ?? EnvSet.values.verificationRecordExpiresIn;
+  };
 
   router.post(
     `${verificationApiPrefix}/password`,
@@ -65,7 +82,13 @@ export default function verificationRoutes<T extends UserRouter>(
         passwordVerification.verify(password)
       );
 
-      const { expiresAt } = await insertVerificationRecord(passwordVerification, queries, userId);
+      const expiresIn = await getExpirationInSeconds();
+      const { expiresAt } = await insertVerificationRecord(
+        passwordVerification,
+        queries,
+        expiresIn,
+        userId
+      );
 
       ctx.body = {
         verificationRecordId: passwordVerification.id,
@@ -113,9 +136,11 @@ export default function verificationRoutes<T extends UserRouter>(
         ...emailContextPayload,
       });
 
+      const expiresIn = await getExpirationInSeconds();
       const { expiresAt } = await insertVerificationRecord(
         codeVerification,
         queries,
+        expiresIn,
         isNewIdentifier ? undefined : userId
       );
 
@@ -200,7 +225,12 @@ export default function verificationRoutes<T extends UserRouter>(
         'verificationRecord'
       );
 
-      const { expiresAt } = await insertVerificationRecord(socialVerification, queries);
+      const expiresIn = await getExpirationInSeconds();
+      const { expiresAt } = await insertVerificationRecord(
+        socialVerification,
+        queries,
+        expiresIn
+      );
 
       ctx.body = {
         verificationRecordId: socialVerification.id,
@@ -277,7 +307,13 @@ export default function verificationRoutes<T extends UserRouter>(
       const registrationOptions =
         await webAuthnVerification.generateWebAuthnRegistrationOptions(rpId);
 
-      const { expiresAt } = await insertVerificationRecord(webAuthnVerification, queries, userId);
+      const expiresIn = await getExpirationInSeconds();
+      const { expiresAt } = await insertVerificationRecord(
+        webAuthnVerification,
+        queries,
+        expiresIn,
+        userId
+      );
 
       ctx.body = {
         verificationRecordId: webAuthnVerification.id,
