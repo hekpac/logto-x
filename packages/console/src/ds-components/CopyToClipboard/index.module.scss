@@ -75,4 +75,10 @@
   .dot {
     -webkit-text-stroke: 1px var(--color-text);
   }
+
+  .copyToolTipAnchor {
+    display: flex;
+    align-items: center;
+    margin-inline-start: 0;
+  }
 }
