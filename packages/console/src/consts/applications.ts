@@ -10,10 +10,11 @@ import SinglePageAppDark from '@/assets/icons/single-page-app-dark.svg?react';
 import SinglePageApp from '@/assets/icons/single-page-app.svg?react';
 import TraditionalWebAppDark from '@/assets/icons/traditional-web-app-dark.svg?react';
 import TraditionalWebApp from '@/assets/icons/traditional-web-app.svg?react';
+import SamlAppDark from '@/assets/icons/saml-app-dark.svg?react';
+import SamlApp from '@/assets/icons/saml-app.svg?react';
 
 type ApplicationIconMap = {
-  // TODO: @darcy Add SAML icon when we support SAML application in console
-  [key in Exclude<ApplicationType, ApplicationType.SAML>]: SvgComponent;
+  [key in ApplicationType]: SvgComponent;
 };
 
 export const lightModeApplicationIconMap: ApplicationIconMap = Object.freeze({
@@ -22,6 +23,7 @@ export const lightModeApplicationIconMap: ApplicationIconMap = Object.freeze({
   [ApplicationType.Traditional]: TraditionalWebApp,
   [ApplicationType.MachineToMachine]: MachineToMachine,
   [ApplicationType.Protected]: ProtectedApp,
+  [ApplicationType.SAML]: SamlApp,
 } as const);
 
 export const darkModeApplicationIconMap: ApplicationIconMap = Object.freeze({
@@ -30,6 +32,7 @@ export const darkModeApplicationIconMap: ApplicationIconMap = Object.freeze({
   [ApplicationType.Traditional]: TraditionalWebAppDark,
   [ApplicationType.MachineToMachine]: MachineToMachineDark,
   [ApplicationType.Protected]: ProtectedAppDark,
+  [ApplicationType.SAML]: SamlAppDark,
 } as const);
 
 export { default as thirdPartyApplicationIconDark } from '@/assets/icons/third-party-app-dark.svg?react';

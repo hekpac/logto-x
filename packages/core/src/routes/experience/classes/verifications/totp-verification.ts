@@ -118,7 +118,7 @@ export class TotpVerification implements MfaVerificationRecord<VerificationType.
    */
   async verifyUserExistingTotp(code: string) {
     const {
-      users: { findUserById, updateUserById },
+      users: { findUserById, patchUserMfaVerificationById },
     } = this.queries;
 
     const { mfaVerifications } = await findUserById(this.userId);
@@ -134,17 +134,8 @@ export class TotpVerification implements MfaVerificationRecord<VerificationType.
     this.verified = true;
 
     // Update last used time
-    await updateUserById(this.userId, {
-      mfaVerifications: mfaVerifications.map((mfa) => {
-        if (mfa.id !== totpVerification.id) {
-          return mfa;
-        }
-
-        return {
-          ...mfa,
-          lastUsedAt: new Date().toISOString(),
-        };
-      }),
+    await patchUserMfaVerificationById(this.userId, totpVerification.id, {
+      lastUsedAt: new Date().toISOString(),
     });
   }
 

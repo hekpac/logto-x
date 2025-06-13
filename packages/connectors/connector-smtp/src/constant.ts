@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'simple-mail-transfer-protocol',
   target: 'smtp',
-  platform: null,
   name: {
     en: 'SMTP',
     'zh-CN': 'SMTP',

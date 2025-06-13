@@ -7,7 +7,7 @@ import {
   type LocalePhraseKey,
 } from '@logto/phrases-experience/lib/types';
 import type { SignInExperience, Translation } from '@logto/schemas';
-import cleanDeep from 'clean-deep';
+import { cleanDeep } from '@logto/shared/universal';
 import deepmerge from 'deepmerge';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';

@@ -25,12 +25,15 @@ const errorUris: Record<string, string> = Object.freeze({
  *
  * @see {@link https://github.com/panva/node-oidc-provider/blob/37d0a6cfb3c618141a44cbb904ce45659438f821/lib/helpers/err_out.js | oidc-provider/lib/helpers/err_out.js}
  */
-export const errorOut = ({
-  expose,
-  message,
-  error_description: description,
-  ...rest
-}: errors.OIDCProviderError) => {
+export const errorOut = (
+  {
+    expose,
+    message,
+    error_description: description,
+    ...rest
+  }: errors.OIDCProviderError,
+  i18n: WithI18nContext['i18n']
+) => {
   if (expose) {
     return {
       error: message,
@@ -43,7 +46,7 @@ export const errorOut = ({
 
   return {
     error: 'server_error',
-    error_description: 'oops! something went wrong',
+    error_description: i18n.t('errors:oidc.server_error'),
   };
 };
 
@@ -98,7 +101,7 @@ export default function koaOidcErrorHandler<StateT, ContextT extends WithI18nCon
       // Mimic oidc-provider's error handling, thus we can use the unified logic below.
       // See https://github.com/panva/node-oidc-provider/blob/37d0a6cfb3c618141a44cbb904ce45659438f821/lib/shared/error_handler.js
       ctx.status = error.statusCode || 500;
-      ctx.body = errorOut(error);
+      ctx.body = errorOut(error, ctx.i18n);
 
       // Track the original error in App Insights.
       void appInsights.trackException(error, buildAppInsightsTelemetry(ctx));

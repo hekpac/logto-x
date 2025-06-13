@@ -10,7 +10,7 @@ import { isCloud } from '@/consts/env';
 import TenantAccess from '@/containers/TenantAccess';
 // eslint-disable-next-line unused-imports/no-unused-imports -- for jsDoc use
 import type { SubscriptionDataContext } from '@/contexts/SubscriptionDataProvider';
-import { LogtoSkuType } from '@/types/skus';
+import { LogtoSkuType } from '@logto/cloud-models';
 import { formatLogtoSkusResponses } from '@/utils/subscription';
 
 /**

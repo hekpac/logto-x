@@ -8,7 +8,7 @@ export const mockGetCloudConnectionData: CloudConnectionLibrary['getCloudConnect
     resource: 'https://logto.dev',
     appId: 'appId',
     appSecret: 'appSecret',
-    endpoint: 'https://logto.dev/api',
+    endpoint: 'https://logto.dev',
     tokenEndpoint: 'https://logto.dev/oidc/token',
   });
 
@@ -38,7 +38,6 @@ export const mockQuota = {
   idpInitiatedSsoEnabled: false,
   samlApplicationsLimit: 0,
   securityFeaturesEnabled: false,
-  captchaEnabled: false,
 };
 
 export const mockSubscriptionData: Subscription = {

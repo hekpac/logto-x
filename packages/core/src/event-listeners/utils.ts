@@ -8,7 +8,7 @@ export const extractInteractionContext = (
   ctx: IRouterParamContext & KoaContextWithOIDC & WithAppSecretContext
 ): LogPayload => {
   const {
-    entities: { Account, Session, Client, Interaction },
+    entities: { Account, Session, Client, Interaction, AccessToken, RefreshToken },
     params,
   } = ctx.oidc;
 
@@ -17,7 +17,7 @@ export const extractInteractionContext = (
     applicationSecret: ctx.appSecret,
     sessionId: Session?.jti,
     interactionId: Interaction?.jti,
-    userId: Account?.accountId,
+    userId: Account?.accountId ?? AccessToken?.accountId ?? RefreshToken?.accountId,
     params,
   };
 };

@@ -6,7 +6,6 @@ export const endpoint = `https://gate.smsaero.ru/v2/sms/send`;
 export const defaultMetadata: ConnectorMetadata = {
   id: 'smsaero-short-message-service',
   target: 'smsaero-sms',
-  platform: null,
   name: {
     en: 'SMS Aero service',
   },
@@ -29,6 +28,7 @@ export const defaultMetadata: ConnectorMetadata = {
       label: 'API Key',
       type: ConnectorConfigFormItemType.Text,
       required: true,
+      isConfidential: true,
       placeholder: '<api-key>',
     },
     {

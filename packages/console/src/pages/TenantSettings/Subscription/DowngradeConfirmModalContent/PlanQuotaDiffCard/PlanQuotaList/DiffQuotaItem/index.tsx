@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import DescendArrow from '@/assets/icons/descend-arrow.svg?react';
 import Failed from '@/assets/icons/failed.svg?react';
-import { type LogtoSkuQuota } from '@/types/skus';
+import { type LogtoSkuQuota } from '@logto/cloud-models';
 
 import SkuQuotaItemPhrase from './SkuQuotaItemPhrase';
 import styles from './index.module.scss';

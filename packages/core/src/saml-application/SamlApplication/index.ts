@@ -1,15 +1,12 @@
 /* eslint-disable max-lines */
-// TODO: refactor this file to reduce LOC
 import { parseJson } from '@logto/connector-kit';
-import { userClaims, type UserClaim, UserScope, ReservedScope } from '@logto/core-kit';
+
 import { Prompt, QueryKey } from '@logto/js';
 import {
   type SamlAcsUrl,
   BindingType,
   NameIdFormat,
-  type SamlAttributeMapping,
 } from '@logto/schemas';
-import { generateStandardId } from '@logto/shared';
 import { cond, tryThat, type Nullable, type Optional } from '@silverhand/essentials';
 import camelcaseKeys, { type CamelCaseKeys } from 'camelcase-keys';
 import { XMLValidator } from 'fast-xml-parser';
@@ -35,17 +32,13 @@ import {
 } from '#src/sso/types/oidc.js';
 import assertThat from '#src/utils/assert-that.js';
 
+import { getSamlAppCallbackUrl } from './utils.js';
+import SamlApplicationConfig from './config.js';
 import {
-  samlLogInResponseTemplate,
-  samlAttributeNameFormatBasic,
-  samlValueXmlnsXsi,
-  fallbackAttributes,
-} from './consts.js';
-import {
-  buildSamlAssertionNameId,
-  getSamlAppCallbackUrl,
-  generateSamlAttributeTag,
-} from './utils.js';
+  createSamlTemplateCallback,
+  buildLoginResponseTemplate,
+  getScopesFromAttributeMapping,
+} from './attribute-utils.js';
 
 type SamlIdentityProviderConfig = {
   entityId: string;
@@ -62,73 +55,6 @@ type SamlServiceProviderConfig = {
   certificate?: string;
 };
 
-class SamlApplicationConfig {
-  constructor(
-    private readonly _details: SamlApplicationDetails,
-    private readonly _endpoint: URL
-  ) {}
-
-  /**
-   * Apply custom domain to `entityId` or `redirectUri` when applicable,
-   * no need to apply custom domain for `acsUrl` since this is not a Logto hosted
-   * endpoint.
-   */
-  private normalizeUrlHost(url: string): string {
-    try {
-      const parsedUrl = new URL(url);
-      if (parsedUrl.host !== this._endpoint.host) {
-        // eslint-disable-next-line @silverhand/fp/no-mutation
-        parsedUrl.host = this._endpoint.host;
-        return parsedUrl.toString();
-      }
-      return url;
-    } catch {
-      // If the URL is invalid or not a URL at all, return original
-      return url;
-    }
-  }
-
-  public get secret() {
-    return this._details.secret;
-  }
-
-  public get spEntityId() {
-    assertThat(this._details.entityId, 'application.saml.entity_id_required');
-    return this._details.entityId;
-  }
-
-  public get acsUrl() {
-    assertThat(this._details.acsUrl, 'application.saml.acs_url_required');
-    return this._details.acsUrl;
-  }
-
-  public get redirectUri() {
-    assertThat(this._details.oidcClientMetadata.redirectUris[0], 'oidc.invalid_redirect_uri');
-    return this.normalizeUrlHost(this._details.oidcClientMetadata.redirectUris[0]);
-  }
-
-  public get privateKey() {
-    assertThat(this._details.privateKey, 'application.saml.private_key_required');
-    return this._details.privateKey;
-  }
-
-  public get certificate() {
-    assertThat(this._details.certificate, 'application.saml.certificate_required');
-    return this._details.certificate;
-  }
-
-  public get nameIdFormat() {
-    return this._details.nameIdFormat;
-  }
-
-  public get encryption() {
-    return this._details.encryption;
-  }
-
-  public get attributeMapping() {
-    return this._details.attributeMapping;
-  }
-}
 
 export class SamlApplication {
   public config: SamlApplicationConfig;
@@ -194,15 +120,21 @@ export class SamlApplication {
     sessionId: Optional<string>;
     sessionExpiresAt: Optional<string>;
   }): Promise<{ context: string; entityEndpoint: string }> => {
-    // TODO: fix binding method
+    const bindingMethod = this.config.acsUrl.binding === BindingType.Post ? 'post' : 'redirect';
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { context, entityEndpoint } = await this.idp.createLoginResponse(
       this.sp,
       // @ts-expect-error --fix request object later
       null,
-      'post',
+      bindingMethod,
       userInfo,
-      this.createSamlTemplateCallback({ userInfo, samlRequestId, sessionId, sessionExpiresAt }),
+      createSamlTemplateCallback(this.sp, this.idp, this.config.attributeMapping, {
+        userInfo,
+        samlRequestId: samlRequestId ?? null,
+        sessionId,
+        sessionExpiresAt,
+      }),
       this.config.encryption?.encryptThenSign,
       relayState ?? undefined
     );
@@ -237,7 +169,7 @@ export class SamlApplication {
     queryParameters.append(
       QueryKey.Scope,
       // For security reasons, DO NOT include the offline_access scope by default.
-      this.getScopesFromAttributeMapping().join(' ')
+      getScopesFromAttributeMapping(this.config.nameIdFormat, this.config.attributeMapping).join(' ')
     );
 
     if (state) {
@@ -272,7 +204,7 @@ export class SamlApplication {
       ],
       privateKey,
       isAssertionEncrypted: encryptSamlAssertion,
-      loginResponseTemplate: this.buildLoginResponseTemplate(),
+      loginResponseTemplate: buildLoginResponseTemplate(this.config.attributeMapping),
       nameIDFormat: [nameIdFormat],
     });
   };
@@ -367,156 +299,9 @@ export class SamlApplication {
     return result.data;
   };
 
-  // Get required scopes based on attribute mapping configuration
-  protected getScopesFromAttributeMapping = (): Array<UserScope | ReservedScope> => {
-    const requiredScopes = new Set<UserScope | ReservedScope>();
 
-    // Add default scopes.
-    requiredScopes.add(ReservedScope.OpenId);
-    requiredScopes.add(UserScope.Profile);
 
-    if (this.config.nameIdFormat === NameIdFormat.EmailAddress) {
-      requiredScopes.add(UserScope.Email);
-    }
 
-    // If no attribute mapping, return empty array
-    if (Object.keys(this.config.attributeMapping).length === 0) {
-      return Array.from(requiredScopes);
-    }
-
-    // Iterate through all claims in attribute mapping
-    // eslint-disable-next-line no-restricted-syntax
-    for (const claim of Object.keys(this.config.attributeMapping) as Array<
-      keyof SamlAttributeMapping
-    >) {
-      // Ignore `sub` claim since this will always be included.
-      if (claim === 'sub') {
-        continue;
-      }
-
-      // Find which scope includes this claim
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [scope, claims] of Object.entries(userClaims) as Array<[UserScope, UserClaim[]]>) {
-        if (claims.includes(claim)) {
-          requiredScopes.add(scope);
-          break;
-        }
-      }
-    }
-
-    return Array.from(requiredScopes);
-  };
-
-  protected createSamlTemplateCallback =
-    ({
-      userInfo,
-      samlRequestId,
-      sessionId,
-      sessionExpiresAt,
-    }: {
-      userInfo: IdTokenProfileStandardClaims;
-      samlRequestId: Nullable<string>;
-      sessionId: Optional<string>;
-      sessionExpiresAt: Optional<string>;
-    }) =>
-    (template: string) => {
-      const assertionConsumerServiceUrl = this.sp.entityMeta.getAssertionConsumerService(
-        saml.Constants.wording.binding.post
-      );
-
-      const { nameIDFormat } = this.idp.entitySetting;
-      assertThat(nameIDFormat, 'application.saml.name_id_format_required');
-      const { NameIDFormat, NameID } = buildSamlAssertionNameId(userInfo, nameIDFormat);
-
-      const id = `ID_${generateStandardId()}`;
-      const now = new Date();
-      const expireAt = new Date(now.getTime() + 10 * 60 * 1000); // 10 minutes later
-
-      const tagValues = {
-        ID: id,
-        AssertionID: `ID_${generateStandardId()}`,
-        Destination: assertionConsumerServiceUrl,
-        Audience: this.sp.entityMeta.getEntityID(),
-        EntityID: this.sp.entityMeta.getEntityID(),
-        SubjectRecipient: assertionConsumerServiceUrl,
-        Issuer: this.idp.entityMeta.getEntityID(),
-        IssueInstant: now.toISOString(),
-        AssertionConsumerServiceURL: assertionConsumerServiceUrl,
-        StatusCode: saml.Constants.StatusCode.Success,
-        ConditionsNotBefore: now.toISOString(),
-        ConditionsNotOnOrAfter: expireAt.toISOString(),
-        SubjectConfirmationDataNotOnOrAfter: expireAt.toISOString(),
-        NameIDFormat,
-        NameID,
-        InResponseTo: samlRequestId ?? 'null',
-        ...this.buildSamlAttributesTagValues(userInfo),
-        // Since we currently does not distinguish the way user used to pass authentication, we set the default AuthnContextClassRef to passwordProtectedTransport.
-        AuthnContextClassRef:
-          saml.Constants.namespace.authnContextClassRef.passwordProtectedTransport,
-        SessionNotOnOrAfter: sessionExpiresAt ?? '',
-        SessionIndex: sessionId ?? '',
-      };
-
-      const context = saml.SamlLib.replaceTagsByValue(template, tagValues);
-
-      return {
-        id,
-        context,
-      };
-    };
-
-  protected readonly buildLoginResponseTemplate = () => {
-    return {
-      context: samlLogInResponseTemplate,
-      attributes: (Object.entries(this.config.attributeMapping).length > 0
-        ? Object.values(this.config.attributeMapping)
-        : fallbackAttributes
-      ).map((value) => ({
-        name: value,
-        valueTag: value,
-        nameFormat: samlAttributeNameFormatBasic,
-        valueXsiType: samlValueXmlnsXsi.string,
-      })),
-    };
-  };
-
-  protected readonly buildSamlAttributesTagValues = (
-    userInfo: IdTokenProfileStandardClaims
-  ): Record<string, Nullable<string>> => {
-    return Object.entries(this.config.attributeMapping).length > 0
-      ? Object.fromEntries(
-          Object.entries(this.config.attributeMapping)
-            .map(([key, value]) => {
-              // eslint-disable-next-line no-restricted-syntax
-              return [value, userInfo[key as keyof IdTokenProfileStandardClaims] ?? null] as [
-                string,
-                unknown,
-              ];
-            })
-            .map(([key, value]) => [
-              generateSamlAttributeTag(key),
-              typeof value === 'object' ? JSON.stringify(value) : String(value),
-            ])
-        )
-      : /**
-         * User attributes for SAML response
-         *
-         * @todo Support custom attribute mapping
-         * @see {@link https://github.com/tngan/samlify/blob/master/src/libsaml.ts#L275-L300|samlify implementation}
-         *
-         * @remarks
-         * By examining the code provided in the link above, we can define all the attributes supported by the attribute mapping here. Only the attributes defined in the `loginResponseTemplate.attributes` added when creating the IdP instance will appear in the SAML response.
-         */
-        // Keep the `attrSub`, `attrEmail` and `attrName` attributes since attribute mapping can be empty.
-        Object.fromEntries(
-          fallbackAttributes.map((attribute) => [
-            generateSamlAttributeTag(attribute),
-            (typeof userInfo[attribute] === 'boolean'
-              ? String(userInfo[attribute])
-              : userInfo[attribute]) ?? null,
-          ])
-        );
-  };
 
   // Used to check whether xml content is valid in format.
   private setSchemaValidator() {

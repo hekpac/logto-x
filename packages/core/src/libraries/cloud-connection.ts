@@ -52,7 +52,7 @@ export class CloudConnectionLibrary {
     return {
       ...credentials,
       tokenEndpoint: appendPath(adminUrlSet.endpoint, 'oidc/token').toString(),
-      endpoint: appendPath(cloudUrlSet.endpoint, 'api').toString(),
+      endpoint: cloudUrlSet.endpoint.toString(),
     };
   };
 
@@ -114,8 +114,7 @@ export class CloudConnectionLibrary {
       const { endpoint } = await this.getCloudConnectionData();
 
       this.client = new Client<typeof router>({
-        // TODO @sijie @darcy remove the 'api' appending in getCloudConnectionData()
-        baseUrl: endpoint.replace('/api', ''),
+        baseUrl: endpoint,
         headers: async () => {
           return { Authorization: `Bearer ${await this.getAccessToken()}` };
         },

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { type OidcProviderConfig } from '@/pages/EnterpriseSsoDetails/types/oidc';
+import { type OidcProviderConfig } from '@logto/schemas';
 
 import styles from './index.module.scss';
 

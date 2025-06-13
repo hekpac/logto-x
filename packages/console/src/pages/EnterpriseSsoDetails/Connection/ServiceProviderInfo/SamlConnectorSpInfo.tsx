@@ -4,7 +4,7 @@ import CopyToClipboard from '@/ds-components/CopyToClipboard';
 import FormField from '@/ds-components/FormField';
 import useCustomDomain from '@/hooks/use-custom-domain';
 
-import { type SamlProviderConfig } from '../../types/saml';
+import { type SamlProviderConfig } from '@logto/schemas';
 
 type Props = {
   readonly samlProviderConfig?: SamlProviderConfig;
