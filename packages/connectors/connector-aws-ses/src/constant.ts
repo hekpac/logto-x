@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'aws-ses-mail',
   target: 'aws-ses',
-  platform: null,
   name: {
     en: 'AWS Direct Mail',
     'zh-CN': 'AWS邮件推送',

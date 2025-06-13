@@ -62,11 +62,10 @@
         &:active {
           background: var(--color-overlay-dark-bg-pressed);
         }
+ <<<<<<< f00w8s-codex/actualizar-estilo-de-copytoclipboard
 
-        // TODO (LOG-8602): Remove the default left margin of CopyToClipboard copyToolTipAnchor component.
-        div[class*='copyToolTipAnchor'] {
-          margin-inline-start: 0;
-        }
+=======
+ >>>>>>> master
       }
     }
   }

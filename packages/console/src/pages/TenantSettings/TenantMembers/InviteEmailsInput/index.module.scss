@@ -1,28 +1,27 @@
+ <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
 @use '@/scss/underscore' as _;
 
-.input {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  min-height: 102px;
-  padding: _.unit(1.5) _.unit(3);
-  background: var(--color-layer-1);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  outline: 3px solid transparent;
-  transition-property: outline, border;
-  transition-timing-function: ease-in-out;
-  transition-duration: 0.2s;
-  font: var(--font-body-2);
-  cursor: text;
-  position: relative;
+ <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
+=======
+// Additional styles for values in error state. Other styles come from
+// `MultiOptionInput` directly.
+
+ <<<<<<< codex/reemplazar-componente-de-correo-personalizado
+  .placeholder {
+    position: absolute;
+    inset: 0;
+    padding: _.unit(1.5) _.unit(3);
+    color: var(--color-placeholder);
+  }
 
   .wrapper {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: _.unit(2);
+    width: 100%;
 
     .tag {
       cursor: auto;
@@ -82,13 +81,16 @@
   }
 }
 
-canvas {
-  display: none;
-}
-
 .errorMessage {
   font: var(--font-body-2);
   color: var(--color-error);
   margin-top: _.unit(1);
   white-space: pre-wrap;
+=======
+=======
+ >>>>>>> master
+ >>>>>>> master
+.error {
+  background: var(--color-error-container);
+ >>>>>>> master
 }
