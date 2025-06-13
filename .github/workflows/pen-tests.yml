@@ -40,4 +40,13 @@ jobs:
           allow_issue_writing: false
           rules_file_name: ".zap/rules.conf"
 
-      # TODO: send slack message on failure
+      - name: Post failure details to Slack
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "Pen Tests workflow failed: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

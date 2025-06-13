@@ -150,6 +150,12 @@ If you find Logto helpful, here's how you can support us:
 - 🙋 [Open an issue](https://github.com/logto-io/logto/issues/new) to report bugs or suggest features.
 - 💻 [Contribute to Logto](./CONTRIBUTING.md) - we'd love your help! Check out [Logto awesome](https://github.com/logto-io/logto/blob/master/AWESOME.md) of community-contributed resources.
 
+## CI
+
+GitHub Actions workflows can send failure notifications to Slack. Configure the
+`SLACK_WEBHOOK_URL` repository secret with an incoming webhook URL to enable
+these alerts.
+
 ## Refactor Notes
 
 - [Tenant usage refactor](./docs-ref/tenant-usage-refactor.md)
