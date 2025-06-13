@@ -1,4 +1,4 @@
-import type { CommonQueryMethods } from '@silverhand/slonik';
+import type { MongoClient } from 'mongodb';
 
 import { type WellKnownCache } from '#src/caches/well-known.js';
 import { ApplicationSecretQueries } from '#src/queries/application-secrets.js';
@@ -86,7 +86,7 @@ export default class Queries {
   oidcSessionExtensions = new OidcSessionExtensionsQueries(this.pool);
 
   constructor(
-    public readonly pool: CommonQueryMethods,
+    public readonly pool: MongoClient,
     public readonly wellKnownCache: WellKnownCache
   ) {}
 }

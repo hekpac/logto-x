@@ -86,6 +86,16 @@ ENDPOINT=http://localhost:3001
 ADMIN_ENDPOINT=http://localhost:3002
 ```
 
+### Migrate from PostgreSQL
+
+If you are upgrading from an older release using PostgreSQL, run:
+
+```bash
+pnpm ts-node packages/core/src/migrations/postgres-to-mongo.ts
+```
+
+This will copy data from the `POSTGRES_URL` database to MongoDB.
+
 Seed initial data and start the development server:
 
 ```bash
