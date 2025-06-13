@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'aws-ses-mail',
   target: 'aws-ses',
-  platform: null,
   name: {
     en: 'AWS Direct Mail',
     'zh-CN': 'AWS邮件推送',
@@ -35,7 +34,8 @@ export const defaultMetadata: ConnectorMetadata = {
       label: 'Access Key Secret',
       type: ConnectorConfigFormItemType.Text,
       required: true,
-      placeholder: '<access-key-secret>',
+      isConfidential: true,
+placeholder: '<access-key-secret>',
     },
     {
       key: 'region',

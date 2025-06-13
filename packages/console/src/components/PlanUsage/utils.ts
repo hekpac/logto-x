@@ -1,17 +1,8 @@
 import { type TFuncKey } from 'i18next';
+import { useMemo } from 'react';
 
 import { type NewSubscriptionQuota } from '@/cloud/types/router';
-import {
-  resourceAddOnUnitPrice,
-  machineToMachineAddOnUnitPrice,
-  tenantMembersAddOnUnitPrice,
-  mfaAddOnUnitPrice,
-  enterpriseSsoAddOnUnitPrice,
-  organizationAddOnUnitPrice,
-  tokenAddOnUnitPrice,
-  hooksAddOnUnitPrice,
-  securityFeaturesAddOnUnitPrice,
-} from '@/consts/subscriptions';
+import useAddOnPricing from '@/hooks/use-add-on-pricing';
 
 export type UsageKey = Pick<
   NewSubscriptionQuota,
@@ -40,17 +31,24 @@ export const usageKeys: Array<keyof UsageKey> = [
   'securityFeaturesEnabled',
 ];
 
-export const usageKeyPriceMap: Record<keyof UsageKey, number> = {
-  mauLimit: 0,
-  organizationsLimit: organizationAddOnUnitPrice,
-  mfaEnabled: mfaAddOnUnitPrice,
-  enterpriseSsoLimit: enterpriseSsoAddOnUnitPrice,
-  resourcesLimit: resourceAddOnUnitPrice,
-  machineToMachineLimit: machineToMachineAddOnUnitPrice,
-  tenantMembersLimit: tenantMembersAddOnUnitPrice,
-  tokenLimit: tokenAddOnUnitPrice,
-  hooksLimit: hooksAddOnUnitPrice,
-  securityFeaturesEnabled: securityFeaturesAddOnUnitPrice,
+export const useUsageKeyPriceMap = (): Record<keyof UsageKey, number> => {
+  const { data } = useAddOnPricing();
+
+  return useMemo(
+    () => ({
+      mauLimit: 0,
+      organizationsLimit: data.organizationsLimit,
+      mfaEnabled: data.mfaEnabled,
+      enterpriseSsoLimit: data.enterpriseSsoLimit,
+      resourcesLimit: data.resourcesLimit,
+      machineToMachineLimit: data.machineToMachineLimit,
+      tenantMembersLimit: data.tenantMembersLimit,
+      tokenLimit: data.tokenLimit,
+      hooksLimit: data.hooksLimit,
+      securityFeaturesEnabled: data.securityFeaturesEnabled,
+    }),
+    [data]
+  );
 };
 
 export const titleKeyMap: Record<

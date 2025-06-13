@@ -12,7 +12,7 @@ import { z } from 'zod';
 import { type SearchOptions } from '#src/database/utils.js';
 import { buildManagementApiContext } from '#src/libraries/hook/utils.js';
 import koaGuard from '#src/middleware/koa-guard.js';
-import { type WithHookContext } from '#src/middleware/koa-management-api-hooks.js';
+import { type WithHookContext } from '#src/middleware/koa-api-hooks.js';
 import koaPagination from '#src/middleware/koa-pagination.js';
 
 import { type TwoRelationsQueries } from './RelationQueries.js';
@@ -383,7 +383,7 @@ export default class SchemaRouter<
           // @ts-expect-error -- `.omit()` doesn't play well with generics
           body: schema.createGuard.omit({ id: true }),
           response: entityGuard ?? schema.guard,
-          status: [201], // TODO: 409/422 for conflict?
+          status: [201, 422],
         }),
         this.#ensembleQualifiedMiddlewares('post'),
         async (ctx, next) => {
@@ -421,7 +421,7 @@ export default class SchemaRouter<
           params: z.object({ id: z.string().min(1) }),
           body: schema.updateGuard,
           response: entityGuard ?? schema.guard,
-          status: [200, 404], // TODO: 409/422 for conflict?
+          status: [200, 404, 422],
         }),
         this.#ensembleQualifiedMiddlewares('patch'),
         async (ctx, next) => {

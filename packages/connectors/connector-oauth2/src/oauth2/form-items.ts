@@ -31,6 +31,7 @@ export const clientSecretFormItem: ConnectorConfigFormItem = Object.freeze({
   label: 'Client Secret',
   type: ConnectorConfigFormItemType.Text,
   required: true,
+  isConfidential: true,
   placeholder: '<client-secret>',
 });
 

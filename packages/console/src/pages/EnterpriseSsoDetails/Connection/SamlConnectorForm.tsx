@@ -1,6 +1,6 @@
 import { type LogtoErrorCode } from '@logto/phrases';
 import { type RequestErrorBody } from '@logto/schemas';
-import cleanDeep from 'clean-deep';
+import { cleanDeep } from '@logto/shared/universal';
 import { HTTPError } from 'ky';
 import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -16,7 +16,7 @@ import {
   samlProviderConfigGuard,
   type SamlConnectorConfig,
   type SamlSsoConnectorWithProviderConfig,
-} from '@/pages/EnterpriseSsoDetails/types/saml';
+} from '@logto/schemas';
 import { trySubmitSafe } from '@/utils/form';
 
 import { invalidConfigErrorCode, invalidMetadataErrorCode } from '../config';

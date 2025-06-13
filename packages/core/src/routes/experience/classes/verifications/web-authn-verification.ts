@@ -15,11 +15,13 @@ import { type PublicKeyCredentialRequestOptionsJSON } from 'node_modules/@simple
 
 import { type WithLogContext } from '#src/middleware/koa-audit-log.js';
 import {
-  generateWebAuthnAuthenticationOptions,
-  generateWebAuthnRegistrationOptions,
   verifyWebAuthnAuthentication,
   verifyWebAuthnRegistration,
 } from '#src/routes/interaction/utils/webauthn.js';
+import {
+  generateWebAuthnAuthenticationOptions,
+  generateWebAuthnRegistrationOptions,
+} from '#src/routes/interaction/utils/webauthn-options.js';
 import type Libraries from '#src/tenants/Libraries.js';
 import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
@@ -214,19 +216,10 @@ export class WebAuthnVerification implements MfaVerificationRecord<VerificationT
     this.verified = true;
 
     // Update the counter and last used time
-    const { updateUserById } = this.queries.users;
-    await updateUserById(this.userId, {
-      mfaVerifications: mfaVerifications.map((mfa) => {
-        if (mfa.type !== MfaFactor.WebAuthn || mfa.id !== result.id) {
-          return mfa;
-        }
-
-        return {
-          ...mfa,
-          lastUsedAt: new Date().toISOString(),
-          ...conditional(newCounter !== undefined && { counter: newCounter }),
-        };
-      }),
+    const { patchUserMfaVerificationById } = this.queries.users;
+    await patchUserMfaVerificationById(this.userId, result.id, {
+      lastUsedAt: new Date().toISOString(),
+      ...conditional(newCounter !== undefined && { counter: newCounter }),
     });
   }
 

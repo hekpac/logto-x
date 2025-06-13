@@ -42,7 +42,9 @@ export const defaultMetadata: ConnectorMetadata = {
       key: 'clientSecret',
       label: 'Client Secret',
       required: true,
+
       type: ConnectorConfigFormItemType.Text,
+      isConfidential: true,
       placeholder: '<client-secret>',
     },
     {

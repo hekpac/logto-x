@@ -6,7 +6,6 @@ export const endpoint = 'https://api.twilio.com/2010-04-01/Accounts/{{accountSID
 export const defaultMetadata: ConnectorMetadata = {
   id: 'gatewayapi-sms',
   target: 'gatewayapi-sms',
-  platform: null,
   name: {
     en: 'GatewayAPI SMS Service',
   },

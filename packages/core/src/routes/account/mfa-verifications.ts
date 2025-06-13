@@ -22,7 +22,13 @@ export default function mfaVerificationsRoutes<T extends UserRouter>(
   ...[router, { queries, libraries }]: RouterInitArgs<T>
 ) {
   const {
-    users: { updateUserById, findUserById },
+    users: {
+      updateUserById,
+      findUserById,
+      addUserMfaVerification,
+      patchUserMfaVerificationById,
+      removeUserMfaVerificationById,
+    },
     signInExperiences: { findDefaultSignInExperience },
   } = queries;
 
@@ -93,8 +99,6 @@ export default function mfaVerificationsRoutes<T extends UserRouter>(
 
       const bindMfa = newVerificationRecord.toBindMfa();
 
-      const user = await findUserById(userId);
-
       // Check sign in experience, if webauthn is enabled
       const { mfa } = await findDefaultSignInExperience();
       assertThat(
@@ -102,16 +106,11 @@ export default function mfaVerificationsRoutes<T extends UserRouter>(
         new RequestError({ code: 'session.mfa.mfa_factor_not_enabled', status: 400 })
       );
 
-      const updatedUser = await updateUserById(userId, {
-        mfaVerifications: [
-          ...user.mfaVerifications,
-          {
-            ...bindMfa,
-            id: generateStandardId(),
-            createdAt: new Date().toISOString(),
-            name,
-          },
-        ],
+      const updatedUser = await addUserMfaVerification(userId, {
+        ...bindMfa,
+        id: generateStandardId(),
+        createdAt: new Date().toISOString(),
+        name,
       });
 
       ctx.appendDataHookContext('User.Data.Updated', { user: updatedUser });
@@ -160,13 +159,11 @@ export default function mfaVerificationsRoutes<T extends UserRouter>(
       );
       assertThat(mfaVerification, 'verification_record.not_found');
 
-      const updatedUser = await updateUserById(userId, {
-        mfaVerifications: user.mfaVerifications.map((mfaVerification) =>
-          mfaVerification.id === ctx.guard.params.verificationId
-            ? { ...mfaVerification, name }
-            : mfaVerification
-        ),
-      });
+      const updatedUser = await patchUserMfaVerificationById(
+        userId,
+        ctx.guard.params.verificationId,
+        { name }
+      );
 
       ctx.appendDataHookContext('User.Data.Updated', { user: updatedUser });
 
@@ -200,17 +197,15 @@ export default function mfaVerificationsRoutes<T extends UserRouter>(
         new RequestError({ code: 'auth.unauthorized', status: 401 })
       );
 
-      const user = await findUserById(userId);
-      const mfaVerification = user.mfaVerifications.find(
+      const mfaVerification = (await findUserById(userId)).mfaVerifications.find(
         (mfaVerification) => mfaVerification.id === ctx.guard.params.verificationId
       );
       assertThat(mfaVerification, 'verification_record.not_found');
 
-      const updatedUser = await updateUserById(userId, {
-        mfaVerifications: user.mfaVerifications.filter(
-          (mfaVerification) => mfaVerification.id !== ctx.guard.params.verificationId
-        ),
-      });
+      const updatedUser = await removeUserMfaVerificationById(
+        userId,
+        ctx.guard.params.verificationId
+      );
 
       ctx.appendDataHookContext('User.Data.Updated', { user: updatedUser });
 

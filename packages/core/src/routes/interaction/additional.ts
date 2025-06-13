@@ -41,7 +41,7 @@ import { sendVerificationCodeToIdentifier } from './utils/verification-code-vali
 import {
   generateWebAuthnAuthenticationOptions,
   generateWebAuthnRegistrationOptions,
-} from './utils/webauthn.js';
+} from './utils/webauthn-options.js';
 import { verifyIdentifier } from './verifications/index.js';
 import verifyProfile from './verifications/profile-verification.js';
 

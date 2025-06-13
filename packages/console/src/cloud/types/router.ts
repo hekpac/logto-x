@@ -23,13 +23,15 @@ export type NewSubscriptionUsageResponse = GuardedResponse<
 export type NewSubscriptionQuota = Omit<
   NewSubscriptionUsageResponse['quota'],
   // Since we are deprecation the `organizationsEnabled` key soon (use `organizationsLimit` instead), we exclude it from the quota keys for now to avoid confusion.
-  'organizationsEnabled'
+  | 'organizationsEnabled'
+  | 'captchaEnabled'
 >;
 
 export type NewSubscriptionCountBasedUsage = Omit<
   NewSubscriptionUsageResponse['usage'],
   // Since we are deprecation the `organizationsEnabled` key soon (use `organizationsLimit` instead), we exclude it from the usage keys for now to avoid confusion.
-  'organizationsEnabled'
+  | 'organizationsEnabled'
+  | 'captchaEnabled'
 >;
 export type NewSubscriptionResourceScopeUsage = NewSubscriptionUsageResponse['resources'];
 export type NewSubscriptionRoleScopeUsage = Omit<

@@ -16,6 +16,7 @@ import { legacyVerify } from '#src/utils/password.js';
 import type { OmitAutoSetFields } from '#src/utils/sql.js';
 
 import { convertBindMfaToMfaVerification, encryptUserPassword } from './user.utils.js';
+import { transpileUserProfileResponse } from '../utils/user.js';
 
 export type InsertUserResult = [User];
 
@@ -255,6 +256,15 @@ export const createUserLibrary = (queries: Queries) => {
   const findUserSsoIdentities = async (userId: string) =>
     userSsoIdentities.findUserSsoIdentitiesByUserId(userId);
 
+  const getUserInfo = async (userId: string) => {
+    const [user, ssoIdentities] = await Promise.all([
+      findUserById(userId),
+      findUserSsoIdentities(userId),
+    ]);
+
+    return transpileUserProfileResponse(user, { ssoIdentities });
+  };
+
   type ProvisionOrganizationsParams =
     | {
         /** The user ID to provision organizations for. */
@@ -336,6 +346,7 @@ export const createUserLibrary = (queries: Queries) => {
     verifyUserPassword,
     signOutUser,
     findUserSsoIdentities,
+    getUserInfo,
     provisionOrganizations,
   };
 };
