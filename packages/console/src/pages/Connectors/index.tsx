@@ -40,31 +40,17 @@ import ConnectorTypeColumn from './ConnectorTypeColumn';
 import Guide from './Guide';
 import SignInExperienceSetupNotice from './SignInExperienceSetupNotice';
 import styles from './index.module.scss';
+import {
+  connectorsPathname as basePathname,
+  getTabPathname,
+  buildCreatePathname,
+  buildGuidePathname,
+  buildDetailsPathname,
+  parseToConnectorType,
+} from './utils';
 
-const basePathname = '/connectors';
-const passwordlessPathname = `${basePathname}/${ConnectorsTabs.Passwordless}`;
-const socialPathname = `${basePathname}/${ConnectorsTabs.Social}`;
-
-const buildTabPathname = (connectorType: ConnectorType) =>
-  connectorType === ConnectorType.Social ? socialPathname : passwordlessPathname;
-
-const buildCreatePathname = (connectorType: ConnectorType) => {
-  const tabPath = buildTabPathname(connectorType);
-
-  return `${tabPath}/create/${connectorType}`;
-};
-
-const buildGuidePathname = (connectorType: ConnectorType, factoryId: string) => {
-  const tabPath = buildTabPathname(connectorType);
-
-  return `${tabPath}/guide/${factoryId}`;
-};
-
-const isConnectorType = (value: string): value is ConnectorType =>
-  Object.values<string>(ConnectorType).includes(value);
-
-const parseToConnectorType = (value?: string): ConnectorType | undefined =>
-  conditional(value && isConnectorType(value) && value);
+const passwordlessPathname = getTabPathname(ConnectorsTabs.Passwordless);
+const socialPathname = getTabPathname(ConnectorsTabs.Social);
 
 function Connectors() {
   const { tab = ConnectorsTabs.Passwordless, createType, factoryId } = useParams();
@@ -178,9 +164,7 @@ function Connectors() {
 
           const { type, id } = firstConnector;
 
-          navigate(
-            `${type === ConnectorType.Social ? socialPathname : passwordlessPathname}/${id}`
-          );
+          navigate(buildDetailsPathname(type, id));
         }}
         isLoading={isLoading}
         errorMessage={error?.body?.message ?? error?.message}
@@ -219,7 +203,7 @@ function Connectors() {
              */
             if (id === ServiceConnector.Email) {
               const created = await createConnector({ connectorId: id });
-              navigate(`/connectors/${ConnectorsTabs.Passwordless}/${created.id}`, {
+              navigate(buildDetailsPathname(ConnectorType.Email, created.id), {
                 replace: true,
               });
               return;
@@ -229,13 +213,13 @@ function Connectors() {
 
             return;
           }
-          navigate(`${basePathname}/${tab}`);
+          navigate(getTabPathname(tab as ConnectorsTabs));
         }}
       />
       <Guide
         connector={connectorToShowInGuide}
         onClose={() => {
-          navigate(`${basePathname}/${tab}`);
+          navigate(getTabPathname(tab as ConnectorsTabs));
         }}
       />
     </div>

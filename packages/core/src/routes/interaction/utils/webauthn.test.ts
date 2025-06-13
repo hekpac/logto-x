@@ -32,12 +32,9 @@ const {
     .mockResolvedValue({ verified: true, authenticationInfo: { newCounter: 1 } }),
 }));
 
-const {
-  generateWebAuthnRegistrationOptions,
-  verifyWebAuthnRegistration,
-  generateWebAuthnAuthenticationOptions,
-  verifyWebAuthnAuthentication,
-} = await import('./webauthn.js');
+const { generateWebAuthnRegistrationOptions, generateWebAuthnAuthenticationOptions } =
+  await import('./webauthn-options.js');
+const { verifyWebAuthnRegistration, verifyWebAuthnAuthentication } = await import('./webauthn.js');
 
 const rpId = 'logto.io';
 const origin = 'https://logto.io';

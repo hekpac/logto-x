@@ -1,6 +1,6 @@
 import { emailRegEx } from '@logto/core-kit';
 import { OneTimeTokens, oneTimeTokenStatusGuard } from '@logto/schemas';
-import { generateStandardId, generateStandardSecret } from '@logto/shared';
+import { generateRandomString, generateStandardId } from '@logto/shared';
 import { cond, trySafe } from '@silverhand/essentials';
 import { addSeconds } from 'date-fns';
 import { z } from 'zod';
@@ -107,8 +107,7 @@ export default function oneTimeTokenRoutes<T extends ManagementApiRouter>(
       const oneTimeToken = await insertOneTimeToken({
         ...rest,
         id: generateStandardId(),
-        // TODO: export generate random string with specified length from @logto/shared.
-        token: generateStandardSecret(),
+        token: generateRandomString(32),
         expiresAt: expiresAt.getTime(),
       });
 

@@ -12,7 +12,7 @@ import {
 } from '@/consts';
 import { isCloud } from '@/consts/env';
 import { TenantsContext } from '@/contexts/TenantsProvider';
-import { LogtoSkuType } from '@/types/skus';
+import { LogtoSkuType } from '@logto/cloud-models';
 import { formatLogtoSkusResponses } from '@/utils/subscription';
 
 import useSubscription from '../../hooks/use-subscription';
