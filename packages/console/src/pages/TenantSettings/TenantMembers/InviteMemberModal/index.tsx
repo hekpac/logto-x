@@ -24,7 +24,7 @@ import { isPaidPlan } from '@/utils/subscription';
 import MultiOptionInput from '@/components/MultiOptionInput';
 import { generateStandardShortId } from '@logto/shared/universal';
 import { emailRegEx } from '@logto/core-kit';
-import useEmailInputUtils from '../InviteEmailsInput/hooks';
+import useEmailInputUtils from '../email-input-utils';
 import styles from '../index.module.scss';
 import { type InviteMemberForm } from '../types';
 
