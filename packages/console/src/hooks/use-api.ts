@@ -59,6 +59,10 @@ const useGlobalRequestErrorHandler = (toastDisabledErrorCodes?: LogtoErrorCode[]
         // Clone the response to avoid "Response body is already used".
         const data = await response.clone().json<RequestErrorBody>();
 
+ <<<<<<< codex/reemplazar-cadenas-en-inglés-por-claves-de-localización
+        // Inform and redirect unauthorized users to the sign-in page.
+        if (response.status === 403 && data.code === 'auth.forbidden') {
+=======
         if (data.code === 'auth.unauthorized') {
           await signOut(postSignOutRedirectUri.href);
           return;
@@ -66,6 +70,7 @@ const useGlobalRequestErrorHandler = (toastDisabledErrorCodes?: LogtoErrorCode[]
 
         // Inform and redirect un-authorized users to sign in page.
         if (data.code === 'auth.forbidden') {
+ >>>>>>> master
           await show({
             ModalContent: data.message,
             type: 'alert',

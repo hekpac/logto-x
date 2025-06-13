@@ -3,6 +3,7 @@ import { ApplicationModel } from '#src/models/application.js';
 import type { FilterQuery } from 'mongoose';
 import { openSearchClient } from '../search/opensearch.js';
 import type { MongoClient } from 'mongodb';
+import RequestError from '#src/errors/RequestError/index.js';
 
 export const createApplicationQueries = (_client: MongoClient) => {
   const findApplicationById = async (id: string) =>
@@ -37,15 +38,20 @@ export const createApplicationQueries = (_client: MongoClient) => {
     return doc;
   };
 
-  const deleteApplicationById = async (id: string) => {
-    const res = await ApplicationModel.deleteOne({ id });
-    if (openSearchClient) {
-      await openSearchClient.delete({ index: 'applications', id });
-    }
-    if (res.deletedCount === 0) {
-      throw new Error(`Application ${id} not found`);
-    }
-  };
+    const deleteApplicationById = async (id: string) => {
+      const res = await ApplicationModel.deleteOne({ id });
+      if (openSearchClient) {
+        await openSearchClient.delete({ index: 'applications', id });
+      }
+      if (res.deletedCount === 0) {
+        throw new RequestError({
+          code: 'entity.not_exists_with_id',
+          name: 'applications',
+          id,
+          status: 404,
+        });
+      }
+    };
 
   const findApplications = (filter: FilterQuery<typeof ApplicationModel>) =>
     ApplicationModel.find(filter).lean<Application>().exec();
