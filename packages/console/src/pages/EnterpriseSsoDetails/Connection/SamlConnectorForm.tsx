@@ -16,7 +16,7 @@ import {
   samlProviderConfigGuard,
   type SamlConnectorConfig,
   type SamlSsoConnectorWithProviderConfig,
-} from '@/pages/EnterpriseSsoDetails/types/saml';
+} from '@logto/schemas';
 import { trySubmitSafe } from '@/utils/form';
 
 import { invalidConfigErrorCode, invalidMetadataErrorCode } from '../config';

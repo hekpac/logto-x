@@ -17,7 +17,7 @@ import {
   type OidcConnectorConfig,
   oidcConnectorConfigGuard,
   oidcProviderConfigGuard,
-} from '../types/oidc';
+} from '@logto/schemas';
 
 import OidcMetadataForm from './OidcMetadataForm';
 import OidcConnectorSpInfo from './ServiceProviderInfo/OidcConnectorSpInfo';

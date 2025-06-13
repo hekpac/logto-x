@@ -9,7 +9,7 @@ import Switch from '@/ds-components/Switch';
 import TextInput from '@/ds-components/TextInput';
 import { uriValidator } from '@/utils/validator';
 
-import { type OidcConnectorConfig, type OidcProviderConfig } from '../../types/oidc';
+import { type OidcConnectorConfig, type OidcProviderConfig } from '@logto/schemas';
 
 import ParsedConfigPreview from './ParsedConfigPreview';
 import styles from './index.module.scss';

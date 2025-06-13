@@ -33,3 +33,5 @@ export * from './ssr.js';
 export * from './saml-application.js';
 export * from './verification-records/index.js';
 export * from './custom-profile-fields.js';
+export * from './oidc.js';
+export * from './saml.js';

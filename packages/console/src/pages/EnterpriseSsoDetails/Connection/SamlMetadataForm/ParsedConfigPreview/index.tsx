@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import CopyToClipboard from '@/ds-components/CopyToClipboard';
 import DynamicT from '@/ds-components/DynamicT';
-import { type SamlProviderConfig } from '@/pages/EnterpriseSsoDetails/types/saml';
+import { type SamlProviderConfig } from '@logto/schemas';
 
 import styles from './index.module.scss';
 
