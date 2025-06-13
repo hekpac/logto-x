@@ -1,7 +1,9 @@
 import { SsoProviderType, type SsoConnectorWithProviderConfig } from '@logto/schemas';
 
-import { type OidcSsoConnectorWithProviderConfig } from '../types/oidc';
-import { type SamlSsoConnectorWithProviderConfig } from '../types/saml';
+import {
+  type OidcSsoConnectorWithProviderConfig,
+  type SamlSsoConnectorWithProviderConfig,
+} from '@logto/schemas';
 
 import OidcConnectorForm from './OidcConnectorForm';
 import SamlConnectorForm from './SamlConnectorForm';

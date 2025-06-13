@@ -9,8 +9,12 @@ import Switch from '@/ds-components/Switch';
 import TextInput from '@/ds-components/TextInput';
 import { uriValidator } from '@/utils/validator';
 
+ <<<<<<< codex/mover-definiciones-oidc/saml-a-paquete-compartido
+import { type OidcConnectorConfig, type OidcProviderConfig } from '@logto/schemas';
+=======
 import { type OidcConnectorConfig, type OidcProviderConfig } from '../../types/oidc';
 import { googleIssuer } from '../../../../../../core/src/sso/GoogleWorkspaceSsoConnector';
+ >>>>>>> master
 
 import ParsedConfigPreview from './ParsedConfigPreview';
 import styles from './index.module.scss';

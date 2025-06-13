@@ -1,18 +1,10 @@
-import { type SsoConnectorWithProviderConfig, type SsoProviderType } from '@logto/schemas';
+import { type SsoConnectorWithProviderConfig, type SsoProviderType } from './sso-connector.js';
 import { z } from 'zod';
 
-/* Saml Connectors */
-export type SamlSsoConnectorWithProviderConfig = Omit<
-  SsoConnectorWithProviderConfig,
-  'providerType'
-> & {
+export type SamlSsoConnectorWithProviderConfig = Omit<SsoConnectorWithProviderConfig, 'providerType'> & {
   providerType: SsoProviderType.SAML;
 };
 
-/**
- * All the following guards are copied from {@link @logto/core/packages/core/src/sso/types/saml }
- * @TODO: consider to move them to a shared package e.g. @logto/schemas
- */
 const samlAttributeMappingGuard = z
   .object({
     id: z.string(),
@@ -27,7 +19,6 @@ export const samlAttributeKeys = Object.freeze(['id', 'email', 'name']) satisfie
   keyof SamlAttributeMapping
 >;
 
-// Guard the saml connector config data from the response of the API.
 export const samlConnectorConfigGuard = z
   .object({
     metadataUrl: z.string(),
@@ -41,7 +32,6 @@ export const samlConnectorConfigGuard = z
 
 export type SamlConnectorConfig = z.infer<typeof samlConnectorConfigGuard>;
 
-// Guard the saml provider config from the response of the API.
 const samlServiceProviderMetadataGuard = z.object({
   entityId: z.string().min(1),
   assertionConsumerServiceUrl: z.string().min(1),

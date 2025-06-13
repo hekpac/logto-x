@@ -1,18 +1,9 @@
-import { type SsoProviderType, type SsoConnectorWithProviderConfig } from '@logto/schemas';
+import { type SsoProviderType, type SsoConnectorWithProviderConfig } from './sso-connector.js';
 import { z } from 'zod';
 
-/* Oidc Connectors */
-export type OidcSsoConnectorWithProviderConfig = Omit<
-  SsoConnectorWithProviderConfig,
-  'providerType'
-> & {
+export type OidcSsoConnectorWithProviderConfig = Omit<SsoConnectorWithProviderConfig, 'providerType'> & {
   providerType: SsoProviderType.OIDC;
 };
-
-/**
- * All the following guards are copied from {@link @logto/core/packages/core/src/sso/types/oidc }
- * @TODO: consider to move them to a shared package e.g. @logto/schemas
- */
 
 export const oidcConnectorConfigGuard = z
   .object({
