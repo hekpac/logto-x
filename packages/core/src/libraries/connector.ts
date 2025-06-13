@@ -128,7 +128,7 @@ export const createConnectorLibrary = (
 
   const getLogtoConnectorByTargetAndPlatform = async (
     target: string,
-    platform: Nullable<ConnectorPlatform>
+    platform?: ConnectorPlatform
   ) => {
     const connectors = await getLogtoConnectors();
 

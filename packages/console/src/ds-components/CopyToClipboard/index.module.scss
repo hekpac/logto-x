@@ -30,6 +30,10 @@
     cursor: text;
     gap: _.unit(2);
 
+    .copyToolTipAnchor {
+      margin-inline-start: 0;
+    }
+
     .content {
       flex: 1;
       overflow: hidden;

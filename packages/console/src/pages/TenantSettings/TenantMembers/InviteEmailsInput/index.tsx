@@ -1,4 +1,9 @@
 import { generateStandardShortId } from '@logto/shared/universal';
+ <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
+=======
+import { conditional } from '@silverhand/essentials';
+import { useCallback } from 'react';
+ >>>>>>> master
 import { useFormContext } from 'react-hook-form';
 
 import MultiOptionInput from '@/components/MultiOptionInput';
@@ -35,6 +40,7 @@ function InviteEmailsInput({
 }: Props) {
   const { setError, clearErrors } = useFormContext();
 
+ <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
   const handleChange = (newValues: InviteeEmailItem[]) => {
     const { values: parsedValues, errorMessage } = parseEmailOptions(newValues);
 
@@ -65,6 +71,49 @@ function InviteEmailsInput({
       }}
       placeholder={placeholder}
       error={error}
+=======
+  const handleChange = useCallback(
+    (nextValues: InviteeEmailItem[]) => {
+      const { values: parsedValues, errorMessage } = parseEmailOptions(nextValues);
+
+      if (errorMessage) {
+        setError(formName, { type: 'custom', message: errorMessage });
+        return;
+      }
+
+      clearErrors(formName);
+      rawOnChange(parsedValues);
+    },
+    [parseEmailOptions, rawOnChange, formName, setError, clearErrors]
+  );
+
+  const validateInput = useCallback(
+    (text: string) => {
+      const newValue: InviteeEmailItem = {
+        value: text,
+        id: generateStandardShortId(),
+        ...conditional(!emailRegEx.test(text) && { status: 'error' }),
+      };
+
+      const { errorMessage } = parseEmailOptions([...values, newValue]);
+      if (errorMessage) {
+        return errorMessage;
+      }
+
+      return { value: newValue };
+    },
+    [parseEmailOptions, values]
+  );
+
+  return (
+    <MultiOptionInput
+      className={className}
+      values={values}
+      getId={(option) => option.id}
+      renderValue={(option) => option.value}
+      valueClassName={(option) => option.status && styles[option.status]}
+      placeholder={placeholder}
+ >>>>>>> master
       onChange={handleChange}
       onError={(message) => {
         setError(formName, { type: 'custom', message });
@@ -72,6 +121,11 @@ function InviteEmailsInput({
       onClearError={() => {
         clearErrors(formName);
       }}
+ <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
+=======
+      validateInput={validateInput}
+      error={error}
+ >>>>>>> master
     />
   );
 }

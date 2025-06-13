@@ -20,6 +20,7 @@ import koaPagination from '#src/middleware/koa-pagination.js';
 import { koaReportSubscriptionUpdates, koaQuotaGuard } from '#src/middleware/koa-quota-guard.js';
 import { type AllowedKeyPrefix } from '#src/queries/log.js';
 import assertThat from '#src/utils/assert-that.js';
+import { parseLogSearchParams } from '#src/utils/log.js';
 
 import type { ManagementApiRouter, RouterInitArgs } from './types.js';
 
@@ -118,17 +119,15 @@ export default function hookRoutes<T extends ManagementApiRouter>(
     koaPagination(),
     koaGuard({
       params: z.object({ id: z.string() }),
-      query: z.object({ logKey: z.string().optional() }),
       response: Logs.guard.omit({ tenantId: true }).array(),
       status: 200,
     }),
     async (ctx, next) => {
       const { limit, offset } = ctx.pagination;
-
       const {
         params: { id },
-        query: { logKey },
       } = ctx.guard;
+      const { logKey } = parseLogSearchParams(ctx.request.URL.searchParams);
 
       const includeKeyPrefix: AllowedKeyPrefix[] = [hook.Type.TriggerHook];
       const startTimeExclusive = subDays(new Date(), 1).getTime();

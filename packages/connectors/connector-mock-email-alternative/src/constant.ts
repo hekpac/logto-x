@@ -3,7 +3,6 @@ import type { ConnectorMetadata } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'mock-email-service-alternative',
   target: 'mock-mail-alternative',
-  platform: null,
   name: {
     en: 'Mock Mail Service',
     'zh-CN': 'Mock 邮件服务',

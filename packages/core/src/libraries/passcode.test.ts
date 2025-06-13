@@ -177,7 +177,6 @@ describe('sendPasscode', () => {
       },
       metadata: {
         ...mockMetadata,
-        platform: null,
       },
       type: ConnectorType.Sms,
       sendMessage,
