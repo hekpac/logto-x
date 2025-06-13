@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.29.0
+
+### Minor Changes
+
+- feat: allow tenants to configure acceptable CAPTCHA scores with `scoreThreshold` in reCAPTCHA Enterprise. Default value is `0.5`.
+
 ## 1.28.0
 
 ### Patch Changes

@@ -97,6 +97,11 @@ export const captchaProviders: CaptchaProviderMetadata[] = [
         label: 'security.captcha_details.project_id',
         placeholder: 'security.captcha_details.project_id',
       },
+      {
+        field: 'scoreThreshold',
+        label: 'security.captcha_details.score_threshold',
+        placeholder: 'security.captcha_details.score_threshold',
+      },
     ],
   },
   {

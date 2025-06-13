@@ -108,8 +108,7 @@ export class CaptchaValidator {
         riskAnalysis: { score },
       } = responseGuard.parse(result);
 
-      // TODO: customize the score threshold
-      const success = valid && score >= 0.5;
+      const success = valid && score >= (config.scoreThreshold ?? 0.5);
 
       this.log.append({
         success,

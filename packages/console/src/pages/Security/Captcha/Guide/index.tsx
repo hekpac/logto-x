@@ -43,6 +43,7 @@ function Guide({ type, onClose }: Props) {
       siteKey: '',
       secretKey: '',
       projectId: '',
+      scoreThreshold: 0.5,
     },
   });
 

@@ -18,6 +18,8 @@ export const recaptchaEnterpriseConfigGuard = z.object({
   siteKey: z.string(),
   secretKey: z.string(),
   projectId: z.string(),
+  /** The minimum acceptable score returned from reCAPTCHA Enterprise. */
+  scoreThreshold: z.number().min(0).max(1).optional().default(0.5),
 });
 
 export type RecaptchaEnterpriseConfig = z.infer<typeof recaptchaEnterpriseConfigGuard>;
