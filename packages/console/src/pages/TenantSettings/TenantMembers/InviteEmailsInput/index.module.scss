@@ -17,12 +17,21 @@
   cursor: text;
   position: relative;
 
+  .placeholder {
+    position: absolute;
+    inset: 0;
+    padding: _.unit(1.5) _.unit(3);
+    color: var(--color-placeholder);
+  }
+
   .wrapper {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: _.unit(2);
+    width: 100%;
 
     .tag {
       cursor: auto;
@@ -80,10 +89,6 @@
       outline-color: var(--color-danger-focused);
     }
   }
-}
-
-canvas {
-  display: none;
 }
 
 .errorMessage {
