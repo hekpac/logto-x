@@ -7,7 +7,7 @@ import { tryReadResponseErrorBody } from '@/cloud/hooks/use-cloud-api';
 import { type LogtoSkuResponse } from '@/cloud/types/router';
 import { ticketSupportResponseTimeMap } from '@/consts/plan-quotas';
 import { featuredPlanIds, planIdOrder } from '@/consts/subscriptions';
-import { type LogtoSkuQuota } from '@/types/skus';
+import { type LogtoSkuQuota } from '@logto/cloud-models';
 
 const addSupportQuota = (logtoSkuResponse: LogtoSkuResponse) => {
   const { id, quota } = logtoSkuResponse;

@@ -17,6 +17,8 @@ import pMap from 'p-map';
 import RequestError from '#src/errors/RequestError/index.js';
 import { LogEntry } from '#src/middleware/koa-audit-log.js';
 import type Queries from '#src/tenants/Queries.js';
+import type { UserLibrary } from '#src/libraries/user.js';
+import { transpileUserProfileResponse } from '#src/utils/user.js';
 
 import {
   type DataHookContextManager,
@@ -30,7 +32,7 @@ type BetterOmit<T, Ignore> = {
 
 type HookEventPayloadWithoutHookId = BetterOmit<HookEventPayload, 'hookId'>;
 
-export const createHookLibrary = (queries: Queries) => {
+export const createHookLibrary = (queries: Queries, userLibrary: UserLibrary) => {
   const {
     applications: { findApplicationById },
     logs: { insertLog },
@@ -124,7 +126,11 @@ export const createHookLibrary = (queries: Queries) => {
     }
 
     const [user, application] = await Promise.all([
-      trySafe(findUserById(userId)),
+      trySafe(async () => {
+        const found = await findUserById(userId);
+        const ssoIdentities = await userLibrary.findUserSsoIdentities(userId);
+        return transpileUserProfileResponse(found, { ssoIdentities });
+      }),
       trySafe(async () => conditional(applicationId && (await findApplicationById(applicationId)))),
     ]);
 
@@ -136,7 +142,7 @@ export const createHookLibrary = (queries: Queries) => {
       userAgent,
       userId,
       userIp,
-      user: user && pick(user, ...userInfoSelectFields),
+      user: user ?? undefined,
       application: application && pick(application, 'id', 'type', 'name', 'description'),
     } satisfies BetterOmit<InteractionHookEventPayload, 'hookId'>;
 

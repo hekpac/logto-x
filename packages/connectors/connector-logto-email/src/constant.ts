@@ -4,7 +4,6 @@ import { ConnectorConfigFormItemType } from '@logto/connector-kit';
 export const defaultMetadata: ConnectorMetadata = {
   id: 'logto-email',
   target: 'logto-email',
-  platform: null,
   name: {
     en: 'Logto email service',
     de: 'Logto e-mail-dienst',
@@ -76,20 +75,25 @@ export const defaultMetadata: ConnectorMetadata = {
       label: 'App Secret',
       type: ConnectorConfigFormItemType.Text,
       required: true,
+      isConfidential: true,
     },
     {
       key: 'senderName',
-      label: 'Sender Name',
+      label: 'connector_details.logto_email.sender_name_field',
+      placeholder: 'connector_details.logto_email.sender_name_placeholder',
       type: ConnectorConfigFormItemType.Text,
     },
     {
       key: 'companyInformation',
-      label: 'Company Information',
+      label: 'connector_details.logto_email.company_information_field',
+      description: 'connector_details.logto_email.company_information_description',
+      placeholder: 'connector_details.logto_email.company_information_placeholder',
       type: ConnectorConfigFormItemType.Text,
     },
     {
       key: 'appLogo',
-      label: 'Email logo',
+      label: 'connector_details.logto_email.email_logo_field',
+      tooltip: 'connector_details.logto_email.email_logo_tip',
       type: ConnectorConfigFormItemType.Text,
     },
   ],

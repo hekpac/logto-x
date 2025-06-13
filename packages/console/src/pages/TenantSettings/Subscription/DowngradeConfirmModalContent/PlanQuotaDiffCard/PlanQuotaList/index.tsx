@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import { type LogtoSkuQuotaEntries } from '@/types/skus';
+import { type LogtoSkuQuotaEntries } from '@logto/cloud-models';
 
 import { DiffSkuQuotaItem } from './DiffQuotaItem';
 import styles from './index.module.scss';

@@ -21,7 +21,7 @@ describe('koaOidcErrorHandler middleware', () => {
       throw error;
     });
 
-    const out = errorOut(error);
+    const out = errorOut(error, i18next);
     const code = `oidc.${out.error}`;
     await koaOidcErrorHandler()(ctx, next);
     expect(ctx.status).toBe(error.statusCode);

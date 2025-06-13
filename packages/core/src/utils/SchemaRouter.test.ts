@@ -95,6 +95,15 @@ describe('SchemaRouter', () => {
 
       expect(response.status).toEqual(400);
     });
+
+    it('should throw when entity already exists', async () => {
+      const error = new RequestError({ code: 'entity.unique_integrity_violation', status: 422 });
+      jest.spyOn(queries, 'insert').mockRejectedValueOnce(error);
+
+      const response = await request.post(baseRoute).send({});
+
+      expect(response.status).toEqual(422);
+    });
   });
 
   describe('getById', () => {
@@ -120,6 +129,15 @@ describe('SchemaRouter', () => {
       expect(queries.updateById).toHaveBeenCalledWith('test', { name: 'test_new' });
       expect(response.body).toStrictEqual({ id: 'test', name: 'test_new' });
       expect(response.status).toEqual(200);
+    });
+
+    it('should throw when patched entity conflicts', async () => {
+      const error = new RequestError({ code: 'entity.unique_integrity_violation', status: 422 });
+      jest.spyOn(queries, 'updateById').mockRejectedValueOnce(error);
+
+      const response = await request.patch(`${baseRoute}/test`).send({ name: 'conflict' });
+
+      expect(response.status).toEqual(422);
     });
   });
 

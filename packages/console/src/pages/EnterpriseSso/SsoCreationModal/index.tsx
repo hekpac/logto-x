@@ -18,7 +18,8 @@ import { getConnectorRadioGroupSize } from '@/components/CreateConnectorForm/uti
 import QuotaGuardFooter from '@/components/QuotaGuardFooter';
 import { isCloud } from '@/consts/env';
 import { addOnPricingExplanationLink } from '@/consts/external-links';
-import { enterpriseSsoAddOnUnitPrice, latestProPlanId } from '@/consts/subscriptions';
+import { latestProPlanId } from '@/consts/subscriptions';
+import useAddOnPricing from '@/hooks/use-add-on-pricing';
 import { SubscriptionDataContext } from '@/contexts/SubscriptionDataProvider';
 import Button from '@/ds-components/Button';
 import DynamicT from '@/ds-components/DynamicT';
@@ -57,6 +58,7 @@ function SsoCreationModal({ isOpen, onClose: rawOnClose }: Props) {
     data: { enterpriseSsoUpsellNoticeAcknowledged },
     update,
   } = useUserPreferences();
+  const { data: addOnPrices } = useAddOnPricing();
   const [selectedProviderName, setSelectedProviderName] = useState<string>();
 
   const isSsoEnabled =
@@ -175,7 +177,7 @@ function SsoCreationModal({ isOpen, onClose: rawOnClose }: Props) {
                   }}
                 >
                   {t('upsell.add_on.footer.enterprise_sso', {
-                    price: enterpriseSsoAddOnUnitPrice,
+                    price: addOnPrices.enterpriseSsoLimit,
                     planName: t(
                       isEnterprisePlan ? 'subscription.enterprise' : 'subscription.pro_plan'
                     ),

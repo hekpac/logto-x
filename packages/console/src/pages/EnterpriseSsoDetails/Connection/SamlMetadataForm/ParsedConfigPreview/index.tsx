@@ -3,10 +3,12 @@ import { conditional } from '@silverhand/essentials';
 import classNames from 'classnames';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { format } from 'date-fns';
+import { getDateFnsLocale } from '@/utils/date-fns-locales';
 
 import CopyToClipboard from '@/ds-components/CopyToClipboard';
 import DynamicT from '@/ds-components/DynamicT';
-import { type SamlProviderConfig } from '@/pages/EnterpriseSsoDetails/types/saml';
+import { type SamlProviderConfig } from '@logto/schemas';
 
 import styles from './index.module.scss';
 
@@ -34,14 +36,13 @@ export function CertificatePreview({
       <DynamicT
         forKey="enterprise_sso_details.saml_preview.certificate_content"
         interpolation={{
-          date: new Date(certificateExpiresAt).toLocaleDateString(
-            // TODO: @darcyYe check whether can use date-fns later, may need a Logto locale to date-fns locale mapping.
-            conditional(isLanguageTag(language) && language) ?? 'en',
+          date: format(
+            new Date(certificateExpiresAt),
+            'PPPP',
             {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
+              locale: getDateFnsLocale(
+                conditional(isLanguageTag(language) && language) ?? 'en'
+              ),
             }
           ),
         }}

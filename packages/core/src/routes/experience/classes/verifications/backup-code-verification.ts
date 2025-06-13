@@ -69,7 +69,7 @@ export class BackupCodeVerification implements MfaVerificationRecord<Verificatio
 
   async verify(code: string) {
     const {
-      users: { findUserById, updateUserById },
+      users: { findUserById, patchUserMfaVerificationById },
     } = this.queries;
 
     // Directly return if the code has been verified
@@ -91,26 +91,10 @@ export class BackupCodeVerification implements MfaVerificationRecord<Verificatio
     );
 
     // Mark the backup code as used with used time
-    await updateUserById(this.userId, {
-      mfaVerifications: mfaVerifications.map((mfa) => {
-        if (mfa.id !== backupCodes.id || mfa.type !== MfaFactor.BackupCode) {
-          return mfa;
-        }
-
-        return {
-          ...mfa,
-          codes: mfa.codes.map((backupCode) => {
-            if (backupCode.code !== code) {
-              return backupCode;
-            }
-
-            return {
-              ...backupCode,
-              usedAt: new Date().toISOString(),
-            };
-          }),
-        };
-      }),
+    await patchUserMfaVerificationById(this.userId, backupCodes.id, {
+      codes: backupCodes.codes.map((backupCode) =>
+        backupCode.code === code ? { ...backupCode, usedAt: new Date().toISOString() } : backupCode
+      ),
     });
 
     this.code = code;

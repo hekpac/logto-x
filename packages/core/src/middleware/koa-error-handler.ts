@@ -5,7 +5,7 @@ import type { Middleware } from 'koa';
 import { HttpError } from 'koa';
 
 import { EnvSet } from '#src/env-set/index.js';
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import { getConsoleLogFromContext } from '#src/utils/console.js';
 import { buildAppInsightsTelemetry } from '#src/utils/request.js';
 
@@ -34,7 +34,7 @@ export default function koaErrorHandler<
       // Report all exceptions to ApplicationInsights
       void appInsights.trackException(error, buildAppInsightsTelemetry(ctx));
 
-      if (error instanceof RequestError) {
+      if (isRequestError(error)) {
         ctx.status = error.status;
         ctx.body = error.toBody(ctx.i18n);
 
