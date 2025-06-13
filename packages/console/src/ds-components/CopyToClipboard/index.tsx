@@ -114,6 +114,10 @@ function CopyToClipboard(
         )}
         {hasVisibilityToggle && (
           <Tooltip
+ <<<<<<< l471i2-codex/actualizar-estilo-de-copytoclipboard
+            anchorClassName={styles.copyToolTipAnchor}
+            content={t(showHiddenContent ? 'hide' : 'view')}
+=======
  <<<<<<< x8lgw4-codex/actualizar-estilo-de-copytoclipboard
             anchorClassName={styles.copyToolTipAnchor}
             content={t(showHiddenContent ? 'hide' : 'view')}
@@ -131,6 +135,7 @@ function CopyToClipboard(
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
+ >>>>>>> master
           >
             <IconButton
               className={styles.iconButton}
@@ -143,6 +148,11 @@ function CopyToClipboard(
           </Tooltip>
         )}
         <Tooltip
+ <<<<<<< l471i2-codex/actualizar-estilo-de-copytoclipboard
+          anchorClassName={styles.copyToolTipAnchor}
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+=======
  <<<<<<< x8lgw4-codex/actualizar-estilo-de-copytoclipboard
           anchorClassName={styles.copyToolTipAnchor}
           isSuccessful={copyState === 'copied'}
@@ -166,6 +176,7 @@ function CopyToClipboard(
           isSuccessful={copyState === 'copied'}
           content={t(copyState)}
           anchorClassName={styles.copyToolTipAnchor}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
