@@ -36,8 +36,5 @@ export const skuQuotaItemOrder: Array<keyof LogtoSkuQuota> = [
   'bringYourUiEnabled',
   'ticketSupportResponseTime',
 ];
- <<<<<<< codex/eliminar-constantes-relacionadas-con-captcha
-=======
 
 export const comingSoonSkuQuotaKeys: Array<keyof LogtoSkuQuota> = [];
- >>>>>>> master
