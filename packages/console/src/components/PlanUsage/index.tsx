@@ -19,7 +19,7 @@ import styles from './index.module.scss';
 import {
   type UsageKey,
   usageKeys,
-  usageKeyPriceMap,
+  useUsageKeyPriceMap,
   titleKeyMap,
   tooltipKeyMap,
   enterpriseTooltipKeyMap,
@@ -73,6 +73,7 @@ function PlanUsage({ periodicUsage, usageAddOnSkus }: Props) {
 
   const isPaidTenant = isPaidPlan(planId, isEnterprisePlan);
   const onlyShowPeriodicUsage = planId === ReservedPlanId.Free;
+  const usageKeyPriceMap = useUsageKeyPriceMap();
 
   const usages: PlanUsageCardProps[] = usageKeys
     // Show all usages for Pro plan and only show MAU and token usage for Free plan

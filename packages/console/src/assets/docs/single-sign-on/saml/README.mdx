@@ -11,6 +11,12 @@ Initiate the SAML SSO integration by creating an application on the IdP side. Ob
 
 <SsoSamlSpMetadata />
 
+Logto generates a signing certificate for each SAML application secret. By default,
+the certificate subject is `example.com`, and the issuer information is
+`logto.io`, organization `Logto`, country `US`. You can override these values in
+tenant settings or via the CLI when generating a new secret. Download the
+certificate from the secret list using the action menu.
+
 Fill in the above configurations in your IdP SAML application and continue to retrieve the following configurations from your IdP.
 
 </Step>

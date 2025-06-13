@@ -4,7 +4,7 @@ import { demoConnectorIds, validateConfig } from '@logto/connector-kit';
 import { Connectors, ConnectorType, connectorResponseGuard, type JsonObject } from '@logto/schemas';
 import { generateStandardShortId } from '@logto/shared';
 import { conditional } from '@silverhand/essentials';
-import cleanDeep from 'clean-deep';
+import { cleanDeep } from '@logto/shared';
 import { string, object } from 'zod';
 
 import RequestError from '#src/errors/RequestError/index.js';

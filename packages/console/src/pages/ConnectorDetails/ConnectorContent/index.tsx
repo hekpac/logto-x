@@ -1,4 +1,4 @@
-import { ServiceConnector, GoogleConnector } from '@logto/connector-kit';
+import { GoogleConnector } from '@logto/connector-kit';
 import { ConnectorType } from '@logto/schemas';
 import type { ConnectorResponse } from '@logto/schemas';
 import { conditional } from '@silverhand/essentials';
@@ -23,7 +23,6 @@ import { convertResponseToForm } from '@/utils/connector-form';
 import { trySubmitSafe } from '@/utils/form';
 import { removeFalsyValues } from '@/utils/object';
 
-import EmailServiceConnectorForm from './EmailServiceConnectorForm';
 
 type Props = {
   readonly isDeleted: boolean;
@@ -57,7 +56,6 @@ function ConnectorContent({ isDeleted, connectorData, onConnectorUpdated }: Prop
   } = connectorData;
 
   const isSocialConnector = connectorType === ConnectorType.Social;
-  const isEmailServiceConnector = connectorId === ServiceConnector.Email;
 
   const configParser = useConnectorFormConfigParser();
 
@@ -127,24 +125,20 @@ function ConnectorContent({ isDeleted, connectorData, onConnectorUpdated }: Prop
             <BasicForm isStandard={isStandardConnector} />
           </FormCard>
         )}
-        {isEmailServiceConnector ? (
-          <EmailServiceConnectorForm extraInfo={connectorData.extraInfo} />
-        ) : (
-          <FormCard
-            title="connector_details.parameter_configuration"
-            description={conditional(
-              !isSocialConnector && 'connector_details.email_connector_settings_description'
-            )}
-            learnMoreLink={conditional(!isSocialConnector && { href: emailConnectors })}
-          >
-            <ConfigForm
-              formItems={formItems}
-              connectorFactoryId={connectorId}
-              connectorId={id}
-              connectorType={connectorType}
-            />
-          </FormCard>
-        )}
+        <FormCard
+          title="connector_details.parameter_configuration"
+          description={conditional(
+            !isSocialConnector && 'connector_details.email_connector_settings_description'
+          )}
+          learnMoreLink={conditional(!isSocialConnector && { href: emailConnectors })}
+        >
+          <ConfigForm
+            formItems={formItems}
+            connectorFactoryId={connectorId}
+            connectorId={id}
+            connectorType={connectorType}
+          />
+        </FormCard>
         {connectorId === GoogleConnector.factoryId && <GoogleOneTapCard />}
         {!isSocialConnector && (
           <FormCard title="connector_details.test_connection">

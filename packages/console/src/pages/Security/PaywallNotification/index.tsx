@@ -1,7 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next';
 
 import ContactUsPhraseLink from '@/components/ContactUsPhraseLink';
-import { securityFeaturesAddOnUnitPrice } from '@/consts/subscriptions';
+import useAddOnPricing from '@/hooks/use-add-on-pricing';
 import InlineNotification from '@/ds-components/InlineNotification';
 import usePaywall from '@/hooks/use-paywall';
 import useTenantPathname from '@/hooks/use-tenant-pathname';
@@ -21,6 +21,7 @@ function PaywallNotification({ className }: Props) {
     data: { securityFeaturesUpsellNoticeAcknowledged },
     update,
   } = useUserPreferences();
+  const { data: addOnPrices } = useAddOnPricing();
 
   if (isFreeTenant) {
     return (
@@ -54,7 +55,7 @@ function PaywallNotification({ className }: Props) {
         onClick={async () => update({ securityFeaturesUpsellNoticeAcknowledged: true })}
       >
         {t('upsell.add_on.security_features_inline_notification', {
-          price: securityFeaturesAddOnUnitPrice,
+          price: addOnPrices.securityFeaturesEnabled,
         })}
       </InlineNotification>
     );

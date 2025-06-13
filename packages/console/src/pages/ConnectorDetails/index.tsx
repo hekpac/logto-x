@@ -35,10 +35,11 @@ import ConnectorTabs from './ConnectorTabs';
 import ConnectorTypeName from './ConnectorTypeName';
 import EmailUsage from './EmailUsage';
 import styles from './index.module.scss';
-
-// TODO: refactor path-related operation utils in both Connectors and ConnectorDetails page
-const getConnectorsPathname = (isSocial: boolean) =>
-  `/connectors/${isSocial ? ConnectorsTabs.Social : ConnectorsTabs.Passwordless}`;
+import {
+  getConnectorsPathname,
+  buildGuidePathname,
+  buildDetailsPathname,
+} from '../Connectors/utils';
 
 function ConnectorDetails() {
   const { pathname } = useLocation();
@@ -193,18 +194,18 @@ function ConnectorDetails() {
                  */
                 if (connectorId === ServiceConnector.Email) {
                   const created = await createConnector({ connectorId });
-                  navigate(`/connectors/${ConnectorsTabs.Passwordless}/${created.id}`, {
+                  navigate(buildDetailsPathname(ConnectorType.Email, created.id), {
                     replace: true,
                   });
                   return;
                 }
 
-                navigate(`${getConnectorsPathname(isSocial)}/guide/${connectorId}`);
+                navigate(buildGuidePathname(data.type, connectorId));
               }
             }}
           />
           <TabNav>
-            <TabNavItem href={`${getConnectorsPathname(isSocial)}/${connectorId}`}>
+            <TabNavItem href={buildDetailsPathname(data.type, connectorId)}>
               {t('general.settings_nav')}
             </TabNavItem>
           </TabNav>

@@ -15,10 +15,7 @@ type Props = {
 };
 
 const getIcon = (type: ApplicationType, isLightMode: boolean, isThirdParty?: boolean) => {
-  // We have ensured that SAML applications are always third party in DB schema, we use `||` here to make TypeScript happy.
-  // TODO: @darcy fix this when SAML application <Icon /> is ready
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  if (isThirdParty || type === ApplicationType.SAML) {
+  if (isThirdParty) {
     return isLightMode ? thirdPartyApplicationIcon : thirdPartyApplicationIconDark;
   }
 

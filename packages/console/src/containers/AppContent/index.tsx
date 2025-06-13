@@ -8,7 +8,6 @@ import Topbar from '@/components/Topbar';
 import { isCloud } from '@/consts/env';
 import SubscriptionDataProvider from '@/contexts/SubscriptionDataProvider';
 import useNewSubscriptionData from '@/contexts/SubscriptionDataProvider/use-new-subscription-data';
-import useSubscriptionData from '@/contexts/SubscriptionDataProvider/use-subscription-data';
 import {
   hasSurpassedSubscriptionQuotaLimit,
   hasReachedSubscriptionQuotaLimit,
@@ -29,8 +28,6 @@ export default function AppContent() {
   const { isLoading: isLoadingPreference } = useUserPreferences();
   const { currentTenant } = useContext(TenantsContext);
   const isTenantSuspended = isCloud && currentTenant?.isSuspended;
-  // TODO: @darcyYe remove this
-  const { isLoading: isLoadingSubscriptionData, ...subscriptionDta } = useSubscriptionData();
 
   const { isLoading: isLoadingNewSubscriptionData, ...newSubscriptionData } =
     useNewSubscriptionData();
@@ -38,8 +35,7 @@ export default function AppContent() {
   const scrollableContent = useRef<HTMLDivElement>(null);
   const { scrollTop } = useScroll(scrollableContent.current);
 
-  const isLoading =
-    isLoadingPreference || isLoadingSubscriptionData || isLoadingNewSubscriptionData;
+  const isLoading = isLoadingPreference || isLoadingNewSubscriptionData;
 
   if (isLoading || !currentTenant) {
     return <AppLoading />;
@@ -48,7 +44,6 @@ export default function AppContent() {
   return (
     <SubscriptionDataProvider
       subscriptionDataAndUtils={{
-        ...subscriptionDta,
         ...newSubscriptionData,
         hasSurpassedSubscriptionQuotaLimit: <T extends keyof NewSubscriptionCountBasedUsage>(
           quotaKey: T,

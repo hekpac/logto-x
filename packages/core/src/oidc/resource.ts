@@ -31,6 +31,68 @@ export const getSharedResourceServerData = (
  *
  * @see {@link ReservedResource} for the list of reserved resources.
  */
+const getReservedResourceScopes = async (
+  queries: Queries,
+  indicator: ReservedResource
+): Promise<ReadonlyArray<{ name: string; id: string }>> => {
+  switch (indicator) {
+    case ReservedResource.Organization: {
+      const [, rows] = await queries.organizations.scopes.findAll();
+      return rows;
+    }
+    default:
+      return [];
+  }
+};
+
+const getOrganizationResourceScopes = (
+  queries: Queries,
+  organizationId: string,
+  applicationId: string,
+  indicator: string
+) =>
+  queries.organizations.relations.appsRoles.getApplicationResourceScopes(
+    organizationId,
+    applicationId,
+    indicator
+  );
+
+const getDefaultResourceScopes = async (
+  libraries: Libraries,
+  indicator: string,
+  {
+    userId,
+    applicationId,
+    organizationId,
+    findFromOrganizations,
+  }: {
+    userId?: string;
+    applicationId?: string;
+    organizationId?: string;
+    findFromOrganizations: boolean;
+  }
+): Promise<ReadonlyArray<{ name: string; id: string }>> => {
+  const {
+    users: { findUserScopesForResourceIndicator },
+    applications: { findApplicationScopesForResourceIndicator },
+  } = libraries;
+
+  if (userId) {
+    return findUserScopesForResourceIndicator(
+      userId,
+      indicator,
+      findFromOrganizations,
+      organizationId
+    );
+  }
+
+  if (applicationId) {
+    return findApplicationScopesForResourceIndicator(applicationId, indicator);
+  }
+
+  return [];
+};
+
 export const findResourceScopes = async ({
   queries,
   libraries,
@@ -58,41 +120,24 @@ export const findResourceScopes = async ({
   organizationId?: string;
 }): Promise<ReadonlyArray<{ name: string; id: string }>> => {
   if (isReservedResource(indicator)) {
-    switch (indicator) {
-      case ReservedResource.Organization: {
-        const [, rows] = await queries.organizations.scopes.findAll();
-        return rows;
-      }
-    }
-  }
-
-  const {
-    users: { findUserScopesForResourceIndicator },
-    applications: { findApplicationScopesForResourceIndicator },
-  } = libraries;
-
-  if (userId) {
-    return findUserScopesForResourceIndicator(
-      userId,
-      indicator,
-      findFromOrganizations,
-      organizationId
-    );
+    return getReservedResourceScopes(queries, indicator);
   }
 
   if (applicationId && organizationId) {
-    return queries.organizations.relations.appsRoles.getApplicationResourceScopes(
+    return getOrganizationResourceScopes(
+      queries,
       organizationId,
       applicationId,
       indicator
     );
   }
 
-  if (applicationId) {
-    return findApplicationScopesForResourceIndicator(applicationId, indicator);
-  }
-
-  return [];
+  return getDefaultResourceScopes(libraries, indicator, {
+    userId,
+    applicationId,
+    organizationId,
+    findFromOrganizations,
+  });
 };
 
 /**
@@ -155,25 +200,15 @@ export const filterResourceScopesForTheThirdPartyApplication = async (
   } = libraries;
 
   if (isReservedResource(indicator)) {
-    switch (indicator) {
-      case ReservedResource.Organization: {
-        const userConsentOrganizationScopes =
-          await getApplicationUserConsentOrganizationScopes(applicationId);
+    const userConsentOrganizationScopes =
+      await getApplicationUserConsentOrganizationScopes(applicationId);
 
-        // Filter out the organization scopes that are not enabled in the application
-        return scopes.filter(({ id: organizationScopeId }) =>
-          userConsentOrganizationScopes.some(
-            ({ id: consentOrganizationId }) => consentOrganizationId === organizationScopeId
-          )
-        );
-      }
-      // FIXME: @simeng double check if it's necessary
-      // Return all the scopes for the reserved resources
-      // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
-      default: {
-        return scopes;
-      }
-    }
+    // Filter out the organization scopes that are not enabled in the application
+    return scopes.filter(({ id: organizationScopeId }) =>
+      userConsentOrganizationScopes.some(
+        ({ id: consentOrganizationId }) => consentOrganizationId === organizationScopeId
+      )
+    );
   }
 
   // Get the API resource scopes that are enabled in the application

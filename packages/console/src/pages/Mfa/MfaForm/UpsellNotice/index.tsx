@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { addOnPricingExplanationLink } from '@/consts/external-links';
-import { mfaAddOnUnitPrice } from '@/consts/subscriptions';
+import useAddOnPricing from '@/hooks/use-add-on-pricing';
 import { SubscriptionDataContext } from '@/contexts/SubscriptionDataProvider';
 import InlineNotification from '@/ds-components/InlineNotification';
 import TextLink from '@/ds-components/TextLink';
@@ -22,6 +22,7 @@ function UpsellNotice({ className }: Props) {
     data: { mfaUpsellNoticeAcknowledged },
     update,
   } = useUserPreferences();
+  const { data: addOnPrices } = useAddOnPricing();
 
   const isPaidTenant = isPaidPlan(planId, isEnterprisePlan);
 
@@ -43,7 +44,7 @@ function UpsellNotice({ className }: Props) {
         }}
       >
         {t('upsell.add_on.mfa_inline_notification', {
-          price: mfaAddOnUnitPrice,
+          price: addOnPrices.mfaEnabled,
           planName: String(t('subscription.pro_plan')),
         })}
       </Trans>
