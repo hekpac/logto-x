@@ -1,5 +1,5 @@
 import { type RequestErrorBody } from '@logto/schemas';
-import cleanDeep from 'clean-deep';
+import { cleanDeep } from '@logto/shared/universal';
 import { HTTPError } from 'ky';
 import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';

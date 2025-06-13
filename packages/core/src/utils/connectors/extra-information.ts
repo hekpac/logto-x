@@ -6,7 +6,7 @@ import {
   type Application,
 } from '@logto/schemas';
 import { conditional, type Nullable, pick } from '@silverhand/essentials';
-import cleanDeep from 'clean-deep';
+import { cleanDeep } from '@logto/shared';
 import { string, object } from 'zod';
 
 import {
