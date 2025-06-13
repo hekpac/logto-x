@@ -40,13 +40,12 @@ function AuditLogTable({ applicationId, userId, className }: Props) {
     useSearchParametersWatcher({
       page: 1,
       event: '',
-      // If `applicationId` not specified when init this component, then search parameter of `applicationId` can be accepted.
+      // Accept the search parameter when the component is used without a specific application ID.
       ...conditional(!applicationId && { applicationId: '' }),
     });
 
-  // TODO: LOG-7135, revisit this fallback logic and see whether this should be done outside of this component.
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const searchApplicationId = applicationId || applicationIdFromSearch;
+  // Keep the fallback here so the table can self-manage log filters.
+  const searchApplicationId = applicationId ?? applicationIdFromSearch;
   const { data: specifiedApplication } = useSWR<ApplicationResponse>(
     applicationId && `api/applications/${applicationId}`
   );
