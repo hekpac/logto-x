@@ -84,7 +84,7 @@ Pick your path:
 Set required environment variables in a `.env` file or export them directly:
 
 ```env
-DB_URL=postgres://postgres:postgres@localhost:5432/logto
+MONGODB_URI=mongodb://localhost:27017/logto
 REDIS_URL=redis://localhost:6379
 ENDPOINT=http://localhost:3001
 ADMIN_ENDPOINT=http://localhost:3002

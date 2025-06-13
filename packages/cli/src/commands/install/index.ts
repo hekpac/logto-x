@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import type { CommandModule } from 'yargs';
 
-import { getDatabaseUrlFromConfig } from '../../database.js';
+import { getMongodbUriFromConfig } from '../../database.js';
 import { consoleLog } from '../../utils.js';
 
 import {
@@ -49,7 +49,7 @@ const installLogto = async ({ path, skipSeed, downloadUrl, cloud }: InstallArgs)
   }
 
   // Save to dot env
-  await createEnv(installPath, await getDatabaseUrlFromConfig());
+  await createEnv(installPath, await getMongodbUriFromConfig());
 
   // Finale
   logFinale(installPath);

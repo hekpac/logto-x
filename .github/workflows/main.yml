@@ -172,7 +172,7 @@ jobs:
         working-directory: ./fresh
         run: pnpm cli db seed --test
         env:
-          DB_URL: postgres://postgres:postgres@localhost:5432/fresh
+          MONGODB_URI: mongodb://localhost:27017/fresh
 
       - name: Setup alteration database
         working-directory: ./alteration
@@ -180,14 +180,14 @@ jobs:
           cd packages/cli
           pnpm start db seed --test
         env:
-          DB_URL: postgres://postgres:postgres@localhost:5432/alteration
+          MONGODB_URI: mongodb://localhost:27017/alteration
 
       - name: Run alteration scripts
         working-directory: ./fresh
         run: pnpm cli db alt deploy next
         env:
           ALTERATION_TEST: true
-          DB_URL: postgres://postgres:postgres@localhost:5432/alteration
+          MONGODB_URI: mongodb://localhost:27017/alteration
 
       - name: Compare databases
         working-directory: ./fresh
@@ -201,14 +201,14 @@ jobs:
           cd packages/cli
           pnpm start db seed --test
         env:
-          DB_URL: postgres://postgres:postgres@localhost:5432/old
+          MONGODB_URI: mongodb://localhost:27017/old
 
       - name: Revert fresh database to old
         working-directory: ./fresh
         run: pnpm cli db alt r v$(echo ${{ steps.version.outputs.current }} | cut -d@ -f3)
         env:
           ALTERATION_TEST: true
-          DB_URL: postgres://postgres:postgres@localhost:5432/fresh
+          MONGODB_URI: mongodb://localhost:27017/fresh
 
       - name: Compare manifests
         working-directory: ./fresh

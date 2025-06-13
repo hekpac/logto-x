@@ -9,7 +9,7 @@ import { init } from 'i18next';
 const { jest } = import.meta;
 const { mockEsm, mockEsmDefault } = createMockUtils(jest);
 
-process.env.DB_URL = 'postgres://mock.db.url';
+process.env.MONGODB_URI = 'mongodb://mock.db.url';
 process.env.ENDPOINT = 'https://logto.test';
 process.env.NODE_ENV = 'test';
 
