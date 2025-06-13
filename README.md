@@ -79,6 +79,7 @@ Set required environment variables in a `.env` file or export them directly:
 MONGODB_URI=mongodb://localhost:27017/?replicaSet=rs0
 OPENSEARCH_URL=http://localhost:9200
 REDIS_URL=redis://localhost:6379
+OPENSEARCH_URL=http://localhost:9200
 ENDPOINT=http://localhost:3001
 ADMIN_ENDPOINT=http://localhost:3002
 ```
