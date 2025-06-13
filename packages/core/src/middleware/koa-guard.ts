@@ -7,7 +7,7 @@ import type { IMiddleware, IRouterParamContext } from 'koa-router';
 import type { ZodType, ZodTypeDef } from 'zod';
 
 import { EnvSet } from '#src/env-set/index.js';
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import { ResponseBodyError, StatusCodeError } from '#src/errors/ServerError/index.js';
 import { getConsoleLogFromContext } from '#src/utils/console.js';
 import { buildAppInsightsTelemetry } from '#src/utils/request.js';
@@ -219,7 +219,7 @@ export default function koaGuard<
       // Assert the status code from `RequestError` that is thrown by inner middleware.
       // Ignore guard errors since they will be always 400 and can be automatically documented
       // in the OpenAPI route.
-      if (error instanceof RequestError && !error.code.startsWith('guard.')) {
+      if (isRequestError(error) && !error.code.startsWith('guard.')) {
         assertStatusCode(error.status);
       }
 

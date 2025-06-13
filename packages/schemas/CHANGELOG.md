@@ -6,6 +6,8 @@
 
 - Updated dependencies [35bbc4399]
   - @logto/shared@3.3.0
+- add `samlCertificate` tenant config for customizing generated SAML certificate
+  subject and issuer
 
 ## 1.27.0
 

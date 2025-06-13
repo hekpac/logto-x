@@ -2,7 +2,10 @@ import { SsoProviderName } from '@logto/schemas';
 
 import { azureAdSsoConnectorFactory } from './AzureAdSsoConnector/index.js';
 import { azureOidcSsoConnectorFactory } from './AzureOidcSsoConnector/index.js';
-import { googleWorkSpaceSsoConnectorFactory } from './GoogleWorkspaceSsoConnector/index.js';
+import {
+  googleWorkSpaceSsoConnectorFactory,
+  googleIssuer,
+} from './GoogleWorkspaceSsoConnector/index.js';
 import { oidcSsoConnectorFactory } from './OidcSsoConnector/index.js';
 import { oktaSsoConnectorFactory } from './OktaSsoConnector/index.js';
 import { samlSsoConnectorFactory } from './SamlSsoConnector/index.js';
@@ -10,6 +13,7 @@ import { type SingleSignOnFactory } from './types/index.js';
 
 export { type SingleSignOnConnectorConfig, type SingleSignOnFactory } from './types/index.js';
 export * from './types/session.js';
+export { googleIssuer } from './GoogleWorkspaceSsoConnector/index.js';
 
 export const ssoConnectorFactories: {
   [key in SsoProviderName]: SingleSignOnFactory<key>;

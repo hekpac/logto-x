@@ -44,16 +44,10 @@ export const grantRevocationListener = (
   ctx: KoaContextWithOIDC & WithLogContext,
   grantId: string
 ) => {
-  const {
-    entities: { AccessToken, RefreshToken },
-  } = ctx.oidc;
-
-  // TODO: Check if this is needed or just use `Account?.accountId`
-  const userId = AccessToken?.accountId ?? RefreshToken?.accountId;
   const tokenTypes = getRevocationTokenTypes(ctx.oidc);
 
   const log = ctx.createLog('RevokeToken');
-  log.append({ ...extractInteractionContext(ctx), userId, grantId, tokenTypes });
+  log.append({ ...extractInteractionContext(ctx), grantId, tokenTypes });
 };
 
 /**

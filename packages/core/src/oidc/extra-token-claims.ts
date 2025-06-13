@@ -8,6 +8,7 @@ import {
   GrantType,
   CustomJwtErrorCode,
   jwtCustomizerUserInteractionContextGuard,
+  userProfileGuard,
 } from '@logto/schemas';
 import { generateStandardId } from '@logto/shared';
 import { conditional, trySafe } from '@silverhand/essentials';
@@ -19,6 +20,10 @@ import {
   type UnknownObject,
 } from 'oidc-provider';
 import { z } from 'zod';
+
+export const userProfileJsonGuard = userProfileGuard.transform((profile) =>
+  JSON.parse(JSON.stringify(profile))
+) as z.ZodType<Record<string, Json>>;
 
 import { EnvSet } from '#src/env-set/index.js';
 import { type CloudConnectionLibrary } from '#src/libraries/cloud-connection.js';
@@ -185,6 +190,12 @@ export const getExtraTokenClaimsForJwtCustomization = async (
         (await libraries.jwtCustomizers.getUserContext(token.accountId))
     );
 
+    const sanitizedUserInfo =
+      logtoUserInfo && {
+        ...logtoUserInfo,
+        profile: userProfileJsonGuard.parse(logtoUserInfo.profile),
+      };
+
     const interactionContext = isTokenClientCredentials
       ? undefined
       : await getInteractionLastSubmission(queries, token);
@@ -209,11 +220,9 @@ export const getExtraTokenClaimsForJwtCustomization = async (
         ? { tokenType: LogtoJwtTokenKeyType.ClientCredentials }
         : {
             tokenType: LogtoJwtTokenKeyType.AccessToken,
-            // TODO (LOG-8555): the newly added `UserProfile` type includes undefined fields and can not be directly assigned to `Json` type. And the `undefined` fields should be removed by zod guard.
             // `context` parameter is only eligible for user's access token for now.
             context: {
-              // eslint-disable-next-line no-restricted-syntax
-              user: logtoUserInfo as Record<string, Json>,
+              user: sanitizedUserInfo as Record<string, Json>,
               ...conditional(
                 subjectToken && {
                   grant: {

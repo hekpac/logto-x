@@ -35,6 +35,7 @@ export const defaultMetadata: ConnectorMetadata = {
       label: 'App Secret',
       type: ConnectorConfigFormItemType.Text,
       required: true,
+      isConfidential: true,
       placeholder: '<app-secret>',
     },
   ],

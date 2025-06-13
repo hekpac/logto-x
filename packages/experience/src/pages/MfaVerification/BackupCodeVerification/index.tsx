@@ -1,4 +1,4 @@
-import { MfaFactor } from '@logto/schemas';
+import { InteractionEvent, MfaFactor } from '@logto/schemas';
 import { t } from 'i18next';
 import { useCallback, type FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,9 @@ import Button from '@/components/Button';
 import { InputField } from '@/components/InputFields';
 import SwitchMfaFactorsLink from '@/components/SwitchMfaFactorsLink';
 import useMfaFlowState from '@/hooks/use-mfa-factors-state';
+import useErrorHandler from '@/hooks/use-error-handler';
 import useSendMfaPayload from '@/hooks/use-send-mfa-payload';
+import useSubmitInteractionErrorHandler from '@/hooks/use-submit-interaction-error-handler';
 import ErrorPage from '@/pages/ErrorPage';
 import { UserMfaFlow } from '@/types';
 
@@ -22,6 +24,10 @@ type FormState = {
 const BackupCodeVerification = () => {
   const flowState = useMfaFlowState();
   const sendMfaPayload = useSendMfaPayload();
+  const handleError = useErrorHandler();
+  const preSignInErrorHandler = useSubmitInteractionErrorHandler(InteractionEvent.SignIn, {
+    replace: true,
+  });
   const {
     register,
     handleSubmit,
@@ -31,13 +37,17 @@ const BackupCodeVerification = () => {
   const onSubmitHandler = useCallback(
     (event?: FormEvent<HTMLFormElement>) => {
       void handleSubmit(async ({ code }) => {
-        await sendMfaPayload({
+        const [error] = await sendMfaPayload({
           flow: UserMfaFlow.MfaVerification,
           payload: { type: MfaFactor.BackupCode, code },
         });
+
+        if (error) {
+          await handleError(error, preSignInErrorHandler);
+        }
       })(event);
     },
-    [handleSubmit, sendMfaPayload]
+    [handleError, handleSubmit, preSignInErrorHandler, sendMfaPayload]
   );
 
   if (!flowState) {

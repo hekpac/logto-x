@@ -1,5 +1,116 @@
+ <<<<<<< codex/reemplazar-componente-de-email-por-multioptioninput
+.tag.error {
+  background: var(--color-error-container);
+=======
+ <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
 @use '@/scss/underscore' as _;
 
+ <<<<<<< oihyc5-codex/reemplazar-componente-de-email-por-multioptioninput
 .error {
   background: var(--color-error-container);
+=======
+ <<<<<<< 4cwnwj-codex/reemplazar-componente-de-email-por-multioptioninput
+.error {
+  background: var(--color-error-container);
+=======
+ <<<<<<< codex/sustituir-componente-email-por-multioptioninput
+.error {
+  background: var(--color-error-container);
+=======
+ <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
+=======
+// Additional styles for values in error state. Other styles come from
+// `MultiOptionInput` directly.
+
+ <<<<<<< codex/reemplazar-componente-de-correo-personalizado
+  .placeholder {
+    position: absolute;
+    inset: 0;
+    padding: _.unit(1.5) _.unit(3);
+    color: var(--color-placeholder);
+  }
+
+  .wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: _.unit(2);
+    width: 100%;
+
+    .tag {
+      cursor: auto;
+      display: flex;
+      align-items: center;
+      gap: _.unit(1);
+      position: relative;
+
+      &.focused::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--color-overlay-default-focused);
+      }
+
+      &.error {
+        background: var(--color-error-container);
+      }
+    }
+
+    .close {
+      width: 16px;
+      height: 16px;
+    }
+
+    .delete {
+      width: 20px;
+      height: 20px;
+      margin-inline-end: _.unit(-0.5);
+    }
+
+    input {
+      color: var(--color-text);
+      font: var(--font-body-2);
+      background: transparent;
+      flex: 1;
+      padding: 0;
+      appearance: none;
+
+      &::placeholder {
+        color: var(--color-placeholder);
+      }
+    }
+  }
+
+  &:focus-within {
+    border-color: var(--color-primary);
+    outline-color: var(--color-focused-variant);
+  }
+
+  &.error {
+    border-color: var(--color-error);
+
+    &:focus-within {
+      outline-color: var(--color-danger-focused);
+    }
+  }
+}
+
+.errorMessage {
+  font: var(--font-body-2);
+  color: var(--color-error);
+  margin-top: _.unit(1);
+  white-space: pre-wrap;
+=======
+=======
+ >>>>>>> master
+ >>>>>>> master
+.error {
+  background: var(--color-error-container);
+ >>>>>>> master
+ >>>>>>> master
+ >>>>>>> master
+ >>>>>>> master
+ >>>>>>> master
 }
