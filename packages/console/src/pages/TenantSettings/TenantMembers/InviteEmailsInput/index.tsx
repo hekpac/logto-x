@@ -1,4 +1,6 @@
 import { generateStandardShortId } from '@logto/shared/universal';
+ <<<<<<< oihyc5-codex/reemplazar-componente-de-email-por-multioptioninput
+=======
  <<<<<<< 4cwnwj-codex/reemplazar-componente-de-email-por-multioptioninput
 =======
  <<<<<<< codex/reemplazar-componente-de-email-por-multioptioninput
@@ -21,6 +23,7 @@ import { conditional } from '@silverhand/essentials';
 =======
 import { conditional } from '@silverhand/essentials';
 import { useCallback } from 'react';
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
@@ -66,6 +69,11 @@ function InviteEmailsInput({
   parseEmailOptions,
 }: Props) {
   const { setError, clearErrors } = useFormContext();
+ <<<<<<< oihyc5-codex/reemplazar-componente-de-email-por-multioptioninput
+
+  const handleChange = (nextValues: InviteeEmailItem[]) => {
+    const { values: parsedValues, errorMessage } = parseEmailOptions(nextValues);
+=======
  <<<<<<< 4cwnwj-codex/reemplazar-componente-de-email-por-multioptioninput
 
   const handleChange = (nextValues: InviteeEmailItem[]) => {
@@ -118,6 +126,7 @@ function InviteEmailsInput({
 =======
  <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
 =======
+ >>>>>>> master
 
  <<<<<<< codex/reemplazar-componente-de-email-con-multioptioninput
   const handleChange = (newValues: InviteeEmailItem[]) => {
@@ -134,6 +143,12 @@ function InviteEmailsInput({
     } else {
       clearErrors(formName);
     }
+ <<<<<<< oihyc5-codex/reemplazar-componente-de-email-por-multioptioninput
+
+    rawOnChange(parsedValues);
+  };
+
+=======
  <<<<<<< sst8jf-codex/reemplazar-componente-de-email-con-multioptioninput
     rawOnChange(parsedValues);
   };
@@ -233,6 +248,7 @@ function InviteEmailsInput({
       }
 
  <<<<<<< 4cwnwj-codex/reemplazar-componente-de-email-por-multioptioninput
+ >>>>>>> master
   const validateInput = (text: string): { value: InviteeEmailItem } | string => {
     const newValue: InviteeEmailItem = { id: generateStandardShortId(), value: text };
     const { errorMessage } = parseEmailOptions([...values, newValue]);
@@ -252,6 +268,8 @@ function InviteEmailsInput({
       onChange={handleChange}
       onError={(message) => {
         setError(formName, { type: 'custom', message });
+ <<<<<<< oihyc5-codex/reemplazar-componente-de-email-por-multioptioninput
+=======
 =======
       clearErrors(formName);
       rawOnChange(parsedValues);
@@ -308,10 +326,13 @@ function InviteEmailsInput({
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
+ >>>>>>> master
       }}
       onClearError={() => {
         clearErrors(formName);
       }}
+ <<<<<<< oihyc5-codex/reemplazar-componente-de-email-por-multioptioninput
+=======
  <<<<<<< 4cwnwj-codex/reemplazar-componente-de-email-por-multioptioninput
 =======
  <<<<<<< codex/reemplazar-componente-de-email-por-multioptioninput
@@ -322,6 +343,7 @@ function InviteEmailsInput({
 =======
       validateInput={validateInput}
       error={error}
+ >>>>>>> master
  >>>>>>> master
  >>>>>>> master
  >>>>>>> master
