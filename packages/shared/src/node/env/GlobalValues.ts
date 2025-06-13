@@ -109,6 +109,9 @@ export default class GlobalValues {
 
   public readonly databaseConnectionTimeout = Number(getEnv('DATABASE_CONNECTION_TIMEOUT', '5000'));
 
+  /** Default verification record expiration in seconds */
+  public readonly verificationRecordExpiresIn = Number(getEnv('VERIFICATION_RECORD_EXPIRES_IN', '600'));
+
   /** Case insensitive username */
   public readonly isCaseSensitiveUsername = yes(getEnv('CASE_SENSITIVE_USERNAME', 'true'));
 

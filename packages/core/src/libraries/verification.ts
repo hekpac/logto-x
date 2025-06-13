@@ -1,4 +1,3 @@
-import { expirationTime } from '../queries/verification-records.js';
 import {
   buildVerificationRecord,
   verificationRecordDataGuard,
@@ -71,6 +70,7 @@ export const buildVerificationRecordByIdAndType = async <K extends keyof Verific
 export const insertVerificationRecord = async (
   verificationRecord: VerificationRecord,
   queries: Queries,
+  expiresInSeconds: number,
   // For new identifier verifications, the user id should be empty
   userId?: string
 ) => {
@@ -80,7 +80,7 @@ export const insertVerificationRecord = async (
     id,
     userId,
     data: rest,
-    expiresAt: new Date(Date.now() + expirationTime).valueOf(),
+    expiresAt: new Date(Date.now() + expiresInSeconds * 1000).valueOf(),
   });
 };
 

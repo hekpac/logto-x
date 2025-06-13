@@ -9,9 +9,6 @@ import { buildUpdateWhereWithPool } from '../database/update-where.js';
 
 const { table, fields } = convertToIdentifiers(VerificationRecords);
 
-// Default expiration time for verification records is 10 minutes
-// TODO: Remove this after we implement "Account Center" configuration
-export const expirationTime = 1000 * 60 * 10;
 
 export class VerificationRecordQueries {
   public readonly insert = buildInsertIntoWithPool(this.pool)(VerificationRecords, {
