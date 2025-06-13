@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { addOnPricingExplanationLink } from '@/consts/external-links';
-import { proPlanBasePrice } from '@/consts/subscriptions';
 import { SubscriptionDataContext } from '@/contexts/SubscriptionDataProvider';
 import InlineNotification from '@/ds-components/InlineNotification';
 import TextLink from '@/ds-components/TextLink';
@@ -17,6 +16,7 @@ function AddOnUsageChangesNotification({ className }: Props) {
   const { t } = useTranslation(undefined, { keyPrefix: 'admin_console' });
   const {
     currentSubscription: { planId, isEnterprisePlan },
+    currentSku,
   } = useContext(SubscriptionDataContext);
   const {
     data: { addOnChangesInCurrentCycleNoticeAcknowledged },
@@ -43,7 +43,7 @@ function AddOnUsageChangesNotification({ className }: Props) {
         }}
       >
         {t('subscription.usage.pricing.add_on_changes_in_current_cycle_notice', {
-          price: proPlanBasePrice,
+          price: currentSku.unitPrice ?? 0,
         })}
       </Trans>
     </InlineNotification>
