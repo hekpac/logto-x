@@ -5,6 +5,7 @@ import {
   type WebAuthnRegistrationOptions,
 } from '@logto/schemas';
 import { trySafe } from '@silverhand/essentials';
+import { InteractionEvent } from '@logto/schemas';
 import {
   browserSupportsWebAuthn,
   startAuthentication,
@@ -16,7 +17,9 @@ import { useTranslation } from 'react-i18next';
 
 import { UserMfaFlow } from '@/types';
 
+import useErrorHandler from './use-error-handler';
 import useSendMfaPayload from './use-send-mfa-payload';
+import useSubmitInteractionErrorHandler from './use-submit-interaction-error-handler';
 import useToast from './use-toast';
 
 type WebAuthnOptions = WebAuthnRegistrationOptions | WebAuthnAuthenticationOptions;
@@ -31,6 +34,10 @@ const useWebAuthnOperation = () => {
   const { t } = useTranslation();
   const { setToast } = useToast();
   const sendMfaPayload = useSendMfaPayload();
+  const handleError = useErrorHandler();
+  const preSignInErrorHandler = useSubmitInteractionErrorHandler(InteractionEvent.SignIn, {
+    replace: true,
+  });
 
   return useCallback(
     /**
@@ -70,7 +77,7 @@ const useWebAuthnOperation = () => {
       /**
        * Assert type manually to get the correct type
        */
-      await sendMfaPayload(
+      const [error] = await sendMfaPayload(
         isAuthenticationResponseJSON(response)
           ? {
               flow: UserMfaFlow.MfaVerification,
@@ -83,8 +90,18 @@ const useWebAuthnOperation = () => {
               verificationId,
             }
       );
+
+      if (error) {
+        await handleError(error, preSignInErrorHandler);
+      }
     },
-    [sendMfaPayload, setToast, t]
+    [
+      handleError,
+      preSignInErrorHandler,
+      sendMfaPayload,
+      setToast,
+      t,
+    ]
   );
 };
 

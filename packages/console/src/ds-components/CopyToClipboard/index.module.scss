@@ -30,6 +30,10 @@
     cursor: text;
     gap: _.unit(2);
 
+    .copyToolTipAnchor {
+      margin-inline-start: 0;
+    }
+
     .content {
       flex: 1;
       overflow: hidden;
@@ -73,6 +77,7 @@
   }
 
   .copyToolTipAnchor {
+ <<<<<<< codex/actualizar-estilo-de-copytoclipboard-y-eliminar-hack-de-marg
     margin-inline-start: _.unit(2);
   }
 
@@ -81,4 +86,15 @@
       margin-inline-start: 0;
     }
   }
+=======
+    display: flex;
+    align-items: center;
+    margin-inline-start: 0;
+  }
 }
+
+.copyToolTipAnchor {
+  margin-inline-start: 0;
+ >>>>>>> master
+}
+

@@ -5,7 +5,7 @@ import { pick } from '@silverhand/essentials';
 import type { Context, MiddlewareType } from 'koa';
 import type { IRouterParamContext } from 'koa-router';
 
-import RequestError from '#src/errors/RequestError/index.js';
+import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import type Queries from '#src/tenants/Queries.js';
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -149,7 +149,7 @@ export default function koaAuditLog<StateT, ContextT extends IRouterParamContext
         entry.append({
           result: LogResult.Error,
           error:
-            error instanceof RequestError
+            isRequestError(error)
               ? pick(error, 'message', 'code', 'data')
               : { message: String(error) },
         });
