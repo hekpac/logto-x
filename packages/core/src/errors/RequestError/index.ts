@@ -88,3 +88,6 @@ export default class RequestError extends Error {
     };
   }
 }
+
+export const isRequestError = (error: unknown): error is RequestError =>
+  error instanceof RequestError;

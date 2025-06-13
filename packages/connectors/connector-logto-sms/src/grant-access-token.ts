@@ -1,6 +1,5 @@
-import { got } from 'got';
-
-import { ConnectorError, ConnectorErrorCodes } from '@logto/connector-kit';
+import { ConnectorError, ConnectorErrorCodes, parseJson } from '@logto/connector-kit';
+import { requestTokenEndpoint, TokenEndpointAuthMethod } from '@logto/connector-oauth';
 
 import { defaultTimeout, scope } from './constant.js';
 import { accessTokenResponseGuard } from './types.js';
@@ -12,28 +11,28 @@ export type GrantAccessTokenParameters = {
   appSecret: string;
 };
 
-// TODO (LOG-5741) refactor to use @logto/connector-kit
 export const grantAccessToken = async ({
   tokenEndpoint,
   resource,
   appId,
   appSecret,
 }: GrantAccessTokenParameters) => {
-  const httpResponse = await got.post({
-    url: tokenEndpoint,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${Buffer.from(`${appId}:${appSecret}`).toString('base64')}`,
-    },
-    timeout: { request: defaultTimeout },
-    form: {
-      grant_type: 'client_credentials',
+  const httpResponse = await requestTokenEndpoint({
+    tokenEndpoint,
+    tokenEndpointAuthOptions: { method: TokenEndpointAuthMethod.ClientSecretBasic },
+    tokenRequestBody: {
+      grantType: 'client_credentials',
       resource,
-      scope,
+      scope: scope.join(' '),
+      clientId: appId,
+      clientSecret: appSecret,
     },
+    timeout: defaultTimeout,
   });
 
-  const result = accessTokenResponseGuard.safeParse(JSON.parse(httpResponse.body));
+  const result = accessTokenResponseGuard.safeParse(
+    parseJson(await httpResponse.text())
+  );
 
   if (!result.success) {
     throw new ConnectorError(ConnectorErrorCodes.InvalidResponse, result.error);

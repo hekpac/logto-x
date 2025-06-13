@@ -128,9 +128,15 @@ function CopyToClipboard(
           </Tooltip>
         )}
         <Tooltip
+ <<<<<<< f00w8s-codex/actualizar-estilo-de-copytoclipboard
           anchorClassName={styles.copyToolTipAnchor}
           isSuccessful={copyState === 'copied'}
           content={t(copyState)}
+=======
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+          anchorClassName={styles.copyToolTipAnchor}
+ >>>>>>> master
         >
           <IconButton
             ref={copyIconReference}

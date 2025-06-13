@@ -5,7 +5,6 @@ import type { Connector } from '@logto/schemas';
 export const mockMetadata: ConnectorMetadata = {
   id: 'id',
   target: 'connector',
-  platform: null,
   name: {
     en: 'Connector',
     'pt-PT': 'Conector',
