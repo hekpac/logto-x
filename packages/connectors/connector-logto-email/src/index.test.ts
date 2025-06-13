@@ -1,4 +1,5 @@
 import { got } from 'got';
+import { HTTPError } from 'got';
 import nock from 'nock';
 
 import { TemplateType } from '@logto/connector-kit';
@@ -40,6 +41,19 @@ describe('sendMessage()', () => {
         payload: { code: '1234' },
       })
     ).resolves.not.toThrow();
+  });
+
+  it('should throw when service responds with error', async () => {
+    const url = buildUrl(emailEndpoint, endpoint);
+    nock(url.origin).post(url.pathname).reply(400);
+    const { sendMessage } = await createConnector({ getConfig, getCloudServiceClient });
+    await expect(
+      sendMessage({
+        to: 'error@example.com',
+        type: TemplateType.SignIn,
+        payload: { code: '1234' },
+      })
+    ).rejects.toThrow(HTTPError);
   });
 
   it('should get usage successfully', async () => {
