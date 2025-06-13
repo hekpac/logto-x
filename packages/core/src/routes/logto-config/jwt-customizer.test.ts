@@ -183,4 +183,38 @@ describe('configs JWT customizer routes', () => {
 
     // TODO: Add the test on nested class static method.
   });
+
+  it('POST /configs/jwt-customizer/test should handle nested class static method', async () => {
+    const script = `const getCustomJwtClaims = async () => {
+  class Outer {
+    static Inner = class {
+      static greet() {
+        return 'hello';
+      }
+    };
+  }
+  return { greeting: Outer.Inner.greet() };
+};`;
+
+    const payload: JwtCustomizerTestRequestBody = {
+      tokenType: LogtoJwtTokenKeyType.ClientCredentials,
+      script,
+      environmentVariables: {},
+      token: {},
+    };
+
+    const response = await routeRequester.post('/configs/jwt-customizer/test').send(payload);
+
+    expect(tenantContext.libraries.jwtCustomizers.deployJwtCustomizerScript).toHaveBeenCalledWith(
+      expect.any(ConsoleLog),
+      {
+        key: LogtoJwtTokenKey.ClientCredentials,
+        value: payload,
+        useCase: 'test',
+      }
+    );
+
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({ greeting: 'hello' });
+  });
 });
