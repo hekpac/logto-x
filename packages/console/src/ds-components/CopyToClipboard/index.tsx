@@ -114,8 +114,23 @@ function CopyToClipboard(
         )}
         {hasVisibilityToggle && (
           <Tooltip
+ <<<<<<< x8lgw4-codex/actualizar-estilo-de-copytoclipboard
             anchorClassName={styles.copyToolTipAnchor}
             content={t(showHiddenContent ? 'hide' : 'view')}
+=======
+ <<<<<<< codex/actualizar-estilo-de-copytoclipboard-y-eliminar-hack-de-marg
+            content={t(showHiddenContent ? 'hide' : 'view')}
+            anchorClassName={styles.copyToolTipAnchor}
+=======
+ <<<<<<< ecvz92-codex/actualizar-estilo-de-copytoclipboard
+            content={t(showHiddenContent ? 'hide' : 'view')}
+            anchorClassName={styles.copyToolTipAnchor}
+=======
+            anchorClassName={styles.copyToolTipAnchor}
+            content={t(showHiddenContent ? 'hide' : 'view')}
+ >>>>>>> master
+ >>>>>>> master
+ >>>>>>> master
           >
             <IconButton
               className={styles.iconButton}
@@ -128,9 +143,33 @@ function CopyToClipboard(
           </Tooltip>
         )}
         <Tooltip
+ <<<<<<< x8lgw4-codex/actualizar-estilo-de-copytoclipboard
           anchorClassName={styles.copyToolTipAnchor}
           isSuccessful={copyState === 'copied'}
           content={t(copyState)}
+=======
+ <<<<<<< codex/actualizar-estilo-de-copytoclipboard-y-eliminar-hack-de-marg
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+          anchorClassName={styles.copyToolTipAnchor}
+=======
+ <<<<<<< ecvz92-codex/actualizar-estilo-de-copytoclipboard
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+          anchorClassName={styles.copyToolTipAnchor}
+=======
+ <<<<<<< f00w8s-codex/actualizar-estilo-de-copytoclipboard
+          anchorClassName={styles.copyToolTipAnchor}
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+=======
+          isSuccessful={copyState === 'copied'}
+          content={t(copyState)}
+          anchorClassName={styles.copyToolTipAnchor}
+ >>>>>>> master
+ >>>>>>> master
+ >>>>>>> master
+ >>>>>>> master
         >
           <IconButton
             ref={copyIconReference}

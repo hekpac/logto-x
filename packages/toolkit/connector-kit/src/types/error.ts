@@ -22,6 +22,14 @@ export enum ConnectorErrorCodes {
   SocialAccessTokenInvalid = 'social_invalid_access_token',
   SocialIdTokenInvalid = 'social_invalid_id_token',
   AuthorizationFailed = 'authorization_failed',
+  /**
+   * The nonce stored in session is missing while validating the ID token.
+   */
+  NonceMissing = 'nonce_missing',
+  /**
+   * The nonce provided in ID token does not match the one stored in session.
+   */
+  NonceMismatch = 'nonce_mismatch',
 }
 
 export class ConnectorError extends Error {
