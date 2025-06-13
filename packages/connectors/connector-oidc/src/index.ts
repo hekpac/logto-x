@@ -127,17 +127,16 @@ const getUserInfo =
       } = result.data;
 
       if (nonce) {
-        // TODO @darcy: need to specify error code
         assert(
           validationNonce,
-          new ConnectorError(ConnectorErrorCodes.General, {
+          new ConnectorError(ConnectorErrorCodes.NonceMissing, {
             message: 'Cannot find `nonce` in session storage.',
           })
         );
 
         assert(
           validationNonce === nonce,
-          new ConnectorError(ConnectorErrorCodes.SocialIdTokenInvalid, {
+          new ConnectorError(ConnectorErrorCodes.NonceMismatch, {
             message: 'ID Token validation failed due to `nonce` mismatch.',
           })
         );

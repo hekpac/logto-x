@@ -41,10 +41,10 @@ export type CreateSingleSignOnSession = (storage: SingleSignOnConnectorSession) 
  * Single sign on interaction identifier result
  *
  * @remark this session data  is used to store the authentication result from the identity provider. {@link /packages/core/src/routes/interaction/utils/single-sign-on.ts}
- * This is needed because we need to split the authentication process into sign in and sign up two parts.
- * If the SSO identity is found in DB we will directly sign in the user.
- * If the SSO identity is not found in DB we will throw an error and let the client to create a new user.
- * In the SSO registration endpoint, we will validate this session data and create a new user accordingly.
+ * Historically the authentication process was divided into separate sign-in and registration phases.
+ * The result was stored here so the server could decide which flow to follow.
+ * The flows are now handled in a unified manner. If the SSO identity does not exist,
+ * the client will be prompted to register a new user using this stored information.
  *
  * Deprecated in the experience APIs. We will reply on the SSO verification record to store the authentication result.
  */

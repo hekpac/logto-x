@@ -280,7 +280,21 @@ export default class ExperienceInteraction {
     await this.guardCaptcha();
     await this.profile.assertUserMandatoryProfileFulfilled();
 
-    const user = await this.provisionLibrary.createUser(this.profile.data);
+    const emailVerified = this.verificationRecords
+      .array()
+      .some(
+        (record) =>
+          (record.type === VerificationType.EmailVerificationCode ||
+            record.type === VerificationType.OneTimeToken ||
+            record.type === VerificationType.EnterpriseSso ||
+            record.type === VerificationType.Social) &&
+          record.isVerified
+      );
+
+    const user = await this.provisionLibrary.createUser(
+      this.profile.data,
+      emailVerified
+    );
     log?.append({ user });
 
     this.userId = user.id;
