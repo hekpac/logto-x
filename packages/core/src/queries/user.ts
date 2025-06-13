@@ -397,6 +397,56 @@ export const createUserQueries = (pool: CommonQueryMethods) => {
       returning *
     `);
 
+  const addUserMfaVerification = async (
+    userId: string,
+    verification: User['mfaVerifications'][number]
+  ) =>
+    pool.one<User>(sql`
+      update ${table}
+      set ${fields.mfaVerifications} = ${fields.mfaVerifications} || ${sql.jsonb(
+        [verification]
+      )}
+      where ${fields.id} = ${userId}
+      returning *
+    `);
+
+  const removeUserMfaVerificationById = async (
+    userId: string,
+    verificationId: string
+  ) =>
+    pool.one<User>(sql`
+      update ${table}
+      set ${fields.mfaVerifications} = (
+        select coalesce(jsonb_agg(elem), '[]'::jsonb)
+        from jsonb_array_elements(${fields.mfaVerifications}) elem
+        where elem->>'id' <> ${verificationId}
+      )
+      where ${fields.id} = ${userId}
+      returning *
+    `);
+
+  const patchUserMfaVerificationById = async (
+    userId: string,
+    verificationId: string,
+    patch: Record<string, unknown>
+  ) =>
+    pool.one<User>(sql`
+      with idx as (
+        select ordinality - 1 as idx
+        from jsonb_array_elements(${fields.mfaVerifications}) with ordinality
+        where value->>'id' = ${verificationId}
+      )
+      update ${table}
+      set ${fields.mfaVerifications} = jsonb_set(
+        ${fields.mfaVerifications},
+        '{' || idx.idx || '}',
+        (${fields.mfaVerifications}->idx.idx) || ${sql.jsonb(patch)}
+      )
+      from idx
+      where ${fields.id} = ${userId}
+      returning *
+    `);
+
   const hasActiveUsers = async () =>
     pool.exists(sql`
       select ${fields.id}
@@ -437,6 +487,9 @@ export const createUserQueries = (pool: CommonQueryMethods) => {
     insertUser,
     deleteUserById,
     deleteUserIdentity,
+    addUserMfaVerification,
+    removeUserMfaVerificationById,
+    patchUserMfaVerificationById,
     hasActiveUsers,
     getDailyNewUserCountsByTimeInterval,
   };
