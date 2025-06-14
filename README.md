@@ -162,6 +162,14 @@ these alerts.
 - [WebAuthn utils refactor](./docs-ref/webauthn-refactor.md)
 - [Verification records refactor](./docs-ref/verification-records-refactor.md)
 - [Optional Redis Cluster](./docs-ref/optional-redis-cluster.md)
+- [WebAuthn option generators](./docs-ref/webauthn-options-refactor.md)
+- [SAML application modularization](./docs-ref/saml-app-modularization.md)
+- [Localization keys refactor](./docs-ref/localization-keys-refactor.md)
+- [Add-on pricing from API](./docs-ref/addon-pricing-api.md)
+- [Random string helper](./docs-ref/random-string-helper.md)
+- [MultiOptionInput refactor](./docs-ref/multioptioninput-refactor.md)
+- [COEP header and token revocation logs](./docs-ref/coep-token-revocation.md)
+- [SSO types and SAML app icon](./docs-ref/sso-types-saml-icon.md)
 
 
 ## Licensing
