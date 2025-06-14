@@ -15,7 +15,7 @@ import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
 
 import { type EnterpriseSsoVerification } from '../verifications/enterprise-sso-verification.js';
-import { type VerificationRecord } from '../verifications/index.js';
+import { type VerificationRecord, type SocialVerification } from '../verifications/index.js';
 
 const getEmailIdentifierFromVerificationRecord = (verificationRecord: VerificationRecord) => {
   switch (verificationRecord.type) {
@@ -297,6 +297,7 @@ export class SignInExperienceValidator {
     const {
       signIn: { methods: signInMethods },
       singleSignOnEnabled,
+      socialSignInConnectorTargets,
     } = await this.getSignInExperienceData();
 
     switch (verificationRecord.type) {
@@ -319,9 +320,19 @@ export class SignInExperienceValidator {
         break;
       }
 
-      case VerificationType.OneTimeToken:
+      case VerificationType.OneTimeToken: {
+        // No need to verify one-time token method
+        break;
+      }
       case VerificationType.Social: {
-        // No need to verify one-time token and social verification methods
+        const {
+          metadata: { target },
+        } = await (verificationRecord as SocialVerification).getConnectorData();
+
+        assertThat(
+          socialSignInConnectorTargets.includes(target),
+          new RequestError({ code: 'user.sign_in_method_not_enabled', status: 422 })
+        );
         break;
       }
       case VerificationType.EnterpriseSso: {
