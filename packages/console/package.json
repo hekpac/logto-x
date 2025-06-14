@@ -112,7 +112,7 @@
     "recharts": "^2.1.13",
     "rehype-mdx-code-props": "^3.0.1",
     "remark-gfm": "^4.0.0",
-    "stylelint": "^15.0.0",
+    "stylelint": "^15.11.0",
     "swr": "^2.2.0",
     "typescript": "^5.5.3",
     "ua-parser-js": "^2.0.3",
@@ -127,7 +127,7 @@
     "node": "^22.14.0"
   },
   "stylelint": {
-    "extends": "@silverhand/eslint-config-react/.stylelintrc"
+    "extends": "../../.stylelintrc.json"
   },
   "prettier": "@silverhand/eslint-config/.prettierrc"
 }
