@@ -21,7 +21,7 @@ import { selectDropdownMenuItem } from './select-dropdown-menu-item.js';
 
 export type PuppeteerInstance = Page | Frame | ElementHandle;
 
-export const goToAdminConsole = async () => {
+export const goToConsole = async () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
   await expectNavigation(page.goto(logtoConsoleUrl.href));
 

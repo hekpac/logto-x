@@ -10,7 +10,7 @@ import {
   expectToOpenNewPage,
   expectToSaveChanges,
   expectUnsavedChangesAlert,
-  goToAdminConsole,
+  goToConsole,
   waitForToast,
 } from '#src/ui-helpers/index.js';
 import { expectNavigation, appendPathname, dcls, waitFor, cls } from '#src/utils.js';
@@ -37,7 +37,7 @@ describe('applications', () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigate to applications page', async () => {

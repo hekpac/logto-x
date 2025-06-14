@@ -1,5 +1,5 @@
 import { logtoConsoleUrl as logtoConsoleUrlString } from '#src/constants.js';
-import { goToAdminConsole } from '#src/ui-helpers/index.js';
+import { goToConsole } from '#src/ui-helpers/index.js';
 import { expectNavigation, appendPathname, waitFor } from '#src/utils.js';
 
 import { waitForFormCard, expectToSelectColor, expectToSaveSignInExperience } from './helpers.js';
@@ -13,7 +13,7 @@ describe('sign-in experience: branding', () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigate to sign-in experience page', async () => {
