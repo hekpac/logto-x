@@ -4,7 +4,7 @@ import { logtoConsoleUrl as logtoConsoleUrlString } from '#src/constants.js';
 import {
   expectToClickDetailsPageOption,
   expectUnsavedChangesAlert,
-  goToAdminConsole,
+  goToConsole,
   expectToSaveChanges,
   waitForToast,
   expectModalWithTitle,
@@ -27,7 +27,7 @@ describe('social connectors', () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigate to social connector page', async () => {

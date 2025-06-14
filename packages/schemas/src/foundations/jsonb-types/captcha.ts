@@ -19,7 +19,7 @@ export const recaptchaEnterpriseConfigGuard = z.object({
   secretKey: z.string(),
   projectId: z.string(),
   /** The minimum acceptable score returned from reCAPTCHA Enterprise. */
-  scoreThreshold: z.number().min(0).max(1).optional().default(0.5),
+  scoreThreshold: z.number().min(0).max(1).optional().default(0.7),
 });
 
 export type RecaptchaEnterpriseConfig = z.infer<typeof recaptchaEnterpriseConfigGuard>;

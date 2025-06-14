@@ -1,7 +1,7 @@
 import { getSsoConnectors, deleteSsoConnectorById } from '#src/api/sso-connector.js';
 import { logtoConsoleUrl as logtoConsoleUrlString } from '#src/constants.js';
 import {
-  goToAdminConsole,
+  goToConsole,
   expectModalWithTitle,
   expectConfirmModalAndAct,
   expectToClickDetailsPageOption,
@@ -30,7 +30,7 @@ describe('create SSO connectors', () => {
 
   beforeAll(async () => {
     // Enter admin console
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   afterAll(async () => {

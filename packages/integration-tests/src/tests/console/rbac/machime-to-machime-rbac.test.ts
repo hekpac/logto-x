@@ -4,7 +4,7 @@ import {
   expectModalWithTitle,
   expectToClickModalAction,
   expectToClickNavTab,
-  goToAdminConsole,
+  goToConsole,
   waitForToast,
 } from '#src/ui-helpers/index.js';
 import {
@@ -44,7 +44,7 @@ describe('M2M RBAC', () => {
   const m2mFramework = 'Machine-to-machine';
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   describe('create api resource and permissions', () => {
