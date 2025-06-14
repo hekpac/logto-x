@@ -34,7 +34,7 @@ function CaptchaContent({ isDeleted, captchaProvider, onUpdate }: Props) {
     reValidateMode: 'onBlur',
     defaultValues: {
       ...captchaProvider.config,
-      scoreThreshold: captchaProvider.config.scoreThreshold ?? 0.5,
+      scoreThreshold: captchaProvider.config.scoreThreshold ?? 0.7,
     },
   });
 
