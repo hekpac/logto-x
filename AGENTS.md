@@ -46,3 +46,38 @@ Consulta `grep -R "TODO" packages` para la lista completa.
 - Seguir el formato de commits convencional validado por commitlint.
 - Utilizar uno de los scopes soportados: connector, console, core, demo-app, test, phrases, schemas, shared, experience, experience-legacy, deps, deps-dev, cli, toolkit, cloud, app-insights, elements, translate, tunnel, account-elements.
 - Mantener los mensajes de commit por debajo de 110 caracteres para CI.
+
+## PDR: Migración a MongoDB, Redis y OpenSearch
+
+Esta sección resume las tareas pendientes para completar la sustitución de PostgreSQL
+por MongoDB y los nuevos microservicios. Es prioritario mantener la funcionalidad
+original optimizando el rendimiento y la comunicación entre contenedores Docker.
+
+1. **Eliminar dependencias de SQL/Postgres**
+   - Reescribir los módulos que usan `@silverhand/slonik` (por ejemplo
+     `packages/core/src/database/**`, `packages/cli/src/commands/database/seed/**`
+     y `packages/core/src/sentinel/**`) empleando Mongoose o el `mongodb` driver.
+   - Adaptar las migraciones (`packages/core/src/migrations`) y queries restantes
+     para funcionar sobre un replicaset de MongoDB.
+
+2. **Actualizar CLI y scripts de seed**
+   - Modificar `packages/cli` para que las operaciones de instalación y `seed`
+     utilicen MongoDB en lugar de PostgreSQL.
+   - Eliminar la detección de `postgres --version` y añadir opciones de configuración
+     para MongoDB replicaset.
+
+3. **Integrar Redis y OpenSearch**
+   - Emplear Redis para caché y almacenamiento de sesiones.
+   - Usar OpenSearch para las funcionalidades de búsqueda, eliminando la lógica
+     dependiente de SQL.
+
+4. **Actualizar pruebas y pipelines**
+   - Ajustar las suites de pruebas para que usen MongoDB, Redis y OpenSearch.
+   - Actualizar los flujos de trabajo de GitHub Actions eliminando pasos
+     relacionados con PostgreSQL.
+
+5. **Verificación continua**
+   - Ejecutar `pnpm i`, `pnpm ci:lint`, `pnpm ci:stylelint` y `pnpm ci:test`
+     tras cada etapa para asegurar que la funcionalidad se mantiene.
+   - Revisar `docker-compose.yml` para optimizar la comunicación entre contenedores
+     y documentar los pasos de despliegue.
