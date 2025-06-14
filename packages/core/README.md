@@ -25,3 +25,7 @@ npx redoc-cli serve http://localhost:3001/api/swagger.json
 ### Using Swagger editor
 
 Copy the API output and paste it in the [Swagger Editor](https://editor.swagger.io/).
+
+## CAPTCHA verification
+
+The default score threshold for reCAPTCHA Enterprise is **0.7**. You can override this value via `scoreThreshold` in the CAPTCHA provider configuration.
