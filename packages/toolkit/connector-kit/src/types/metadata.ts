@@ -1,40 +1,15 @@
-import type { LanguageTag } from '@logto/language-kit';
-import { isLanguageTag } from '@logto/language-kit';
 import { type Nullable } from '@silverhand/essentials';
-import type { ZodType } from 'zod';
 import { z } from 'zod';
 
 import { connectorConfigFormItemGuard } from './config-form.js';
 import { type ToZodObject } from './foundation.js';
+import { type I18nPhrases, i18nPhrasesGuard } from './i18n.js';
 
 export enum ConnectorPlatform {
   Native = 'Native',
   Universal = 'Universal',
   Web = 'Web',
 }
-
-export const i18nPhrasesGuard: ZodType<I18nPhrases> = z
-  .object({ en: z.string() })
-  .and(z.record(z.string()))
-  .refine((i18nObject) => {
-    const keys = Object.keys(i18nObject);
-
-    if (!keys.includes('en')) {
-      return false;
-    }
-
-    for (const value of keys) {
-      if (!isLanguageTag(value)) {
-        return false;
-      }
-    }
-
-    return true;
-  });
-
-export type I18nPhrases = { en: string } & {
-  [K in Exclude<LanguageTag, 'en'>]?: string;
-};
 
 export type SocialConnectorMetadata = {
   platform?: ConnectorPlatform;
