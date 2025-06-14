@@ -33,25 +33,24 @@
     gap: _.unit(2);
     width: 100%;
 
+    .tag {
+      cursor: auto;
+      display: flex;
+      align-items: center;
+      gap: _.unit(1);
+      position: relative;
 
-      .tag {
-        cursor: auto;
-        display: flex;
-        align-items: center;
-        gap: _.unit(1);
-        position: relative;
-
-        &.focused::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: var(--color-overlay-default-focused);
-        }
-
-        &.error {
-          background: var(--color-error-container);
-        }
+      &.focused::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--color-overlay-default-focused);
       }
+
+      &.error {
+        background: var(--color-error-container);
+      }
+    }
 
     .close {
       width: 16px;
