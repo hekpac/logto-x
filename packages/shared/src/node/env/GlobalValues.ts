@@ -91,10 +91,7 @@ export default class GlobalValues {
   public readonly isCloud = yes(getEnv('IS_CLOUD'));
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  public readonly mongodbUri = tryThat(
-    () => assertEnv('MONGODB_URI'),
-    throwErrorWithDsnMessage
-  );
+  public readonly mongodbUri = tryThat(() => assertEnv('MONGODB_URI'), throwErrorWithDsnMessage);
   public readonly developmentTenantId = getEnv('DEVELOPMENT_TENANT_ID');
   /** @deprecated Use the built-in user default role configuration (`Roles.isDefault`) instead. */
   public readonly userDefaultRoleNames = getEnvAsStringArray('USER_DEFAULT_ROLE_NAMES');
@@ -110,7 +107,9 @@ export default class GlobalValues {
   public readonly databaseConnectionTimeout = Number(getEnv('DATABASE_CONNECTION_TIMEOUT', '5000'));
 
   /** Default verification record expiration in seconds */
-  public readonly verificationRecordExpiresIn = Number(getEnv('VERIFICATION_RECORD_EXPIRES_IN', '600'));
+  public readonly verificationRecordExpiresIn = Number(
+    getEnv('VERIFICATION_RECORD_EXPIRES_IN', '600')
+  );
 
   /** Case insensitive username */
   public readonly isCaseSensitiveUsername = yes(getEnv('CASE_SENSITIVE_USERNAME', 'true'));
@@ -119,11 +118,17 @@ export default class GlobalValues {
    * The Redis endpoint (optional). If it's set, the central cache mechanism will be automatically enabled.
    *
    * You can set it to a truthy value like `true` or `1` to enable cache with the default Redis URL.
-  */
+   */
   public readonly redisUrl = getEnv('REDIS_URL');
 
   /** OpenSearch endpoint for search service. */
   public readonly opensearchUrl = getEnv('OPENSEARCH_URL');
+
+  /**
+   * Toggle support for the Google One Tap CORP header.
+   * Set to a falsy value to disable the COEP header until Google officially documents CORP support.
+   */
+  public readonly isGsiCorpSupported = yes(getEnv('GSI_CORP_SUPPORTED', 'true'));
 
   public get dbUrl(): string {
     return this.mongodbUri;
