@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next';
 
 /**
  * Utility helpers for validating and parsing invitee emails when inviting
- * tenant members. These helpers used to live in the now removed
- * `InviteEmailsInput` component and are currently consumed by the
- * `<MultiOptionInput />` component across the onboarding and invite member
- * flows.
+ * tenant members. These functions were originally part of the legacy
+ * `InviteEmailsInput` component but now serve the
+ * `<MultiOptionInput />` component across both the onboarding and invite
+ * member flows.
  */
 import useSWR from 'swr';
 
