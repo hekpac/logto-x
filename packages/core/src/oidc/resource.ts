@@ -181,6 +181,48 @@ export const isThirdPartyApplication = async ({ applications }: Queries, applica
  *
  * Available resource scopes can be found using {@link findResourceScopes}.
  */
+const filterOrganizationScopesByConsent = (
+  scopes: ReadonlyArray<{ name: string; id: string }>,
+  consentScopes: ReadonlyArray<{ id: string }>
+) =>
+  scopes.filter(({ id: organizationScopeId }) =>
+    consentScopes.some(({ id }) => id === organizationScopeId)
+  );
+
+const getConsentScopesForResource = async (
+  libraries: Libraries,
+  applicationId: string,
+  indicator: string,
+  includeOrganizationResourceScopes: boolean,
+  includeResourceScopes: boolean
+) => {
+  const {
+    applications: {
+      getApplicationUserConsentResourceScopes,
+      getApplicationUserConsentOrganizationResourceScopes,
+    },
+  } = libraries;
+
+  const userConsentResources = includeResourceScopes
+    ? await getApplicationUserConsentResourceScopes(applicationId)
+    : [];
+  const userConsentResource = userConsentResources.find(
+    ({ resource }) => resource.indicator === indicator
+  );
+
+  const userConsentOrganizationResources = includeOrganizationResourceScopes
+    ? await getApplicationUserConsentOrganizationResourceScopes(applicationId)
+    : [];
+  const userConsentOrganizationResource = userConsentOrganizationResources.find(
+    ({ resource }) => resource.indicator === indicator
+  );
+
+  return [
+    ...(userConsentResource?.scopes ?? []),
+    ...(userConsentOrganizationResource?.scopes ?? []),
+  ];
+};
+
 export const filterResourceScopesForTheThirdPartyApplication = async (
   libraries: Libraries,
   applicationId: string,
@@ -192,49 +234,25 @@ export const filterResourceScopesForTheThirdPartyApplication = async (
   }: { includeOrganizationResourceScopes?: boolean; includeResourceScopes?: boolean } = {}
 ) => {
   const {
-    applications: {
-      getApplicationUserConsentOrganizationScopes,
-      getApplicationUserConsentResourceScopes,
-      getApplicationUserConsentOrganizationResourceScopes,
-    },
+    applications: { getApplicationUserConsentOrganizationScopes },
   } = libraries;
 
   if (isReservedResource(indicator)) {
     const userConsentOrganizationScopes =
       await getApplicationUserConsentOrganizationScopes(applicationId);
 
-    // Filter out the organization scopes that are not enabled in the application
-    return scopes.filter(({ id: organizationScopeId }) =>
-      userConsentOrganizationScopes.some(
-        ({ id: consentOrganizationId }) => consentOrganizationId === organizationScopeId
-      )
-    );
+    return filterOrganizationScopesByConsent(scopes, userConsentOrganizationScopes);
   }
 
-  // Get the API resource scopes that are enabled in the application
-  const userConsentResources = includeResourceScopes
-    ? await getApplicationUserConsentResourceScopes(applicationId)
-    : [];
-  const userConsentResource = userConsentResources.find(
-    ({ resource }) => resource.indicator === indicator
-  );
-  const userConsentOrganizationResources = includeOrganizationResourceScopes
-    ? await getApplicationUserConsentOrganizationResourceScopes(applicationId)
-    : [];
-  const userConsentOrganizationResource = userConsentOrganizationResources.find(
-    ({ resource }) => resource.indicator === indicator
+  const resourceScopes = await getConsentScopesForResource(
+    libraries,
+    applicationId,
+    indicator,
+    includeOrganizationResourceScopes,
+    includeResourceScopes
   );
 
-  const resourceScopes = [
-    ...(userConsentResource?.scopes ?? []),
-    ...(userConsentOrganizationResource?.scopes ?? []),
-  ];
-
-  return scopes.filter(({ id: resourceScopeId }) =>
-    resourceScopes.some(
-      ({ id: consentResourceScopeId }) => consentResourceScopeId === resourceScopeId
-    )
-  );
+  return filterOrganizationScopesByConsent(scopes, resourceScopes);
 };
 
 /**

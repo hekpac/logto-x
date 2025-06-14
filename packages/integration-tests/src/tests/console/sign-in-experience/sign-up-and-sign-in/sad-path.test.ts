@@ -1,5 +1,5 @@
 import { logtoConsoleUrl as logtoConsoleUrlString } from '#src/constants.js';
-import { expectToClickNavTab, goToAdminConsole } from '#src/ui-helpers/index.js';
+import { expectToClickNavTab, goToConsole } from '#src/ui-helpers/index.js';
 import { expectNavigation, appendPathname } from '#src/utils.js';
 
 import { waitForFormCard } from '../helpers.js';
@@ -10,7 +10,7 @@ describe('sign-in experience(sad path): sign-up and sign-in', () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigate to sign-in experience page', async () => {

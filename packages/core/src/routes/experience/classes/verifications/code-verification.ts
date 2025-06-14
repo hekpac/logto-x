@@ -21,7 +21,7 @@ import type Libraries from '#src/tenants/Libraries.js';
 import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
 
-import { findUserByIdentifier } from '../utils.js';
+import { identifyUserByIdentifier } from './shared/identify-user.js';
 
 import { type IdentifierVerificationRecord } from './verification-record.js';
 
@@ -136,24 +136,11 @@ abstract class CodeVerification<T extends CodeVerificationType>
   }
 
   async identifyUser(): Promise<User> {
-    assertThat(
+    return identifyUserByIdentifier(
+      this.queries,
       this.verified,
-      new RequestError({ code: 'session.verification_failed', status: 400 })
+      this.identifier
     );
-
-    const user = await findUserByIdentifier(this.queries.users, this.identifier);
-
-    assertThat(
-      user,
-      new RequestError(
-        { code: 'user.user_not_exist', status: 404 },
-        {
-          identifier: this.identifier.value,
-        }
-      )
-    );
-
-    return user;
   }
 
   toJson(): CodeVerificationRecordData<T> {

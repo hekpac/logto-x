@@ -1,6 +1,6 @@
 import { emailRegEx, PasswordPolicyChecker, usernameRegEx } from '@logto/core-kit';
 import { userInfoSelectFields, jsonObjectGuard } from '@logto/schemas';
-import { condArray, conditional, pick } from '@silverhand/essentials';
+import { conditional, pick } from '@silverhand/essentials';
 import { literal, object, string } from 'zod';
 
 import RequestError from '#src/errors/RequestError/index.js';
@@ -23,7 +23,6 @@ export default function userRoutes<T extends AuthedMeRouter>(
     },
     libraries: {
       users: { checkIdentifierCollision, verifyUserPassword },
-      verificationStatuses: { createVerificationStatus, checkVerificationStatus },
     },
   } = tenant;
 
@@ -58,12 +57,6 @@ export default function userRoutes<T extends AuthedMeRouter>(
 
       const user = await findUserById(userId);
       assertThat(!user.isSuspended, new RequestError({ code: 'user.suspended', status: 401 }));
-
-      const { primaryEmail } = body;
-      if (primaryEmail) {
-        // Check if user has verified email within 10 minutes.
-        await checkVerificationStatus(userId, primaryEmail);
-      }
 
       await checkIdentifierCollision(body, userId);
 
@@ -120,7 +113,6 @@ export default function userRoutes<T extends AuthedMeRouter>(
       assertThat(!user.isSuspended, new RequestError({ code: 'user.suspended', status: 401 }));
 
       await verifyUserPassword(user, password);
-      await createVerificationStatus(userId, null);
 
       ctx.status = 204;
 
@@ -139,10 +131,7 @@ export default function userRoutes<T extends AuthedMeRouter>(
 
       assertThat(!user.isSuspended, new RequestError({ code: 'user.suspended', status: 401 }));
 
-      const [signInExperience] = await Promise.all([
-        findDefaultSignInExperience(),
-        ...condArray(user.passwordEncrypted && [checkVerificationStatus(userId, null)]),
-      ]);
+      const signInExperience = await findDefaultSignInExperience();
       const passwordPolicyChecker = new PasswordPolicyChecker(signInExperience.passwordPolicy);
       const issues = await checkPasswordPolicyForUser(passwordPolicyChecker, password, user);
 

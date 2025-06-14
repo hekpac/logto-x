@@ -64,7 +64,7 @@ const dataToFormParser = (data: DataType) => {
   };
 };
 
-const formDataToSsoConnectorParser = (
+export const formDataToSsoConnectorParser = (
   formData: FormType
 ): Pick<SsoConnector, 'branding' | 'connectorName' | 'domains' | 'syncProfile'> => {
   const { branding, connectorName, domains, syncProfile } = formData;

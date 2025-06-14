@@ -2,7 +2,7 @@ import { type Nullable } from '@silverhand/essentials';
 import { type Page, type Target } from 'puppeteer';
 
 import { logtoConsoleUrl as logtoConsoleUrlString, logtoUrl } from '#src/constants.js';
-import { goToAdminConsole } from '#src/ui-helpers/index.js';
+import { goToConsole } from '#src/ui-helpers/index.js';
 import { expectNavigation, appendPathname } from '#src/utils.js';
 
 import { expectToSelectPreviewLanguage, waitForFormCard } from './helpers.js';
@@ -13,7 +13,7 @@ describe('sign-in experience: sign-in preview', () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigate to sign-in experience page', async () => {

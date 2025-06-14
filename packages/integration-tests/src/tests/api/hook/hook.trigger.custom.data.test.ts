@@ -134,7 +134,6 @@ describe('manual data hook tests', () => {
     });
 
   describe('organization membership update by just-in-time organization provisioning', () => {
-    // TODO: Add user deletion test case
 
     it('should trigger `Organization.Membership.Updated` event when user is provisioned by experience', async () => {
       await setEmailConnector();
@@ -189,6 +188,25 @@ describe('manual data hook tests', () => {
 
       const { id: userId } = await registerWithEmail(`${randomString()}@${domain}`);
       await organizationApi.deleteUser(organization.id, userId);
+
+      await assertOrganizationMembershipUpdated(organization.id);
+    });
+
+    it('should trigger `Organization.Membership.Updated` event when user is deleted', async () => {
+      await setEmailConnector();
+      await setSmsConnector();
+      await enableAllVerificationCodeSignInMethods({
+        identifiers: [SignInIdentifier.Email],
+        password: false,
+        verify: true,
+      });
+
+      const organization = await organizationApi.create({ name: 'qux' });
+      const domain = 'delete-user.com';
+      await organizationApi.jit.addEmailDomain(organization.id, domain);
+
+      const { id: userId } = await registerWithEmail(`${randomString()}@${domain}`);
+      await deleteUser(userId);
 
       await assertOrganizationMembershipUpdated(organization.id);
     });

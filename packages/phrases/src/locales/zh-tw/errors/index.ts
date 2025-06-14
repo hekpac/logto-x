@@ -1,13 +1,14 @@
 import account_center from './account-center.js';
 import application from './application.js';
 import auth from './auth.js';
+import captcha_provider from './captcha-provider.js';
 import connector from './connector.js';
 import custom_profile_fields from './custom-profile-fields.js';
+import organization_invitation from './organization-invitation.js';
 import domain from './domain.js';
 import entity from './entity.js';
 import guard from './guard.js';
 import hook from './hook.js';
-import captcha_provider from './captcha-provider.js';
 import jwt_customizer from './jwt-customizer.js';
 import localization from './localization.js';
 import log from './log.js';
@@ -59,8 +60,11 @@ const errors = {
   account_center,
   one_time_token,
   captcha_provider,
-  captcha_provider,
-    custom_profile_fields,
+  custom_profile_fields,
+ <<<<<<< codex/reemplazar-mensajes-de-error-por-claves-de-traducción
+  organization_invitation,
+=======
+ >>>>>>> master
 };
 
 export default Object.freeze(errors);

@@ -1,6 +1,6 @@
 import { logtoConsoleUrl as logtoConsoleUrlString } from '#src/constants.js';
 import {
-  goToAdminConsole,
+  goToConsole,
   expectToSaveChanges,
   waitForToast,
   expectToDiscardChanges,
@@ -25,7 +25,7 @@ describe('user management', () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigates to user management page on clicking sidebar menu', async () => {

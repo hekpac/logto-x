@@ -4,7 +4,7 @@ import { logtoConsoleUrl as logtoConsoleUrlString } from '#src/constants.js';
 import {
   expectToClickDetailsPageOption,
   expectUnsavedChangesAlert,
-  goToAdminConsole,
+  goToConsole,
   expectToSaveChanges,
   waitForToast,
 } from '#src/ui-helpers/index.js';
@@ -28,7 +28,7 @@ describe('passwordless connectors', () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigate to passwordless connector page', async () => {

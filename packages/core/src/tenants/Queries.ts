@@ -32,7 +32,6 @@ import createTenantQueries from '#src/queries/tenant.js';
 import UserSsoIdentityQueries from '#src/queries/user-sso-identities.js';
 import { createUserQueries } from '#src/queries/user.js';
 import { createUsersRolesQueries } from '#src/queries/users-roles.js';
-import { createVerificationStatusQueries } from '#src/queries/verification-status.js';
 
 import { AccountCenterQueries } from '../queries/account-center.js';
 import { CaptchaProviderQueries } from '../queries/captcha-providers.js';
@@ -61,7 +60,6 @@ export default class Queries {
   users = createUserQueries(this.pool);
   usersRoles = createUsersRolesQueries(this.pool);
   applicationsRoles = createApplicationsRolesQueries(this.pool);
-  verificationStatuses = createVerificationStatusQueries(this.pool);
   hooks = createHooksQueries(this.pool);
   oneTimeTokens = createOneTimeTokenQueries(this.pool);
   domains = createDomainsQueries(this.pool);
