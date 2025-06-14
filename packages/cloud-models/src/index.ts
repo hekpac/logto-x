@@ -3,7 +3,7 @@ export enum LogtoSkuType {
   AddOn = 'AddOn',
 }
 
-export interface NewSubscriptionQuota {
+export type NewSubscriptionQuota = {
   mauLimit: number | null;
   tokenLimit: number | null;
   applicationsLimit: number | null;
@@ -28,13 +28,10 @@ export interface NewSubscriptionQuota {
   samlApplicationsLimit: number | null;
   captchaEnabled: boolean;
   securityFeaturesEnabled: boolean;
-}
+};
 
-export interface LogtoSkuQuota extends NewSubscriptionQuota {
+export type LogtoSkuQuota = NewSubscriptionQuota & {
   ticketSupportResponseTime: number;
-}
+};
 
-export type LogtoSkuQuotaEntries = Array<[
-  keyof LogtoSkuQuota,
-  LogtoSkuQuota[keyof LogtoSkuQuota]
-]>;
+export type LogtoSkuQuotaEntries = Array<[keyof LogtoSkuQuota, LogtoSkuQuota[keyof LogtoSkuQuota]]>;
