@@ -1,12 +1,16 @@
-/* eslint-disable max-lines */
-// TODO: refactor this file to reduce LOC
+/* eslint-disable max-lines, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, no-restricted-syntax */
 import { authRequestInfoGuard } from '@logto/schemas';
-import { generateStandardId, generateStandardShortId } from '@logto/shared';
-import { cond, removeUndefinedKeys, trySafe } from '@silverhand/essentials';
-import { addMinutes } from 'date-fns';
+import { removeUndefinedKeys } from '@silverhand/essentials';
 import { z } from 'zod';
 
-import { spInitiatedSamlSsoSessionCookieName } from '#src/constants/index.js';
+import {
+  verifyAndGetSamlSessionData,
+  samlApplicationSignInCallbackQueryParametersGuard,
+  validateSamlCallbackQuery,
+  resetSamlSessionState,
+  createSamlAppSession,
+  type SamlApplicationCallbackQuery,
+} from './utils.js';
 import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import koaAuditLog from '#src/middleware/koa-audit-log.js';
 import koaGuard from '#src/middleware/koa-guard.js';
@@ -15,18 +19,6 @@ import { SamlApplication } from '#src/saml-application/SamlApplication/index.js'
 import { generateAutoSubmitForm } from '#src/saml-application/SamlApplication/utils.js';
 import assertThat from '#src/utils/assert-that.js';
 import { getConsoleLogFromContext } from '#src/utils/console.js';
-
-import { verifyAndGetSamlSessionData } from './utils.js';
-
-const samlApplicationSignInCallbackQueryParametersGuard = z
-  .object({
-    code: z.string(),
-    state: z.string(),
-    redirectUri: z.string(),
-    error: z.string(),
-    error_description: z.string(),
-  })
-  .partial();
 
 export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter>(
   ...[router, { queries, envSet }]: RouterInitArgs<T>
@@ -73,60 +65,19 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
     // eslint-disable-next-line complexity
     async (ctx, next) => {
       const consoleLog = getConsoleLogFromContext(ctx);
+      // eslint-disable-next-line no-restricted-syntax
       const {
         params: { id },
         query,
-      } = ctx.guard;
+      } = ctx.guard as {
+        params: { id: string };
+        query: SamlApplicationCallbackQuery;
+      };
 
       /**
        * When generating swagger.json, we build path/query guards and verify whether the query/path guard is an instance of ZodObject. Previously, our query guard was a Union of Zod Objects, which failed the validation. Now, we directly use ZodObject guards and perform additional validations within the API.
        */
-      /* === query guard === */
-      // Validate query parameters
-      if (!query.code && !query.error) {
-        throw new RequestError({
-          code: 'guard.invalid_input',
-          message: 'Either code or error must be present',
-          type: 'query',
-        });
-      }
-
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      if (query.code && (query.error || query.error_description)) {
-        throw new RequestError({
-          code: 'guard.invalid_input',
-          type: 'query',
-          message: 'Cannot have both code and error fields',
-        });
-      }
-
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      if (query.error && (query.code || query.state || query.redirectUri)) {
-        throw new RequestError({
-          code: 'guard.invalid_input',
-          type: 'query',
-          message: 'When error is present, only error_description is allowed',
-        });
-      }
-
-      // Handle error in query parameters
-      if (query.error) {
-        throw new RequestError({
-          code: 'oidc.invalid_request',
-          message: query.error_description,
-          type: 'query',
-        });
-      }
-
-      assertThat(
-        query.code,
-        new RequestError({
-          code: 'guard.invalid_input',
-          type: 'query',
-          message: '`code` is required.',
-        })
-      );
-      /* === End query guard === */
+      validateSamlCallbackQuery(query);
 
       const log = ctx.createLog('SamlApplication.Callback');
 
@@ -184,36 +135,7 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
       // Return auto-submit form
       ctx.body = generateAutoSubmitForm(entityEndpoint, context);
 
-      // Reset cookies and state only after the whole process is done.
-      if (state) {
-        const sessionId = ctx.cookies.get(spInitiatedSamlSsoSessionCookieName);
-        if (sessionId) {
-          // Mark OIDC `state` as verified.
-          await trySafe(
-            async () => removeSessionOidcStateById(sessionId),
-            (error) => {
-              consoleLog.warn(
-                'error encountered while resetting OIDC `state`',
-                JSON.stringify(error)
-              );
-            }
-          );
-          // Clear the session cookie
-          ctx.cookies.set(spInitiatedSamlSsoSessionCookieName, '', {
-            httpOnly: true,
-            expires: new Date(0),
-          });
-        }
-        await trySafe(
-          async () => deleteExpiredSessions(),
-          (error) => {
-            consoleLog.warn(
-              'error encountered while deleting expired sessions',
-              JSON.stringify(error)
-            );
-          }
-        );
-      }
+      await resetSamlSessionState(ctx, queries.samlApplicationSessions, consoleLog, state);
 
       return next();
     }
@@ -285,38 +207,22 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
           'application.saml.auth_request_issuer_not_match'
         );
 
-        const state = generateStandardId(32);
-        const signInUrl = await samlApplication.getSignInUrl({
-          state,
-        });
-
-        const currentDate = new Date();
-        const expiresAt = addMinutes(currentDate, 60); // Lifetime of the session is 60 minutes.
-        const createSession = {
-          id: generateStandardId(32),
+        const { session, oidcState } = await createSamlAppSession(ctx, insertSession, {
           applicationId: id,
-          oidcState: state,
+          relayState: RelayState,
           samlRequestId: extractResult.data.request.id,
           rawAuthRequest: SAMLRequest,
-          // Expire the session in 60 minutes.
-          expiresAt: expiresAt.getTime(),
-          ...cond(RelayState && { relayState: RelayState }),
-        };
-
-        const insertSamlAppSession = await insertSession(createSession);
-        // Set the session ID to cookie for later use.
-        ctx.cookies.set(spInitiatedSamlSsoSessionCookieName, insertSamlAppSession.id, {
-          httpOnly: true,
-          sameSite: 'strict',
-          expires: expiresAt,
-          overwrite: true,
+          longState: true,
+          longSessionId: true,
         });
 
         log.append({
           cookie: {
-            spInitiatedSamlSsoSessionCookieName: insertSamlAppSession,
+            spInitiatedSamlSsoSessionCookieName: session,
           },
         });
+
+        const signInUrl = await samlApplication.getSignInUrl({ state: oidcState });
 
         ctx.redirect(signInUrl.toString());
       } catch (error: unknown) {
@@ -385,36 +291,20 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
           'application.saml.auth_request_issuer_not_match'
         );
 
-        const state = generateStandardShortId();
-        const signInUrl = await samlApplication.getSignInUrl({
-          state,
-        });
-
-        const currentDate = new Date();
-        const expiresAt = addMinutes(currentDate, 60); // Lifetime of the session is 60 minutes.
-        const insertSamlAppSession = await insertSession({
-          id: generateStandardId(),
+        const { session, oidcState } = await createSamlAppSession(ctx, insertSession, {
           applicationId: id,
-          oidcState: state,
+          relayState: RelayState,
           samlRequestId: extractResult.data.request.id,
           rawAuthRequest: SAMLRequest,
-          // Expire the session in 60 minutes.
-          expiresAt: expiresAt.getTime(),
-          ...cond(RelayState && { relayState: RelayState }),
-        });
-        // Set the session ID to cookie for later use.
-        ctx.cookies.set(spInitiatedSamlSsoSessionCookieName, insertSamlAppSession.id, {
-          httpOnly: true,
-          sameSite: 'strict',
-          expires: expiresAt,
-          overwrite: true,
         });
 
         log.append({
           cookie: {
-            spInitiatedSamlSsoSessionCookieName: insertSamlAppSession,
+            spInitiatedSamlSsoSessionCookieName: session,
           },
         });
+
+        const signInUrl = await samlApplication.getSignInUrl({ state: oidcState });
 
         ctx.redirect(signInUrl.toString());
       } catch (error: unknown) {
@@ -431,4 +321,4 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
     }
   );
 }
-/* eslint-enable max-lines */
+/* eslint-enable max-lines, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, no-restricted-syntax */
