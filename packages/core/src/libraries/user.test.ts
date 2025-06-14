@@ -39,12 +39,32 @@ const { encryptUserPassword } = await import('./user.utils.js');
 
 const hasUserWithId = jest.fn();
 const updateUserById = jest.fn();
+const addUserMfaVerificationQuery = jest.fn();
+const getJitOrganizations = jest.fn();
+const insertOrganizationUser = jest.fn();
+const insertOrganizationUserRole = jest.fn();
 const queries = new MockQueries({
-  users: { hasUserWithId, findUserById: async () => mockUser, updateUserById },
+  users: {
+    hasUserWithId,
+    findUserById: async () => mockUser,
+    updateUserById,
+    addUserMfaVerification: addUserMfaVerificationQuery,
+  },
   roles: { findRolesByRoleIds: async () => [mockAdminUserRole] },
   scopes: { findScopesByIdsAndResourceIndicator: async () => [mockScope] },
   usersRoles: { findUsersRolesByUserId: async () => [] },
   rolesScopes: { findRolesScopesByRoleIds: async () => [] },
+  organizations: {
+    jit: {
+      emailDomains: { getJitOrganizations },
+      ssoConnectors: { getJitOrganizations: jest.fn() },
+      getJitOrganizationsByIds: jest.fn(),
+    },
+    relations: {
+      users: { insert: insertOrganizationUser },
+      usersRoles: { insert: insertOrganizationUserRole },
+    },
+  },
 });
 
 describe('generateUserId()', () => {
@@ -265,11 +285,31 @@ describe('addUserMfaVerification()', () => {
     jest.useRealTimers();
   });
 
-  it('update user with new mfa verification', async () => {
+  it('appends a new mfa verification', async () => {
     await addUserMfaVerification(mockUser.id, { type: MfaFactor.TOTP, secret: 'secret' });
-    expect(updateUserById).toHaveBeenCalledWith(mockUser.id, {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      mfaVerifications: [{ type: MfaFactor.TOTP, key: 'secret', id: expect.anything(), createdAt }],
+    expect(addUserMfaVerificationQuery).toHaveBeenCalledWith(mockUser.id, {
+      type: MfaFactor.TOTP,
+      key: 'secret',
+      id: expect.any(String),
+      createdAt,
     });
+    expect(updateUserById).not.toHaveBeenCalled();
+  });
+});
+
+describe('provisionOrganizations()', () => {
+  const { provisionOrganizations } = createUserLibrary(queries);
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('skips provisioning when email is not verified', async () => {
+    await expect(
+      provisionOrganizations({ userId: mockUser.id, email: 'a@b.com', emailVerified: false })
+    ).resolves.toEqual([]);
+    expect(getJitOrganizations).not.toHaveBeenCalled();
+    expect(insertOrganizationUser).not.toHaveBeenCalled();
+    expect(insertOrganizationUserRole).not.toHaveBeenCalled();
   });
 });

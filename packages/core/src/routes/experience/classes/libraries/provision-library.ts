@@ -247,6 +247,7 @@ export class ProvisionLibrary {
         ...(await this.provisionJitOrganization({
           userId,
           email: primaryEmail,
+          emailVerified: true,
         })),
       ];
     }
