@@ -4,6 +4,7 @@ import nock from 'nock';
 import { endpoint } from './constant.js';
 import createConnector from './index.js';
 import { mockedConfig } from './mock.js';
+import type { SmsAeroConfig } from './types.js';
 
 const getConfig = vi.fn().mockResolvedValue(mockedConfig);
 
@@ -37,6 +38,26 @@ describe('SMSAero SMS connector', () => {
         type: TemplateType.Generic,
         payload: { code: '1234' },
       })
+    ).resolves.not.toThrow();
+
+    expect(scope.isDone()).toBe(true);
+  });
+
+  it('should send message successfully with input config', async () => {
+    const url = new URL(endpoint);
+    const scope = nock(url.origin).post(url.pathname).reply(200, { message: 'ok' });
+
+    const connector = await createConnector({ getConfig });
+
+    await expect(
+      connector.sendMessage(
+        {
+          to: '+1234567890',
+          type: TemplateType.Generic,
+          payload: { code: '1234' },
+        },
+        mockedConfig
+      )
     ).resolves.not.toThrow();
 
     expect(scope.isDone()).toBe(true);
@@ -87,5 +108,26 @@ describe('SMSAero SMS connector', () => {
         'Invalid response raw body type: object'
       )
     );
+  });
+
+  it('throws InvalidConfig when config is invalid', async () => {
+    const connector = await createConnector({ getConfig });
+    const invalidConfig: SmsAeroConfig = {
+      email: 'invalid-email',
+      apiKey: mockedConfig.apiKey,
+      senderName: mockedConfig.senderName,
+      templates: mockedConfig.templates,
+    };
+
+    await expect(
+      connector.sendMessage(
+        {
+          to: '+1234567890',
+          type: TemplateType.Generic,
+          payload: { code: '1234' },
+        },
+        invalidConfig
+      )
+    ).rejects.toMatchObject({ code: ConnectorErrorCodes.InvalidConfig });
   });
 });
