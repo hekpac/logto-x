@@ -36,8 +36,7 @@ export const createHookLibrary = (queries: Queries, userLibrary: UserLibrary) =>
   const {
     applications: { findApplicationById },
     logs: { insertLog },
-    // TODO: @gao should we use the library function thus we can pass full userinfo to the payload?
-    users: { findUserById },
+    // Use userLibrary.getUserInfo for full user information in payloads
     hooks: { findAllHooks, findHookById },
   } = queries;
 
@@ -126,11 +125,7 @@ export const createHookLibrary = (queries: Queries, userLibrary: UserLibrary) =>
     }
 
     const [user, application] = await Promise.all([
-      trySafe(async () => {
-        const found = await findUserById(userId);
-        const ssoIdentities = await userLibrary.findUserSsoIdentities(userId);
-        return transpileUserProfileResponse(found, { ssoIdentities });
-      }),
+      trySafe(async () => userLibrary.getUserInfo(userId)),
       trySafe(async () => conditional(applicationId && (await findApplicationById(applicationId)))),
     ]);
 
