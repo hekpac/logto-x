@@ -31,7 +31,8 @@ describe('koaApiHooks', () => {
     expect(triggerDataHooks).not.toBeCalled();
   });
 
-  it('should trigger management hooks', async () => {
+  // Covers usage on user APIs where the context is appended manually
+  it('should trigger data hooks when context is appended', async () => {
     const ctx: ParameterizedContext<unknown, WithHookContext> = {
       ...createContextWithRouteParameters(),
       header: {},
