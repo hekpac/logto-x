@@ -30,6 +30,48 @@ import InviteEmailsInput from '@/pages/TenantSettings/TenantMembers/InviteEmails
 import { type InviteeEmailItem } from '@/pages/TenantSettings/TenantMembers/types';
 import { trySubmitSafe } from '@/utils/form';
 
+import type { TFunction } from 'i18next';
+
+export const parseCollaboratorEmailOptions = (
+  values: InviteeEmailItem[],
+  translate: TFunction<'translation', 'admin_console'>
+): { values: InviteeEmailItem[]; errorMessage?: string } => {
+  const duplicated = new Set<string>();
+  const invalid = new Set<string>();
+  const unique = new Set<string>();
+
+  for (const { value } of values) {
+    const email = value.toLowerCase();
+    if (!emailRegEx.test(email)) {
+      invalid.add(email);
+    }
+    if (unique.has(email)) {
+      duplicated.add(email);
+    } else {
+      unique.add(email);
+    }
+  }
+
+  if (duplicated.size > 0 || invalid.size > 0) {
+    return {
+      values: values.map(({ status, ...rest }) => ({
+        ...rest,
+        ...(duplicated.has(rest.value.toLowerCase()) || invalid.has(rest.value.toLowerCase())
+          ? { status: 'error' }
+          : {}),
+      })),
+      errorMessage: [
+        duplicated.size > 0 ? translate('tenant_members.errors.email_exists') : undefined,
+        invalid.size > 0 ? translate('tenant_members.errors.invalid_email') : undefined,
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    };
+  }
+
+  return { values };
+};
+
 type CreateTenantForm = Omit<CreateTenantData, 'tag'> & { collaboratorEmails: InviteeEmailItem[] };
 
 function CreateTenant() {
@@ -44,21 +86,11 @@ function CreateTenant() {
   } = methods;
   const { prependTenant } = useContext(TenantsContext);
   const theme = useTheme();
-  const { t } = useTranslation(undefined, { keyPrefix: 'admin_console' });
+  const { t: translate } = useTranslation(undefined, { keyPrefix: 'admin_console' });
   const { update } = useUserOnboardingData();
   const parseEmailOptions = useCallback(
-    (values: InviteeEmailItem[]) => {
-      const validEmails = values.filter(({ value }) => emailRegEx.test(value));
-
-      return {
-        values: validEmails,
-        errorMessage:
-          values.length === validEmails.length
-            ? undefined
-            : t('tenant_members.errors.invalid_email'),
-      };
-    },
-    [t]
+    (values: InviteeEmailItem[]) => parseCollaboratorEmailOptions(values, translate),
+    [translate]
   );
 
   const { isAuthenticated, getOrganizationToken } = useLogto();
