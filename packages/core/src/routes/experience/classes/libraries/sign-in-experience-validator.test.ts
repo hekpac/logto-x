@@ -10,6 +10,7 @@ import {
 } from '@logto/schemas';
 
 import { mockSignInExperience } from '#src/__mocks__/sign-in-experience.js';
+import { mockGithubConnector } from '#src/__mocks__/connector.js';
 import RequestError from '#src/errors/RequestError/index.js';
 import { MockTenant } from '#src/test-utils/tenant.js';
 
@@ -34,6 +35,9 @@ const ssoConnectors = {
 };
 
 const mockTenant = new MockTenant(undefined, { signInExperiences }, undefined, { ssoConnectors });
+mockTenant.setPartialKey('libraries', 'socials', {
+  getConnector: jest.fn().mockResolvedValue(mockGithubConnector),
+});
 
 const passwordVerificationRecords = Object.fromEntries(
   Object.values(SignInIdentifier).map((identifier) => [
@@ -305,6 +309,20 @@ describe('SignInExperienceValidator', () => {
             accepted: false,
           },
         ],
+      },
+      'social connector allowed': {
+        signInExperience: {
+          ...mockSignInExperience,
+          socialSignInConnectorTargets: ['github'],
+        },
+        cases: [{ verificationRecord: socialVerificationRecord, accepted: true }],
+      },
+      'social connector not allowed': {
+        signInExperience: {
+          ...mockSignInExperience,
+          socialSignInConnectorTargets: [],
+        },
+        cases: [{ verificationRecord: socialVerificationRecord, accepted: false }],
       },
     });
 
