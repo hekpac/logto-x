@@ -5,7 +5,7 @@ import {
   expectToClickDetailsPageOption,
   expectToClickModalAction,
   expectToClickNavTab,
-  goToAdminConsole,
+  goToConsole,
   waitForToast,
 } from '#src/ui-helpers/index.js';
 import {
@@ -34,7 +34,7 @@ describe('User RBAC', () => {
   const rbacTestUsername = generateUsername();
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigate to api resources page', async () => {

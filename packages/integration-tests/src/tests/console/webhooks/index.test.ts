@@ -6,7 +6,7 @@ import {
   expectToClickDetailsPageOption,
   expectToClickModalAction,
   expectToSaveChanges,
-  goToAdminConsole,
+  goToConsole,
   waitForToast,
 } from '#src/ui-helpers/index.js';
 import { appendPathname, dcls, expectNavigation } from '#src/utils.js';
@@ -19,7 +19,7 @@ describe('webhooks', () => {
   const logtoConsoleUrl = new URL(logtoConsoleUrlString);
 
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigates to webhooks page on clicking sidebar menu', async () => {
