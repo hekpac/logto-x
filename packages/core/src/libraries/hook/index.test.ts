@@ -63,18 +63,11 @@ const findApplicationById = jest.fn().mockResolvedValue({ id: 'app_id', extraFie
 
 const { createHookLibrary } = await import('./index.js');
 const mockUserLibrary = {
-  findUserSsoIdentities: jest.fn().mockResolvedValue([]),
+  getUserInfo: jest.fn().mockResolvedValue({ id: 'user_id', username: 'user' }),
 };
 
 const { triggerInteractionHooks, triggerTestHook, triggerDataHooks } = createHookLibrary(
   new MockQueries({
-    users: {
-      findUserById: jest.fn().mockReturnValue({
-        id: 'user_id',
-        username: 'user',
-        extraField: 'not_ok',
-      }),
-    },
     applications: {
       findApplicationById,
     },
@@ -110,6 +103,7 @@ describe('triggerInteractionHooks()', () => {
 
     expect(findAllHooks).toHaveBeenCalled();
     expect(findApplicationById).toHaveBeenCalledWith('some_client');
+    expect(mockUserLibrary.getUserInfo).toHaveBeenCalledWith('123');
     expect(sendWebhookRequest).toHaveBeenCalledWith({
       hookConfig: hook.config,
       payload: {
@@ -118,7 +112,7 @@ describe('triggerInteractionHooks()', () => {
         interactionEvent: 'SignIn',
         sessionId: interactionHookContext.metadata.sessionId,
         userId: '123',
-        user: { id: 'user_id', username: 'user' },
+        user: { id: 'user_id', username: 'user', hasPassword: false },
         application: { id: 'app_id' },
         createdAt: new Date(100_000).toISOString(),
       },
