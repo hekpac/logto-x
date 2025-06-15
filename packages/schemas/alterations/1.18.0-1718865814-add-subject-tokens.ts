@@ -17,7 +17,7 @@ const alteration: AlterationScript = {
         user_id varchar(21) not null
           references users (id) on update cascade on delete cascade,
         created_at timestamptz not null default(now()),
-        creator_id varchar(32) not null, /* It is intented to not reference to user or application table */
+        creator_id varchar(32) not null, /* It is intended to not reference to user or application table */
         primary key (id)
       );
 

@@ -66,7 +66,7 @@ export const getExtraTokenClaimsForOrganizationApiResource = async (
 };
 
 /**
- * The field `extra` in the access token will be overidden by the return value of `extraTokenClaims` function,
+ * The field `extra` in the access token will be overridden by the return value of `extraTokenClaims` function,
  * previously in token exchange grant, this field is used to save `act` data temporarily,
  * here we validate the data and return them again to prevent data loss.
  */

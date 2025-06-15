@@ -203,8 +203,8 @@ const throwRequestError = async (response: Response) => {
 };
 
 const getTenantIdFromEndpointUri = (endpoint: URL) => {
-  const splitted = endpoint.hostname.split('.');
-  return splitted.length > 2 ? splitted[0] : 'default';
+  const parts = endpoint.hostname.split('.');
+  return parts.length > 2 ? parts[0] : 'default';
 };
 
 const getManagementApiResourceFromEndpointUri = (endpoint: URL) => {

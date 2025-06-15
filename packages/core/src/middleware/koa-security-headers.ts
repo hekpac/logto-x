@@ -142,7 +142,7 @@ export default function koaSecurityHeaders<StateT, ContextT, ResponseBodyT>(
   // @ts-expect-error: helmet typings has lots of {A?: T, B?: never} | {A?: never, B?: T} options definitions. Optional settings type can not inferred correctly.
   const consoleSecurityHeaderSettings: HelmetOptions = {
     ...basicSecurityHeaderSettings,
-    // Guarded by CSP header bellow
+    // Guarded by CSP header below
     frameguard: false,
     contentSecurityPolicy: {
       useDefaults: true,
