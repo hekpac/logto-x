@@ -1,6 +1,5 @@
 /* eslint-disable max-lines, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, no-restricted-syntax */
-import { authRequestInfoGuard } from '@logto/schemas';
-import { removeUndefinedKeys } from '@silverhand/essentials';
+
 import { z } from 'zod';
 
 import {
@@ -11,6 +10,11 @@ import {
   createSamlAppSession,
   type SamlApplicationCallbackQuery,
 } from './utils.js';
+import {
+  createMetadataHandler,
+  createRedirectBindingHandler,
+  createPostBindingHandler,
+} from './handlers.js';
 import RequestError, { isRequestError } from '#src/errors/RequestError/index.js';
 import koaAuditLog from '#src/middleware/koa-audit-log.js';
 import koaGuard from '#src/middleware/koa-guard.js';
@@ -40,18 +44,7 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
       status: [200, 400, 404],
       response: z.string(),
     }),
-    async (ctx, next) => {
-      const { id } = ctx.guard.params;
-
-      const details = await getSamlApplicationDetailsById(id);
-      const samlApplication = new SamlApplication(details, id, envSet);
-
-      ctx.status = 200;
-      ctx.body = samlApplication.idPMetadata;
-      ctx.type = 'text/xml;charset=utf-8';
-
-      return next();
-    }
+    createMetadataHandler(getSamlApplicationDetailsById, envSet)
   );
 
   router.get(
@@ -157,86 +150,7 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
       status: [200, 302, 400, 404],
     }),
     koaAuditLog(queries),
-    async (ctx, next) => {
-      const {
-        params: { id },
-        query: { Signature, RelayState, ...rest },
-      } = ctx.guard;
-
-      const log = ctx.createLog('SamlApplication.AuthnRequest');
-      log.append({
-        query: ctx.guard.query,
-        applicationId: id,
-      });
-
-      const details = await getSamlApplicationDetailsById(id);
-      const samlApplication = new SamlApplication(details, id, envSet);
-
-      const octetString = Object.keys(ctx.request.query)
-        // eslint-disable-next-line no-restricted-syntax
-        .map((key) => key + '=' + encodeURIComponent(ctx.request.query[key] as string))
-        .join('&');
-      const { SAMLRequest, SigAlg } = rest;
-
-      // Parse login request
-      try {
-        const loginRequestResult = await samlApplication.parseLoginRequest('redirect', {
-          query: removeUndefinedKeys({
-            SAMLRequest,
-            Signature,
-            SigAlg,
-          }),
-          octetString,
-        });
-
-        log.append({ loginRequestResult });
-        const extractResult = authRequestInfoGuard.safeParse(loginRequestResult.extract);
-        log.append({ extractResult });
-
-        if (!extractResult.success) {
-          throw new RequestError({
-            code: 'application.saml.invalid_saml_request',
-            error: extractResult.error.flatten(),
-          });
-        }
-
-        log.append({ extractResultData: extractResult.data });
-
-        assertThat(
-          extractResult.data.issuer === samlApplication.config.spEntityId,
-          'application.saml.auth_request_issuer_not_match'
-        );
-
-        const { session, oidcState } = await createSamlAppSession(ctx, insertSession, {
-          applicationId: id,
-          relayState: RelayState,
-          samlRequestId: extractResult.data.request.id,
-          rawAuthRequest: SAMLRequest,
-          longState: true,
-          longSessionId: true,
-        });
-
-        log.append({
-          cookie: {
-            spInitiatedSamlSsoSessionCookieName: session,
-          },
-        });
-
-        const signInUrl = await samlApplication.getSignInUrl({ state: oidcState });
-
-        ctx.redirect(signInUrl.toString());
-      } catch (error: unknown) {
-        if (isRequestError(error)) {
-          throw error;
-        }
-
-        throw new RequestError({
-          code: 'application.saml.invalid_saml_request',
-        });
-      }
-
-      return next();
-    }
+    createRedirectBindingHandler(getSamlApplicationDetailsById, insertSession, envSet)
   );
 
   // Post binding SAML authentication request endpoint
@@ -251,74 +165,7 @@ export default function samlApplicationAnonymousRoutes<T extends AnonymousRouter
       status: [200, 302, 400, 404],
     }),
     koaAuditLog(queries),
-    async (ctx, next) => {
-      const {
-        params: { id },
-        body: { SAMLRequest, RelayState },
-      } = ctx.guard;
-
-      const log = ctx.createLog('SamlApplication.AuthnRequest');
-      log.append({
-        body: ctx.guard.body,
-        applicationId: id,
-      });
-
-      const details = await getSamlApplicationDetailsById(id);
-      const samlApplication = new SamlApplication(details, id, envSet);
-
-      // Parse login request
-      try {
-        const loginRequestResult = await samlApplication.parseLoginRequest('post', {
-          body: {
-            SAMLRequest,
-          },
-        });
-
-        log.append({ loginRequestResult });
-        const extractResult = authRequestInfoGuard.safeParse(loginRequestResult.extract);
-        log.append({ extractResult });
-
-        if (!extractResult.success) {
-          throw new RequestError({
-            code: 'application.saml.invalid_saml_request',
-            error: extractResult.error.flatten(),
-          });
-        }
-        log.append({ extractResultData: extractResult.data });
-
-        assertThat(
-          extractResult.data.issuer === samlApplication.config.spEntityId,
-          'application.saml.auth_request_issuer_not_match'
-        );
-
-        const { session, oidcState } = await createSamlAppSession(ctx, insertSession, {
-          applicationId: id,
-          relayState: RelayState,
-          samlRequestId: extractResult.data.request.id,
-          rawAuthRequest: SAMLRequest,
-        });
-
-        log.append({
-          cookie: {
-            spInitiatedSamlSsoSessionCookieName: session,
-          },
-        });
-
-        const signInUrl = await samlApplication.getSignInUrl({ state: oidcState });
-
-        ctx.redirect(signInUrl.toString());
-      } catch (error: unknown) {
-        if (isRequestError(error)) {
-          throw error;
-        }
-
-        throw new RequestError({
-          code: 'application.saml.invalid_saml_request',
-        });
-      }
-
-      return next();
-    }
+    createPostBindingHandler(getSamlApplicationDetailsById, insertSession, envSet)
   );
 }
 /* eslint-enable max-lines, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, no-restricted-syntax */
