@@ -33,7 +33,7 @@ const {
 }));
 
 const { generateWebAuthnRegistrationOptions, generateWebAuthnAuthenticationOptions } =
-  await import('./webauthn-options.js');
+  await import('../../../utils/webauthn-shared.js');
 const { verifyWebAuthnRegistration, verifyWebAuthnAuthentication } = await import('./webauthn.js');
 
 const rpId = 'logto.io';

@@ -21,7 +21,7 @@ import {
 import {
   generateWebAuthnAuthenticationOptions,
   generateWebAuthnRegistrationOptions,
-} from '#src/routes/interaction/utils/webauthn-options.js';
+} from '#src/utils/webauthn-shared.js';
 import type Libraries from '#src/tenants/Libraries.js';
 import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
@@ -96,9 +96,9 @@ export class WebAuthnVerification implements MfaVerificationRecord<VerificationT
    * This method is used to generate the WebAuthn registration options for the user.
    * The WebAuthn registration options is used to register a new WebAuthn credential for the user.
    *
-   * Refers to the {@link generateWebAuthnRegistrationOptions} function in  `interaction/utils/webauthn.ts` file.
-   * Keep it as the single source of truth for generating the WebAuthn registration options.
-   * TODO: Consider relocating the function under a shared folder
+   * Refers to the {@link generateWebAuthnRegistrationOptions} function in the
+   * `utils/webauthn-shared.ts` file. Keep it as the single source of truth for
+   * generating the WebAuthn registration options.
    */
   async generateWebAuthnRegistrationOptions(rpId: string): Promise<WebAuthnRegistrationOptions> {
     const user = await this.findUser();
@@ -164,9 +164,9 @@ export class WebAuthnVerification implements MfaVerificationRecord<VerificationT
    * This method is used to generate the WebAuthn authentication options for the user.
    * The WebAuthn authentication options is used to authenticate the user using existing WebAuthn credentials.
    *
-   * Refers to the {@link generateWebAuthnAuthenticationOptions} function in  `interaction/utils/webauthn.ts` file.
-   * Keep it as the single source of truth for generating the WebAuthn authentication options.
-   * TODO: Consider relocating the function under a shared folder
+   * Refers to the {@link generateWebAuthnAuthenticationOptions} function in the
+   * `utils/webauthn-shared.ts` file. Keep it as the single source of truth for
+   * generating the WebAuthn authentication options.
    *
    * @throws {RequestError} with status 400, if no WebAuthn credentials are found for the user.
    */
