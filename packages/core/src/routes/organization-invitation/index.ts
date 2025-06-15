@@ -76,8 +76,8 @@ export default function organizationInvitationRoutes<T extends ManagementApiRout
       assertThat(
         body.expiresAt > Date.now(),
         new RequestError({
-          code: 'request.invalid_input',
-          details: 'The value of `expiresAt` must be in the future.',
+          code: 'organization_invitation.expires_at_future_required',
+          status: 400,
         })
       );
 
@@ -144,13 +144,11 @@ export default function organizationInvitationRoutes<T extends ManagementApiRout
         return next();
       }
 
-      // TODO: Error i18n
       assertThat(
         acceptedUserId,
         new RequestError({
           status: 422,
-          code: 'request.invalid_input',
-          details: 'The `acceptedUserId` is required when accepting an invitation.',
+          code: 'organization_invitation.accepted_user_id_required',
         })
       );
 

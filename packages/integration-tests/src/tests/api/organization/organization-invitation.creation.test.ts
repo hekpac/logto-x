@@ -155,7 +155,7 @@ describe('organization invitation creation', () => {
       })
       .catch((error: unknown) => error);
 
-    await expectErrorResponse(error, 400, 'request.invalid_input');
+    await expectErrorResponse(error, 400, 'organization_invitation.expires_at_future_required');
   });
 
   it('should not be able to create invitations if the invitee is already a member of the organization', async () => {
@@ -172,7 +172,7 @@ describe('organization invitation creation', () => {
       })
       .catch((error: unknown) => error);
 
-    await expectErrorResponse(error, 422, 'request.invalid_input');
+    await expectErrorResponse(error, 422, 'organization_invitation.invitee_already_member');
   });
 
   it('should not be able to create invitations with an invalid email', async () => {

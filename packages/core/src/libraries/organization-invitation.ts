@@ -144,7 +144,6 @@ export class OrganizationInvitationLibrary {
     status: OrganizationInvitationStatus.Accepted,
     acceptedUserId: string
   ): Promise<OrganizationInvitationEntity>;
-  // TODO: Error i18n
   async updateStatus(
     id: string,
     status: OrganizationInvitationStatus,
@@ -165,9 +164,11 @@ export class OrganizationInvitationLibrary {
 
       switch (status) {
         case OrganizationInvitationStatus.Accepted: {
-          // Normally this shouldn't happen, so we use `TypeError` instead of `RequestError`.
           if (!acceptedUserId) {
-            throw new TypeError('The `acceptedUserId` is required when accepting an invitation.');
+            throw new RequestError({
+              status: 422,
+              code: 'organization_invitation.accepted_user_id_required',
+            });
           }
 
           const user = await userQueries.findUserById(acceptedUserId);

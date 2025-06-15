@@ -48,7 +48,7 @@ describe('organization invitation status update', () => {
     const error = await invitationApi
       .updateStatus(invitation.id, OrganizationInvitationStatus.Accepted)
       .catch((error: unknown) => error);
-    await expectErrorResponse(error, 422, 'request.invalid_input');
+    await expectErrorResponse(error, 422, 'organization_invitation.status_unchangeable');
   });
 
   it('should be able to accept an invitation', async () => {
@@ -128,7 +128,7 @@ describe('organization invitation status update', () => {
       .updateStatus(invitation.id, OrganizationInvitationStatus.Accepted, user.id)
       .catch((error: unknown) => error);
 
-    await expectErrorResponse(error, 422, 'request.invalid_input');
+    await expectErrorResponse(error, 422, 'organization_invitation.accepted_user_email_mismatch');
   });
 
   it('should not be able to accept an invitation with an invalid user id', async () => {
@@ -162,6 +162,6 @@ describe('organization invitation status update', () => {
       .updateStatus(invitation.id, OrganizationInvitationStatus.Accepted)
       .catch((error: unknown) => error);
 
-    await expectErrorResponse(error, 422, 'request.invalid_input');
+    await expectErrorResponse(error, 422, 'organization_invitation.status_unchangeable');
   });
 });
