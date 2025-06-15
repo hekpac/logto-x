@@ -34,7 +34,10 @@ const {
 
 const { generateWebAuthnRegistrationOptions, generateWebAuthnAuthenticationOptions } =
   await import('./webauthn-options.js');
-const { verifyWebAuthnRegistration, verifyWebAuthnAuthentication } = await import('./webauthn.js');
+const {
+  verifyWebAuthnRegistration,
+  verifyWebAuthnAuthentication,
+} = await import('../experience/utils/verification/webauthn.js');
 
 const rpId = 'logto.io';
 const origin = 'https://logto.io';
