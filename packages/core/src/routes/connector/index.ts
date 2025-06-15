@@ -3,7 +3,7 @@ import type router from '@logto/cloud/routes';
 import { demoConnectorIds, validateConfig } from '@logto/connector-kit';
 import { Connectors, ConnectorType, connectorResponseGuard, type JsonObject } from '@logto/schemas';
 import { generateStandardShortId } from '@logto/shared';
-import { conditional } from '@silverhand/essentials';
+import { conditional, deduplicate } from '@silverhand/essentials';
 import { cleanDeep } from '@logto/shared';
 import { string, object } from 'zod';
 
@@ -15,6 +15,7 @@ import { buildExtraInfo } from '#src/utils/connectors/extra-information.js';
 import { loadConnectorFactories, transpileLogtoConnector } from '#src/utils/connectors/index.js';
 import { checkSocialConnectorTargetAndPlatformUniqueness } from '#src/utils/connectors/platform.js';
 import { createConnectorQueries } from '#src/queries/connector.js';
+import { createSignInExperienceQueries } from '#src/queries/sign-in-experience.js';
 
 import type { ManagementApiRouter, RouterInitArgs } from '../types.js';
 
@@ -312,11 +313,34 @@ export default function connectorRoutes<T extends ManagementApiRouter>(
         ({ metadata }) => metadata.id === connectorId
       );
 
-      await deleteConnectorById(id);
+      await queries.pool.transaction(async (connection) => {
+        const connectorQueries = createConnectorQueries(connection, tenant.wellKnownCache);
+        const sieQueries = createSignInExperienceQueries(connection, tenant.wellKnownCache);
 
-      if (connectorFactory?.type === ConnectorType.Social) {
-        await removeUnavailableSocialConnectorTargets();
-      }
+        await connectorQueries.deleteConnectorById(id);
+
+        if (connectorFactory?.type === ConnectorType.Social) {
+          const connectors = await connectorQueries.findAllConnectors();
+          const availableTargets = deduplicate(
+            connectors
+              .filter(({ connectorId: dbConnectorId }) => {
+                const factory = connectorFactories.find(
+                  ({ metadata }) => metadata.id === dbConnectorId
+                );
+                return factory?.type === ConnectorType.Social;
+              })
+              .map(({ metadata }) => (metadata as any).target)
+          );
+
+          const { socialSignInConnectorTargets } = await sieQueries.findDefaultSignInExperience();
+
+          await sieQueries.updateDefaultSignInExperience({
+            socialSignInConnectorTargets: socialSignInConnectorTargets.filter((target) =>
+              availableTargets.includes(target)
+            ),
+          });
+        }
+      });
 
       ctx.status = 204;
 
