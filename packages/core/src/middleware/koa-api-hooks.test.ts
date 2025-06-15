@@ -58,6 +58,32 @@ describe('koaApiHooks', () => {
     );
   });
 
+  it('should trigger data hooks for multiple contexts', async () => {
+    const ctx: ParameterizedContext<unknown, WithHookContext> = {
+      ...createContextWithRouteParameters(),
+      header: {},
+      appendDataHookContext: notToBeCalled,
+    };
+
+    next.mockImplementation(() => {
+      ctx.appendDataHookContext('Role.Created', { data: { id: '1' } });
+      ctx.appendDataHookContext('Role.Data.Updated', { data: { id: '1' } });
+    });
+
+    await koaApiHooks(mockHooksLibrary)(ctx, next);
+
+    expect(triggerDataHooks).toBeCalledTimes(1);
+    expect(triggerDataHooks).toBeCalledWith(
+      expect.any(ConsoleLog),
+      expect.objectContaining({
+        contextArray: [
+          { event: 'Role.Created', data: { id: '1' } },
+          { event: 'Role.Data.Updated', data: { id: '1' } },
+        ],
+      })
+    );
+  });
+
   describe('auto append pre-registered management API hooks', () => {
     beforeEach(() => {
       jest.clearAllMocks();
