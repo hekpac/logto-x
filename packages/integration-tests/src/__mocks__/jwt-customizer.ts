@@ -88,10 +88,22 @@ export const accessTokenAccessDeniedSampleScript = `const getCustomJwtClaims = a
   return api.denyAccess('You are not allowed to access this resource');
 };`;
 
+export const accessTokenEnvVarScript = `const getCustomJwtClaims = async ({ environmentVariables }) => {
+  return { ...environmentVariables };
+};`;
+
 export const clientCredentialsSampleScript = `const getCustomJwtClaims = async ({ token, context, environmentVariables }) => {
   return { ...environmentVariables };
 }`;
 
 export const clientCredentialsAccessDeniedSampleScript = `const getCustomJwtClaims = async ({ token, context, environmentVariables, api }) => {
   return api.denyAccess('You are not allowed to access this resource');
+};`;
+
+export const invalidSyntaxScript = `const getCustomJwtClaims = async () => {
+  return { foo: 'bar' }
+`; // Missing closing brace to trigger SyntaxError
+
+export const nonObjectReturnScript = `const getCustomJwtClaims = async () => {
+  return 42;
 };`;
