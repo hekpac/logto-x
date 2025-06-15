@@ -7,10 +7,7 @@ import {
 
 import RequestError from '#src/errors/RequestError/index.js';
 import assertThat from '#src/utils/assert-that.js';
-import {
-  isConnectorEmailIdentifier,
-  isConnectorPhoneIdentifier,
-} from './index.js';
+// Connector identifiers are validated by connector-specific logic
 
 const forbiddenEventError = () => new RequestError({ code: 'auth.forbidden', status: 403 });
 
@@ -51,13 +48,9 @@ export const verifyIdentifierSettings = (
     return;
   }
 
-  // Social Identifier  TODO: @darcy, @sijie
-  // should not verify connector related identifier here
-  if (
-    'connectorId' in identifier ||
-    isConnectorEmailIdentifier(identifier) ||
-    isConnectorPhoneIdentifier(identifier)
-  ) {
+  // Social Identifier
+  // Connector related identifiers are validated by each connector implementation
+  if ('connectorId' in identifier) {
     return;
   }
 
