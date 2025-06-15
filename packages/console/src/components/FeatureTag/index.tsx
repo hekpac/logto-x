@@ -113,7 +113,7 @@ type CombinedAddOnAndFeatureTagProps = {
   readonly className?: string;
   /** The minimum plan required to use the feature. */
   readonly paywall?: PaywallPlanId;
-  /** Customize the add-on lable: currently only used by bundled add-ons  */
+  /** Customize the add-on label: currently only used by bundled add-ons  */
   readonly addOnLabel?: (typeof addOnLabels)[keyof typeof addOnLabels];
 };
 

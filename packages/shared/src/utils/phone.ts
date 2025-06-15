@@ -128,7 +128,7 @@ export class PhoneNumberParser {
    *
    * Both formats should be considered the same phone number.
    *
-   * We use this format to find the legacy phone number in the database incase the user registered the phone number with leading `0`.
+   * We use this format to find the legacy phone number in the database in case the user registered the phone number with leading `0`.
    */
   get internationalNumberWithLeadingZero() {
     if (!this.#isValid || !this.nationalNumber || !this.countryCode) {

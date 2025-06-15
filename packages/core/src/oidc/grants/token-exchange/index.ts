@@ -174,7 +174,7 @@ export const buildHandler: (
     // in other grants, this is done by `Grant` class
     // See https://github.com/panva/node-oidc-provider/blob/0c569cf5c36dd5faa105fb931a43b2e587530def/lib/helpers/oidc_context.js#L159
     accessToken.scope = Array.from(scope)
-      // Wrong typing for oidc-provider, `oidcScopes` is actully a Set,
+      // Wrong typing for oidc-provider, `oidcScopes` is actually a Set,
       // wrap it with `new Set` to make it work
       .filter((name) => new Set(oidcScopes).has(name))
       .join(' ');

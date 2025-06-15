@@ -180,11 +180,11 @@ export const buildOperationId = (method: OpenAPIV3.HttpMethods, path: string) =>
     return;
   }
 
-  const splitted = namespacePrefixes
+  const splitParts = namespacePrefixes
     .reduce((accumulator, prefix) => accumulator.replace(prefix + '/', prefix + '-'), path)
     .split('/');
 
-  const lastItem = splitted.at(-1);
+  const lastItem = splitParts.at(-1);
 
   if (!lastItem) {
     throwIfNeeded(method, path);
@@ -192,7 +192,7 @@ export const buildOperationId = (method: OpenAPIV3.HttpMethods, path: string) =>
   }
 
   const isForSingleItem = isPathParameter(lastItem);
-  const items = chunk(splitted.slice(1, isForSingleItem ? undefined : -1), 2);
+  const items = chunk(splitParts.slice(1, isForSingleItem ? undefined : -1), 2);
 
   // Check if all items have the pattern of `[name, parameter]`
   if (

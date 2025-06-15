@@ -24,7 +24,7 @@ const buildPermanentVisibleStyles = (styles: Record<string, string>) => ({
 });
 
 /**
- * Apply inline styles with '!important' to a DOM element to make theses styles become the highest priority.
+ * Apply inline styles with '!important' to a DOM element to make these styles become the highest priority.
  *
  * It's useful when we want to ensure these styles won't be override via the user's custom CSS config.
  */
