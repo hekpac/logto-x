@@ -10,15 +10,15 @@ import {
 } from '#src/api/my-account.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { createVerificationRecordByPassword } from '#src/api/verification-record.js';
-import { WebHookApiTest } from '#src/helpers/hook.js';
+import { WebHookApiTest } from '#src/helpers/hook-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   createDefaultTenantUserWithPassword,
   deleteDefaultTenantUser,
   initClientAndSignInForDefaultTenant,
   signInAndGetUserApi,
-} from '#src/helpers/profile.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+} from '#src/helpers/profile-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generatePassword, generateUsername } from '#src/utils.js';
 
 import WebhookMockServer from '../hook/WebhookMockServer.js';

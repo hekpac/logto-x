@@ -3,25 +3,25 @@ import { InteractionEvent, MfaFactor, SignInIdentifier } from '@logto/schemas';
 import { authenticator } from 'otplib';
 
 import { createUserMfaVerification } from '#src/api/admin-user.js';
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { identifyUserWithUsernamePassword } from '#src/helpers/experience/index.js';
-import { successfullyVerifyTotp } from '#src/helpers/experience/totp-verification.js';
+import { successfullyVerifyTotp } from '#src/helpers/experience/totp-verification-helper.js';
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from '#src/helpers/experience/verification-code.js';
+} from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   enableAllPasswordSignInMethods,
   enableMandatoryMfaWithTotpAndBackupCode,
   resetMfaSettings,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 import { generateEmail, generateNationalPhoneNumber } from '#src/utils.js';
 
 describe('Fulfill User Profiles', () => {

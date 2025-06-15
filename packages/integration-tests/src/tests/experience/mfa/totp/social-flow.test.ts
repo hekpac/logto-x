@@ -3,10 +3,10 @@ import { ConnectorType } from '@logto/connector-kit';
 import { deleteUser } from '#src/api/admin-user.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { demoAppUrl } from '#src/constants.js';
-import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector.js';
-import { enableMandatoryMfaWithTotp, resetMfaSettings } from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
-import ExpectTotpExperience from '#src/ui-helpers/expect-totp-experience.js';
+import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector-helper.js';
+import { enableMandatoryMfaWithTotp, resetMfaSettings } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
+import ExpectTotpExperience from '#src/ui-helpers/expect-totp-experience-helper.js';
 import { generateUserId } from '#src/utils.js';
 
 import TotpTestingContext from './totp-testing-context.js';

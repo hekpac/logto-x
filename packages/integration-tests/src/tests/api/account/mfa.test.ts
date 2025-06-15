@@ -11,12 +11,12 @@ import {
   createDefaultTenantUserWithPassword,
   deleteDefaultTenantUser,
   signInAndGetUserApi,
-} from '#src/helpers/profile.js';
+} from '#src/helpers/profile-helper.js';
 import {
   enableAllPasswordSignInMethods,
   enableUserControlledMfaWithTotpAndWebAuthn,
   resetMfaSettings,
-} from '#src/helpers/sign-in-experience.js';
+} from '#src/helpers/sign-in-experience-helper.js';
 
 describe('my-account (mfa)', () => {
   beforeAll(async () => {

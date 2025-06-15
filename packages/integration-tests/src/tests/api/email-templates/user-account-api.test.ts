@@ -6,15 +6,15 @@ import { mockEmailConnectorConfig } from '#src/__mocks__/connectors-mock.js';
 import { type MockEmailTemplatePayload } from '#src/__mocks__/email-templates.js';
 import { enableAllAccountCenterFields } from '#src/api/account-center.js';
 import { createAndVerifyVerificationCode } from '#src/api/verification-record.js';
-import { setEmailConnector } from '#src/helpers/connector.js';
-import { EmailTemplatesApiTest } from '#src/helpers/email-templates.js';
+import { setEmailConnector } from '#src/helpers/connector-helper.js';
+import { EmailTemplatesApiTest } from '#src/helpers/email-templates-helper.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
 import {
   createDefaultTenantUserWithPassword,
   deleteDefaultTenantUser,
   signInAndGetUserApi,
-} from '#src/helpers/profile.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+} from '#src/helpers/profile-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateEmail } from '#src/utils.js';
 
 describe('user account email verification API with i18n email templates', () => {

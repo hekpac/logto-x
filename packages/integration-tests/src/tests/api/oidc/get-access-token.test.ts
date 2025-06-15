@@ -27,9 +27,9 @@ import { assignUsersToRole, createRole, deleteRole } from '#src/api/role.js';
 import { createScope, deleteScope } from '#src/api/scope.js';
 import MockClient, { defaultConfig } from '#src/client/index.js';
 import { logtoUrl } from '#src/constants.js';
-import { initExperienceClient, processSession } from '#src/helpers/client.js';
+import { initExperienceClient, processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateUsername, generatePassword, getAccessTokenPayload } from '#src/utils.js';
 
 describe('get access token', () => {

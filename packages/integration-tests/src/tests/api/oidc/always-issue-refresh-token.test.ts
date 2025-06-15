@@ -4,9 +4,9 @@ import { ApplicationType, InteractionEvent } from '@logto/schemas';
 import { createApplication, deleteApplication, putInteraction } from '#src/api/index.js';
 import MockClient from '#src/client/index.js';
 import { demoAppRedirectUri } from '#src/constants.js';
-import { processSession } from '#src/helpers/client.js';
+import { processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateUsername, generatePassword } from '#src/utils.js';
 
 describe('always issue Refresh Token config', () => {

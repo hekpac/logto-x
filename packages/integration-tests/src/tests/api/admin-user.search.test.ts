@@ -3,8 +3,8 @@ import type { Role, User } from '@logto/schemas';
 import { assignRolesToUser, authedApi, createUser, deleteUser } from '#src/api/index.js';
 import { createRole, deleteRole } from '#src/api/role.js';
 import { createUserByAdmin, expectRejects } from '#src/helpers/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { UserApiTest } from '#src/helpers/user.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { UserApiTest } from '#src/helpers/user-helper.js';
 
 const getUsers = async <T>(
   init: string[][] | Record<string, string> | URLSearchParams

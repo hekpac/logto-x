@@ -6,16 +6,16 @@ import {
   sendVerificationCode,
 } from '#src/api/interaction.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
-import { initClient } from '#src/helpers/client.js';
+import { initClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   clearSsoConnectors,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { expectRejects, readConnectorMessage } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile } from '#src/helpers/user.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile } from '#src/helpers/user-helper.js';
 import { generatePassword, generateUsername } from '#src/utils.js';
 
 describe('Register with identifiers sad path', () => {

@@ -2,11 +2,11 @@ import { SignInIdentifier } from '@logto/schemas';
 
 import { authedApi } from '#src/api/api.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import { signInWithPassword } from '#src/helpers/experience/index.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 import { generateUsername } from '#src/utils.js';
 
 describe('basic sentinel', () => {

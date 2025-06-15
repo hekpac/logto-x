@@ -13,17 +13,17 @@ import {
 import { type ExperienceClient } from '#src/client/experience/index.js';
 import { generatePassword } from '#src/utils.js';
 
-import { initExperienceClient, logoutClient, processSession } from '../client.js';
+import { initExperienceClient, logoutClient, processSession } from '../client-helper.js';
 import { expectRejects } from '../index.js';
 
 import {
   successFullyCreateSocialVerification,
   successFullyVerifySocialAuthorization,
-} from './social-verification.js';
+} from './social-verification-helper.js';
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from './verification-code.js';
+} from './verification-code-helper.js';
 
 export const signInWithPassword = async ({
   identifier,

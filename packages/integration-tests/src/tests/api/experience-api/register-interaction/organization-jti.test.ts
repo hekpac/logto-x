@@ -8,14 +8,14 @@ import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import {
   registerNewUserWithVerificationCode,
   signInWithEnterpriseSso,
   signInWithVerificationCode,
 } from '#src/helpers/experience/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateEmail, randomString } from '#src/utils.js';
 
 describe('organization just-in-time provisioning', () => {

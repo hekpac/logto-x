@@ -17,9 +17,9 @@ import { setApplicationSignInExperience } from '#src/api/application-sign-in-exp
 import { createApplication, deleteApplication } from '#src/api/application.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { demoAppRedirectUri, demoAppUrl, logtoUrl } from '#src/constants.js';
-import { clearConnectorsByTypes } from '#src/helpers/connector.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
+import { clearConnectorsByTypes } from '#src/helpers/connector-helper.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 
 describe('overrides', () => {
   const organizationApi = new OrganizationApiTest();

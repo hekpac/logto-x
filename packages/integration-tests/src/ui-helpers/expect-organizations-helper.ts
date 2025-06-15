@@ -1,7 +1,7 @@
 import { cls, dcls } from '#src/utils.js';
 
-import ExpectConsole from './expect-console.js';
-import { selectDropdownMenuItem } from './select-dropdown-menu-item.js';
+import ExpectConsole from './expect-console-helper.js';
+import { selectDropdownMenuItem } from './select-dropdown-menu-item-helper.js';
 
 export default class ExpectOrganizations extends ExpectConsole {
   /**

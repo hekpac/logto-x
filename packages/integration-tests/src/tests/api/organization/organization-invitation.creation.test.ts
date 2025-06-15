@@ -5,9 +5,9 @@ import { generateStandardId } from '@logto/shared';
 import { HTTPError } from 'ky';
 
 import { createUser } from '#src/api/admin-user.js';
-import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector.js';
+import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector-helper.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
-import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization.js';
+import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization-helper.js';
 
 const randomId = () => generateStandardId(4);
 

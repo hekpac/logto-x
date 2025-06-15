@@ -1,8 +1,8 @@
 import { SignInIdentifier } from '@logto/schemas';
 
 import { deleteUser } from '#src/api/admin-user.js';
-import { initExperienceClient } from '#src/helpers/client.js';
-import { generateNewUser } from '#src/helpers/user.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
 
 const identifiersTypeToUserProfile = Object.freeze({
   username: 'username',

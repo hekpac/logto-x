@@ -2,7 +2,7 @@ import type { Hook } from '@logto/schemas';
 import { InteractionHookEvent } from '@logto/schemas';
 
 import { authedApi } from '#src/api/index.js';
-import { getHookCreationPayload } from '#src/helpers/hook.js';
+import { getHookCreationPayload } from '#src/helpers/hook-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 
 describe('hooks', () => {

@@ -1,7 +1,7 @@
 import { generateStandardId } from '@logto/shared';
 
 import { createUser, deleteUser } from '#src/api/admin-user.js';
-import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization.js';
+import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization-helper.js';
 
 const randomId = () => generateStandardId(4);
 

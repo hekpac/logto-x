@@ -2,11 +2,11 @@ import { type EmailTemplateDetails, TemplateType } from '@logto/connector-kit';
 
 import { mockEmailConnectorConfig } from '#src/__mocks__/connectors-mock.js';
 import { type MockEmailTemplatePayload } from '#src/__mocks__/email-templates.js';
-import { setEmailConnector } from '#src/helpers/connector.js';
-import { EmailTemplatesApiTest } from '#src/helpers/email-templates.js';
+import { setEmailConnector } from '#src/helpers/connector-helper.js';
+import { EmailTemplatesApiTest } from '#src/helpers/email-templates-helper.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
-import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization.js';
-import { UserApiTest } from '#src/helpers/user.js';
+import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization-helper.js';
+import { UserApiTest } from '#src/helpers/user-helper.js';
 import { generateEmail } from '#src/utils.js';
 
 const mockEnTemplate: MockEmailTemplatePayload = {

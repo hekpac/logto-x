@@ -5,8 +5,8 @@ import { deleteUser } from '#src/api/admin-user.js';
 import { putInteraction } from '#src/api/interaction.js';
 import { getAuditLogs } from '#src/api/logs.js';
 import MockClient from '#src/client/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile } from '#src/helpers/user.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile } from '#src/helpers/user-helper.js';
 
 describe('audit logs for interaction', () => {
   beforeAll(async () => {

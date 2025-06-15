@@ -9,7 +9,7 @@ import {
   createSocialAuthorizationUri,
   sendVerificationCode,
 } from '#src/api/interaction.js';
-import { initClient } from '#src/helpers/client.js';
+import { initClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { generateUsername, generatePassword, generateEmail } from '#src/utils.js';
 

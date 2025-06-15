@@ -14,10 +14,10 @@ import {
 } from '#src/api/index.js';
 import { generateUserId } from '#src/utils.js';
 
-import { initClient, logoutClient, processSession } from './client.js';
+import { initClient, logoutClient, processSession } from './client-helper.js';
 import { expectRejects, readConnectorMessage } from './index.js';
-import { enableAllPasswordSignInMethods } from './sign-in-experience.js';
-import { generateNewUser } from './user.js';
+import { enableAllPasswordSignInMethods } from './sign-in-experience-helper.js';
+import { generateNewUser } from './user-helper.js';
 
 export const registerNewUser = async (username: string, password: string) => {
   const client = await initClient();

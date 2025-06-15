@@ -11,7 +11,7 @@ import {
 } from '#src/api/application.js';
 import { createResource, deleteResource } from '#src/api/resource.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
 import { generatePassword, generateUsername, getAccessTokenPayload } from '#src/utils.js';
 
 const tokenType = 'urn:logto:token-type:personal_access_token';
