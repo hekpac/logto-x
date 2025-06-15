@@ -111,14 +111,23 @@ function Experience({ data, isDeleted, onUpdated, isDarkModeEnabled }: Props) {
       }
 
       try {
+        let parsedFormData = cleanDeep(formDataToSsoConnectorParser(formData), {
+          // To overwrite the `branding` field, which is a JSONB typed column in DB.
+          emptyObjects: false,
+        });
+
+        if (
+          'branding' in parsedFormData &&
+          parsedFormData.branding &&
+          Object.keys(parsedFormData.branding).length === 0
+        ) {
+          const { branding: _branding, ...rest } = parsedFormData;
+          parsedFormData = rest;
+        }
+
         const updatedSsoConnector = await api
-          // TODO: @darcyYe add console test case of clean up `branding` config.
-          // Only keep non-empty values since PATCH operation performs a merge scheme.
           .patch(`api/sso-connectors/${data.id}`, {
-            json: cleanDeep(formDataToSsoConnectorParser(formData), {
-              // To overwrite the `branding` field, which is a JSONB typed column in DB.
-              emptyObjects: false,
-            }),
+            json: parsedFormData,
           })
           .json<SsoConnectorWithProviderConfig>();
 
