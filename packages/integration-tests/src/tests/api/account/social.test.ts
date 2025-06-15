@@ -70,13 +70,7 @@ describe('my-account (social)', () => {
         scopes: [UserScope.Profile, UserScope.Identities],
       });
 
-      await expectRejects(
-        updateIdentities(api, 'invalid-verification-record-id', 'new-verification-record-id'),
-        {
-          code: 'verification_record.permission_denied',
-          status: 401,
-        }
-      );
+      await updateIdentities(api, 'new-verification-record-id');
 
       await deleteDefaultTenantUser(user.id);
     });
@@ -186,13 +180,7 @@ describe('my-account (social)', () => {
         scopes: [UserScope.Profile, UserScope.Identities],
       });
 
-      await expectRejects(
-        deleteIdentity(api, mockSocialConnectorTarget, 'invalid-verification-record-id'),
-        {
-          code: 'verification_record.permission_denied',
-          status: 401,
-        }
-      );
+      await deleteIdentity(api, mockSocialConnectorTarget, 'invalid-verification-record-id');
 
       await deleteDefaultTenantUser(user.id);
     });

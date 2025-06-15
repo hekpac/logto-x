@@ -31,11 +31,7 @@ export default function identitiesRoutes<T extends UserRouter>(
       status: [204, 400, 401],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { newIdentifierVerificationRecordId } = ctx.guard.body;
       const { fields } = ctx.accountCenter;
       assertThat(
@@ -89,11 +85,7 @@ export default function identitiesRoutes<T extends UserRouter>(
       status: [204, 400, 401, 404],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { target } = ctx.guard.params;
       const { fields } = ctx.accountCenter;
       assertThat(

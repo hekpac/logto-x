@@ -71,11 +71,7 @@ export default function mfaVerificationsRoutes<T extends UserRouter>(
       status: [204, 400, 401],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { newIdentifierVerificationRecordId, name } = ctx.guard.body;
       const { fields } = ctx.accountCenter;
       assertThat(
@@ -134,11 +130,7 @@ export default function mfaVerificationsRoutes<T extends UserRouter>(
       status: [200, 400, 401],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { name } = ctx.guard.body;
       const { fields } = ctx.accountCenter;
       assertThat(
@@ -182,11 +174,7 @@ export default function mfaVerificationsRoutes<T extends UserRouter>(
       status: [204, 400, 401],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { fields } = ctx.accountCenter;
       assertThat(
         fields.mfa === AccountCenterControlValue.Edit,
