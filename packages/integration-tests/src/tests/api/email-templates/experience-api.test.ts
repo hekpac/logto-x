@@ -3,12 +3,12 @@ import { demoAppApplicationId, InteractionEvent, SignInIdentifier } from '@logto
 
 import { mockEmailConnectorConfig } from '#src/__mocks__/connectors-mock.js';
 import { type MockEmailTemplatePayload } from '#src/__mocks__/email-templates.js';
-import { initExperienceClient } from '#src/helpers/client.js';
-import { setEmailConnector } from '#src/helpers/connector.js';
-import { EmailTemplatesApiTest } from '#src/helpers/email-templates.js';
-import { successfullySendVerificationCode } from '#src/helpers/experience/verification-code.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
+import { setEmailConnector } from '#src/helpers/connector-helper.js';
+import { EmailTemplatesApiTest } from '#src/helpers/email-templates-helper.js';
+import { successfullySendVerificationCode } from '#src/helpers/experience/verification-code-helper.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
 import { generateEmail } from '#src/utils.js';
 
 const mockSignInTemplate: MockEmailTemplatePayload = {

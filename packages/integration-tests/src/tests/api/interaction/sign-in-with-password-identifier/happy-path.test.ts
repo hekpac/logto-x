@@ -5,17 +5,17 @@ import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
 import {
   signInWithPassword,
   signInWithUsernamePasswordAndUpdateEmailOrPhone,
-} from '#src/helpers/interactions.js';
+} from '#src/helpers/interactions-helper.js';
 import {
   enableAllPasswordSignInMethods,
   enableAllVerificationCodeSignInMethods,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUser, generateNewUserProfile } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser, generateNewUserProfile } from '#src/helpers/user-helper.js';
 import { generateUsername } from '#src/utils.js';
 
 describe('Sign-in flow using password identifiers', () => {

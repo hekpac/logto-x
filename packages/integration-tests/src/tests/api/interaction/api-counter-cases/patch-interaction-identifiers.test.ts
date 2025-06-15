@@ -2,10 +2,10 @@ import { InteractionEvent } from '@logto/schemas';
 
 import { suspendUser } from '#src/api/admin-user.js';
 import { patchInteractionIdentifiers, putInteraction } from '#src/api/interaction.js';
-import { initClient } from '#src/helpers/client.js';
+import { initClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
 
 /**
  * Note: These test cases are designed to cover exceptional scenarios of API calls that

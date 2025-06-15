@@ -5,16 +5,16 @@ import {
   type VerificationCodeIdentifier,
 } from '@logto/schemas';
 
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from '#src/helpers/experience/verification-code.js';
+} from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 
 describe('Verification code verification APIs', () => {

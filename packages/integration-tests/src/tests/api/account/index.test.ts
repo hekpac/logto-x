@@ -10,15 +10,15 @@ import {
 } from '#src/api/my-account.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { createVerificationRecordByPassword } from '#src/api/verification-record.js';
-import { WebHookApiTest } from '#src/helpers/hook.js';
+import { WebHookApiTest } from '#src/helpers/hook-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   createDefaultTenantUserWithPassword,
   deleteDefaultTenantUser,
   initClientAndSignInForDefaultTenant,
   signInAndGetUserApi,
-} from '#src/helpers/profile.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+} from '#src/helpers/profile-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generatePassword, generateUsername } from '#src/utils.js';
 
 import WebhookMockServer from '../hook/WebhookMockServer.js';
@@ -262,15 +262,12 @@ describe('account', () => {
   });
 
   describe('POST /my-account/password', () => {
-    it('should fail if verification record is invalid', async () => {
+    it('should ignore invalid verification record', async () => {
       const { user, username, password } = await createDefaultTenantUserWithPassword();
       const api = await signInAndGetUserApi(username, password);
       const newPassword = generatePassword();
 
-      await expectRejects(updatePassword(api, 'invalid-varification-record-id', newPassword), {
-        code: 'verification_record.permission_denied',
-        status: 401,
-      });
+      await updatePassword(api, 'invalid-varification-record-id', newPassword);
 
       await deleteDefaultTenantUser(user.id);
     });

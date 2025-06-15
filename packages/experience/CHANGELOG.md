@@ -220,7 +220,7 @@
 
 - f1b1d9e95: new MFA prompt policy
 
-  You can now cutomize the MFA prompt policy in the Console.
+  You can now customize the MFA prompt policy in the Console.
 
   First, choose if you want to enable **Require MFA**:
 
@@ -1025,7 +1025,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **ui:** app notification ([#999](https://github.com/logto-io/logto/issues/999)) ([f4e380f](https://github.com/logto-io/logto/commit/f4e380f0b1b815314b24cec1c9013d9f3bb806a7))
 - **ui:** display error message on social callback page ([#1097](https://github.com/logto-io/logto/issues/1097)) ([f3b8678](https://github.com/logto-io/logto/commit/f3b8678a8c5e938276208c222242c3fedf4d397a))
 - **ui:** implement preview mode ([#852](https://github.com/logto-io/logto/issues/852)) ([ef19fb3](https://github.com/logto-io/logto/commit/ef19fb3d27a84509613b1f1d47819c06e9a6e9d1))
-- **ui:** init destop styling foundation ([#787](https://github.com/logto-io/logto/issues/787)) ([5c02ec3](https://github.com/logto-io/logto/commit/5c02ec3bdae162bd83d26c56f7ae34ee6e505ca2))
+- **ui:** init desktop styling foundation ([#787](https://github.com/logto-io/logto/issues/787)) ([5c02ec3](https://github.com/logto-io/logto/commit/5c02ec3bdae162bd83d26c56f7ae34ee6e505ca2))
 - **ui:** not found page ([#691](https://github.com/logto-io/logto/issues/691)) ([731ff1c](https://github.com/logto-io/logto/commit/731ff1cbdca76104845dcf3d1223953ce8e5af93))
 
 ### Bug Fixes
@@ -1035,7 +1035,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - revert "chore(deps): update parcel monorepo to v2.6.0" ([877bbc0](https://github.com/logto-io/logto/commit/877bbc0d2c5c0559a3fc9a8e801a13ebff2292a6))
 - **ui:** add body background color ([#831](https://github.com/logto-io/logto/issues/831)) ([be8b862](https://github.com/logto-io/logto/commit/be8b8628ba345bd8f8832b2123a43e70c236406d))
 - **ui:** add default success true for no response api ([#842](https://github.com/logto-io/logto/issues/842)) ([88600c0](https://github.com/logto-io/logto/commit/88600c012c892c969f1e5df7ec5f46874513a058))
-- **ui:** add i18n formater for zh-CN list ([#1009](https://github.com/logto-io/logto/issues/1009)) ([ca5c8aa](https://github.com/logto-io/logto/commit/ca5c8aaec1db7ffc330f50fcdc14400e06ad6f54))
+- **ui:** add i18n formatter for zh-CN list ([#1009](https://github.com/logto-io/logto/issues/1009)) ([ca5c8aa](https://github.com/logto-io/logto/commit/ca5c8aaec1db7ffc330f50fcdc14400e06ad6f54))
 - **ui:** catch request exceptions with no response body ([#790](https://github.com/logto-io/logto/issues/790)) ([48de9c0](https://github.com/logto-io/logto/commit/48de9c072bb060f3e5aeb785d7a765a66a0912fe))
 - **ui:** fix callback link params for apple ([#985](https://github.com/logto-io/logto/issues/985)) ([362c3a6](https://github.com/logto-io/logto/commit/362c3a6e6ed3cab24a85f9e268509d31430609e4))
 - **ui:** fix ci fail ([#708](https://github.com/logto-io/logto/issues/708)) ([da49812](https://github.com/logto-io/logto/commit/da4981216452ee11cf91c8f52a1d50ef18f9a37f))

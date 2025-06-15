@@ -5,7 +5,7 @@ import { logtoUrl, mockSocialAuthPageUrl } from '#src/constants.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
 import { dcls } from '#src/utils.js';
 
-import ExpectPage from './expect-page.js';
+import ExpectPage from './expect-page-helper.js';
 
 const demoAppUrl = appendPath(new URL(logtoUrl), 'demo-app');
 

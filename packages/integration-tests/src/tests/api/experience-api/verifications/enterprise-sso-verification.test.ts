@@ -4,13 +4,13 @@ import { mockSocialConnectorId } from '#src/__mocks__/connectors-mock.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
 import { ExperienceClient } from '#src/client/experience/index.js';
-import { initExperienceClient } from '#src/helpers/client.js';
-import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
+import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector-helper.js';
 import {
   successFullyCreateEnterpriseSsoVerification,
   successFullyVerifyEnterpriseSsoAuthorization,
-} from '#src/helpers/experience/enterprise-sso-verification.js';
-import { successFullyCreateSocialVerification } from '#src/helpers/experience/social-verification.js';
+} from '#src/helpers/experience/enterprise-sso-verification-helper.js';
+import { successFullyCreateSocialVerification } from '#src/helpers/experience/social-verification-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { generateUserId, randomString } from '#src/utils.js';
 

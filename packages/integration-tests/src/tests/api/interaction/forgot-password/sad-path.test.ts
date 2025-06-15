@@ -8,14 +8,14 @@ import {
   putInteractionProfile,
   sendVerificationCode,
 } from '#src/api/interaction.js';
-import { initClient } from '#src/helpers/client.js';
+import { initClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { expectRejects, readConnectorMessage } from '#src/helpers/index.js';
-import { generateNewUser, generateNewUserProfile } from '#src/helpers/user.js';
+import { generateNewUser, generateNewUserProfile } from '#src/helpers/user-helper.js';
 import { generatePassword } from '#src/utils.js';
 
 describe('reset password flow sad path', () => {

@@ -21,7 +21,7 @@ import { type WithLogContext } from '#src/middleware/koa-audit-log.js';
 import {
   verifySocialIdentity,
   assignConnectorSessionResult,
-} from '#src/routes/interaction/utils/social-verification.js';
+} from '../utils/verification/social-verification.js';
 import type Libraries from '#src/tenants/Libraries.js';
 import type Queries from '#src/tenants/Queries.js';
 import type TenantContext from '#src/tenants/TenantContext.js';
@@ -147,7 +147,8 @@ export class SocialVerification implements IdentifierVerificationRecord<Verifica
    *
    * @remarks
    * For the experience API:
-   * This method directly calls the {@link verifySocialIdentity} method in the interaction/utils/social-verification.ts file.
+   * This method directly calls the {@link verifySocialIdentity} method in the
+   * experience/utils/verification/social-verification.ts file.
    * Fetch the connector session result from the provider's interactionDetails and verify the social identity.
    * For compatibility reasons, we keep using the old {@link verifySocialIdentity} method here as a single source of truth.
    * See the above {@link createAuthorizationUrl} method for more details.
@@ -382,7 +383,9 @@ export class SocialVerification implements IdentifierVerificationRecord<Verifica
    * Internal method to verify the social identity.
    *
    * @remarks
-   * This method is a alternative to the {@link verifySocialIdentity} method in the interaction/utils/social-verification.ts file.
+   * This method is an alternative to the
+   * {@link verifySocialIdentity} method in the
+   * experience/utils/verification/social-verification.ts file.
    * Verify the social identity using the connector data received from the client and the connector session stored in the current verification record.
    * This method can be used for both experience and profile APIs, w/o OIDC interaction context.
    */

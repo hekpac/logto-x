@@ -10,4 +10,6 @@
 - Updated token revocation logging to include user information extracted from access or refresh tokens.
 
 **New dependencies / environment variables**
-- None.
+- Added `GSI_CORP_SUPPORTED` to toggle the Google One Tap CORP header.
+
+> **Note**: Keep an eye on Google announcements and update the default once CORP is officially supported.

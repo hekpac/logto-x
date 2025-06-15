@@ -5,7 +5,7 @@ import {
   expectConfirmModalAndAct,
   waitForToast,
 } from '#src/ui-helpers/index.js';
-import { selectDropdownMenuItem } from '#src/ui-helpers/select-dropdown-menu-item.js';
+import { selectDropdownMenuItem } from '#src/ui-helpers/select-dropdown-menu-item-helper.js';
 
 export const waitForFormCard = async (page: Page, title: string) => {
   await expect(page).toMatchElement('div[class$=tabContent] div[class$=card] div[class$=title]', {

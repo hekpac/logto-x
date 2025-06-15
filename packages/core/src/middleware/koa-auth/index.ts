@@ -16,7 +16,6 @@ import { type WithAuthContext, type TokenInfo } from './types.js';
 import { extractBearerTokenFromHeaders, getAdminTenantTokenValidationSet } from './utils.js';
 
 export * from './types.js';
-export * from './constants.js';
 
 export const verifyBearerTokenFromRequest = async (
   envSet: EnvSet,

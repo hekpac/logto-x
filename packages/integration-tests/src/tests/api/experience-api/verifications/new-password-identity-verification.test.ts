@@ -1,9 +1,9 @@
 import { SignInIdentifier } from '@logto/schemas';
 
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 import { randomString } from '#src/utils.js';
 
 describe('password verifications', () => {

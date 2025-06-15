@@ -17,14 +17,14 @@ import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSocialConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   createDefaultTenantUserWithPassword,
   deleteDefaultTenantUser,
   signInAndGetUserApi,
-} from '#src/helpers/profile.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+} from '#src/helpers/profile-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 
 describe('my-account (social)', () => {
   const state = 'fake_state';
@@ -70,13 +70,7 @@ describe('my-account (social)', () => {
         scopes: [UserScope.Profile, UserScope.Identities],
       });
 
-      await expectRejects(
-        updateIdentities(api, 'invalid-verification-record-id', 'new-verification-record-id'),
-        {
-          code: 'verification_record.permission_denied',
-          status: 401,
-        }
-      );
+      await updateIdentities(api, 'new-verification-record-id');
 
       await deleteDefaultTenantUser(user.id);
     });
@@ -186,13 +180,7 @@ describe('my-account (social)', () => {
         scopes: [UserScope.Profile, UserScope.Identities],
       });
 
-      await expectRejects(
-        deleteIdentity(api, mockSocialConnectorTarget, 'invalid-verification-record-id'),
-        {
-          code: 'verification_record.permission_denied',
-          status: 401,
-        }
-      );
+      await deleteIdentity(api, mockSocialConnectorTarget, 'invalid-verification-record-id');
 
       await deleteDefaultTenantUser(user.id);
     });

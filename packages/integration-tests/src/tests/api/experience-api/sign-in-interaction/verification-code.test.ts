@@ -5,16 +5,16 @@ import {
 } from '@logto/schemas';
 
 import { deleteUser } from '#src/api/admin-user.js';
-import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client.js';
-import { setEmailConnector, setSmsConnector } from '#src/helpers/connector.js';
+import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
+import { setEmailConnector, setSmsConnector } from '#src/helpers/connector-helper.js';
 import { signInWithVerificationCode } from '#src/helpers/experience/index.js';
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from '#src/helpers/experience/verification-code.js';
+} from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
+import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
 import { generateEmail, generatePhone } from '#src/utils.js';
 
 const verificationIdentifierType: readonly [SignInIdentifier.Email, SignInIdentifier.Phone] =

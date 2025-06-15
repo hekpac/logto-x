@@ -3,7 +3,7 @@ import { SignInMode, SignInIdentifier, MfaFactor, MfaPolicy, ConnectorType } fro
 
 import { updateSignInExperience } from '#src/api/index.js';
 
-import { clearConnectorsByTypes } from './connector.js';
+import { clearConnectorsByTypes } from './connector-helper.js';
 
 export const defaultSignInSignUpConfigs = {
   signInMode: SignInMode.SignInAndRegister,

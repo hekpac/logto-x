@@ -27,7 +27,9 @@ mockEsm('#src/libraries/connector.js', () => ({
   }),
 }));
 
-const { verifySocialIdentity } = await import('./social-verification.js');
+const { verifySocialIdentity } = await import(
+  '../experience/utils/verification/social-verification.js'
+);
 
 describe('verifySocialIdentity', () => {
   it('should verify social identity', async () => {

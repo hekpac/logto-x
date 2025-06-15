@@ -35,7 +35,7 @@ const inferTsDefinitionFromZod = (zodSchema: ZodTypeAny, identifier: string): st
    * The second argument is the root type identifier for the schema.
    * Here we use 'Record<string, unknown>' as the root type identifier. So all the Json objects will be inferred as Record<string, unknown>.
    * This is a limitation of zod-to-ts. We can't infer the exact type of the Json objects.
-   * This solution is hacky but it works for now. The impact is it will always define the type identifer as Record<string, unknown>.
+   * This solution is hacky but it works for now. The impact is it will always define the type identifier as Record<string, unknown>.
    */
   const { node } = zodToTs(zodSchema, 'Record<string, unknown>', { nativeEnums: 'union' });
   const typeDefinition = printNode(node);

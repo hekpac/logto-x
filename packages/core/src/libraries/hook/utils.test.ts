@@ -1,4 +1,8 @@
-import { type HookEvent, InteractionHookEvent } from '@logto/schemas';
+import {
+  type HookEvent,
+  InteractionHookEvent,
+  managementApiHooksRegistration,
+} from '@logto/schemas';
 import { createMockUtils } from '@logto/shared/esm';
 import ky from 'ky';
 
@@ -16,7 +20,11 @@ mockEsm('#src/utils/sign.js', () => ({
   sign: () => mockSignature,
 }));
 
-const { generateHookTestPayload, sendWebhookRequest } = await import('./utils.js');
+const {
+  generateHookTestPayload,
+  sendWebhookRequest,
+  resolveManagementApiDataHookEvent,
+} = await import('./utils.js');
 
 describe('sendWebhookRequest', () => {
   it('should call got.post with correct values', async () => {
@@ -46,5 +54,20 @@ describe('sendWebhookRequest', () => {
       retry: { limit: 3 },
       timeout: 10_000,
     });
+  });
+});
+
+describe('resolveManagementApiDataHookEvent', () => {
+  it('should return event for registered route', () => {
+    const [key, event] = Object.entries(managementApiHooksRegistration)[0];
+    const [method, route] = key.split(' ') as [string, string];
+
+    expect(resolveManagementApiDataHookEvent(method, route)).toBe(event);
+  });
+
+  it('should return undefined for unregistered route', () => {
+    expect(
+      resolveManagementApiDataHookEvent('GET', '/unregistered')
+    ).toBeUndefined();
   });
 });

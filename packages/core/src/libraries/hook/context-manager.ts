@@ -14,8 +14,7 @@ import { type IRouterParamContext } from 'koa-router';
 
 import {
   buildManagementApiContext,
-  buildManagementApiDataHookRegistrationKey,
-  hasRegisteredDataHookEvent,
+  resolveManagementApiDataHookEvent,
 } from './utils.js';
 
 type DataHookMetadata = {
@@ -63,14 +62,14 @@ export class DataHookContextManager {
   ): Readonly<[DataHookEvent, DataHookContext]> | undefined {
     const { method, _matchedRoute: matchedRoute } = ctx;
 
-    const key = buildManagementApiDataHookRegistrationKey(method, matchedRoute);
+    const event = resolveManagementApiDataHookEvent(method, matchedRoute);
 
-    if (!hasRegisteredDataHookEvent(key)) {
+    if (!event) {
       return;
     }
 
     return Object.freeze([
-      managementApiHooksRegistration[key],
+      event,
       {
         ...buildManagementApiContext(ctx),
         data: ctx.response.body,

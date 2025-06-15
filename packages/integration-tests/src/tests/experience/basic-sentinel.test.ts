@@ -1,5 +1,5 @@
 import { demoAppUrl } from '#src/constants.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 import { setupUsernameAndEmailExperience } from '#src/ui-helpers/index.js';
 
 describe('basic sentinel', () => {

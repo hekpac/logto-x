@@ -79,7 +79,6 @@ describe('koaOidcAuth middleware', () => {
       type: 'user',
       id: 'fooUser',
       scopes: new Set(['openid']),
-      identityVerified: false,
       clientId: mockAccessToken.clientId,
     });
   });

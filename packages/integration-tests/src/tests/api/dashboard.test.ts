@@ -3,8 +3,8 @@ import { SignInIdentifier } from '@logto/schemas';
 import type { StatisticsData } from '#src/api/index.js';
 import { api, getTotalUsersCount, getNewUsersData, getActiveUsersData } from '#src/api/index.js';
 import { createUserByAdmin, expectRejects } from '#src/helpers/index.js';
-import { registerNewUser, signInWithPassword } from '#src/helpers/interactions.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { registerNewUser, signInWithPassword } from '#src/helpers/interactions-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateUsername, generatePassword } from '#src/utils.js';
 
 describe('admin console dashboard', () => {

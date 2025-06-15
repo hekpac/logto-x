@@ -32,7 +32,9 @@ const { verifyIdentifierByVerificationCode } = mockEsm(
   })
 );
 
-const { verifySocialIdentity } = mockEsm('../utils/social-verification.js', () => ({
+const { verifySocialIdentity } = mockEsm(
+  '../../experience/utils/verification/social-verification.js',
+  () => ({
   verifySocialIdentity: jest.fn().mockResolvedValue({ id: 'foo' }),
 }));
 

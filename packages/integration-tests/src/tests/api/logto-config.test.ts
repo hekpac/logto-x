@@ -13,6 +13,8 @@ import {
   clientCredentialsSampleScript,
   accessTokenAccessDeniedSampleScript,
   clientCredentialsAccessDeniedSampleScript,
+  invalidSyntaxScript,
+  nonObjectReturnScript,
 } from '#src/__mocks__/jwt-customizer.js';
 import {
   deleteOidcKey,
@@ -298,6 +300,35 @@ describe('logto config', () => {
       {
         code: 'jwt_customizer.general',
         status: 403,
+      }
+    );
+  });
+
+  it('should return error for invalid script syntax', async () => {
+    await expectRejects(
+      testJwtCustomizer({
+        tokenType: LogtoJwtTokenKeyType.AccessToken,
+        token: accessTokenJwtCustomizerPayload.tokenSample,
+        context: accessTokenJwtCustomizerPayload.contextSample,
+        script: invalidSyntaxScript,
+      }),
+      {
+        code: 'jwt_customizer.general',
+        status: 422,
+      }
+    );
+  });
+
+  it('should return error when script returns non-object', async () => {
+    await expectRejects(
+      testJwtCustomizer({
+        tokenType: LogtoJwtTokenKeyType.ClientCredentials,
+        token: clientCredentialsJwtCustomizerPayload.tokenSample,
+        script: nonObjectReturnScript,
+      }),
+      {
+        code: 'jwt_customizer.general',
+        status: 422,
       }
     );
   });

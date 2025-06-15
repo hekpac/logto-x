@@ -6,8 +6,8 @@ import { mockSocialConnectorTarget } from '#src/__mocks__/connectors-mock.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { createSsoConnector } from '#src/api/sso-connector.js';
 import { demoAppUrl, logtoUrl } from '#src/constants.js';
-import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
+import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector-helper.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 import { dcls, dmodal, randomString } from '#src/utils.js';
 
 /**
