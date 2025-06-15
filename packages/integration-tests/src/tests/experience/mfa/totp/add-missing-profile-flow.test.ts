@@ -8,10 +8,10 @@ import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
-import { enableMandatoryMfaWithTotp, resetMfaSettings } from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
-import ExpectTotpExperience from '#src/ui-helpers/expect-totp-experience.js';
+} from '#src/helpers/connector-helper.js';
+import { enableMandatoryMfaWithTotp, resetMfaSettings } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
+import ExpectTotpExperience from '#src/ui-helpers/expect-totp-experience-helper.js';
 import { generateEmail, generatePhone, waitFor } from '#src/utils.js';
 
 describe('MFA - TOTP', () => {

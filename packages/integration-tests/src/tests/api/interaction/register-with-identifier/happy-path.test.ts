@@ -11,20 +11,20 @@ import {
   deleteInteractionProfile,
   putInteractionEvent,
 } from '#src/api/index.js';
-import { initClient, processSession, logoutClient } from '#src/helpers/client.js';
+import { initClient, processSession, logoutClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { readConnectorMessage, expectRejects } from '#src/helpers/index.js';
-import { registerWithEmail } from '#src/helpers/interactions.js';
+import { registerWithEmail } from '#src/helpers/interactions-helper.js';
 import {
   enableAllVerificationCodeSignInMethods,
   enableAllPasswordSignInMethods,
   resetPasswordPolicy,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, generateNewUser } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, generateNewUser } from '#src/helpers/user-helper.js';
 
 describe('register with username and password', () => {
   it('register with username and password', async () => {

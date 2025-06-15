@@ -11,9 +11,9 @@ import { SignInIdentifier, InteractionEvent } from '@logto/schemas';
 import { deleteUser } from '#src/api/admin-user.js';
 import { putInteraction } from '#src/api/interaction.js';
 import { defaultConfig } from '#src/client/index.js';
-import { initClient, processSession } from '#src/helpers/client.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile } from '#src/helpers/user.js';
+import { initClient, processSession } from '#src/helpers/client-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile } from '#src/helpers/user-helper.js';
 
 describe('error handling', () => {
   it('should throw invalid grant error for token endpoint when user is deleted after sign-in', async () => {

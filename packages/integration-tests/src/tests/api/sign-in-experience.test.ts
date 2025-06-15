@@ -8,7 +8,7 @@ import {
   getSignInExperience,
   updateSignInExperience,
 } from '#src/api/index.js';
-import { setEmailConnector } from '#src/helpers/connector.js';
+import { setEmailConnector } from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { generatePassword } from '#src/utils.js';
 

@@ -15,13 +15,13 @@ import { createApplication, deleteApplication } from '#src/api/application.js';
 import { createResource } from '#src/api/resource.js';
 import { createScope } from '#src/api/scope.js';
 import { isDevFeaturesEnabled } from '#src/constants.js';
-import { WebHookApiTest } from '#src/helpers/hook.js';
+import { WebHookApiTest } from '#src/helpers/hook-helper.js';
 import {
   OrganizationApiTest,
   OrganizationRoleApiTest,
   OrganizationScopeApiTest,
-} from '#src/helpers/organization.js';
-import { UserApiTest, generateNewUser } from '#src/helpers/user.js';
+} from '#src/helpers/organization-helper.js';
+import { UserApiTest, generateNewUser } from '#src/helpers/user-helper.js';
 import { generateName, waitFor } from '#src/utils.js';
 
 import WebhookMockServer, { verifySignature } from './WebhookMockServer.js';

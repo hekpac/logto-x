@@ -6,13 +6,13 @@ import { deleteUser } from '#src/api/admin-user.js';
 import { createOneTimeToken } from '#src/api/one-time-token.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
-import { setAlwaysFailCaptcha, setAlwaysPassCaptcha } from '#src/helpers/captcha.js';
-import { initExperienceClient, processSession } from '#src/helpers/client.js';
+import { setAlwaysFailCaptcha, setAlwaysPassCaptcha } from '#src/helpers/captcha-helper.js';
+import { initExperienceClient, processSession } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSocialConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import {
   registerNewUserUsernamePassword,
   signInWithEnterpriseSso,
@@ -24,11 +24,11 @@ import {
   disableCaptcha,
   enableAllPasswordSignInMethods,
   enableCaptcha,
-} from '#src/helpers/sign-in-experience.js';
-import { UserApiTest, generateNewUser, generateNewUserProfile } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { UserApiTest, generateNewUser, generateNewUserProfile } from '#src/helpers/user-helper.js';
 import { generateEmail } from '#src/utils.js';
 
-import { successfullySendVerificationCode } from '../../../../helpers/experience/verification-code.js';
+import { successfullySendVerificationCode } from '../../../../helpers/experience/verification-code-helper.js';
 
 describe('captcha', () => {
   beforeAll(async () => {

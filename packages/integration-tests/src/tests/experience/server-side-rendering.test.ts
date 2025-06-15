@@ -2,9 +2,9 @@ import { demoAppApplicationId, fullSignInExperienceGuard } from '@logto/schemas'
 import { z } from 'zod';
 
 import { demoAppUrl } from '#src/constants.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
-import { Trace } from '#src/ui-helpers/trace.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
+import { Trace } from '#src/ui-helpers/trace-helper.js';
 
 const ssrDataGuard = z.object({
   signInExperience: z.object({

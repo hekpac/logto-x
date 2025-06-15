@@ -1,11 +1,11 @@
 import { MfaFactor } from '@logto/schemas';
 
 import { createUserMfaVerification } from '#src/api/admin-user.js';
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import { identifyUserWithUsernamePassword } from '#src/helpers/experience/index.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { UserApiTest, generateNewUserProfile } from '#src/helpers/user.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { UserApiTest, generateNewUserProfile } from '#src/helpers/user-helper.js';
 
 describe('backup code verification APIs', () => {
   const { username, password } = generateNewUserProfile({ username: true, password: true });

@@ -4,7 +4,7 @@ import { generateStandardId } from '@logto/shared';
 import { isKeyInObject } from '@silverhand/essentials';
 import { HTTPError } from 'ky';
 
-import { OrganizationScopeApiTest } from '#src/helpers/organization.js';
+import { OrganizationScopeApiTest } from '#src/helpers/organization-helper.js';
 
 const randomId = () => generateStandardId(4);
 

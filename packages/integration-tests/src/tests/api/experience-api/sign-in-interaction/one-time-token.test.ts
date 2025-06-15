@@ -14,9 +14,9 @@ import {
   updateOneTimeTokenStatus,
   deleteOneTimeTokenById,
 } from '#src/api/one-time-token.js';
-import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client.js';
+import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateNewUser } from '#src/helpers/user.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
 import { waitFor } from '#src/utils.js';
 
 const { user, userProfile } = await generateNewUser({

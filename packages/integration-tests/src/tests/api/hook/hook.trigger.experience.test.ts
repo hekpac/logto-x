@@ -8,8 +8,8 @@ import {
 import { deleteUser } from '#src/api/admin-user.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
-import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client.js';
-import { resetPasswordlessConnectors } from '#src/helpers/connector.js';
+import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
+import { resetPasswordlessConnectors } from '#src/helpers/connector-helper.js';
 import {
   fulfillUserEmail,
   identifyUserWithEmailVerificationCode,
@@ -19,13 +19,13 @@ import {
   signInWithEnterpriseSso,
   signInWithPassword,
 } from '#src/helpers/experience/index.js';
-import { WebHookApiTest } from '#src/helpers/hook.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
+import { WebHookApiTest } from '#src/helpers/hook-helper.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
 import {
   enableAllPasswordSignInMethods,
   enableAllVerificationCodeSignInMethods,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 import { generateEmail, generatePassword, randomString } from '#src/utils.js';
 
 import WebhookMockServer from './WebhookMockServer.js';

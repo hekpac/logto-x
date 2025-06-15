@@ -1,4 +1,4 @@
-import ExpectOrganizations from '#src/ui-helpers/expect-organizations.js';
+import ExpectOrganizations from '#src/ui-helpers/expect-organizations-helper.js';
 import { cls, dcls, generateTestName } from '#src/utils.js';
 
 const expectOrg = new ExpectOrganizations(await browser.newPage());

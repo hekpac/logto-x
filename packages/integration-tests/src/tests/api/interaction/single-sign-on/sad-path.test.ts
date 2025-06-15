@@ -3,7 +3,7 @@ import { InteractionEvent, SsoProviderName } from '@logto/schemas';
 import { getSsoAuthorizationUrl } from '#src/api/interaction-sso.js';
 import { putInteraction } from '#src/api/interaction.js';
 import { createSsoConnector, deleteSsoConnectorById } from '#src/api/sso-connector.js';
-import { initClient } from '#src/helpers/client.js';
+import { initClient } from '#src/helpers/client-helper.js';
 import { randomString } from '#src/utils.js';
 
 describe('Single Sign On Sad Path', () => {

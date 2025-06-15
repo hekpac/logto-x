@@ -5,10 +5,10 @@ import { assignRolesToUser, putRolesToUser, putInteraction } from '#src/api/inde
 import { createRole } from '#src/api/role.js';
 import MockClient from '#src/client/index.js';
 import { demoAppRedirectUri } from '#src/constants.js';
-import { processSession } from '#src/helpers/client.js';
+import { processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generatePassword, generateUsername } from '#src/utils.js';
 
 describe('OpenID Connect ID token', () => {

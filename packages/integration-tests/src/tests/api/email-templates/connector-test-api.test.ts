@@ -3,7 +3,7 @@ import { TemplateType } from '@logto/connector-kit';
 import { mockEmailConnectorId, mockEmailConnectorConfig } from '#src/__mocks__/connectors-mock.js';
 import { type MockEmailTemplatePayload } from '#src/__mocks__/email-templates.js';
 import { sendEmailTestMessage } from '#src/api/connector.js';
-import { EmailTemplatesApiTest } from '#src/helpers/email-templates.js';
+import { EmailTemplatesApiTest } from '#src/helpers/email-templates-helper.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
 import { generateEmail } from '#src/utils.js';
 

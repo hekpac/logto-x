@@ -1,6 +1,6 @@
 import { demoAppUrl } from '#src/constants.js';
-import { setLanguage, setUsernamePasswordOnly } from '#src/helpers/sign-in-experience.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
+import { setLanguage, setUsernamePasswordOnly } from '#src/helpers/sign-in-experience-helper.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 
 const credentials = {
   username: 'test_bootstrap',

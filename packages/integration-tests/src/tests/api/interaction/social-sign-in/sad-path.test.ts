@@ -15,15 +15,15 @@ import {
   putInteractionEvent,
   putInteractionProfile,
 } from '#src/api/interaction.js';
-import { initClient, logoutClient, processSession } from '#src/helpers/client.js';
+import { initClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setSocialConnector,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateEmail, generatePhone, generateUserId } from '#src/utils.js';
 
 const state = 'foo_state';

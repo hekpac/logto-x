@@ -1,7 +1,7 @@
 import { HTTPError } from 'ky';
 
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { UserApiTest } from '#src/helpers/user.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { UserApiTest } from '#src/helpers/user-helper.js';
 
 // Add additional layer of describe to run tests in band
 describe('organization APIs', () => {

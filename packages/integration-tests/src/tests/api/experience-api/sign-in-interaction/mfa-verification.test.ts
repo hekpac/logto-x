@@ -2,15 +2,15 @@ import { MfaFactor } from '@logto/schemas';
 import { authenticator } from 'otplib';
 
 import { createUserMfaVerification } from '#src/api/admin-user.js';
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import { identifyUserWithUsernamePassword } from '#src/helpers/experience/index.js';
-import { successfullyVerifyTotp } from '#src/helpers/experience/totp-verification.js';
+import { successfullyVerifyTotp } from '#src/helpers/experience/totp-verification-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   enableAllPasswordSignInMethods,
   enableMandatoryMfaWithTotpAndBackupCode,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 
 describe('mfa sign-in verification', () => {
   const userApi = new UserApiTest();

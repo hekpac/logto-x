@@ -10,7 +10,7 @@ import {
   getRoleUsers,
 } from '#src/api/role.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateNewUserProfile } from '#src/helpers/user.js';
+import { generateNewUserProfile } from '#src/helpers/user-helper.js';
 import { generatePhone } from '#src/utils.js';
 
 describe('roles users', () => {
