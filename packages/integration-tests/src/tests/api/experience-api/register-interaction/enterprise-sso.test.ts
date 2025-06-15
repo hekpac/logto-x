@@ -4,22 +4,22 @@ import { generateStandardId } from '@logto/shared';
 import { mockSocialConnectorId } from '#src/__mocks__/connectors-mock.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSocialConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import {
   successFullyCreateSocialVerification,
   successFullyVerifySocialAuthorization,
-} from '#src/helpers/experience/social-verification.js';
+} from '#src/helpers/experience/social-verification-helper.js';
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from '#src/helpers/experience/verification-code.js';
+} from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { UserApiTest } from '#src/helpers/user.js';
+import { UserApiTest } from '#src/helpers/user-helper.js';
 import { generateEmail } from '#src/utils.js';
 
 describe('should reject the email registration if the email domain is enabled for SSO only', () => {

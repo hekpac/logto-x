@@ -14,6 +14,7 @@ import { createRemoteJWKSet, jwtVerify } from 'jose';
 import {
   accessTokenJwtCustomizerPayload,
   accessTokenSampleScript,
+  accessTokenEnvVarScript,
 } from '#src/__mocks__/jwt-customizer.js';
 import {
   createResource,
@@ -27,9 +28,9 @@ import { assignUsersToRole, createRole, deleteRole } from '#src/api/role.js';
 import { createScope, deleteScope } from '#src/api/scope.js';
 import MockClient, { defaultConfig } from '#src/client/index.js';
 import { logtoUrl } from '#src/constants.js';
-import { initExperienceClient, processSession } from '#src/helpers/client.js';
+import { initExperienceClient, processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateUsername, generatePassword, getAccessTokenPayload } from '#src/utils.js';
 
 describe('get access token', () => {
@@ -151,6 +152,38 @@ describe('get access token', () => {
       'verificationType',
       VerificationType.Password
     );
+
+    await deleteJwtCustomizer('access-token');
+  });
+
+  it('applies custom claims from environment variables', async () => {
+    await upsertJwtCustomizer('access-token', {
+      ...accessTokenJwtCustomizerPayload,
+      script: accessTokenEnvVarScript,
+    });
+
+    const client = await initExperienceClient({
+      config: {
+        resources: [testApiResourceInfo.indicator],
+        scopes: testApiScopeNames,
+      },
+    });
+
+    const { verificationId } = await client.verifyPassword({
+      identifier: {
+        type: SignInIdentifier.Username,
+        value: guestUsername,
+      },
+      password,
+    });
+    await client.identifyUser({ verificationId });
+    const { redirectTo } = await client.submitInteraction();
+    await processSession(client, redirectTo);
+
+    const accessToken = await client.getAccessToken(testApiResourceInfo.indicator);
+    const payload = getAccessTokenPayload(accessToken);
+
+    expect(payload).toMatchObject(accessTokenJwtCustomizerPayload.environmentVariables);
 
     await deleteJwtCustomizer('access-token');
   });

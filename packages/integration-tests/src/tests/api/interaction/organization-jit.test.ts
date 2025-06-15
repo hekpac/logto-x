@@ -8,19 +8,19 @@ import { ConnectorType, SignInIdentifier } from '@logto/schemas';
 
 import { deleteUser, getUserOrganizations, updateSignInExperience } from '#src/api/index.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
-import { logoutClient } from '#src/helpers/client.js';
+import { logoutClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
-import { registerWithEmail, signInWithEmail } from '#src/helpers/interactions.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
+} from '#src/helpers/connector-helper.js';
+import { registerWithEmail, signInWithEmail } from '#src/helpers/interactions-helper.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
 import {
   enableAllVerificationCodeSignInMethods,
   resetPasswordPolicy,
-} from '#src/helpers/sign-in-experience.js';
-import { registerNewUserWithSso, signInWithSso } from '#src/helpers/single-sign-on.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { registerNewUserWithSso, signInWithSso } from '#src/helpers/single-sign-on-helper.js';
 import { generateEmail, randomString } from '#src/utils.js';
 
 describe('organization just-in-time provisioning', () => {

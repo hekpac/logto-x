@@ -9,7 +9,7 @@ import {
 import { createApplication, deleteApplication } from '#src/api/application.js';
 import { OrganizationApi } from '#src/api/organization.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { UserApiTest } from '#src/helpers/user.js';
+import { UserApiTest } from '#src/helpers/user-helper.js';
 
 const testPrefix = 'application-user-consent-organization';
 

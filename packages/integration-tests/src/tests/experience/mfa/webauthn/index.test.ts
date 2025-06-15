@@ -4,13 +4,13 @@ import { SignInIdentifier } from '@logto/schemas';
 import { deleteUser } from '#src/api/admin-user.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { demoAppUrl } from '#src/constants.js';
-import { clearConnectorsByTypes } from '#src/helpers/connector.js';
+import { clearConnectorsByTypes } from '#src/helpers/connector-helper.js';
 import {
   enableMandatoryMfaWithWebAuthn,
   resetMfaSettings,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
-import ExpectWebAuthnExperience from '#src/ui-helpers/expect-webauthn-experience.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
+import ExpectWebAuthnExperience from '#src/ui-helpers/expect-webauthn-experience-helper.js';
 import { generateUsername, waitFor } from '#src/utils.js';
 
 describe('MFA - WebAuthn', () => {

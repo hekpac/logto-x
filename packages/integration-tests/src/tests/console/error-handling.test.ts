@@ -1,7 +1,7 @@
 import { appendPath } from '@silverhand/essentials';
 
-import ExpectConsole from '#src/ui-helpers/expect-console.js';
-import { Trace } from '#src/ui-helpers/trace.js';
+import ExpectConsole from '#src/ui-helpers/expect-console-helper.js';
+import { Trace } from '#src/ui-helpers/trace-helper.js';
 import { devFeatureTest } from '#src/utils.js';
 
 describe('error handling', () => {

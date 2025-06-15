@@ -11,8 +11,8 @@ import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSocialConnector,
-} from '#src/helpers/connector.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
+} from '#src/helpers/connector-helper.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 import { dcls, dmodal, generateEmail } from '#src/utils.js';
 
 const randomString = () => crypto.randomBytes(8).toString('hex');

@@ -7,7 +7,7 @@ import {
 import { createApplication, deleteApplication } from '#src/api/application.js';
 import { getSsoAuthorizationUrl, postSamlAssertion } from '#src/api/interaction-sso.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
-import { initClient } from '#src/helpers/client.js';
+import { initClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { devFeatureTest, randomString } from '#src/utils.js';
 

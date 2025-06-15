@@ -9,11 +9,11 @@ import {
 
 import { deleteUser } from '#src/api/admin-user.js';
 import { authedApi } from '#src/api/api.js';
-import { getHookCreationPayload } from '#src/helpers/hook.js';
+import { getHookCreationPayload } from '#src/helpers/hook-helper.js';
 import { createMockServer } from '#src/helpers/index.js';
-import { registerNewUser } from '#src/helpers/interactions.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile } from '#src/helpers/user.js';
+import { registerNewUser } from '#src/helpers/interactions-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile } from '#src/helpers/user-helper.js';
 
 describe('hook logs', () => {
   const { listen, close } = createMockServer(9999);

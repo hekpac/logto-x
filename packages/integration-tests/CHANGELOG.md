@@ -63,7 +63,7 @@
 
 - f1b1d9e95: new MFA prompt policy
 
-  You can now cutomize the MFA prompt policy in the Console.
+  You can now customize the MFA prompt policy in the Console.
 
   First, choose if you want to enable **Require MFA**:
 

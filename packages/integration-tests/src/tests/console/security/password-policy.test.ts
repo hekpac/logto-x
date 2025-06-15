@@ -1,4 +1,4 @@
-import ExpectConsole from '#src/ui-helpers/expect-console.js';
+import ExpectConsole from '#src/ui-helpers/expect-console-helper.js';
 import { getInputValue } from '#src/ui-helpers/index.js';
 import { dcls } from '#src/utils.js';
 

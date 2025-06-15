@@ -14,6 +14,8 @@ const { mockEsmWithActual } = createMockUtils(jest);
 
 const removeUnavailableSocialConnectorTargets = jest.fn();
 
+const transaction = jest.fn(async (callback) => callback({} as never));
+
 const getLogtoConnectors: jest.MockedFunction<() => Promise<LogtoConnector[]>> = jest.fn();
 const getLogtoConnectorById: jest.MockedFunction<(connectorId: string) => Promise<LogtoConnector>> =
   jest.fn(async (connectorId: string) => {
@@ -70,6 +72,7 @@ describe('connector data routes', () => {
   describe('DELETE /connectors/:id', () => {
     beforeEach(() => {
       jest.resetAllMocks();
+      tenantContext.queries.pool.transaction = transaction;
     });
 
     afterEach(() => {
@@ -100,6 +103,15 @@ describe('connector data routes', () => {
       await connectorRequest.delete('/connectors/id').send({});
       expect(deleteConnectorById).toHaveBeenCalledTimes(1);
       expect(removeUnavailableSocialConnectorTargets).toHaveBeenCalledTimes(0);
+    });
+
+    it('rolls back when removing social connector targets fails', async () => {
+      findConnectorById.mockResolvedValueOnce(mockConnector);
+      loadConnectorFactories.mockResolvedValueOnce([mockConnectorFactory]);
+      removeUnavailableSocialConnectorTargets.mockRejectedValueOnce(new Error('fail'));
+      const response = await connectorRequest.delete('/connectors/id').send({});
+      expect(response).toHaveProperty('statusCode', 500);
+      expect(transaction).toHaveBeenCalledTimes(1);
     });
 
     it('throws when connector not exists with `id`', async () => {

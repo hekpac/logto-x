@@ -17,10 +17,10 @@ import { deleteJwtCustomizer, upsertJwtCustomizer } from '#src/api/logto-config.
 import { createResource, deleteResource } from '#src/api/resource.js';
 import { createSubjectToken } from '#src/api/subject-token.js';
 import type MockClient from '#src/client/index.js';
-import { initClient, processSession } from '#src/helpers/client.js';
+import { initClient, processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import {
   getAccessTokenPayload,
   randomString,

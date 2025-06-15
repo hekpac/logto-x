@@ -5,15 +5,15 @@ import { putInteraction } from '#src/api/interaction.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { createSsoConnector, deleteSsoConnectorById } from '#src/api/sso-connector.js';
 import { newOidcSsoConnectorPayload } from '#src/constants.js';
-import { initClient, processSession, logoutClient } from '#src/helpers/client.js';
+import { initClient, processSession, logoutClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   clearSsoConnectors,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateEmail, generatePassword, generateSsoConnectorName } from '#src/utils.js';
 
 const happyPath = async (email: string) => {

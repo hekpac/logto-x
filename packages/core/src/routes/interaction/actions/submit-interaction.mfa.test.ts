@@ -90,7 +90,7 @@ describe('submit action', () => {
     id: 'foo',
     name: 'foo_social',
     avatar: 'avatar',
-    email: 'email@socail.com',
+    email: 'email@social.com',
     phone: '123123',
   };
 

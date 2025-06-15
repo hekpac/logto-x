@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
 import {
   CaptchaType,
   type CaptchaProvider,
@@ -9,6 +10,7 @@ import { z } from 'zod';
 
 import { type LogEntry } from '#src/middleware/koa-audit-log.js';
 import RequestError from '#src/errors/RequestError/index.js';
+import { defaultScoreThreshold } from '#src/captcha/index.js';
 
 function isRecaptchaEnterprise(
   config: CaptchaProvider['config']
@@ -112,7 +114,7 @@ export class CaptchaValidator {
         riskAnalysis: { score },
       } = responseGuard.parse(result);
 
-      const success = valid && score >= (config.scoreThreshold ?? 0.7);
+      const success = valid && score >= (config.scoreThreshold ?? defaultScoreThreshold);
 
       this.log.append({
         success,
@@ -130,3 +132,5 @@ export class CaptchaValidator {
     }
   }
 }
+
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */

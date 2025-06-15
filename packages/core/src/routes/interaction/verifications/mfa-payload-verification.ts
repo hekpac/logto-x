@@ -27,7 +27,10 @@ import assertThat from '#src/utils/assert-that.js';
 
 import type { AnonymousInteractionResult } from '../types/index.js';
 import { validateTotpToken } from '../utils/totp-validation.js';
-import { verifyWebAuthnAuthentication, verifyWebAuthnRegistration } from '../utils/webauthn.js';
+import {
+  verifyWebAuthnAuthentication,
+  verifyWebAuthnRegistration,
+} from '../../experience/utils/verification/webauthn.js';
 
 const verifyBindTotp = async (
   interactionStorage: AnonymousInteractionResult,

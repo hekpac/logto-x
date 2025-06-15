@@ -18,13 +18,13 @@ import {
 import { authedAdminTenantApi as api, adminTenantApi } from '#src/api/api.js';
 import type { InteractionPayload } from '#src/api/interaction.js';
 import { adminConsoleRedirectUri, logtoConsoleUrl } from '#src/constants.js';
-import { initClient, initExperienceClient, processSession } from '#src/helpers/client.js';
+import { initClient, initExperienceClient, processSession } from '#src/helpers/client-helper.js';
 import { generatePassword, generateUsername } from '#src/utils.js';
 
 import {
   successFullyCreateSocialVerification,
   successFullyVerifySocialAuthorization,
-} from './experience/social-verification.js';
+} from './experience/social-verification-helper.js';
 
 export const resourceDefault = getManagementApiResourceIndicator(defaultTenantId);
 export const resourceMe = getManagementApiResourceIndicator(adminTenantId, 'me');

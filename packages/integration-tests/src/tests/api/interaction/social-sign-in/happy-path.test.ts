@@ -14,16 +14,16 @@ import {
   putInteractionProfile,
   patchInteractionProfile,
 } from '#src/api/index.js';
-import { initClient, logoutClient, processSession } from '#src/helpers/client.js';
+import { initClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setSocialConnector,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
 import { generateUserId, generateUsername, generateEmail, generatePhone } from '#src/utils.js';
 
 const state = 'foo_state';

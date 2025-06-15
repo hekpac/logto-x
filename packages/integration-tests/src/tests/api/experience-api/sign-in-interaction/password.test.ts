@@ -2,8 +2,8 @@ import { InteractionEvent, SignInIdentifier } from '@logto/schemas';
 
 import { deleteUser, getUser } from '#src/api/admin-user.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
-import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client.js';
-import { setEmailConnector, setSmsConnector } from '#src/helpers/connector.js';
+import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
+import { setEmailConnector, setSmsConnector } from '#src/helpers/connector-helper.js';
 import {
   identifyUserWithUsernamePassword,
   signInWithPassword,
@@ -11,13 +11,13 @@ import {
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from '#src/helpers/experience/verification-code.js';
+} from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   enableAllPasswordSignInMethods,
   enableAllVerificationCodeSignInMethods,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUser, UserApiTest } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser, UserApiTest } from '#src/helpers/user-helper.js';
 import { generateEmail, generatePassword } from '#src/utils.js';
 
 const identifiersTypeToUserProfile = Object.freeze({

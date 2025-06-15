@@ -1,5 +1,5 @@
 /**
- * Theses codes comes from [node-oidc-provider](https://github.com/panva/node-oidc-provider):
+ * These codes come from [node-oidc-provider](https://github.com/panva/node-oidc-provider):
  * - [initialize_keystore.js](https://github.com/panva/node-oidc-provider/blob/9da61e9c9dc6152cd1140d42ea06abe1d812c286/lib/helpers/initialize_keystore.js#L13-L36)
  */
 

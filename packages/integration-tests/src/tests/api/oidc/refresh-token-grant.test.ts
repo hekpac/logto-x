@@ -11,10 +11,10 @@ import ky, { HTTPError } from 'ky';
 import { putInteraction } from '#src/api/index.js';
 import MockClient, { defaultConfig } from '#src/client/index.js';
 import { demoAppRedirectUri } from '#src/constants.js';
-import { processSession } from '#src/helpers/client.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { UserApiTest } from '#src/helpers/user.js';
+import { processSession } from '#src/helpers/client-helper.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { UserApiTest } from '#src/helpers/user-helper.js';
 import { generateUsername, generatePassword } from '#src/utils.js';
 
 /** A helper class to simplify the test on grant errors. */

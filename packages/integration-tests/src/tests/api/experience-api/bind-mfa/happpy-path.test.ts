@@ -2,7 +2,7 @@ import { InteractionEvent, MfaFactor, SignInIdentifier } from '@logto/schemas';
 import { authenticator } from 'otplib';
 
 import { createUserMfaVerification, deleteUser } from '#src/api/admin-user.js';
-import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client.js';
+import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
 import {
   identifyUserWithUsernamePassword,
   signInWithPassword,
@@ -10,7 +10,7 @@ import {
 import {
   successfullyCreateAndVerifyTotp,
   successfullyVerifyTotp,
-} from '#src/helpers/experience/totp-verification.js';
+} from '#src/helpers/experience/totp-verification-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   enableAllPasswordSignInMethods,
@@ -19,8 +19,8 @@ import {
   enableUserControlledMfaWithNoPrompt,
   enableUserControlledMfaWithTotp,
   enableUserControlledMfaWithTotpOnlyAtSignIn,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 
 describe('Bind MFA APIs happy path', () => {
   const userApi = new UserApiTest();

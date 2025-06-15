@@ -7,18 +7,18 @@ import {
 } from '@logto/schemas';
 
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
-import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client.js';
+import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
 import {
   identifyUserWithUsernamePassword,
   signInWithPassword,
 } from '#src/helpers/experience/index.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
 import {
   enableAllPasswordSignInMethods,
   resetMfaSettings,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 
 describe('Organization required MFA policy', () => {
   const userApi = new UserApiTest();

@@ -6,19 +6,19 @@ import {
 } from '@logto/schemas';
 
 import { authedApi } from '#src/api/api.js';
-import { resetPasswordlessConnectors } from '#src/helpers/connector.js';
-import { WebHookApiTest } from '#src/helpers/hook.js';
+import { resetPasswordlessConnectors } from '#src/helpers/connector-helper.js';
+import { WebHookApiTest } from '#src/helpers/hook-helper.js';
 import {
   registerNewUser,
   resetPassword,
   signInWithPassword,
   signInWithUsernamePasswordAndUpdateEmailOrPhone,
-} from '#src/helpers/interactions.js';
+} from '#src/helpers/interactions-helper.js';
 import {
   enableAllPasswordSignInMethods,
   enableAllVerificationCodeSignInMethods,
-} from '#src/helpers/sign-in-experience.js';
-import { UserApiTest, generateNewUserProfile } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { UserApiTest, generateNewUserProfile } from '#src/helpers/user-helper.js';
 import { generateEmail, generatePassword } from '#src/utils.js';
 
 import WebhookMockServer from './WebhookMockServer.js';

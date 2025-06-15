@@ -1,6 +1,6 @@
 import { cls, waitFor } from '#src/utils.js';
 
-import ExpectExperience from './expect-experience.js';
+import ExpectExperience from './expect-experience-helper.js';
 
 /**
  * Note: The backup code tests are based on the WebAuthn experience flow since the backup code factor cannot be enabled alone.

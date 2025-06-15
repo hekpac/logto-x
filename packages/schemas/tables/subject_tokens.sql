@@ -8,7 +8,7 @@ create table subject_tokens (
   user_id varchar(21) not null
     references users (id) on update cascade on delete cascade,
   created_at timestamptz not null default(now()),
-  /* It is intented to not reference to user or application table, it can be userId or applicationId, for audit only */
+  /* It is intended to not reference to user or application table, it can be userId or applicationId, for audit only */
   creator_id varchar(32) not null,
   primary key (id)
 );

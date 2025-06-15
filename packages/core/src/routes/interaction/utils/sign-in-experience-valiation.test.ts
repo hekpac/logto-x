@@ -297,6 +297,17 @@ describe('identifier validation', () => {
       });
     }).not.toThrow();
   });
+
+  it('social connector payload bypasses validation', () => {
+    const identifier = { connectorId: 'github', connectorData: { id: '1' } };
+
+    expect(() => {
+      verifyIdentifierSettings(identifier, {
+        ...mockSignInExperience,
+        signIn: { methods: [] },
+      });
+    }).not.toThrow();
+  });
 });
 
 describe('profile validation', () => {

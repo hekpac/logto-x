@@ -22,7 +22,7 @@ import { createServer, type RequestListener, type Server } from 'node:http';
 import { adminConsoleApplicationId, type Application } from '@logto/schemas';
 
 import { authedAdminTenantApi } from '#src/api/api.js';
-import ExpectConsole from '#src/ui-helpers/expect-console.js';
+import ExpectConsole from '#src/ui-helpers/expect-console-helper.js';
 import { waitFor } from '#src/utils.js';
 
 type RequestHistory = {

@@ -1,6 +1,6 @@
 import { cls } from '#src/utils.js';
 
-import ExpectConsole from './expect-console.js';
+import ExpectConsole from './expect-console-helper.js';
 import { expectToClickDetailsPageOption, expectToClickModalAction } from './index.js';
 
 export default class ExpectApiResources extends ExpectConsole {

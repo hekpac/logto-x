@@ -61,10 +61,7 @@ const errors = {
   one_time_token,
   captcha_provider,
   custom_profile_fields,
- <<<<<<< codex/reemplazar-mensajes-de-error-por-claves-de-traducción
   organization_invitation,
-=======
- >>>>>>> master
 };
 
 export default Object.freeze(errors);

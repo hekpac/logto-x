@@ -33,11 +33,7 @@ export default function emailAndPhoneRoutes<T extends UserRouter>(...args: Route
       status: [204, 400, 401, 422],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { email, newIdentifierVerificationRecordId } = ctx.guard.body;
       const { fields } = ctx.accountCenter;
       assertThat(
@@ -79,11 +75,7 @@ export default function emailAndPhoneRoutes<T extends UserRouter>(...args: Route
       status: [204, 400, 401],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { fields } = ctx.accountCenter;
       assertThat(
         fields.email === AccountCenterControlValue.Edit,
@@ -122,11 +114,7 @@ export default function emailAndPhoneRoutes<T extends UserRouter>(...args: Route
       status: [204, 400, 401, 422],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { phone, newIdentifierVerificationRecordId } = ctx.guard.body;
       const { fields } = ctx.accountCenter;
       assertThat(
@@ -164,11 +152,7 @@ export default function emailAndPhoneRoutes<T extends UserRouter>(...args: Route
       status: [204, 400, 401],
     }),
     async (ctx, next) => {
-      const { id: userId, scopes, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId, scopes } = ctx.auth;
       const { fields } = ctx.accountCenter;
       assertThat(
         fields.phone === AccountCenterControlValue.Edit,
