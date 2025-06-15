@@ -19,6 +19,8 @@ export type WithHookContext<ContextT extends IRouterParamContext = IRouterParamC
  *
  * To trigger hooks, call `ctx.appendDataHookContext` in a route handler.
  *
+ * @see ../../../../docs-ref/koa-api-hooks.md
+ *
  * @param hooks The hooks library.
  * @returns The middleware function.
  */
