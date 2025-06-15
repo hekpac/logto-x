@@ -1,10 +1,11 @@
 import { type TenantTag } from '@logto/schemas';
-import type { TenantModel } from '@logto/schemas/models';
+import type router from '@logto/cloud/routes';
+import { type GuardedResponse, type RouterRoutes } from '@withtyped/client';
 
 import { cloudApi } from './api.js';
 
-// TODO: Import from cloud package after it's created
-type TenantInfo = Pick<TenantModel, 'id' | 'name' | 'tag' | 'isSuspended' | 'createdAt'>;
+type GetRoutes = RouterRoutes<typeof router>['get'];
+type TenantInfo = GuardedResponse<GetRoutes['/api/tenants']>[number];
 
 export const createTenant = async (
   accessToken: string,
