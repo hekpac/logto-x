@@ -1,4 +1,5 @@
 import { ConnectorError, ConnectorErrorCodes, TemplateType } from '@logto/connector-kit';
+import { got, HTTPError, type PlainResponse } from 'got';
 import nock from 'nock';
 
 import { endpoint } from './constant.js';
@@ -65,16 +66,17 @@ describe('SMSAero SMS connector', () => {
 
   it('throws TemplateNotFound if template missing', async () => {
     const connector = await createConnector({ getConfig });
+
     await expect(
       connector.sendMessage({
         to: '+1234567890',
-        type: TemplateType.SignIn,
+        type: TemplateType.OrganizationInvitation,
         payload: { code: '1234' },
       })
     ).rejects.toStrictEqual(
       new ConnectorError(
         ConnectorErrorCodes.TemplateNotFound,
-        'Cannot find template for type: SignIn'
+        'Cannot find template for type: OrganizationInvitation'
       )
     );
   });
@@ -93,9 +95,23 @@ describe('SMSAero SMS connector', () => {
   });
 
   it('throws InvalidResponse if service response is not string', async () => {
-    const url = new URL(endpoint);
-    nock(url.origin).post(url.pathname).reply(400, { message: 'error' });
     const connector = await createConnector({ getConfig });
+
+    const rawBody = { message: 'error' };
+    const fakeResponse = {
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+      request: {
+        _onResponse: () => {
+          // Noop
+        },
+        options: {},
+        response: { body: rawBody },
+      },
+    } as unknown as PlainResponse;
+
+    vi.spyOn(got, 'post').mockRejectedValue(new HTTPError(fakeResponse));
+
     await expect(
       connector.sendMessage({
         to: '+1234567890',
@@ -108,6 +124,8 @@ describe('SMSAero SMS connector', () => {
         'Invalid response raw body type: object'
       )
     );
+
+    vi.restoreAllMocks();
   });
 
   it('throws InvalidConfig when config is invalid', async () => {
