@@ -2,6 +2,7 @@ import {
   ApplicationType,
   InteractionHookEvent,
   managementApiHooksRegistration,
+  type DataHookEvent,
   type HookConfig,
   type HookEvent,
   type HookEventPayload,
@@ -105,14 +106,11 @@ export const generateHookTestPayload = (hookId: string, event: HookEvent): HookE
   };
 };
 
-export const buildManagementApiDataHookRegistrationKey = (
+export const resolveManagementApiDataHookEvent = (
   method: string,
   route: IRouterParamContext['_matchedRoute']
-) => `${method} ${route}`;
-
-export const hasRegisteredDataHookEvent = (
-  key: string
-): key is keyof typeof managementApiHooksRegistration => key in managementApiHooksRegistration;
+): DataHookEvent | undefined =>
+  managementApiHooksRegistration[`${method} ${route}`];
 
 export const buildManagementApiContext = (
   ctx: IRouterParamContext & Context
