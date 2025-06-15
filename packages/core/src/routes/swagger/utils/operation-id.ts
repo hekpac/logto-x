@@ -180,10 +180,18 @@ export const buildOperationId = (method: OpenAPIV3.HttpMethods, path: string) =>
     return;
   }
 
+ <<<<<<< codex/corregir-faltas-de-ortografía-y-comprobar-con-codespell
+  const splitParts = namespacePrefixes
+    .reduce((accumulator, prefix) => accumulator.replace(prefix + '/', prefix + '-'), path)
+    .split('/');
+
+  const lastItem = splitParts.at(-1);
+ =======
   const parts = namespacePrefixes
     .reduce((accumulator, prefix) => accumulator.replace(prefix + '/', prefix + '-'), path)
     .split('/');
   const lastItem = parts.at(-1);
+ >>>>>>> master
 
   if (!lastItem) {
     throwIfNeeded(method, path);
@@ -191,7 +199,11 @@ export const buildOperationId = (method: OpenAPIV3.HttpMethods, path: string) =>
   }
 
   const isForSingleItem = isPathParameter(lastItem);
+ <<<<<<< codex/corregir-faltas-de-ortografía-y-comprobar-con-codespell
+  const items = chunk(splitParts.slice(1, isForSingleItem ? undefined : -1), 2);
+ =======
   const items = chunk(parts.slice(1, isForSingleItem ? undefined : -1), 2);
+ >>>>>>> master
 
   // Check if all items have the pattern of `[name, parameter]`
   if (

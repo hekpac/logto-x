@@ -9,7 +9,11 @@
             "description": "An array of the application custom domains."
           },
           "400": {
+ <<<<<<< codex/corregir-faltas-de-ortografía-y-comprobar-con-codespell
+          "description": "Failed to sync the domain info from remote provider."
+ =======
             "description": "Failed to sync the domain info from remote provider."
+ >>>>>>> master
           }
         }
       },
@@ -37,7 +41,11 @@
             "description": "The domain already exists."
           },
           "422": {
+ <<<<<<< codex/corregir-faltas-de-ortografía-y-comprobar-con-codespell
+          "description": "Exceeded the maximum number of domains allowed or the domain is invalid."
+ =======
             "description": "Exceeded the maximum number of domains allowed or the domain is invalid."
+ >>>>>>> master
           }
         }
       }
