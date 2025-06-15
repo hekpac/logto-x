@@ -164,8 +164,8 @@ jobs:
         run: pnpm i && pnpm prepack
       # ** End **
 
-      - name: Setup Postgres
-        uses: ikalnytskyi/action-setup-postgres@v6
+      - name: Start services
+        run: docker compose -f docker-compose.yml up -d mongodb mongodb-setup opensearch redis
 
       # ** Setup up-to-date databases and compare (test `up`) **
       - name: Setup fresh database
