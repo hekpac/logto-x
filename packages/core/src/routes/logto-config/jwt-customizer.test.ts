@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call */
 import {
   LogtoJwtTokenKey,
   LogtoJwtTokenKeyType,
@@ -178,12 +179,8 @@ describe('configs JWT customizer routes', () => {
         useCase: 'test',
       }
     );
-
     expect(clientPostSpy).toHaveBeenCalledTimes(0);
-
-    // TODO: Add the test on nested class static method.
   });
-
   it('POST /configs/jwt-customizer/test should handle nested class static method', async () => {
     const script = `const getCustomJwtClaims = async () => {
   class Outer {
@@ -217,4 +214,41 @@ describe('configs JWT customizer routes', () => {
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({ greeting: 'hello' });
   });
+
+  // Additional scenario covering nested classes with static properties
+  it('POST /configs/jwt-customizer/test should handle nested class static property', async () => {
+    const script = `const getCustomJwtClaims = async () => {
+  class Outer {
+    static prefix = 'hello';
+    static Inner = class {
+      static greet() {
+        return Outer.prefix + ' world';
+      }
+    };
+  }
+  return { greeting: Outer.Inner.greet() };
+};`;
+
+    const payload: JwtCustomizerTestRequestBody = {
+      tokenType: LogtoJwtTokenKeyType.ClientCredentials,
+      script,
+      environmentVariables: {},
+      token: {},
+    };
+
+    const response = await routeRequester.post('/configs/jwt-customizer/test').send(payload);
+
+    expect(tenantContext.libraries.jwtCustomizers.deployJwtCustomizerScript).toHaveBeenCalledWith(
+      expect.any(ConsoleLog),
+      {
+        key: LogtoJwtTokenKey.ClientCredentials,
+        value: payload,
+        useCase: 'test',
+      }
+    );
+
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({ greeting: 'hello world' });
+  });
 });
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call */

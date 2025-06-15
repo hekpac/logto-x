@@ -192,9 +192,15 @@ async function handleSubmitRegister(
 
   // JIT provisioning for email domain
   if (user.primaryEmail) {
+    const emailVerified = interaction.identifiers?.some(
+      (identifier) =>
+        identifier.key === 'emailVerified' && identifier.value === user.primaryEmail
+    );
+
     const provisionedOrganizations = await libraries.users.provisionOrganizations({
       userId: id,
       email: user.primaryEmail,
+      emailVerified,
     });
 
     for (const { organizationId } of provisionedOrganizations) {

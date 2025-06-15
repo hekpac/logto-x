@@ -3,6 +3,7 @@ import application from './application.js';
 import auth from './auth.js';
 import connector from './connector.js';
 import custom_profile_fields from './custom-profile-fields.js';
+import organization_invitation from './organization-invitation.js';
 import domain from './domain.js';
 import entity from './entity.js';
 import guard from './guard.js';
@@ -60,6 +61,7 @@ const errors = {
   one_time_token,
   captcha_provider,
   custom_profile_fields,
+  organization_invitation,
 };
 
 export default Object.freeze(errors);

@@ -35,7 +35,7 @@ import {
   isSocialIdentifier,
 } from '../utils/index.js';
 import { verifySsoOnlyEmailIdentifier } from '../utils/single-sign-on-guard.js';
-import { verifySocialIdentity } from '../utils/social-verification.js';
+import { verifySocialIdentity } from '../../experience/utils/verification/social-verification.js';
 import { verifyIdentifierByVerificationCode } from '../utils/verification-code-validation.js';
 
 const verifyPasswordIdentifier = async (

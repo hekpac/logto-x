@@ -99,7 +99,8 @@ const createRouters = (tenant: TenantContext) => {
 
   const userRouter: UserRouter = new Router();
   userRouter.use(koaOidcAuth(tenant));
-  // TODO(LOG-10147): koaApiHooks middleware is used for both management API and user API
+  // The same middleware is shared with the management API so account routes can
+  // also trigger DataHook events (e.g. User.Data.Updated) after a user action.
   userRouter.use(koaApiHooks(tenant.libraries.hooks));
   accountRoutes(userRouter, tenant);
   verificationRoutes(userRouter, tenant);

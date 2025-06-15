@@ -30,11 +30,15 @@ export default function koaSecurityHeaders<StateT, ContextT, ResponseBodyT>(
   mountedApps: string[],
   tenantId: string
 ): MiddlewareType<StateT, ContextT, ResponseBodyT> {
-  const { isProduction, isCloud, urlSet, adminUrlSet, cloudUrlSet } = EnvSet.values;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { isProduction, isCloud, urlSet, adminUrlSet, cloudUrlSet, isGsiCorpSupported } =
+    EnvSet.values;
 
   const tenantEndpointOrigin = getTenantEndpoint(tenantId, EnvSet.values).origin;
   // Logto Cloud uses cloud service to serve the admin console; while Logto OSS uses a fixed path under the admin URL set.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const adminOrigins = isCloud ? cloudUrlSet.origins : adminUrlSet.origins;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const coreOrigins = urlSet.origins;
   const developmentOrigins = isProduction
     ? []
@@ -76,8 +80,8 @@ export default function koaSecurityHeaders<StateT, ContextT, ResponseBodyT>(
   const basicSecurityHeaderSettings: HelmetOptions = {
     contentSecurityPolicy: false, // Exclusively set per app
     crossOriginOpenerPolicy: false, // Allow cross origin opener, as some apps rely on popup window for the sign-in flow
-    // Google One Tap iframe previously responded with an incorrect CORP header.
-    // TODO: Monitor Google One Tap for CORP support.
+    // Enable COEP only when Google One Tap officially documents CORP support.
+    crossOriginEmbedderPolicy: isGsiCorpSupported ? { policy: 'require-corp' } : false,
     dnsPrefetchControl: false,
     referrerPolicy: {
       policy: 'strict-origin-when-cross-origin',
@@ -128,6 +132,7 @@ export default function koaSecurityHeaders<StateT, ContextT, ResponseBodyT>(
         // WARNING (high risk): Need to allow self-hosted terms of use page loaded in an iframe
         frameSrc: ["'self'", 'https:', gsiOrigin],
         // Allow being loaded by console preview iframe
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         frameAncestors: ["'self'", ...adminOrigins],
         defaultSrc: ["'self'", gsiOrigin],
       },
@@ -137,7 +142,7 @@ export default function koaSecurityHeaders<StateT, ContextT, ResponseBodyT>(
   // @ts-expect-error: helmet typings has lots of {A?: T, B?: never} | {A?: never, B?: T} options definitions. Optional settings type can not inferred correctly.
   const consoleSecurityHeaderSettings: HelmetOptions = {
     ...basicSecurityHeaderSettings,
-    // Guarded by CSP header bellow
+    // Guarded by CSP header below
     frameguard: false,
     contentSecurityPolicy: {
       useDefaults: true,
@@ -150,7 +155,9 @@ export default function koaSecurityHeaders<StateT, ContextT, ResponseBodyT>(
           ...conditionalArray(!isProduction && ["'unsafe-eval'", "'unsafe-inline'"]),
           ...cdnSources,
         ],
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         connectSrc: ["'self'", logtoOrigin, ...adminOrigins, ...coreOrigins, ...developmentOrigins],
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         frameSrc: ["'self'", ...adminOrigins, ...coreOrigins],
       },
     },

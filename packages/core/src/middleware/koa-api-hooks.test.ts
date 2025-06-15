@@ -31,7 +31,8 @@ describe('koaApiHooks', () => {
     expect(triggerDataHooks).not.toBeCalled();
   });
 
-  it('should trigger management hooks', async () => {
+  // Covers usage on user APIs where the context is appended manually
+  it('should trigger data hooks when context is appended', async () => {
     const ctx: ParameterizedContext<unknown, WithHookContext> = {
       ...createContextWithRouteParameters(),
       header: {},
@@ -52,6 +53,32 @@ describe('koaApiHooks', () => {
             event: 'Role.Created',
             data: { id: '123' },
           },
+        ],
+      })
+    );
+  });
+
+  it('should trigger data hooks for multiple contexts', async () => {
+    const ctx: ParameterizedContext<unknown, WithHookContext> = {
+      ...createContextWithRouteParameters(),
+      header: {},
+      appendDataHookContext: notToBeCalled,
+    };
+
+    next.mockImplementation(() => {
+      ctx.appendDataHookContext('Role.Created', { data: { id: '1' } });
+      ctx.appendDataHookContext('Role.Data.Updated', { data: { id: '1' } });
+    });
+
+    await koaApiHooks(mockHooksLibrary)(ctx, next);
+
+    expect(triggerDataHooks).toBeCalledTimes(1);
+    expect(triggerDataHooks).toBeCalledWith(
+      expect.any(ConsoleLog),
+      expect.objectContaining({
+        contextArray: [
+          { event: 'Role.Created', data: { id: '1' } },
+          { event: 'Role.Data.Updated', data: { id: '1' } },
         ],
       })
     );

@@ -36,6 +36,7 @@ export const createUserLibrary = (queries: Queries) => {
       updateUserById,
       insertUser: insertUserQuery,
       findUserById,
+      addUserMfaVerification: addUserMfaVerificationQuery,
     },
     usersRoles: { findUsersRolesByRoleId, findUsersRolesByUserId },
     rolesScopes: { findRolesScopesByRoleIds },
@@ -166,13 +167,8 @@ export const createUserLibrary = (queries: Queries) => {
     return roles;
   };
 
-  const addUserMfaVerification = async (userId: string, payload: BindMfa) => {
-    // TODO @sijie use jsonb array append
-    const { mfaVerifications } = await findUserById(userId);
-    await updateUserById(userId, {
-      mfaVerifications: [...mfaVerifications, convertBindMfaToMfaVerification(payload)],
-    });
-  };
+  const addUserMfaVerification = async (userId: string, payload: BindMfa) =>
+    addUserMfaVerificationQuery(userId, convertBindMfaToMfaVerification(payload));
 
   const verifyUserPassword = async (user: Nullable<User>, password: string): Promise<User> => {
     assertThat(user, new RequestError({ code: 'session.invalid_credentials', status: 422 }));
@@ -271,6 +267,8 @@ export const createUserLibrary = (queries: Queries) => {
         userId: string;
         /** The user's email to determine JIT organizations. */
         email: string;
+        /** Whether the email has been verified. */
+        emailVerified?: boolean;
         /** The SSO connector ID to determine JIT organizations. */
         ssoConnectorId?: undefined;
         organizationIds?: undefined;
@@ -291,7 +289,6 @@ export const createUserLibrary = (queries: Queries) => {
         organizationIds: string[];
       };
 
-  // TODO: If the user's email is not verified, we should not provision the user into any organization.
   /**
    * Provision the user with JIT organizations and roles based on the user's email domain and the
    * enterprise SSO connector.
@@ -299,9 +296,14 @@ export const createUserLibrary = (queries: Queries) => {
   const provisionOrganizations = async ({
     userId,
     email,
+    emailVerified = true,
     ssoConnectorId,
     organizationIds,
   }: ProvisionOrganizationsParams): Promise<readonly JitOrganization[]> => {
+    if (email && !emailVerified) {
+      return [];
+    }
+
     const userEmailDomain = email?.split('@')[1];
     const jitOrganizations = condArray(
       userEmailDomain &&

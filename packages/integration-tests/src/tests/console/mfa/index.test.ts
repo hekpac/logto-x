@@ -3,7 +3,7 @@ import {
   expectMainPageWithTitle,
   expectToClickSidebarMenu,
   expectToSaveChanges,
-  goToAdminConsole,
+  goToConsole,
   waitForToast,
 } from '#src/ui-helpers/index.js';
 
@@ -15,10 +15,9 @@ import {
 
 await page.setViewport({ width: 1920, height: 1080 });
 
-// Skip this test suite since it's not public yet
-describe.skip('multi-factor authentication', () => {
+describe('multi-factor authentication', () => {
   beforeAll(async () => {
-    await goToAdminConsole();
+    await goToConsole();
   });
 
   it('navigate to multi-factor authentication page', async () => {

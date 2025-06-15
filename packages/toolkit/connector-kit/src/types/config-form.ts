@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { i18nPhrasesGuard } from './metadata.js';
+import { i18nPhrasesGuard } from './i18n.js';
 
 export enum ConnectorConfigFormItemType {
   Text = 'Text',
@@ -29,9 +29,7 @@ const baseConfigFormItem = {
 export const connectorConfigFormItemGuard = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(ConnectorConfigFormItemType.Select),
-    selectItems: z.array(
-      z.object({ value: z.string(), title: z.string().or(i18nPhrasesGuard) })
-    ),
+    selectItems: z.array(z.object({ value: z.string(), title: z.string().or(i18nPhrasesGuard) })),
     ...baseConfigFormItem,
   }),
   z.object({

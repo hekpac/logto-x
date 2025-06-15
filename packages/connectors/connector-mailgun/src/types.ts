@@ -23,7 +23,7 @@ type TemplateEmailConfig = CommonEmailConfig & {
   variables?: Record<string, unknown>;
 };
 
-/** Config object fot a specific template type. */
+/** Config object for a specific template type. */
 export type DeliveryConfig = RawEmailConfig | TemplateEmailConfig;
 
 const templateConfigGuard = z.union([

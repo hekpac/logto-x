@@ -14,6 +14,7 @@ import { createRemoteJWKSet, jwtVerify } from 'jose';
 import {
   accessTokenJwtCustomizerPayload,
   accessTokenSampleScript,
+  accessTokenEnvVarScript,
 } from '#src/__mocks__/jwt-customizer.js';
 import {
   createResource,
@@ -151,6 +152,38 @@ describe('get access token', () => {
       'verificationType',
       VerificationType.Password
     );
+
+    await deleteJwtCustomizer('access-token');
+  });
+
+  it('applies custom claims from environment variables', async () => {
+    await upsertJwtCustomizer('access-token', {
+      ...accessTokenJwtCustomizerPayload,
+      script: accessTokenEnvVarScript,
+    });
+
+    const client = await initExperienceClient({
+      config: {
+        resources: [testApiResourceInfo.indicator],
+        scopes: testApiScopeNames,
+      },
+    });
+
+    const { verificationId } = await client.verifyPassword({
+      identifier: {
+        type: SignInIdentifier.Username,
+        value: guestUsername,
+      },
+      password,
+    });
+    await client.identifyUser({ verificationId });
+    const { redirectTo } = await client.submitInteraction();
+    await processSession(client, redirectTo);
+
+    const accessToken = await client.getAccessToken(testApiResourceInfo.indicator);
+    const payload = getAccessTokenPayload(accessToken);
+
+    expect(payload).toMatchObject(accessTokenJwtCustomizerPayload.environmentVariables);
 
     await deleteJwtCustomizer('access-token');
   });

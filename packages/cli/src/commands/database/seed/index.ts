@@ -116,7 +116,7 @@ const seed: CommandModule<
     } catch (error: unknown) {
       consoleLog.error(error);
       consoleLog.error(
-        'Error ocurred during seeding your database.\n\n' +
+        'Error occurred during seeding your database.\n\n' +
           '  Nothing has changed since the seeding process was in a transaction.\n' +
           '  Try to fix the error and seed again.'
       );
