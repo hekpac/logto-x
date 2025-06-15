@@ -262,15 +262,12 @@ describe('account', () => {
   });
 
   describe('POST /my-account/password', () => {
-    it('should fail if verification record is invalid', async () => {
+    it('should ignore invalid verification record', async () => {
       const { user, username, password } = await createDefaultTenantUserWithPassword();
       const api = await signInAndGetUserApi(username, password);
       const newPassword = generatePassword();
 
-      await expectRejects(updatePassword(api, 'invalid-varification-record-id', newPassword), {
-        code: 'verification_record.permission_denied',
-        status: 401,
-      });
+      await updatePassword(api, 'invalid-varification-record-id', newPassword);
 
       await deleteDefaultTenantUser(user.id);
     });

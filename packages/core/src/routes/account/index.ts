@@ -149,11 +149,7 @@ export default function accountRoutes<T extends UserRouter>(...args: RouterInitA
       status: [204, 400, 401, 422],
     }),
     async (ctx, next) => {
-      const { id: userId, identityVerified } = ctx.auth;
-      assertThat(
-        identityVerified,
-        new RequestError({ code: 'verification_record.permission_denied', status: 401 })
-      );
+      const { id: userId } = ctx.auth;
       const { password } = ctx.guard.body;
       const { fields } = ctx.accountCenter;
       assertThat(

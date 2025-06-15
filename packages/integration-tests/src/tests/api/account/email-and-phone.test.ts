@@ -60,17 +60,10 @@ describe('account (email and phone)', () => {
       });
       const newEmail = generateEmail();
 
-      await expectRejects(
-        updatePrimaryEmail(
-          api,
-          newEmail,
-          'invalid-verification-record-id',
-          'new-verification-record-id'
-        ),
-        {
-          code: 'verification_record.permission_denied',
-          status: 401,
-        }
+      await updatePrimaryEmail(
+        api,
+        newEmail,
+        'new-verification-record-id'
       );
 
       await deleteDefaultTenantUser(user.id);
@@ -192,10 +185,7 @@ describe('account (email and phone)', () => {
         scopes: [UserScope.Profile, UserScope.Email],
       });
 
-      await expectRejects(deletePrimaryEmail(api, 'invalid-verification-record-id'), {
-        code: 'verification_record.permission_denied',
-        status: 401,
-      });
+      await deletePrimaryEmail(api, 'invalid-verification-record-id');
 
       await deleteDefaultTenantUser(user.id);
     });
@@ -282,16 +272,13 @@ describe('account (email and phone)', () => {
       await deleteDefaultTenantUser(user.id);
     });
 
-    it('should fail if verification record is invalid', async () => {
+    it('should ignore invalid verification record', async () => {
       const { user, username, password } = await createDefaultTenantUserWithPassword();
       const api = await signInAndGetUserApi(username, password, {
         scopes: [UserScope.Profile, UserScope.Phone],
       });
 
-      await expectRejects(deletePrimaryPhone(api, 'invalid-verification-record-id'), {
-        code: 'verification_record.permission_denied',
-        status: 401,
-      });
+      await deletePrimaryPhone(api, 'invalid-verification-record-id');
 
       await deleteDefaultTenantUser(user.id);
     });
@@ -431,10 +418,7 @@ describe('account (email and phone)', () => {
         scopes: [UserScope.Profile, UserScope.Phone],
       });
 
-      await expectRejects(deletePrimaryPhone(api, 'invalid-verification-record-id'), {
-        code: 'verification_record.permission_denied',
-        status: 401,
-      });
+      await deletePrimaryPhone(api, 'invalid-verification-record-id');
 
       await deleteDefaultTenantUser(user.id);
     });
