@@ -17,7 +17,7 @@ import { type WithLogContext } from '#src/middleware/koa-audit-log.js';
 import {
   verifyWebAuthnAuthentication,
   verifyWebAuthnRegistration,
-} from '#src/routes/interaction/utils/webauthn.js';
+} from '../utils/verification/webauthn.js';
 import {
   generateWebAuthnAuthenticationOptions,
   generateWebAuthnRegistrationOptions,
@@ -96,7 +96,8 @@ export class WebAuthnVerification implements MfaVerificationRecord<VerificationT
    * This method is used to generate the WebAuthn registration options for the user.
    * The WebAuthn registration options is used to register a new WebAuthn credential for the user.
    *
-   * Refers to the {@link generateWebAuthnRegistrationOptions} function in  `interaction/utils/webauthn.ts` file.
+   * Refers to the {@link generateWebAuthnRegistrationOptions} function in
+   * `interaction/utils/webauthn-options.ts` file.
    * Keep it as the single source of truth for generating the WebAuthn registration options.
    * TODO: Consider relocating the function under a shared folder
    */
@@ -164,7 +165,8 @@ export class WebAuthnVerification implements MfaVerificationRecord<VerificationT
    * This method is used to generate the WebAuthn authentication options for the user.
    * The WebAuthn authentication options is used to authenticate the user using existing WebAuthn credentials.
    *
-   * Refers to the {@link generateWebAuthnAuthenticationOptions} function in  `interaction/utils/webauthn.ts` file.
+   * Refers to the {@link generateWebAuthnAuthenticationOptions} function in
+   * `interaction/utils/webauthn-options.ts` file.
    * Keep it as the single source of truth for generating the WebAuthn authentication options.
    * TODO: Consider relocating the function under a shared folder
    *
