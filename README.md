@@ -84,6 +84,8 @@ REDIS_URL=redis://localhost:6379
 # REDIS_URL=redis://localhost:7000?cluster=1
 ENDPOINT=http://localhost:3001
 ADMIN_ENDPOINT=http://localhost:3002
+# Redis provides caching and sessions
+# OpenSearch powers the search index
 ```
 
 ### Migrate from PostgreSQL

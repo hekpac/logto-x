@@ -1,19 +1,11 @@
-import { type SystemKey, Systems } from '@logto/schemas';
-import type { CommonQueryMethods } from '@silverhand/slonik';
-import { sql } from '@silverhand/slonik';
+import type { SystemKey } from '@logto/schemas';
+import type { MongoClient } from 'mongodb';
 
-import { convertToIdentifiers } from '#src/utils/sql.js';
+import { SystemModel } from '../models/system.js';
 
-const { table, fields } = convertToIdentifiers(Systems);
+const findSystemByKey = async (key: SystemKey) =>
+  SystemModel.findOne({ key }).lean<Record<string, unknown>>().exec();
 
-export const createSystemsQuery = (pool: CommonQueryMethods) => {
-  const findSystemByKey = async (key: SystemKey) =>
-    pool.maybeOne<Record<string, unknown>>(sql`
-      select ${fields.value} from ${table}
-      where ${fields.key} = ${key}
-    `);
-
-  return {
-    findSystemByKey,
-  };
-};
+export const createSystemsQuery = (_client: MongoClient) => ({
+  findSystemByKey,
+});

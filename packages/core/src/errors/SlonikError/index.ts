@@ -1,10 +1,11 @@
 import type { SchemaLike, GeneratedSchema } from '@logto/schemas';
 import type { UpdateWhereData } from '@logto/shared';
-import { SlonikError } from '@silverhand/slonik';
+// Base error class for database operations
+export class DatabaseError extends Error {}
 
 import { type OmitAutoSetFields } from '#src/utils/sql.js';
 
-export class DeletionError extends SlonikError {
+export class DeletionError extends DatabaseError {
   public constructor(
     public readonly table?: string,
     public readonly id?: string
@@ -19,7 +20,7 @@ export class UpdateError<
   Schema extends SchemaLike<Key>,
   SetKey extends Key,
   WhereKey extends Key,
-> extends SlonikError {
+> extends DatabaseError {
   public constructor(
     public readonly schema: GeneratedSchema<Key, CreateSchema, Schema>,
     public readonly detail: Partial<UpdateWhereData<SetKey, WhereKey>>
@@ -32,7 +33,7 @@ export class InsertionError<
   Key extends string,
   CreateSchema extends Partial<SchemaLike<Key>>,
   Schema extends SchemaLike<Key>,
-> extends SlonikError {
+> extends DatabaseError {
   public constructor(
     public readonly schema: GeneratedSchema<Key, CreateSchema, Schema>,
     public readonly detail?: OmitAutoSetFields<CreateSchema>
