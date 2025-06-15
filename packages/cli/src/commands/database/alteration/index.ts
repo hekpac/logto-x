@@ -84,7 +84,7 @@ const deployAlteration = async (
 
     await pool.end();
     consoleLog.fatal(
-      `Error ocurred during running alteration ${chalk.blue(filename)}.\n\n` +
+      `Error occurred during running alteration ${chalk.blue(filename)}.\n\n` +
         "  This alteration didn't change anything since it was in a transaction.\n" +
         '  Try to fix the error and deploy again.'
     );

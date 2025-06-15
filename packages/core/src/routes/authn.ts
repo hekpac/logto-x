@@ -108,7 +108,7 @@ export default function authnRoutes<T extends AnonymousRouter>(
   /**
    * Standard SAML social connector's assertion consumer service endpoint
    * @deprecated
-   * Will be replaced by the SSO SAML assertion consumer service endpoint bellow.
+   * Will be replaced by the SSO SAML assertion consumer service endpoint below.
    */
   router.post(
     '/authn/saml/:connectorId',

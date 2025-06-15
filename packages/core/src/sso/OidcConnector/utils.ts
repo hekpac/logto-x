@@ -206,7 +206,7 @@ export const getRawUserInfoResponse = async (accessToken: string, userinfoEndpoi
 };
 
 /**
- * Get the user info from the userinfo endpoint incase id token does not contain sufficient user claims.
+ * Get the user info from the userinfo endpoint in case id token does not contain sufficient user claims.
  */
 export const getUserInfo = async (accessToken: string, userinfoEndpoint: string) => {
   try {

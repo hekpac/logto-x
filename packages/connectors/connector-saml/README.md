@@ -142,4 +142,4 @@ Logto also provide a `Profile Mapping` field that users can customize the mappin
 ## Reference
 
 - [Profiles for the OASIS Security Assertion Markup Language (SAML) V2.0](http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf)
-- [samlify - Highly configuarable Node.js SAML 2.0 library for Single Sign On](https://github.com/tngan/samlify)
+- [samlify - Highly configurable Node.js SAML 2.0 library for Single Sign On](https://github.com/tngan/samlify)

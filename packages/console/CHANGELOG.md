@@ -1342,7 +1342,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- **console:** chagne user added modal button to done ([#1438](https://github.com/logto-io/logto/issues/1438)) ([ec82507](https://github.com/logto-io/logto/commit/ec82507ca1107154676599afe16491e382a1d524))
+- **console:** change user added modal button to done ([#1438](https://github.com/logto-io/logto/issues/1438)) ([ec82507](https://github.com/logto-io/logto/commit/ec82507ca1107154676599afe16491e382a1d524))
 - **console:** dashboard chart yaxios width ([#1435](https://github.com/logto-io/logto/issues/1435)) ([b26fb0c](https://github.com/logto-io/logto/commit/b26fb0c0c32e7bf2e361acd5e71cf20740bba25b))
 - **console:** fix typo for variant ([#1423](https://github.com/logto-io/logto/issues/1423)) ([f6be19e](https://github.com/logto-io/logto/commit/f6be19e1e321eafd5672b88c6e7f54976032d673))
 - **console:** use icon button in copytoclipboard ([#1440](https://github.com/logto-io/logto/issues/1440)) ([f8a9743](https://github.com/logto-io/logto/commit/f8a9743b2ea978fa2802ac8da4f51f7801d3a87a))
@@ -1356,7 +1356,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- **console:** dashbaord chart grid color ([#1417](https://github.com/logto-io/logto/issues/1417)) ([1d5f69d](https://github.com/logto-io/logto/commit/1d5f69db127a939f4c893f27230a96f6acb67f6e))
+- **console:** dashboard chart grid color ([#1417](https://github.com/logto-io/logto/issues/1417)) ([1d5f69d](https://github.com/logto-io/logto/commit/1d5f69db127a939f4c893f27230a96f6acb67f6e))
 - **console:** leave page button should be primary on unsaved changes alert modal ([#1421](https://github.com/logto-io/logto/issues/1421)) ([be004fa](https://github.com/logto-io/logto/commit/be004fa4dab3c61b8396194c7604641ab2d82aad))
 
 ## [1.0.0-alpha.0](https://github.com/logto-io/logto/compare/v0.1.2-alpha.5...v1.0.0-alpha.0) (2022-07-04)
@@ -1413,7 +1413,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **console:** add app icon and api icon ([#830](https://github.com/logto-io/logto/issues/830)) ([373d349](https://github.com/logto-io/logto/commit/373d349db73be01fdbd653c917f7cf9f3817d4d5))
 - **console:** add application column in user management ([#728](https://github.com/logto-io/logto/issues/728)) ([a035587](https://github.com/logto-io/logto/commit/a0355872c65bc0da27e57e25568fbe5dcc5b671b))
 - **console:** add column lastSignIn in user management ([#679](https://github.com/logto-io/logto/issues/679)) ([a0b4b98](https://github.com/logto-io/logto/commit/a0b4b98c35ff08c2df0863e4bc2110386fc54aee))
-- **console:** add comopnent alert ([#706](https://github.com/logto-io/logto/issues/706)) ([60920c2](https://github.com/logto-io/logto/commit/60920c28dd0ab5481138264a0961d674abaa613b))
+- **console:** add component alert ([#706](https://github.com/logto-io/logto/issues/706)) ([60920c2](https://github.com/logto-io/logto/commit/60920c28dd0ab5481138264a0961d674abaa613b))
 - **console:** add date picker in dashboard ([#1085](https://github.com/logto-io/logto/issues/1085)) ([5a073ce](https://github.com/logto-io/logto/commit/5a073ceb60932cb4f998bf5f6e80792e63c6552d))
 - **console:** add details summary component in guides ([693c4f0](https://github.com/logto-io/logto/commit/693c4f0422eb312190f2c7b0673e3ceaa8c41213))
 - **console:** add drawer animation ([#760](https://github.com/logto-io/logto/issues/760)) ([dd8b767](https://github.com/logto-io/logto/commit/dd8b7671306b4f712eb56cee339cc38a0c7061fc))
@@ -1422,7 +1422,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **console:** add mobile web tab in preview ([#1214](https://github.com/logto-io/logto/issues/1214)) ([9b6fd4c](https://github.com/logto-io/logto/commit/9b6fd4c417f2ee53375e436c839b711c86403d58))
 - **console:** add page loading skeleton to data table and detail pages ([9b8658d](https://github.com/logto-io/logto/commit/9b8658d9c1d0b916ac4bd00e0355018f3dafb864))
 - **console:** add placeholders ([#1277](https://github.com/logto-io/logto/issues/1277)) ([c26ca08](https://github.com/logto-io/logto/commit/c26ca08fb1109a2f3dae53bc8a1db5d8d7f6f47f))
-- **console:** add prevew in guide modal ([#839](https://github.com/logto-io/logto/issues/839)) ([002f839](https://github.com/logto-io/logto/commit/002f839e31c26733adb8865e6ed3be5464865799))
+- **console:** add preview in guide modal ([#839](https://github.com/logto-io/logto/issues/839)) ([002f839](https://github.com/logto-io/logto/commit/002f839e31c26733adb8865e6ed3be5464865799))
 - **console:** add user dropdown and sign out button ([5a09e7d](https://github.com/logto-io/logto/commit/5a09e7d6aa0d74215b299ef95b94bc715392cb77))
 - **console:** audit log filters ([#1004](https://github.com/logto-io/logto/issues/1004)) ([a0d562f](https://github.com/logto-io/logto/commit/a0d562f7f24e10481c269b761c9a2c152affd50e))
 - **console:** audit log table ([#1000](https://github.com/logto-io/logto/issues/1000)) ([fdd12de](https://github.com/logto-io/logto/commit/fdd12de1cf39c36dd65dd9365ad343478718d112))
@@ -1525,14 +1525,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **console:** connector details save changes footer ([#736](https://github.com/logto-io/logto/issues/736)) ([2d9b708](https://github.com/logto-io/logto/commit/2d9b7088a6f7f126b48eb2f395c255b7254b4b34))
 - **console:** connector guide ([#990](https://github.com/logto-io/logto/issues/990)) ([3c37739](https://github.com/logto-io/logto/commit/3c37739107794466a30c44163743915d489bb3ae))
 - **console:** connector guide setup content should scroll in the whole container ([#1314](https://github.com/logto-io/logto/issues/1314)) ([05399b5](https://github.com/logto-io/logto/commit/05399b5e594c0af591eadeb017af073cc9b9edcc))
-- **console:** connector name in user detials ([#1147](https://github.com/logto-io/logto/issues/1147)) ([94084a4](https://github.com/logto-io/logto/commit/94084a49e77d964e4f9c230f88e3aa7d5e12179a))
+- **console:** connector name in user details ([#1147](https://github.com/logto-io/logto/issues/1147)) ([94084a4](https://github.com/logto-io/logto/commit/94084a49e77d964e4f9c230f88e3aa7d5e12179a))
 - **console:** connector row clickable ([#1108](https://github.com/logto-io/logto/issues/1108)) ([2a4a61d](https://github.com/logto-io/logto/commit/2a4a61deabc827353ac7471565f25bb52d07fc1c))
 - **console:** connector sender test loading state ([#1290](https://github.com/logto-io/logto/issues/1290)) ([7d47433](https://github.com/logto-io/logto/commit/7d47433cca2a8f6d3d11fb9a98c1b7c67d9710b2))
 - **console:** contact us icons ([#1181](https://github.com/logto-io/logto/issues/1181)) ([e39704a](https://github.com/logto-io/logto/commit/e39704a8fa280201682f0e9e23d7b3f9d14e7d76))
 - **console:** create connector form alignment ([#1220](https://github.com/logto-io/logto/issues/1220)) ([ebfab1d](https://github.com/logto-io/logto/commit/ebfab1d222be34a335478715c3cec38393e0af21))
 - **console:** dashboard chart style ([#1177](https://github.com/logto-io/logto/issues/1177)) ([cf47044](https://github.com/logto-io/logto/commit/cf470446e4458e748bbf6384adb96d69805a1991)), closes [#1178](https://github.com/logto-io/logto/issues/1178)
 - **console:** date picker input height ([#1171](https://github.com/logto-io/logto/issues/1171)) ([6ca1395](https://github.com/logto-io/logto/commit/6ca1395b8bf6e6b58c539b23fca2167ee3d47746))
-- **console:** details page should not be shrinked ([#1338](https://github.com/logto-io/logto/issues/1338)) ([d73663a](https://github.com/logto-io/logto/commit/d73663af27a7a0f63d18e0015817aa5b5347cad9))
+- **console:** details page should not be shrunk ([#1338](https://github.com/logto-io/logto/issues/1338)) ([d73663a](https://github.com/logto-io/logto/commit/d73663af27a7a0f63d18e0015817aa5b5347cad9))
 - **console:** display dark mode color setting only when dark mode is enabled ([#1027](https://github.com/logto-io/logto/issues/1027)) ([a506dc5](https://github.com/logto-io/logto/commit/a506dc5511e19bbf948ba96cab23489e2c55bbc3))
 - **console:** display default avatar when the avatar is empty ([#1191](https://github.com/logto-io/logto/issues/1191)) ([71ed416](https://github.com/logto-io/logto/commit/71ed416bde2c03bc6808d0857f4e59725ad0015d))
 - **console:** dropdown max height ([#1155](https://github.com/logto-io/logto/issues/1155)) ([402d19d](https://github.com/logto-io/logto/commit/402d19d5608fe695ae8c4f60172563b8f51511e1))
@@ -1553,7 +1553,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **console:** hide url input on terms of use disabled ([#1270](https://github.com/logto-io/logto/issues/1270)) ([1e6ad9f](https://github.com/logto-io/logto/commit/1e6ad9f15f0ce3de577033e1b59c2b25f460adec))
 - **console:** hide user column ([#1296](https://github.com/logto-io/logto/issues/1296)) ([9b19b0e](https://github.com/logto-io/logto/commit/9b19b0e970b0c54d26b1ad59fe242672f6573f86))
 - **console:** icon colors on the action menu ([#1179](https://github.com/logto-io/logto/issues/1179)) ([d71c18c](https://github.com/logto-io/logto/commit/d71c18c83c4065b28213ca93ae514a59879192de))
-- **console:** icons in item preview should not be shrinked ([#1234](https://github.com/logto-io/logto/issues/1234)) ([2d66302](https://github.com/logto-io/logto/commit/2d663025ecbd08dc39878e2fd32cfb08b92e9b3a))
+- **console:** icons in item preview should not be shrunk ([#1234](https://github.com/logto-io/logto/issues/1234)) ([2d66302](https://github.com/logto-io/logto/commit/2d663025ecbd08dc39878e2fd32cfb08b92e9b3a))
 - **console:** improve horizontal scrollbar thumb styles ([818b1d7](https://github.com/logto-io/logto/commit/818b1d7cc78fb89060b23e3578b30fd20b6f2393))
 - **console:** improve swr error handling to avoid app crash ([da77a1d](https://github.com/logto-io/logto/commit/da77a1d1b5c49f2e806bf0d5f27e326e081f1735))
 - **console:** item preview alignment ([#1159](https://github.com/logto-io/logto/issues/1159)) ([5c43da2](https://github.com/logto-io/logto/commit/5c43da2201db8dbb4b782563fd37cad655326cad))

@@ -31,7 +31,7 @@
 
   In the previous implementation, Logto did not normalize the user's phone number during the user sign-up process. Both 61021345678 and 61212345678 were considered as valid phone numbers, and we do not normalize them before storing them in the database. This could lead to confusion when users try to sign-in with their phone numbers, as they may not remember the exact format they used during sign-up. Users may also end up with different accounts for the same phone number, depending on how they entered it during sign-up.
 
-  To address this issue, especially for legacy users, we have added a new enhenced user lookup by phone with either format (with or without leading '0') to the user sign-in process. This means that users can now sign-in with either format of their phone number, and Logto will try to match it with the one stored in the database, even if they might have different formats. This will help to reduce confusion and improve the user experience when logging in with phone numbers.
+  To address this issue, especially for legacy users, we have added a new enhanced user lookup by phone with either format (with or without leading '0') to the user sign-in process. This means that users can now sign-in with either format of their phone number, and Logto will try to match it with the one stored in the database, even if they might have different formats. This will help to reduce confusion and improve the user experience when logging in with phone numbers.
 
   For example:
 
@@ -156,7 +156,7 @@
   This prevents the browser and CDN from caching the `index.html` file for non-existing paths in `/assets`, which can lead to confusion and unexpected behavior.
   Since the `/assets` path is used only for static assets, it is safe and improves the user experience.
 
-- 7dbcedaa1: move password encyption to separate worker thread
+- 7dbcedaa1: move password encryption to separate worker thread
 
   This update refactors the password encryption process by moving it to a separate Node.js worker thread. The Argon2i encryption method, known for its resource-intensive and time-consuming nature, is now handled in a dedicated worker. This change aims to prevent the encryption process from blocking other requests, thereby improving the overall performance and responsiveness of the application.
 
@@ -334,7 +334,7 @@
 
 ### Minor Changes
 
-- 1c7bdf9ba: add legacy password type supporting custom hasing function, credits @fre2d0m
+- 1c7bdf9ba: add legacy password type supporting custom hashing function, credits @fre2d0m
 
   You can now set the type of `password_encryption_method` to `legacy`, and store info with a JSON string format (containing a hash algorithm, arguments, and an encrypted password) in the `password_encrypted` field. By doing this, you can use any hash algorithm supported by Node.js, this is useful when migrating from other password hash algorithms, especially for the ones that include salt.
 
@@ -577,7 +577,7 @@
 
 - f1b1d9e95: new MFA prompt policy
 
-  You can now cutomize the MFA prompt policy in the Console.
+  You can now customize the MFA prompt policy in the Console.
 
   First, choose if you want to enable **Require MFA**:
 
@@ -972,7 +972,7 @@
 
   In `POST /users`, the `passwordAlgorithm` field now accepts `Argon2d` and `Argon2id`.
 
-  Users with those algorithms will be migrated to `Argon2i` upon succussful sign in.
+  Users with those algorithms will be migrated to `Argon2i` upon successful sign in.
 
 - 510f681fa: use tsup for building
 
@@ -1518,7 +1518,7 @@
 
 - 532454b92: support form post callback for social connectors
 
-  Add the `POST /callback/:connectorId` endpoint to handle the form post callback for social connectors. This usefull for the connectors that require a form post callback to complete the authentication process, such as Apple.
+  Add the `POST /callback/:connectorId` endpoint to handle the form post callback for social connectors. This is useful for the connectors that require a form post callback to complete the authentication process, such as Apple.
 
 ### Patch Changes
 
@@ -2847,7 +2847,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **core:** cookie keys configuration ([#902](https://github.com/logto-io/logto/issues/902)) ([17c63cd](https://github.com/logto-io/logto/commit/17c63cd2d9fe5f3f66fe2404a7358f0d8524e667))
 - **core:** dau curve contains 0 count points ([#1105](https://github.com/logto-io/logto/issues/1105)) ([75ac874](https://github.com/logto-io/logto/commit/75ac874a2d02e308d6a63f4925e3f9b2c3377b8d))
 - **core:** disable introspection feature ([#886](https://github.com/logto-io/logto/issues/886)) ([b2ac2c1](https://github.com/logto-io/logto/commit/b2ac2c14eead0fba45dec90115f75dd2074e04ee))
-- **core:** empty path sould redirect to the console page ([#915](https://github.com/logto-io/logto/issues/915)) ([207c404](https://github.com/logto-io/logto/commit/207c404aebd062f2f46742748ed08c5d97368dbc))
+- **core:** empty path should redirect to the console page ([#915](https://github.com/logto-io/logto/issues/915)) ([207c404](https://github.com/logto-io/logto/commit/207c404aebd062f2f46742748ed08c5d97368dbc))
 - **core:** expose connector and metadata from sendPasscode ([#806](https://github.com/logto-io/logto/issues/806)) ([0ea5513](https://github.com/logto-io/logto/commit/0ea55134a92252a00f6b3532cdde71ae96979452))
 - **core:** fix connectors' initialization ([c6f2546](https://github.com/logto-io/logto/commit/c6f2546126ec48da0ef28f939a062c844c03b2b7))
 - **core:** get /dashboard/users/new ([#940](https://github.com/logto-io/logto/issues/940)) ([45a9777](https://github.com/logto-io/logto/commit/45a977790eca01b212f51047d5636ff882873dd8))

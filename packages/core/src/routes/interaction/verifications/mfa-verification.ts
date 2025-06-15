@@ -82,7 +82,7 @@ export const verifyMfa = async (
       return verification.codes.some((code) => !code.usedAt);
     })
     .reduce<MfaVerification[]>((factors, verification) => {
-      // Ingnore duplicated verification
+      // Ignore duplicated verification
       if (factors.some(({ type }) => type === verification.type)) {
         return factors;
       }

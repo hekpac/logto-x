@@ -68,7 +68,7 @@ export default function koaTokenUsageGuard<StateT, ContextT, ResponseBodyT>(
         throw error;
       }
 
-      // Incase of any unexpected error, track it to App Insights and continue the request.
+      // In case of any unexpected error, track it to App Insights and continue the request.
       // Should not block the end-user's request for any unexpected error.
       void appInsights.trackException(error, buildAppInsightsTelemetry(ctx));
     }
