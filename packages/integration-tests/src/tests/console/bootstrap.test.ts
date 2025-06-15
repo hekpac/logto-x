@@ -8,7 +8,7 @@ import {
   isDevFeaturesEnabled,
   logtoConsoleUrl as logtoConsoleUrlString,
 } from '#src/constants.js';
-import { switchToLanguage } from '#src/ui-helpers/switch-language.js';
+import { switchToLanguage } from '#src/ui-helpers/switch-language-helper.js';
 import { appendPathname, cls, dcls, expectNavigation, waitFor } from '#src/utils.js';
 
 /**

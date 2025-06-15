@@ -7,8 +7,8 @@ import {
 } from '#src/api/interaction-sso.js';
 import { putInteractionEvent } from '#src/api/interaction.js';
 
-import { putInteraction } from './admin-tenant.js';
-import { initClient, logoutClient, processSession } from './client.js';
+import { putInteraction } from './admin-tenant-helper.js';
+import { initClient, logoutClient, processSession } from './client-helper.js';
 import { expectRejects } from './index.js';
 
 export type MockOidcSsoConnectorIdTokenProfileStandardClaims = {

@@ -6,9 +6,9 @@ import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { expectRejects, readConnectorMessage, removeConnectorMessage } from '#src/helpers/index.js';
-import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 
 describe('Generic verification code through management API', () => {
   const mockEmail = 'foo@bar.com';

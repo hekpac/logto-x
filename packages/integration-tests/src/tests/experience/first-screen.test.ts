@@ -8,8 +8,8 @@ import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
+} from '#src/helpers/connector-helper.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 
 describe('first screen', () => {
   beforeAll(async () => {

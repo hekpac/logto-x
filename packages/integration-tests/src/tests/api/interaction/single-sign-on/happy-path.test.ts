@@ -6,8 +6,8 @@ import { putInteraction } from '#src/api/interaction.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
 import { logtoUrl } from '#src/constants.js';
-import { initClient } from '#src/helpers/client.js';
-import { registerNewUserWithSso, signInWithSso } from '#src/helpers/single-sign-on.js';
+import { initClient } from '#src/helpers/client-helper.js';
+import { registerNewUserWithSso, signInWithSso } from '#src/helpers/single-sign-on-helper.js';
 import { generateEmail, generateUserId, randomString } from '#src/utils.js';
 
 describe('Single Sign On Happy Path', () => {

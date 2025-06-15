@@ -7,27 +7,27 @@ import {
   mockSocialConnectorTarget,
 } from '#src/__mocks__/connectors-mock.js';
 import { deleteUser, getUser } from '#src/api/admin-user.js';
-import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client.js';
+import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSocialConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { signInWithSocial } from '#src/helpers/experience/index.js';
 import {
   successFullyCreateSocialVerification,
   successFullyVerifySocialAuthorization,
-} from '#src/helpers/experience/social-verification.js';
+} from '#src/helpers/experience/social-verification-helper.js';
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from '#src/helpers/experience/verification-code.js';
+} from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   enableAllPasswordSignInMethods,
   enableAllVerificationCodeSignInMethods,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
 import { generateEmail, generateUsername } from '#src/utils.js';
 
 describe('social sign-in and sign-up', () => {

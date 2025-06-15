@@ -10,10 +10,10 @@ import { OrganizationScopeApi } from '#src/api/organization-scope.js';
 import { createResource, deleteResource } from '#src/api/resource.js';
 import { assignUsersToRole, createRole, deleteRole } from '#src/api/role.js';
 import { createScope } from '#src/api/scope.js';
-import { initClient } from '#src/helpers/client.js';
-import { OrganizationApiTest, OrganizationRoleApiTest } from '#src/helpers/organization.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
+import { initClient } from '#src/helpers/client-helper.js';
+import { OrganizationApiTest, OrganizationRoleApiTest } from '#src/helpers/organization-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
 import {
   generateResourceIndicator,
   generateResourceName,

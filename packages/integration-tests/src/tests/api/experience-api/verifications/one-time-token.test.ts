@@ -1,7 +1,7 @@
 import { SignInIdentifier } from '@logto/schemas';
 
 import { createOneTimeToken } from '#src/api/one-time-token.js';
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { waitFor } from '#src/utils.js';
 

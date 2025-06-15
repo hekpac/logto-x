@@ -2,9 +2,9 @@ import { SignInMode, InteractionEvent } from '@logto/schemas';
 
 import { putInteractionEvent, putInteraction } from '#src/api/interaction.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
-import { initClient } from '#src/helpers/client.js';
+import { initClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 
 /**
  * Note: These test cases are designed to cover exceptional scenarios of API calls that

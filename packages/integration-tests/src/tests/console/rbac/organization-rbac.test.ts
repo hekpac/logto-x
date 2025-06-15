@@ -1,6 +1,6 @@
-import ExpectApiResources from '#src/ui-helpers/expect-api-resources.js';
-import ExpectConsole from '#src/ui-helpers/expect-console.js';
-import ExpectOrganizations from '#src/ui-helpers/expect-organizations.js';
+import ExpectApiResources from '#src/ui-helpers/expect-api-resources-helper.js';
+import ExpectConsole from '#src/ui-helpers/expect-console-helper.js';
+import ExpectOrganizations from '#src/ui-helpers/expect-organizations-helper.js';
 import {
   generateResourceIndicator,
   generateResourceName,

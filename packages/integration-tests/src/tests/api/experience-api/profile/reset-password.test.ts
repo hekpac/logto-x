@@ -2,16 +2,16 @@ import { ConnectorType, InteractionEvent, SignInIdentifier } from '@logto/schema
 
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { type ExperienceClient } from '#src/client/experience/index.js';
-import { initExperienceClient } from '#src/helpers/client.js';
-import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
+import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector-helper.js';
 import { signInWithPassword } from '#src/helpers/experience/index.js';
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from '#src/helpers/experience/verification-code.js';
+} from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 import { generatePassword } from '#src/utils.js';
 
 const identifyForgotPasswordInteraction = async (client: ExperienceClient, email: string) => {

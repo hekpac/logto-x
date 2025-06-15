@@ -19,7 +19,7 @@ export class Trace {
     }
 
     const traceDirectory = await fs.mkdtemp(path.join(os.tmpdir(), 'trace-'));
-    this.tracePath = path.join(traceDirectory, 'trace.json');
+    this.tracePath = path.join(traceDirectory, 'trace-helper.json');
     await this.page.tracing.start({ path: this.tracePath, categories: ['devtools.timeline'] });
   }
 

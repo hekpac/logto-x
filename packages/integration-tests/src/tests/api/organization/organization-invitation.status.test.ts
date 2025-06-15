@@ -4,8 +4,8 @@ import { OrganizationInvitationStatus } from '@logto/schemas';
 import { generateStandardId } from '@logto/shared';
 import { HTTPError } from 'ky';
 
-import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization.js';
-import { UserApiTest } from '#src/helpers/user.js';
+import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization-helper.js';
+import { UserApiTest } from '#src/helpers/user-helper.js';
 
 const randomId = () => generateStandardId(4);
 

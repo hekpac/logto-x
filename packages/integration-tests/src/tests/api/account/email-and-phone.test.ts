@@ -17,14 +17,14 @@ import {
   createAndVerifyVerificationCode,
   createVerificationRecordByPassword,
 } from '#src/api/verification-record.js';
-import { setEmailConnector, setSmsConnector } from '#src/helpers/connector.js';
+import { setEmailConnector, setSmsConnector } from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   createDefaultTenantUserWithPassword,
   deleteDefaultTenantUser,
   signInAndGetUserApi,
-} from '#src/helpers/profile.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+} from '#src/helpers/profile-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateEmail, generatePhone, generateNationalPhoneNumber } from '#src/utils.js';
 
 describe('account (email and phone)', () => {

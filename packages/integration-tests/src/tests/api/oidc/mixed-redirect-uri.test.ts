@@ -10,9 +10,9 @@ import { deleteUser } from '#src/api/admin-user.js';
 import { createApplication } from '#src/api/application.js';
 import { putInteraction } from '#src/api/interaction.js';
 import MockClient from '#src/client/index.js';
-import { processSession } from '#src/helpers/client.js';
+import { processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generatePassword, generateUsername } from '#src/utils.js';
 
 describe('mixed redirect URI protocols', () => {

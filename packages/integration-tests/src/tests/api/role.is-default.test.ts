@@ -12,8 +12,8 @@ import { putInteraction, updateSignInExperience } from '#src/api/index.js';
 import { createResource, deleteResource } from '#src/api/resource.js';
 import { assignScopesToRole, createRole, deleteRole } from '#src/api/role.js';
 import { createScope } from '#src/api/scope.js';
-import { initClient, processSession } from '#src/helpers/client.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { initClient, processSession } from '#src/helpers/client-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generatePassword, generateUsername } from '#src/utils.js';
 
 class TestContext {

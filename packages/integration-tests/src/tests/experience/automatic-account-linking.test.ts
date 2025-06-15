@@ -4,8 +4,8 @@ import { AgreeToTermsPolicy, SignInIdentifier, SignInMode } from '@logto/schemas
 import { createUser, deleteUser } from '#src/api/admin-user.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { demoAppUrl } from '#src/constants.js';
-import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
+import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector-helper.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 import { generateEmail, randomString } from '#src/utils.js';
 
 describe('automatic account linking', () => {

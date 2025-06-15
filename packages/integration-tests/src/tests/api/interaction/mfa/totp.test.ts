@@ -9,14 +9,14 @@ import {
   putInteractionMfa,
   skipMfaBinding,
 } from '#src/api/index.js';
-import { initClient, logoutClient, processSession } from '#src/helpers/client.js';
+import { initClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   enableAllPasswordSignInMethods,
   enableMandatoryMfaWithTotp,
   enableUserControlledMfaWithTotp,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUser, generateNewUserProfile } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser, generateNewUserProfile } from '#src/helpers/user-helper.js';
 
 const registerWithMfa = async () => {
   const { username, password } = generateNewUserProfile({ username: true, password: true });

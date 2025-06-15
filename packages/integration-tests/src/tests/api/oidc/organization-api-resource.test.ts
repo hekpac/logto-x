@@ -4,10 +4,10 @@ import { InteractionEvent, type Resource } from '@logto/schemas';
 import { createResource, deleteResource, deleteUser, putInteraction } from '#src/api/index.js';
 import { createScope, deleteScope } from '#src/api/scope.js';
 import MockClient from '#src/client/index.js';
-import { processSession } from '#src/helpers/client.js';
+import { processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateUsername, generatePassword, getAccessTokenPayload } from '#src/utils.js';
 
 describe('get access token for organization API resource', () => {

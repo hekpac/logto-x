@@ -7,10 +7,10 @@ import { InteractionEvent, MfaFactor } from '@logto/schemas';
 import { createUserMfaVerification, deleteUser } from '#src/api/admin-user.js';
 import { putInteraction } from '#src/api/index.js';
 import MockClient from '#src/client/index.js';
-import { processSession } from '#src/helpers/client.js';
+import { processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generatePassword, generateUsername, randomString } from '#src/utils.js';
 
 describe('get access token for organization', () => {

@@ -4,8 +4,8 @@ import { ConnectorType, SignInIdentifier } from '@logto/schemas';
 
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { demoAppUrl } from '#src/constants.js';
-import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector.js';
-import ExpectExperience from '#src/ui-helpers/expect-experience.js';
+import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector-helper.js';
+import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 import { setupUsernameAndEmailExperience } from '#src/ui-helpers/index.js';
 import { randomString } from '#src/utils.js';
 

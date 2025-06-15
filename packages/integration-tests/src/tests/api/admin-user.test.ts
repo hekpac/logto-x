@@ -20,13 +20,13 @@ import {
   putUserIdentity,
   updateUserProfile,
 } from '#src/api/index.js';
-import { clearConnectorsByTypes } from '#src/helpers/connector.js';
+import { clearConnectorsByTypes } from '#src/helpers/connector-helper.js';
 import { createUserByAdmin, expectRejects } from '#src/helpers/index.js';
 import {
   createNewSocialUserWithUsernameAndPassword,
   signInWithPassword,
-} from '#src/helpers/interactions.js';
-import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience.js';
+} from '#src/helpers/interactions-helper.js';
+import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import {
   generateUsername,
   generateEmail,

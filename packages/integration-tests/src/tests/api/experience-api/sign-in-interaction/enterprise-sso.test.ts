@@ -4,19 +4,19 @@ import { generateStandardId } from '@logto/shared';
 import { createUserMfaVerification, deleteUser, getUser } from '#src/api/admin-user.js';
 import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
-import { initExperienceClient } from '#src/helpers/client.js';
-import { setEmailConnector, setSmsConnector } from '#src/helpers/connector.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
+import { setEmailConnector, setSmsConnector } from '#src/helpers/connector-helper.js';
 import { signInWithEnterpriseSso } from '#src/helpers/experience/index.js';
 import {
   successfullySendVerificationCode,
   successfullyVerifyVerificationCode,
-} from '#src/helpers/experience/verification-code.js';
+} from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   enableAllVerificationCodeSignInMethods,
   enableMandatoryMfaWithTotp,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUser, UserApiTest } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser, UserApiTest } from '#src/helpers/user-helper.js';
 import { generateEmail, generatePassword } from '#src/utils.js';
 
 describe('enterprise sso sign-in and sign-up', () => {

@@ -8,15 +8,15 @@ import {
   putInteractionProfile,
   patchInteractionProfile,
 } from '#src/api/index.js';
-import { initClient, processSession, logoutClient } from '#src/helpers/client.js';
+import { initClient, processSession, logoutClient } from '#src/helpers/client-helper.js';
 import {
   clearConnectorsByTypes,
   setEmailConnector,
   setSmsConnector,
-} from '#src/helpers/connector.js';
+} from '#src/helpers/connector-helper.js';
 import { expectRejects, readConnectorMessage } from '#src/helpers/index.js';
-import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience.js';
-import { generateNewUser } from '#src/helpers/user.js';
+import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUser } from '#src/helpers/user-helper.js';
 import { generatePassword } from '#src/utils.js';
 
 describe('reset password', () => {

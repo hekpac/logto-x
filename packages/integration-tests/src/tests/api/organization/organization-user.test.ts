@@ -3,8 +3,8 @@ import assert from 'node:assert';
 import { RoleType } from '@logto/schemas';
 import { HTTPError } from 'ky';
 
-import { OrganizationApiTest } from '#src/helpers/organization.js';
-import { UserApiTest } from '#src/helpers/user.js';
+import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
+import { UserApiTest } from '#src/helpers/user-helper.js';
 import { generateTestName } from '#src/utils.js';
 
 describe('organization user APIs', () => {

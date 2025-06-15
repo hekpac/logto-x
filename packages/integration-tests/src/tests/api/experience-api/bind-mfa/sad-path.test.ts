@@ -1,16 +1,16 @@
 import { InteractionEvent, MfaFactor, SignInIdentifier } from '@logto/schemas';
 
 import { createUserMfaVerification } from '#src/api/admin-user.js';
-import { initExperienceClient } from '#src/helpers/client.js';
+import { initExperienceClient } from '#src/helpers/client-helper.js';
 import { identifyUserWithUsernamePassword } from '#src/helpers/experience/index.js';
-import { successfullyCreateAndVerifyTotp } from '#src/helpers/experience/totp-verification.js';
+import { successfullyCreateAndVerifyTotp } from '#src/helpers/experience/totp-verification-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import {
   enableAllPasswordSignInMethods,
   enableMandatoryMfaWithTotp,
   enableMandatoryMfaWithTotpAndBackupCode,
-} from '#src/helpers/sign-in-experience.js';
-import { generateNewUserProfile, UserApiTest } from '#src/helpers/user.js';
+} from '#src/helpers/sign-in-experience-helper.js';
+import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
 
 describe('Bind MFA APIs sad path', () => {
   const userApi = new UserApiTest();

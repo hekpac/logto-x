@@ -8,7 +8,7 @@ import { generatePassword, generateUsername } from '#src/utils.js';
 
 import api, { baseApi, authedApi } from '../api/api.js';
 
-import { initClient } from './client.js';
+import { initClient } from './client-helper.js';
 
 export const createDefaultTenantUserWithPassword = async ({
   primaryEmail,
