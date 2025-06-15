@@ -20,7 +20,6 @@ export const getSharedResourceServerData = (
   },
 });
 
-// TODO: Refactor me. This function is too complex.
 /**
  * Find the scopes for a given resource indicator according to the subject in the context. The
  * subject can be either a user or an application.
@@ -31,7 +30,7 @@ export const getSharedResourceServerData = (
  *
  * @see {@link ReservedResource} for the list of reserved resources.
  */
-const getReservedResourceScopes = async (
+const findReservedResourceScopes = async (
   queries: Queries,
   indicator: ReservedResource
 ): Promise<ReadonlyArray<{ name: string; id: string }>> => {
@@ -45,7 +44,7 @@ const getReservedResourceScopes = async (
   }
 };
 
-const getOrganizationResourceScopes = (
+const findOrganizationResourceScopes = (
   queries: Queries,
   organizationId: string,
   applicationId: string,
@@ -57,7 +56,7 @@ const getOrganizationResourceScopes = (
     indicator
   );
 
-const getDefaultResourceScopes = async (
+const findDefaultResourceScopes = async (
   libraries: Libraries,
   indicator: string,
   {
@@ -120,11 +119,11 @@ export const findResourceScopes = async ({
   organizationId?: string;
 }): Promise<ReadonlyArray<{ name: string; id: string }>> => {
   if (isReservedResource(indicator)) {
-    return getReservedResourceScopes(queries, indicator);
+  return findReservedResourceScopes(queries, indicator);
   }
 
   if (applicationId && organizationId) {
-    return getOrganizationResourceScopes(
+    return findOrganizationResourceScopes(
       queries,
       organizationId,
       applicationId,
@@ -132,7 +131,7 @@ export const findResourceScopes = async ({
     );
   }
 
-  return getDefaultResourceScopes(libraries, indicator, {
+  return findDefaultResourceScopes(libraries, indicator, {
     userId,
     applicationId,
     organizationId,

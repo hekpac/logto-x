@@ -55,6 +55,35 @@ it('returns user scopes when user id is provided', async () => {
   );
 });
 
+it('prioritizes user scopes over application scopes', async () => {
+  const findUserScopesForResourceIndicator = jest.fn(async () => [mockScope]);
+  const findApplicationScopesForResourceIndicator = jest.fn();
+  const libraries = createLibraries({
+    users: { findUserScopesForResourceIndicator },
+    applications: { findApplicationScopesForResourceIndicator },
+  });
+  const queries = new MockQueries();
+
+  await expect(
+    findResourceScopes({
+      queries,
+      libraries,
+      indicator: 'api',
+      userId: 'user',
+      applicationId: 'app',
+      organizationId: 'org',
+      findFromOrganizations: true,
+    })
+  ).resolves.toEqual([mockScope]);
+  expect(findUserScopesForResourceIndicator).toHaveBeenCalledWith(
+    'user',
+    'api',
+    true,
+    'org'
+  );
+  expect(findApplicationScopesForResourceIndicator).not.toHaveBeenCalled();
+});
+
 it('returns application organization scopes', async () => {
   const getApplicationResourceScopes = jest.fn(async () => [mockScope]);
   const queries = new MockQueries({
