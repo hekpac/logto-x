@@ -32,17 +32,10 @@ const {
     .mockResolvedValue({ verified: true, authenticationInfo: { newCounter: 1 } }),
 }));
 
-const { generateWebAuthnRegistrationOptions, generateWebAuthnAuthenticationOptions } =
- <<<<<<< codex/crear-módulo-compartido-webauthn
   await import('../../../utils/webauthn-shared.js');
-const { verifyWebAuthnRegistration, verifyWebAuthnAuthentication } = await import('./webauthn.js');
- =======
-  await import('./webauthn-options.js');
-const {
-  verifyWebAuthnRegistration,
-  verifyWebAuthnAuthentication,
-} = await import('../experience/utils/verification/webauthn.js');
- >>>>>>> master
+const { verifyWebAuthnRegistration, verifyWebAuthnAuthentication } = await import(
+  '../experience/utils/verification/webauthn.js'
+);
 
 const rpId = 'logto.io';
 const origin = 'https://logto.io';

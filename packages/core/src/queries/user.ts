@@ -151,11 +151,7 @@ export const createUserQueries = (pool: CommonQueryMethods) => {
       return users[0] ?? null;
     }
 
- <<<<<<< codex/corregir-faltas-de-ortografía-y-comprobar-con-codespell
-    // In case user has created two different accounts with the same phone number, one with leading '0' and one without.
- =======
     // In case a user has created two different accounts with the same phone number, one with leading '0' and one without.
- >>>>>>> master
     // If more than one user is found, return the user with the exact match.
     // Otherwise, return the first found user, which should be the be the latest one.
     return users.find((user) => user.primaryPhone === phone) ?? users[0] ?? null;
