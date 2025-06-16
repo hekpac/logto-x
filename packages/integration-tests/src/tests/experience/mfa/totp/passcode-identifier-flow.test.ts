@@ -16,7 +16,7 @@ import {
 } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
 import ExpectTotpExperience from '#src/ui-helpers/expect-totp-experience-helper.js';
-import { generateEmail, generatePhone } from '#src/utils.js';
+import { generateEmail, generatePhone } from '#src/test-env-utils.js';
 
 import TotpTestingContext from './totp-testing-context.js';
 

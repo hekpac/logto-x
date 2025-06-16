@@ -1,7 +1,7 @@
 import { type Page } from 'puppeteer';
 
 import { selectDropdownMenuItem } from '#src/ui-helpers/select-dropdown-menu-item-helper.js';
-import { waitFor } from '#src/utils.js';
+import { waitFor } from '#src/test-env-utils.js';
 
 import { expectToSaveSignInExperience } from '../helpers.js';
 

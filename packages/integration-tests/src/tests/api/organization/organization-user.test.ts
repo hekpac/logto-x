@@ -5,7 +5,7 @@ import { HTTPError } from 'ky';
 
 import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
 import { UserApiTest } from '#src/helpers/user-helper.js';
-import { generateTestName } from '#src/utils.js';
+import { generateTestName } from '#src/test-env-utils.js';
 
 describe('organization user APIs', () => {
   describe('organization get users', () => {

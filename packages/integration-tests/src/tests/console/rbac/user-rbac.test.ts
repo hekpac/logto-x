@@ -17,7 +17,7 @@ import {
   generateScopeName,
   generateRoleName,
   cls,
-} from '#src/utils.js';
+} from '#src/test-env-utils.js';
 
 import { expectToSelectPermissionAction } from './helper.js';
 

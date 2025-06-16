@@ -5,7 +5,7 @@ import { type Page } from 'puppeteer';
 
 import { metadataXml } from '#src/__mocks__/sso-connectors-mock.js';
 import { expectToSaveChanges, waitForToast } from '#src/ui-helpers/index.js';
-import { dcls, cls } from '#src/utils.js';
+import { dcls, cls } from '#src/test-env-utils.js';
 
 import { type SsoConnectorTestCase, type Protocol } from './sso-connectors-test-cases.js';
 

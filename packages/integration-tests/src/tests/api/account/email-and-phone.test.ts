@@ -25,7 +25,7 @@ import {
   signInAndGetUserApi,
 } from '#src/helpers/profile-helper.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generateEmail, generatePhone, generateNationalPhoneNumber } from '#src/utils.js';
+import { generateEmail, generatePhone, generateNationalPhoneNumber } from '#src/test-env-utils.js';
 
 describe('account (email and phone)', () => {
   beforeAll(async () => {

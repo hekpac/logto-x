@@ -5,7 +5,7 @@ import api, { adminTenantApi, authedApi } from '#src/api/api.js';
 import { updateSignInExperience } from '#src/api/index.js';
 import { createSsoConnector, deleteSsoConnectorById } from '#src/api/sso-connector.js';
 import { newOidcSsoConnectorPayload } from '#src/constants.js';
-import { generateSsoConnectorName } from '#src/utils.js';
+import { generateSsoConnectorName } from '#src/test-env-utils.js';
 
 describe('.well-known api', () => {
   it('should return tenant endpoint URL for any given tenant id', async () => {

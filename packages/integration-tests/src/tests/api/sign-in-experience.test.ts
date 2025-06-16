@@ -10,7 +10,7 @@ import {
 } from '#src/api/index.js';
 import { setEmailConnector } from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generatePassword } from '#src/utils.js';
+import { generatePassword } from '#src/test-env-utils.js';
 
 describe('admin console sign-in experience', () => {
   it('should get sign-in experience successfully', async () => {

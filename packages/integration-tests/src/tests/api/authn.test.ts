@@ -9,7 +9,7 @@ import { getSsoAuthorizationUrl, postSamlAssertion } from '#src/api/interaction-
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
 import { initClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { devFeatureTest, randomString } from '#src/utils.js';
+import { devFeatureTest, randomString } from '#src/test-env-utils.js';
 
 describe('SAML SSO ACS endpoint', () => {
   const ssoConnectorApi = new SsoConnectorApi();

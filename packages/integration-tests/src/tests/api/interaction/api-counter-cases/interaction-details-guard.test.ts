@@ -13,7 +13,7 @@ import {
 } from '#src/api/interaction.js';
 import MockClient from '#src/client/index.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateUsername, generatePassword, generateEmail } from '#src/utils.js';
+import { generateUsername, generatePassword, generateEmail } from '#src/test-env-utils.js';
 
 /**
  * Note: These test cases are designed to cover exceptional scenarios of API calls that

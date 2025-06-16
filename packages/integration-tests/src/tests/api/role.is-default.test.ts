@@ -14,7 +14,7 @@ import { assignScopesToRole, createRole, deleteRole } from '#src/api/role.js';
 import { createScope } from '#src/api/scope.js';
 import { initClient, processSession } from '#src/helpers/client-helper.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generatePassword, generateUsername } from '#src/utils.js';
+import { generatePassword, generateUsername } from '#src/test-env-utils.js';
 
 class TestContext {
   resource?: Resource;

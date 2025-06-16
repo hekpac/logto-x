@@ -8,7 +8,7 @@ import {
   generatePhone,
   generatePassword,
   generateName,
-} from '#src/utils.js';
+} from '#src/test-env-utils.js';
 
 export type NewUserProfileOptions = {
   username?: true;

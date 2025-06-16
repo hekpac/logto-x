@@ -8,7 +8,7 @@ import { SsoConnectorApi } from '#src/api/sso-connector.js';
 import { logtoUrl } from '#src/constants.js';
 import { initClient } from '#src/helpers/client-helper.js';
 import { registerNewUserWithSso, signInWithSso } from '#src/helpers/single-sign-on-helper.js';
-import { generateEmail, generateUserId, randomString } from '#src/utils.js';
+import { generateEmail, generateUserId, randomString } from '#src/test-env-utils.js';
 
 describe('Single Sign On Happy Path', () => {
   const ssoConnectorApi = new SsoConnectorApi();

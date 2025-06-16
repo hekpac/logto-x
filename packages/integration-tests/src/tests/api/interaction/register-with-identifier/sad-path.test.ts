@@ -16,7 +16,7 @@ import {
 import { expectRejects, readConnectorMessage } from '#src/helpers/index.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUserProfile } from '#src/helpers/user-helper.js';
-import { generatePassword, generateUsername } from '#src/utils.js';
+import { generatePassword, generateUsername } from '#src/test-env-utils.js';
 
 describe('Register with identifiers sad path', () => {
   beforeAll(async () => {

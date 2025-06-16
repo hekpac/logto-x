@@ -6,7 +6,7 @@ import {
   generateResourceName,
   generateRoleName,
   generateScopeName,
-} from '#src/utils.js';
+} from '#src/test-env-utils.js';
 
 const expectConsole = new ExpectConsole();
 const expectApiResources = new ExpectApiResources();

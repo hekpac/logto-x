@@ -26,10 +26,10 @@ import {
   enableAllVerificationCodeSignInMethods,
 } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
-import { generateEmail, generatePassword, randomString } from '#src/utils.js';
+import { generateEmail, generatePassword, randomString } from '#src/test-env-utils.js';
 
 import WebhookMockServer from './WebhookMockServer.js';
-import { assertHookLogResult } from './utils.js';
+import { assertHookLogResult } from ../test-env-utils.js';
 
 const webbHookMockServer = new WebhookMockServer(9999);
 const userNamePrefix = 'experienceApiHookTriggerTestUser';

@@ -15,7 +15,7 @@ import {
   successFullyVerifySocialAuthorization,
 } from '#src/helpers/experience/social-verification-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateEmail } from '#src/utils.js';
+import { generateEmail } from '#src/test-env-utils.js';
 
 describe('should reject the email registration if the email is in the blocklist', () => {
   const ssoConnectorApi = new SsoConnectorApi();

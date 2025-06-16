@@ -6,7 +6,7 @@ import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { demoAppUrl } from '#src/constants.js';
 import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector-helper.js';
 import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
-import { generateEmail, randomString } from '#src/utils.js';
+import { generateEmail, randomString } from '#src/test-env-utils.js';
 
 describe('automatic account linking', () => {
   beforeAll(async () => {

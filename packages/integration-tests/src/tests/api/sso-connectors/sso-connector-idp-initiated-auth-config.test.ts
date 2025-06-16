@@ -3,7 +3,7 @@ import { ApplicationType, type SsoConnector, type Application } from '@logto/sch
 import { createApplication, deleteApplication } from '#src/api/application.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { randomString, devFeatureTest } from '#src/utils.js';
+import { randomString, devFeatureTest } from '#src/test-env-utils.js';
 
 devFeatureTest.describe('SAML IdP initiated authentication config', () => {
   const ssoConnectorsApi = new SsoConnectorApi();

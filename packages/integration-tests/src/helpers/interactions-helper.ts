@@ -12,7 +12,7 @@ import {
   putInteractionProfile,
   sendVerificationCode,
 } from '#src/api/index.js';
-import { generateUserId } from '#src/utils.js';
+import { generateUserId } from '#src/test-env-utils.js';
 
 import { initClient, logoutClient, processSession } from './client-helper.js';
 import { expectRejects, readConnectorMessage } from './index.js';
