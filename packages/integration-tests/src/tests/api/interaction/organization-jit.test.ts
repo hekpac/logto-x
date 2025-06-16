@@ -21,7 +21,7 @@ import {
   resetPasswordPolicy,
 } from '#src/helpers/sign-in-experience-helper.js';
 import { registerNewUserWithSso, signInWithSso } from '#src/helpers/single-sign-on-helper.js';
-import { generateEmail, randomString } from '#src/utils.js';
+import { generateEmail, randomString } from '#src/test-env-utils.js';
 
 describe('organization just-in-time provisioning', () => {
   const organizationApi = new OrganizationApiTest();

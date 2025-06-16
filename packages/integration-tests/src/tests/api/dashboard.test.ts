@@ -5,7 +5,7 @@ import { api, getTotalUsersCount, getNewUsersData, getActiveUsersData } from '#s
 import { createUserByAdmin, expectRejects } from '#src/helpers/index.js';
 import { registerNewUser, signInWithPassword } from '#src/helpers/interactions-helper.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generateUsername, generatePassword } from '#src/utils.js';
+import { generateUsername, generatePassword } from '#src/test-env-utils.js';
 
 describe('admin console dashboard', () => {
   beforeAll(async () => {

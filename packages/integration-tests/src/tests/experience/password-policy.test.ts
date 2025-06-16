@@ -7,7 +7,7 @@ import { demoAppUrl } from '#src/constants.js';
 import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector-helper.js';
 import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
 import { setupUsernameAndEmailExperience } from '#src/ui-helpers/index.js';
-import { randomString } from '#src/utils.js';
+import { randomString } from '#src/test-env-utils.js';
 
 describe('password policy', () => {
   const username = 'test_' + randomString();

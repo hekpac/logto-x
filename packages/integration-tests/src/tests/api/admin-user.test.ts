@@ -34,7 +34,7 @@ import {
   generatePassword,
   randomString,
   generateNationalPhoneNumber,
-} from '#src/utils.js';
+} from '#src/test-env-utils.js';
 
 describe('admin console user management', () => {
   beforeAll(async () => {

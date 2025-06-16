@@ -1,7 +1,7 @@
 import { HTTPError } from 'ky';
 
 import { createDomain, deleteDomain, getDomain, getDomains } from '#src/api/domain.js';
-import { generateDomain } from '#src/utils.js';
+import { generateDomain } from '#src/test-env-utils.js';
 
 describe('domains', () => {
   afterEach(async () => {

@@ -13,7 +13,7 @@ import MockClient from '#src/client/index.js';
 import { processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generatePassword, generateUsername } from '#src/utils.js';
+import { generatePassword, generateUsername } from '#src/test-env-utils.js';
 
 describe('mixed redirect URI protocols', () => {
   const username = generateUsername();

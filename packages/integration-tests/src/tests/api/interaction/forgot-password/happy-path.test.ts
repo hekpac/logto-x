@@ -17,7 +17,7 @@ import {
 import { expectRejects, readConnectorMessage } from '#src/helpers/index.js';
 import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
-import { generatePassword } from '#src/utils.js';
+import { generatePassword } from '#src/test-env-utils.js';
 
 describe('reset password', () => {
   beforeAll(async () => {

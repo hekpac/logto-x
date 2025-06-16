@@ -9,7 +9,9 @@ import type Queries from '#src/tenants/Queries.js';
 
 const isReservedResource = (indicator: string): indicator is ReservedResource =>
   // eslint-disable-next-line no-restricted-syntax -- it's the best way to do it
-  Object.values(ReservedResource).includes(indicator as ReservedResource);
+  (Object.values(ReservedResource) as ReservedResource[]).includes(
+    indicator as ReservedResource
+  );
 
 export const getSharedResourceServerData = (
   envSet: EnvSet
@@ -30,33 +32,25 @@ export const getSharedResourceServerData = (
  *
  * @see {@link ReservedResource} for the list of reserved resources.
  */
-const findReservedResourceScopes = async (
-  queries: Queries,
-  indicator: ReservedResource
-): Promise<ReadonlyArray<{ name: string; id: string }>> => {
-  switch (indicator) {
-    case ReservedResource.Organization: {
-      const [, rows] = await queries.organizations.scopes.findAll();
-      return rows;
-    }
-    default:
-      return [];
-  }
+const reservedScopeResolvers: Record<
+  ReservedResource,
+  (queries: Queries) => Promise<ReadonlyArray<{ name: string; id: string }>>
+> = {
+  [ReservedResource.Organization]: async (queries) => {
+    const [, rows] = await queries.organizations.scopes.findAll();
+    return rows as ReadonlyArray<{ name: string; id: string }>;
+  },
 };
 
-const findOrganizationResourceScopes = (
+const findReservedResourceScopes = (
   queries: Queries,
-  organizationId: string,
-  applicationId: string,
-  indicator: string
+  indicator: ReservedResource
 ) =>
-  queries.organizations.relations.appsRoles.getApplicationResourceScopes(
-    organizationId,
-    applicationId,
-    indicator
-  );
+  reservedScopeResolvers[indicator]?.(queries) ??
+  Promise.resolve([] as ReadonlyArray<{ name: string; id: string }>);
 
-const findDefaultResourceScopes = async (
+const findSubjectResourceScopes = async (
+  queries: Queries,
   libraries: Libraries,
   indicator: string,
   {
@@ -77,16 +71,27 @@ const findDefaultResourceScopes = async (
   } = libraries;
 
   if (userId) {
-    return findUserScopesForResourceIndicator(
+    return (await findUserScopesForResourceIndicator(
       userId,
       indicator,
       findFromOrganizations,
       organizationId
-    );
+    )) as ReadonlyArray<{ name: string; id: string }>;
   }
 
   if (applicationId) {
-    return findApplicationScopesForResourceIndicator(applicationId, indicator);
+    if (organizationId) {
+      return (await queries.organizations.relations.appsRoles.getApplicationResourceScopes(
+        organizationId,
+        applicationId,
+        indicator
+      )) as ReadonlyArray<{ name: string; id: string }>;
+    }
+
+    return (await findApplicationScopesForResourceIndicator(
+      applicationId,
+      indicator
+    )) as ReadonlyArray<{ name: string; id: string }>;
   }
 
   return [];
@@ -119,19 +124,10 @@ export const findResourceScopes = async ({
   organizationId?: string;
 }): Promise<ReadonlyArray<{ name: string; id: string }>> => {
   if (isReservedResource(indicator)) {
-  return findReservedResourceScopes(queries, indicator);
+    return findReservedResourceScopes(queries, indicator);
   }
 
-  if (applicationId && organizationId) {
-    return findOrganizationResourceScopes(
-      queries,
-      organizationId,
-      applicationId,
-      indicator
-    );
-  }
-
-  return findDefaultResourceScopes(libraries, indicator, {
+  return findSubjectResourceScopes(queries, libraries, indicator, {
     userId,
     applicationId,
     organizationId,
@@ -162,7 +158,9 @@ export const findResource = async (
     };
   }
 
-  return queries.resources.findResourceByIndicator(indicator);
+  return (await queries.resources.findResourceByIndicator(
+    indicator
+  )) as Nullable<Pick<Resource, 'indicator' | 'accessTokenTtl'>>;
 };
 
 export const isThirdPartyApplication = async ({ applications }: Queries, applicationId: string) => {

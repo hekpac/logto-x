@@ -4,7 +4,7 @@ import { putInteraction, sendVerificationCode } from '#src/api/interaction.js';
 import { initClient } from '#src/helpers/client-helper.js';
 import { clearConnectorsByTypes } from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateEmail, generatePhone } from '#src/utils.js';
+import { generateEmail, generatePhone } from '#src/test-env-utils.js';
 
 beforeAll(async () => {
   await clearConnectorsByTypes([ConnectorType.Email, ConnectorType.Sms]);

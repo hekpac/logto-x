@@ -27,7 +27,7 @@ import {
   generateName,
   generatePassword,
   generateUsername,
-} from '#src/utils.js';
+} from '#src/test-env-utils.js';
 
 describe('Token Exchange', () => {
   const username = generateUsername();

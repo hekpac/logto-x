@@ -9,7 +9,7 @@ import {
   waitForToast,
   expectModalWithTitle,
 } from '#src/ui-helpers/index.js';
-import { expectNavigation, appendPathname } from '#src/utils.js';
+import { expectNavigation, appendPathname } from '#src/test-env-utils.js';
 
 import {
   expectToConfirmConnectorDeletion,

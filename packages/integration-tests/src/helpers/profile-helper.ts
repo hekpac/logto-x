@@ -4,7 +4,7 @@ import { conditional } from '@silverhand/essentials';
 
 import { type InteractionPayload } from '#src/api/interaction.js';
 import { demoAppRedirectUri, logtoUrl } from '#src/constants.js';
-import { generatePassword, generateUsername } from '#src/utils.js';
+import { generatePassword, generateUsername } from '#src/test-env-utils.js';
 
 import api, { baseApi, authedApi } from '../api/api.js';
 

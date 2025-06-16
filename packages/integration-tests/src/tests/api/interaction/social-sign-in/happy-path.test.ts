@@ -24,7 +24,7 @@ import {
 import { expectRejects } from '#src/helpers/index.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
-import { generateUserId, generateUsername, generateEmail, generatePhone } from '#src/utils.js';
+import { generateUserId, generateUsername, generateEmail, generatePhone } from '#src/test-env-utils.js';
 
 const state = 'foo_state';
 const redirectUri = 'http://foo.dev/callback';

@@ -25,7 +25,6 @@ import {
 } from '../../utils.js';
 import { seedByPool } from '../database/seed/index.js';
 
-const pgRequired = new semver.SemVer('14.0.0');
 
 export const validateNodeVersion = () => {
   const requiredVersionString = packageJson.engines.node;
@@ -90,22 +89,15 @@ export const validateDatabase = async () => {
     return;
   }
 
-  const { hasPostgresUrl } = await inquirer.prompt<{ hasPostgresUrl?: boolean }>({
-    name: 'hasPostgresUrl',
-    message: `Logto requires PostgreSQL >=${pgRequired.version} but cannot find in the current environment.\n  Do you have a remote PostgreSQL instance ready?`,
+  const { hasMongoUrl } = await inquirer.prompt<{ hasMongoUrl?: boolean }>({
+    name: 'hasMongoUrl',
+    message:
+      'Logto requires a MongoDB replicaset but no configuration was found.\n  Do you have a remote MongoDB instance ready?',
     type: 'confirm',
-    when: () => {
-      const pgOutput = safeExecSync('postgres --version') ?? '';
-      // Filter out all brackets in the output since Homebrew will append `(Homebrew)`.
-      const pgArray = pgOutput.split(' ').filter((value) => !value.startsWith('('));
-      const pgCurrent = semver.coerce(pgArray.at(-1));
-
-      return !pgCurrent || pgCurrent.compare(pgRequired) < 0;
-    },
   });
 
-  if (hasPostgresUrl === false) {
-    consoleLog.fatal('Logto requires a Postgres instance to run.');
+  if (hasMongoUrl === false) {
+    consoleLog.fatal('Logto requires a MongoDB replicaset to run.');
   }
 };
 

@@ -1,6 +1,10 @@
-import type { ConnectorSession, SocialUserInfo } from '@logto/connector-kit';
+import type {
+  ConnectorSession,
+  SocialUserInfo,
+  SocialConnector,
+} from '@logto/connector-kit';
 import { connectorSessionGuard, GoogleConnector } from '@logto/connector-kit';
-import type { SocialConnectorPayload } from '@logto/schemas';
+import type { JsonObject, SocialConnectorPayload } from '@logto/schemas';
 import { ConnectorType } from '@logto/schemas';
 import type { Context } from 'koa';
 import type { Provider } from 'oidc-provider';
@@ -11,6 +15,7 @@ import type TenantContext from '#src/tenants/TenantContext.js';
 import assertThat from '#src/utils/assert-that.js';
 
 import type { SocialAuthorizationUrlPayload } from '../types/index.js';
+import type { LogtoConnector } from '#src/utils/connectors/types.js';
 
 
 export const verifySocialIdentity = async (
@@ -79,4 +84,60 @@ export const getConnectorSessionResult = async (
   });
 
   return signInResult.data.connectorSession;
+};
+
+export const createSocialAuthorizationSession = async (
+  ctx: WithLogContext,
+  connector: LogtoConnector<SocialConnector>,
+  connectorId: string,
+  verificationId: string,
+  { state, redirectUri }: SocialAuthorizationUrlPayload,
+  setSession: (session: ConnectorSession) => void | Promise<void>
+) => {
+  assertThat(state && redirectUri, 'session.insufficient_info');
+
+  const {
+    headers: { 'user-agent': userAgent },
+  } = ctx.request;
+
+  return connector.getAuthorizationUri(
+    {
+      state,
+      redirectUri,
+      connectorId,
+      connectorFactoryId: connector.metadata.id,
+      jti: verificationId,
+      headers: { userAgent },
+    },
+    setSession
+  );
+};
+
+export const verifySocialIdentityInternally = async (
+  connectorData: JsonObject,
+  ctx: WithLogContext,
+  connector: LogtoConnector<SocialConnector>,
+  connectorSession: ConnectorSession | undefined,
+  connectorId: string,
+  getUserInfo: (
+    connectorId: string,
+    data: JsonObject,
+    getSession: () => Promise<ConnectorSession>
+  ) => Promise<SocialUserInfo>
+) => {
+  if (
+    connector.metadata.id === GoogleConnector.factoryId &&
+    connectorData[GoogleConnector.oneTapParams.credential]
+  ) {
+    const csrfToken = connectorData[GoogleConnector.oneTapParams.csrfToken];
+    const value = ctx.cookies.get(GoogleConnector.oneTapParams.csrfToken);
+    assertThat(value === csrfToken, 'session.csrf_token_mismatch');
+  }
+
+  assertThat(
+    connectorSession,
+    'session.connector_validation_session_not_found'
+  );
+
+  return getUserInfo(connectorId, connectorData, async () => connectorSession!);
 };

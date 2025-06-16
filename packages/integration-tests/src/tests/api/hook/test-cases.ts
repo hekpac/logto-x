@@ -1,4 +1,4 @@
-import { generateName } from '#src/utils.js';
+import { generateName } from '#src/test-env-utils.js';
 
 type TestCase = {
   route: string;

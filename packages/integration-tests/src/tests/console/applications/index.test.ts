@@ -13,7 +13,7 @@ import {
   goToConsole,
   waitForToast,
 } from '#src/ui-helpers/index.js';
-import { expectNavigation, appendPathname, dcls, waitFor, cls } from '#src/utils.js';
+import { expectNavigation, appendPathname, dcls, waitFor, cls } from '#src/test-env-utils.js';
 
 import {
   type ApplicationMetadata,

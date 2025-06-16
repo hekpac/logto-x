@@ -1,6 +1,6 @@
 import ExpectConsole from '#src/ui-helpers/expect-console-helper.js';
 import { getInputValue } from '#src/ui-helpers/index.js';
-import { dcls } from '#src/utils.js';
+import { dcls } from '#src/test-env-utils.js';
 
 const expectConsole = new ExpectConsole(await browser.newPage());
 

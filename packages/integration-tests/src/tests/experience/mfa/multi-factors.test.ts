@@ -8,7 +8,7 @@ import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connect
 import { resetMfaSettings } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
 import ExpectWebAuthnExperience from '#src/ui-helpers/expect-webauthn-experience-helper.js';
-import { waitFor } from '#src/utils.js';
+import { waitFor } from '#src/test-env-utils.js';
 
 describe('MFA - Multi factors', () => {
   beforeAll(async () => {

@@ -276,21 +276,29 @@ export default function connectorRoutes<T extends ManagementApiRouter>(
         validateConfig(config);
       }
 
-      await updateConnector({
-        set: {
-          /**
-           * `JsonObject` has all non-undefined values, and `cleanDeep` method with default settings
-           * drops all keys with undefined values, the return type of `Partial<JsonObject>` is still `JsonObject`.
-           * The type inference failed to infer this, manually assign type `JsonObject`.
-           */
-          // eslint-disable-next-line no-restricted-syntax
-          config: conditional(config && (cleanDeep(config) as JsonObject)),
-          metadata: conditional(metadata && cleanDeep(metadata)),
-          syncProfile,
-        },
-        where: { id },
-        jsonbMode: 'replace',
+      await queries.pool.transaction(async (connection) => {
+        const transactionQueries = createConnectorQueries(
+          connection,
+          tenant.wellKnownCache
+        );
+
+        await transactionQueries.updateConnector({
+          set: {
+            /**
+             * `JsonObject` has all non-undefined values, and `cleanDeep` method with default settings
+             * drops all keys with undefined values, the return type of `Partial<JsonObject>` is still `JsonObject`.
+             * The type inference failed to infer this, manually assign type `JsonObject`.
+             */
+            // eslint-disable-next-line no-restricted-syntax
+            config: conditional(config && (cleanDeep(config) as JsonObject)),
+            metadata: conditional(metadata && cleanDeep(metadata)),
+            syncProfile,
+          },
+          where: { id },
+          jsonbMode: 'replace',
+        });
       });
+
       const connector = await getLogtoConnectorById(id);
       ctx.body = await transpileLogtoConnector(connector, buildExtraInfo(connector.metadata));
 

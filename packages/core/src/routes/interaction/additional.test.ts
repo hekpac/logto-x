@@ -56,7 +56,7 @@ const { sendVerificationCodeToIdentifier } = await mockEsmWithActual(
 );
 
 const { generateWebAuthnRegistrationOptions, generateWebAuthnAuthenticationOptions } =
-  await mockEsmWithActual('#src/utils/webauthn-shared.js', () => ({
+  await mockEsmWithActual('./utils/webauthn.js', () => ({
     generateWebAuthnRegistrationOptions: jest
       .fn()
       .mockResolvedValue(mockWebAuthnRegistrationOptions),

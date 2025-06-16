@@ -3,7 +3,7 @@ import { appendPath } from '@silverhand/essentials';
 
 import { logtoUrl, mockSocialAuthPageUrl } from '#src/constants.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
-import { dcls } from '#src/utils.js';
+import { dcls } from '#src/test-env-utils.js';
 
 import ExpectPage from './expect-page-helper.js';
 

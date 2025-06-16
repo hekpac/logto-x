@@ -28,7 +28,7 @@ import { assignScopesToRole, createRole as createRoleApi, deleteRole } from '#sr
 import { createScope as createScopeApi } from '#src/api/scope.js';
 import { logtoUrl } from '#src/constants.js';
 import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
-import { randomString } from '#src/utils.js';
+import { randomString } from '#src/test-env-utils.js';
 
 type TokenResponse = {
   access_token: string;

@@ -19,10 +19,10 @@ import {
   signInAndGetUserApi,
 } from '#src/helpers/profile-helper.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generatePassword, generateUsername } from '#src/utils.js';
+import { generatePassword, generateUsername } from '#src/test-env-utils.js';
 
 import WebhookMockServer from '../hook/WebhookMockServer.js';
-import { assertHookLogResult } from '../hook/utils.js';
+import { assertHookLogResult } from '../ho../test-env-utils.js';
 
 describe('account', () => {
   const webHookMockServer = new WebhookMockServer(9999);

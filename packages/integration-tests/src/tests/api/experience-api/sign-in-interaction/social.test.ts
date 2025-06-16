@@ -28,7 +28,7 @@ import {
   enableAllVerificationCodeSignInMethods,
 } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
-import { generateEmail, generateUsername } from '#src/utils.js';
+import { generateEmail, generateUsername } from '#src/test-env-utils.js';
 
 describe('social sign-in and sign-up', () => {
   const connectorIdMap = new Map<string, string>();

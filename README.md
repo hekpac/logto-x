@@ -88,6 +88,13 @@ ADMIN_ENDPOINT=http://localhost:3002
 # OpenSearch powers the search index
 ```
 
+A helper script is available to install dependencies and launch the development
+server. It will download Node.js `22.14.0` locally if needed and prepare pnpm.
+
+```bash
+./run/setup.sh
+```
+
 ### Migrate from PostgreSQL
 
 If you are upgrading from an older release using PostgreSQL, run:
@@ -102,7 +109,7 @@ Seed initial data and start the development server:
 
 ```bash
 pnpm cli db seed
-pnpm dev
+./run/setup.sh
 ```
 
 Run the test suite with:

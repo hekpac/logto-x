@@ -3,7 +3,7 @@ import { type Page, type Target } from 'puppeteer';
 
 import { logtoConsoleUrl as logtoConsoleUrlString, logtoUrl } from '#src/constants.js';
 import { goToConsole } from '#src/ui-helpers/index.js';
-import { expectNavigation, appendPathname } from '#src/utils.js';
+import { expectNavigation, appendPathname } from '#src/test-env-utils.js';
 
 import { expectToSelectPreviewLanguage, waitForFormCard } from './helpers.js';
 

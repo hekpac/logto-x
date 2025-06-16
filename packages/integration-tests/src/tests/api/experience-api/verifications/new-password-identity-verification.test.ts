@@ -4,7 +4,7 @@ import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { initExperienceClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
-import { randomString } from '#src/utils.js';
+import { randomString } from '#src/test-env-utils.js';
 
 describe('password verifications', () => {
   const username = 'test_' + randomString();

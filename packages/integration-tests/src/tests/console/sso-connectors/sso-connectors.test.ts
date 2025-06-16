@@ -8,7 +8,7 @@ import {
   expectToSaveChanges,
   waitForToast,
 } from '#src/ui-helpers/index.js';
-import { expectNavigation, appendPathname, dcls, cls } from '#src/utils.js';
+import { expectNavigation, appendPathname, dcls, cls } from '#src/test-env-utils.js';
 
 import { fillSsoConnectorCreationModal, findModalFooterButton } from './helpers.js';
 import { ssoConnectorTestCases } from './sso-connectors-test-cases.js';

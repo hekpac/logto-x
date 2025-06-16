@@ -16,7 +16,7 @@ import {
   generateRoleName,
   dcls,
   cls,
-} from '#src/utils.js';
+} from '#src/test-env-utils.js';
 
 import {
   expectToChooseAndClickApplicationFramework,

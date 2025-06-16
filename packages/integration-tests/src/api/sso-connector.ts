@@ -10,7 +10,7 @@ import {
 import { metadataXml } from '#src/__mocks__/sso-connectors-mock.js';
 import { authedApi } from '#src/api/api.js';
 import { logtoUrl } from '#src/constants.js';
-import { randomString } from '#src/utils.js';
+import { randomString } from '#src/test-env-utils.js';
 
 export type SsoConnectorWithProviderConfig = SsoConnector & {
   providerLogo: string;
