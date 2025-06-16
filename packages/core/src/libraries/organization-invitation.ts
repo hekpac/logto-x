@@ -200,7 +200,11 @@ export class OrganizationInvitationLibrary {
           break;
         }
         default: {
-          throw new TypeError(`The status "${status}" is not supported.`);
+          throw new RequestError({
+            status: 422,
+            code: 'organization_invitation.unsupported_status',
+            data: { status },
+          });
         }
       }
 
