@@ -10,6 +10,27 @@ fi
 
 REQUIRED_NODE_VERSION="22.14.0"
 NODE_DIR="$(dirname "$0")/node"
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+if [[ -f "$ROOT_DIR/.env" ]]; then
+  echo "Loading environment variables from $ROOT_DIR/.env"
+  set -a
+  # shellcheck disable=SC1090
+  source "$ROOT_DIR/.env"
+  set +a
+fi
+
+required_vars=(MONGODB_URI OPENSEARCH_URL REDIS_URL ENDPOINT ADMIN_ENDPOINT)
+missing=()
+for var in "${required_vars[@]}"; do
+  if [[ -z "${!var:-}" ]]; then
+    missing+=("$var")
+  fi
+done
+if (( ${#missing[@]} )); then
+  echo "Missing required environment variables: ${missing[*]}" >&2
+  exit 1
+fi
 
 version_ge() {
   [ "$(printf '%s\n' "$2" "$1" | sort -V | head -n1)" = "$2" ]

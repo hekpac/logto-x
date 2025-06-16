@@ -92,6 +92,10 @@ ADMIN_ENDPOINT=http://localhost:3002
 
 A helper script is available to install dependencies and launch the development
 server. It will download Node.js `22.14.0` locally if needed and prepare pnpm.
+The script loads the `.env` file and verifies that the following variables are
+set: `MONGODB_URI`, `OPENSEARCH_URL`, `REDIS_URL`, `ENDPOINT`, and
+`ADMIN_ENDPOINT`. If any variable is missing, it exits with an error listing the
+missing names.
 
 ```bash
 ./run/setup.sh
