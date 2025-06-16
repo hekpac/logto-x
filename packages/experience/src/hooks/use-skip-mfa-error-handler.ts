@@ -4,7 +4,8 @@ import { useLocation } from 'react-router-dom';
 
 import { getInteractionEventFromState } from '@/apis/utils';
 
-import useErrorHandler from './use-error-handler';
+import useErrorHandler, { type ErrorHandlers } from './use-error-handler';
+import useMfaErrorHandler from './use-mfa-error-handler';
 import useSubmitInteractionErrorHandler from './use-submit-interaction-error-handler';
 
 const useSkipMfaErrorHandler = () => {
@@ -19,11 +20,20 @@ const useSkipMfaErrorHandler = () => {
   const submitErrorHandler = useSubmitInteractionErrorHandler(interactionEvent, {
     replace: true,
   });
+  const mfaErrorHandler = useMfaErrorHandler({ replace: true });
   const handleError = useErrorHandler();
 
+  const skipMfaErrorHandlers = useMemo<ErrorHandlers>(
+    () => ({
+      ...submitErrorHandler,
+      'session.mfa.mfa_policy_not_user_controlled': mfaErrorHandler['user.missing_mfa'],
+    }),
+    [mfaErrorHandler, submitErrorHandler]
+  );
+
   return useCallback(
-    (error: unknown) => handleError(error, submitErrorHandler),
-    [handleError, submitErrorHandler]
+    (error: unknown) => handleError(error, skipMfaErrorHandlers),
+    [handleError, skipMfaErrorHandlers]
   );
 };
 

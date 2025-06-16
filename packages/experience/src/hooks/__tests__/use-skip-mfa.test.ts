@@ -9,6 +9,7 @@ const mockAsyncSkipMfa = jest.fn();
 const mockRedirectTo = jest.fn();
 const mockHandleError = jest.fn();
 const mockErrorHandlers = {};
+const mockMfaHandlers = { 'user.missing_mfa': jest.fn() };
 
 jest.mock('../use-api', () => ({
   __esModule: true,
@@ -30,12 +31,18 @@ jest.mock('../use-submit-interaction-error-handler', () => ({
   default: jest.fn(() => mockErrorHandlers),
 }));
 
+jest.mock('../use-mfa-error-handler', () => ({
+  __esModule: true,
+  default: jest.fn(() => mockMfaHandlers),
+}));
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: jest.fn(),
 }));
 const useLocationMock = reactRouterDom.useLocation as jest.Mock;
 const useSubmitInteractionErrorHandler = jest.requireMock('../use-submit-interaction-error-handler') as jest.Mock;
+const useMfaErrorHandler = jest.requireMock('../use-mfa-error-handler') as jest.Mock;
 
 describe('useSkipMfa', () => {
   afterEach(() => {
@@ -61,8 +68,13 @@ describe('useSkipMfa', () => {
     await result.current();
 
     expect(useSubmitInteractionErrorHandler).toBeCalledWith(InteractionEvent.SignIn, { replace: true });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- testing error handling
-    expect(mockHandleError).toBeCalledWith(expect.any(Error), mockErrorHandlers);
+    expect(useMfaErrorHandler).toBeCalledWith({ replace: true });
+    expect(mockHandleError).toBeCalledWith(
+      expect.any(Error),
+      expect.objectContaining({
+        'session.mfa.mfa_policy_not_user_controlled': mockMfaHandlers['user.missing_mfa'],
+      })
+    );
   });
 
   it('handles error with registration flow', async () => {
@@ -73,8 +85,13 @@ describe('useSkipMfa', () => {
     await result.current();
 
     expect(useSubmitInteractionErrorHandler).toBeCalledWith(InteractionEvent.Register, { replace: true });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- testing error handling
-    expect(mockHandleError).toBeCalledWith(expect.any(Error), mockErrorHandlers);
+    expect(useMfaErrorHandler).toBeCalledWith({ replace: true });
+    expect(mockHandleError).toBeCalledWith(
+      expect.any(Error),
+      expect.objectContaining({
+        'session.mfa.mfa_policy_not_user_controlled': mockMfaHandlers['user.missing_mfa'],
+      })
+    );
   });
 });
 /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
