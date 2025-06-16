@@ -1,6 +1,7 @@
 import { cond, trySafe, type Nullable } from '@silverhand/essentials';
 import { addMinutes } from 'date-fns';
 import { type Context } from 'koa';
+import type { Middleware } from 'koa';
 import { z } from 'zod';
 
 import { spInitiatedSamlSsoSessionCookieName } from '#src/constants/index.js';
@@ -8,6 +9,10 @@ import type Queries from '#src/tenants/Queries.js';
 import assertThat from '#src/utils/assert-that.js';
 import RequestError from '#src/errors/RequestError/index.js';
 import type { ConsoleLog } from '#src/utils/console.js';
+import { getConsoleLogFromContext } from '#src/utils/console.js';
+import { SamlApplication } from '#src/saml-application/SamlApplication/index.js';
+import { generateAutoSubmitForm } from '#src/saml-application/SamlApplication/utils.js';
+import { EnvSet } from '#src/env-set/index.js';
 import { generateStandardId, generateStandardShortId } from '@logto/shared';
 
 export const verifyAndGetSamlSessionData = async (
@@ -186,3 +191,89 @@ export const createSamlAppSession = async (
 
   return { session, oidcState, expiresAt } as const;
 };
+
+export const createCallbackValidation = (
+  getSamlApplicationDetailsById: Queries['samlApplications']['getSamlApplicationDetailsById'],
+  envSet: EnvSet,
+): Middleware =>
+  async (ctx, next) => {
+    const {
+      params: { id },
+      query,
+    } = ctx.guard as { params: { id: string }; query: SamlApplicationCallbackQuery };
+
+    validateSamlCallbackQuery(query);
+
+    const log = ctx.createLog('SamlApplication.Callback');
+
+    log.append({
+      query,
+      applicationId: id,
+    });
+
+    const details = await getSamlApplicationDetailsById(id);
+    const samlApplication = new SamlApplication(details, id, envSet);
+
+    assertThat(
+      samlApplication.config.redirectUri === samlApplication.samlAppCallbackUrl,
+      'oidc.invalid_redirect_uri',
+    );
+
+    if (query.redirectUri) {
+      assertThat(query.redirectUri === samlApplication.samlAppCallbackUrl, 'oidc.invalid_redirect_uri');
+    }
+
+    ctx.state.samlApplication = samlApplication;
+    ctx.state.callbackLog = log;
+
+    return next();
+  };
+
+export const createCallbackSessionHandler = (
+  queries: Queries['samlApplicationSessions'],
+): Middleware =>
+  async (ctx, next) => {
+    const { code, state } = ctx.guard.query as SamlApplicationCallbackQuery;
+    const samlApplication = ctx.state.samlApplication as SamlApplication;
+    const log = ctx.state.callbackLog as ReturnType<typeof ctx.createLog>;
+
+    const { relayState, samlRequestId, sessionId, sessionExpiresAt } =
+      await verifyAndGetSamlSessionData(ctx, queries, state);
+    log.append({
+      session: { relayState, samlRequestId, sessionId, sessionExpiresAt },
+    });
+
+    const userInfo = await samlApplication.handleOidcCallbackAndGetUserInfo({ code });
+    log.append({ userInfo });
+
+    const { context, entityEndpoint } = await samlApplication.createSamlResponse({
+      userInfo,
+      relayState,
+      samlRequestId,
+      sessionId,
+      sessionExpiresAt,
+    });
+
+    log.append({ context, entityEndpoint });
+
+    ctx.state.samlResponse = { context, entityEndpoint, state };
+
+    return next();
+  };
+
+export const createCallbackResponder = (
+  queries: Queries['samlApplicationSessions'],
+): Middleware =>
+  async (ctx, next) => {
+    const { context, entityEndpoint, state } = ctx.state.samlResponse as {
+      context: string;
+      entityEndpoint: string;
+      state?: string;
+    };
+
+    ctx.body = generateAutoSubmitForm(entityEndpoint, context);
+
+    await resetSamlSessionState(ctx, queries, getConsoleLogFromContext(ctx), state);
+
+    return next();
+  };
