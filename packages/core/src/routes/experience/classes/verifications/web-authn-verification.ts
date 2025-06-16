@@ -96,21 +96,9 @@ export class WebAuthnVerification implements MfaVerificationRecord<VerificationT
    * This method is used to generate the WebAuthn registration options for the user.
    * The WebAuthn registration options is used to register a new WebAuthn credential for the user.
    *
- <<<<<<< codex/revisar-y-eliminar-indicadores-de-merge
-  * Refers to the {@link generateWebAuthnRegistrationOptions} function in the
-  * `utils/webauthn-shared.ts` file. Keep it as the single source of truth for
-  * generating the WebAuthn registration options.
- =======
- <<<<<<< codex/reubicar-funciones-de-verificación
-  * Refers to the {@link generateWebAuthnRegistrationOptions} function in the
-  * `utils/webauthn-shared.ts` file. Keep it as the single source of truth for
-  * generating the WebAuthn registration options.
- =======
-* Refers to the {@link generateWebAuthnRegistrationOptions} function in
-* `interaction/utils/webauthn.ts` file. Keep it as the single source of truth
-* for generating the WebAuthn registration options.
- >>>>>>> master
- >>>>>>> master
+   * Refers to the {@link generateWebAuthnRegistrationOptions} function in
+   * `interaction/utils/webauthn.ts` file. Keep it as the single source of truth
+   * for generating the WebAuthn registration options.
    */
   async generateWebAuthnRegistrationOptions(rpId: string): Promise<WebAuthnRegistrationOptions> {
     const user = await this.findUser();
@@ -176,21 +164,9 @@ export class WebAuthnVerification implements MfaVerificationRecord<VerificationT
    * This method is used to generate the WebAuthn authentication options for the user.
    * The WebAuthn authentication options is used to authenticate the user using existing WebAuthn credentials.
    *
- <<<<<<< codex/revisar-y-eliminar-indicadores-de-merge
-  * Refers to the {@link generateWebAuthnAuthenticationOptions} function in the
-  * `utils/webauthn-shared.ts` file. Keep it as the single source of truth for
-  * generating the WebAuthn authentication options.
- =======
- <<<<<<< codex/reubicar-funciones-de-verificación
-  * Refers to the {@link generateWebAuthnAuthenticationOptions} function in the
-  * `utils/webauthn-shared.ts` file. Keep it as the single source of truth for
-  * generating the WebAuthn authentication options.
- =======
    * Refers to the {@link generateWebAuthnAuthenticationOptions} function in
    * `interaction/utils/webauthn.ts` file. Keep it as the single source of truth
    * for generating the WebAuthn authentication options.
- >>>>>>> master
- >>>>>>> master
    *
    * @throws {RequestError} with status 400, if no WebAuthn credentials are found for the user.
    */
