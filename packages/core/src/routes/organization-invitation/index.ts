@@ -75,10 +75,8 @@ export default function organizationInvitationRoutes<T extends ManagementApiRout
 
       assertThat(
         body.expiresAt > Date.now(),
-        new RequestError({
-          code: 'organization_invitation.expires_at_future_required',
-          status: 400,
-        })
+        'organization_invitation.expires_at_future_required',
+        400
       );
 
       ctx.body = await organizationInvitations.insert(body, messagePayload);
@@ -146,10 +144,8 @@ export default function organizationInvitationRoutes<T extends ManagementApiRout
 
       assertThat(
         acceptedUserId,
-        new RequestError({
-          status: 422,
-          code: 'organization_invitation.accepted_user_id_required',
-        })
+        'organization_invitation.accepted_user_id_required',
+        422
       );
 
       const result = await organizationInvitations.updateStatus(id, status, acceptedUserId);

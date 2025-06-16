@@ -4,6 +4,7 @@ const organization_invitation = {
   accepted_user_email_mismatch: 'El usuario que acepta debe tener el mismo correo electrónico que el invitado.',
   accepted_user_id_required: 'The `acceptedUserId` is required when accepting an invitation.',
   expires_at_future_required: 'The value of `expiresAt` must be in the future.',
+  unsupported_status: 'Unsupported status: {{status}}.',
 };
 
 export default Object.freeze(organization_invitation);
