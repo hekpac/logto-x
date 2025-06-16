@@ -115,7 +115,7 @@
       "post": {
         "operationId": "UpdatePassword",
         "summary": "Update password",
-        "description": "Update password for the user, a logto-verification-id in header is required for checking sensitive permissions.",
+        "description": "Update password for the user.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -132,9 +132,6 @@
         "responses": {
           "204": {
             "description": "The password was updated successfully."
-          },
-          "403": {
-            "description": "Permission denied, the verification record is invalid."
           }
         }
       }
@@ -143,7 +140,7 @@
       "post": {
         "operationId": "UpdatePrimaryEmail",
         "summary": "Update primary email",
-        "description": "Update primary email for the user, a logto-verification-id in header is required for checking sensitive permissions, and a new identifier verification record is required for the new email ownership verification.",
+        "description": "Update primary email for the user; requires a verification record for the new email ownership.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -166,16 +163,13 @@
           },
           "400": {
             "description": "The new verification record is invalid."
-          },
-          "403": {
-            "description": "Permission denied, the verification record is invalid."
           }
         }
       },
       "delete": {
         "operationId": "DeletePrimaryEmail",
         "summary": "Delete primary email",
-        "description": "Delete primary email for the user, a verification-record-id in header is required for checking sensitive permissions.",
+        "description": "Delete primary email for the user.",
         "responses": {
           "204": {
             "description": "The primary email was deleted successfully."
@@ -187,7 +181,7 @@
       "post": {
         "operationId": "UpdatePrimaryPhone",
         "summary": "Update primary phone",
-        "description": "Update primary phone for the user, a logto-verification-id in header is required for checking sensitive permissions, and a new identifier verification record is required for the new phone ownership verification.",
+        "description": "Update primary phone for the user; requires a verification record for the new phone ownership.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -210,16 +204,13 @@
           },
           "400": {
             "description": "The new verification record is invalid."
-          },
-          "403": {
-            "description": "Permission denied, the verification record is invalid."
           }
         }
       },
       "delete": {
         "operationId": "DeletePrimaryPhone",
         "summary": "Delete primary phone",
-        "description": "Delete primary phone for the user, a verification-record-id in header is required for checking sensitive permissions.",
+        "description": "Delete primary phone for the user.",
         "responses": {
           "204": {
             "description": "The primary phone was deleted successfully."
@@ -231,7 +222,7 @@
       "post": {
         "operationId": "AddUserIdentities",
         "summary": "Add a user identity",
-        "description": "Add an identity (social identity) to the user, a logto-verification-id in header is required for checking sensitive permissions, and a verification record for the social identity is required.",
+        "description": "Add an identity (social identity) to the user; requires a verification record for the social identity.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -256,7 +247,7 @@
       "delete": {
         "operationId": "DeleteIdentity",
         "summary": "Delete a user identity",
-        "description": "Delete an identity (social identity) from the user, a logto-verification-id in header is required for checking sensitive permissions.",
+        "description": "Delete an identity (social identity) from the user.",
         "responses": {
           "204": {
             "description": "The identity was deleted successfully."
@@ -284,7 +275,7 @@
       "post": {
         "operationId": "AddMfaVerification",
         "summary": "Add a MFA verification",
-        "description": "Add a MFA verification to the user, a logto-verification-id in header is required for checking sensitive permissions. Only WebAuthn is supported for now, a new identifier verification record is required for the webauthn registration verification.",
+        "description": "Add a MFA verification to the user. Only WebAuthn is supported for now and requires a verification record for registration.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -310,7 +301,7 @@
       "patch": {
         "operationId": "UpdateMfaVerificationName",
         "summary": "Update a MFA verification name",
-        "description": "Update a MFA verification name, a logto-verification-id in header is required for checking sensitive permissions. Only WebAuthn is supported for now.",
+        "description": "Update a MFA verification name. Only WebAuthn is supported for now.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -346,7 +337,7 @@
         ],
         "operationId": "DeleteMfaVerification",
         "summary": "Delete an MFA verification",
-        "description": "Delete an MFA verification, a logto-verification-id in header is required for checking sensitive permissions.",
+        "description": "Delete an MFA verification.",
         "responses": {
           "204": {
             "description": "The MFA verification was deleted successfully."
