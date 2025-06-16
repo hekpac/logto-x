@@ -4,21 +4,17 @@ import {
   SentinelDecision,
   type SentinelDecisionTuple,
   type SentinelActivity,
-  SentinelActivities,
-  SentinelActionResult,
   SentinelActivityAction,
+  SentinelActionResult,
   defaultSentinelPolicy,
 } from '@logto/schemas';
 import { generateStandardId } from '@logto/shared';
 import { type Nullable } from '@silverhand/essentials';
-import { sql, type CommonQueryMethods } from '@silverhand/slonik';
 import { addMinutes } from 'date-fns';
 
-import { buildInsertIntoWithPool } from '#src/database/insert-into.js';
 import type Queries from '#src/tenants/Queries.js';
-import { convertToIdentifiers } from '#src/utils/sql.js';
+import { createSentinelActivitiesQueries } from '#src/queries/sentinel-activities.js';
 
-const { fields, table } = convertToIdentifiers(SentinelActivities);
 
 /**
  * A basic sentinel that blocks a user after 5 failed attempts in 1 hour.
@@ -33,8 +29,8 @@ export default class BasicSentinel extends Sentinel {
     SentinelActivityAction.OneTimeToken,
   ] as const);
 
-  /** The array of all supported actions in SQL format. */
-  static supportedActionArray = sql.array(BasicSentinel.supportedActions, 'varchar');
+  /** Helper for queries */
+  static supportedActionArray = BasicSentinel.supportedActions;
 
   /**
    * Asserts that the given action is supported by this sentinel.
@@ -49,20 +45,16 @@ export default class BasicSentinel extends Sentinel {
     }
   }
 
-  protected insertActivity = buildInsertIntoWithPool(this.pool)(SentinelActivities);
+  protected readonly sentinelActivities = createSentinelActivitiesQueries();
 
   /**
-   * Init a basic sentinel with the given pool that has at least the access to the tenant-level
-   * data. We don't directly put the queries in the `TenantContext` because the sentinel was
-   * designed to be used as an isolated module that can be separated from the core business logic.
+   * Init a basic sentinel with the tenant-level queries. We don't directly put the queries in the
+   * `TenantContext` because the sentinel is designed to be used as an isolated module that can be
+   * separated from the core business logic.
    *
-   * @param pool A database pool with methods {@link CommonQueryMethods}.
-   * @param {Queries} queries Tenant-level queries.
+   * @param queries Tenant-level queries.
    */
-  constructor(
-    protected readonly pool: CommonQueryMethods,
-    protected readonly queries: Queries
-  ) {
+  constructor(protected readonly queries: Queries) {
     super();
   }
 
@@ -82,11 +74,11 @@ export default class BasicSentinel extends Sentinel {
 
     const [decision, decisionExpiresAt] = await this.decide(activity);
 
-    await this.insertActivity({
+    await this.sentinelActivities.insertActivity({
       id: generateStandardId(),
       ...activity,
       decision,
-      decisionExpiresAt,
+      decisionExpiresAt: new Date(decisionExpiresAt),
     });
 
     return [decision, decisionExpiresAt];
@@ -105,17 +97,14 @@ export default class BasicSentinel extends Sentinel {
   protected async isBlocked(
     query: Pick<SentinelActivity, 'targetType' | 'targetHash'>
   ): Promise<Nullable<SentinelDecisionTuple>> {
-    const blocked = await this.pool.maybeOne<Pick<SentinelActivity, 'decisionExpiresAt'>>(sql`
-      select ${fields.decisionExpiresAt} from ${table}
-      where ${fields.targetType} = ${query.targetType}
-        and ${fields.targetHash} = ${query.targetHash}
-        and ${fields.action} = any(${BasicSentinel.supportedActionArray})
-        and ${fields.decision} = ${SentinelDecision.Blocked}
-        and ${fields.decisionExpiresAt} > now()
-      limit 1
-    `);
+    const blocked = await this.sentinelActivities.findBlocked(
+      query.targetType,
+      query.targetHash
+    );
 
-    return blocked && [SentinelDecision.Blocked, blocked.decisionExpiresAt];
+    return blocked
+      ? [SentinelDecision.Blocked, blocked.decisionExpiresAt.getTime()]
+      : null;
   }
 
   protected async getSentinelPolicy() {
@@ -140,15 +129,10 @@ export default class BasicSentinel extends Sentinel {
       return blocked;
     }
 
-    const failedAttempts = await this.pool.oneFirst<number>(sql`
-      select count(*) from ${table}
-      where ${fields.targetType} = ${query.targetType}
-        and ${fields.targetHash} = ${query.targetHash}
-        and ${fields.action} = any(${BasicSentinel.supportedActionArray})
-        and ${fields.actionResult} = ${SentinelActionResult.Failed}
-        and ${fields.decision} != ${SentinelDecision.Blocked}
-        and ${fields.createdAt} > now() - interval '1 hour'
-    `);
+    const failedAttempts = await this.sentinelActivities.countFailedAttempts(
+      query.targetType,
+      query.targetHash
+    );
 
     const { maxAttempts, lockoutDuration } = await this.getSentinelPolicy();
 

@@ -7,14 +7,12 @@ import {
 } from '@logto/schemas';
 import { addMinutes } from 'date-fns';
 
-import { createMockCommonQueryMethods, expectSqlString } from '#src/test-utils/query.js';
+import { jest } from '@jest/globals';
 
 import { mockSignInExperience } from '../__mocks__/sign-in-experience.js';
 import { MockQueries } from '../test-utils/tenant.js';
 
 import BasicSentinel from './basic-sentinel.js';
-
-const { jest } = import.meta;
 
 const createMockActivityReport = (): ActivityReport => ({
   targetType: SentinelActivityTargetType.User,
@@ -30,15 +28,19 @@ class TestSentinel extends BasicSentinel {
 
 const findDefaultSignInExperienceMock = jest.fn();
 
-const methods = createMockCommonQueryMethods();
 const sentinel = new TestSentinel(
-  methods,
   new MockQueries({
     signInExperiences: {
       findDefaultSignInExperience: findDefaultSignInExperienceMock,
     },
   })
 );
+// Mock sentinelActivities
+(sentinel as unknown as { sentinelActivities: any }).sentinelActivities = {
+  insertActivity: jest.fn(),
+  findBlocked: jest.fn(),
+  countFailedAttempts: jest.fn(),
+};
 const mockedTime = new Date('2021-01-01T00:00:00.000Z').valueOf();
 const mockedDefaultBlockedTime = addMinutes(mockedTime, 60).valueOf();
 
@@ -66,30 +68,25 @@ describe('BasicSentinel -> reportActivity()', () => {
   });
 
   it('should insert an activity', async () => {
-    methods.maybeOne.mockResolvedValueOnce(null);
-    methods.oneFirst.mockResolvedValueOnce(0);
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce(null);
+    (sentinel as any).sentinelActivities.countFailedAttempts.mockResolvedValueOnce(0);
 
     const activity = createMockActivityReport();
     const decision = await sentinel.reportActivity(activity);
 
     expect(decision).toStrictEqual([SentinelDecision.Allowed, mockedTime]);
-    expect(methods.query).toHaveBeenCalledTimes(1);
-    expect(methods.query).toHaveBeenCalledWith(
-      expectSqlString('insert into "sentinel_activities"')
-    );
+    expect((sentinel as any).sentinelActivities.insertActivity).toHaveBeenCalledTimes(1);
   });
 
   it('should insert a blocked activity', async () => {
-    // Mock the query method to return a blocked activity
-    methods.maybeOne.mockResolvedValueOnce({ decisionExpiresAt: mockedDefaultBlockedTime });
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce({
+      decisionExpiresAt: new Date(mockedDefaultBlockedTime),
+    });
 
     const activity = createMockActivityReport();
     const decision = await sentinel.reportActivity(activity);
     expect(decision).toEqual([SentinelDecision.Blocked, mockedDefaultBlockedTime]);
-    expect(methods.query).toHaveBeenCalledTimes(1);
-    expect(methods.query).toHaveBeenCalledWith(
-      expectSqlString('insert into "sentinel_activities"')
-    );
+    expect((sentinel as any).sentinelActivities.insertActivity).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -100,7 +97,9 @@ describe('BasicSentinel -> decide()', () => {
 
   it('should return existing blocked time if the activity is blocked', async () => {
     const existingBlockedTime = addMinutes(mockedTime, 5).valueOf();
-    methods.maybeOne.mockResolvedValueOnce({ decisionExpiresAt: existingBlockedTime });
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce({
+      decisionExpiresAt: new Date(existingBlockedTime),
+    });
 
     const activity = createMockActivityReport();
     const decision = await sentinel.decide(activity);
@@ -108,8 +107,8 @@ describe('BasicSentinel -> decide()', () => {
   });
 
   it('should return allowed if the activity is not blocked and there are less than 100 failed attempts', async () => {
-    methods.maybeOne.mockResolvedValueOnce(null);
-    methods.oneFirst.mockResolvedValueOnce(99);
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce(null);
+    (sentinel as any).sentinelActivities.countFailedAttempts.mockResolvedValueOnce(99);
 
     const activity = createMockActivityReport();
     const decision = await sentinel.decide(activity);
@@ -117,8 +116,8 @@ describe('BasicSentinel -> decide()', () => {
   });
 
   it('should return blocked if the activity is not blocked and there are 100 failed attempts', async () => {
-    methods.maybeOne.mockResolvedValueOnce(null);
-    methods.oneFirst.mockResolvedValueOnce(100);
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce(null);
+    (sentinel as any).sentinelActivities.countFailedAttempts.mockResolvedValueOnce(100);
 
     const activity = createMockActivityReport();
     const decision = await sentinel.decide(activity);
@@ -126,8 +125,8 @@ describe('BasicSentinel -> decide()', () => {
   });
 
   it('should return blocked if the activity is not blocked and there are 99 failed attempts and the current activity is failed', async () => {
-    methods.maybeOne.mockResolvedValueOnce(null);
-    methods.oneFirst.mockResolvedValueOnce(99);
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce(null);
+    (sentinel as any).sentinelActivities.countFailedAttempts.mockResolvedValueOnce(99);
 
     const activity = createMockActivityReport();
     // eslint-disable-next-line @silverhand/fp/no-mutation
@@ -146,35 +145,33 @@ describe('BasicSentinel  with custom policy', () => {
   });
 
   it('should insert an activity', async () => {
-    methods.maybeOne.mockResolvedValueOnce(null);
-    methods.oneFirst.mockResolvedValueOnce(0);
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce(null);
+    (sentinel as any).sentinelActivities.countFailedAttempts.mockResolvedValueOnce(0);
 
     const activity = createMockActivityReport();
     const decision = await sentinel.reportActivity(activity);
 
     expect(decision).toStrictEqual([SentinelDecision.Allowed, mockedTime]);
-    expect(methods.query).toHaveBeenCalledTimes(1);
-    expect(methods.query).toHaveBeenCalledWith(
-      expectSqlString('insert into "sentinel_activities"')
-    );
+    expect((sentinel as any).sentinelActivities.insertActivity).toHaveBeenCalledTimes(1);
   });
 
   it('should insert a blocked activity', async () => {
     // Mock the query method to return a blocked activity
-    methods.maybeOne.mockResolvedValueOnce({ decisionExpiresAt: mockedCustomBlockedTime });
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce({
+      decisionExpiresAt: new Date(mockedCustomBlockedTime),
+    });
 
     const activity = createMockActivityReport();
     const decision = await sentinel.reportActivity(activity);
     expect(decision).toEqual([SentinelDecision.Blocked, mockedCustomBlockedTime]);
-    expect(methods.query).toHaveBeenCalledTimes(1);
-    expect(methods.query).toHaveBeenCalledWith(
-      expectSqlString('insert into "sentinel_activities"')
-    );
+    expect((sentinel as any).sentinelActivities.insertActivity).toHaveBeenCalledTimes(1);
   });
 
   it('should return existing blocked time if the activity is blocked', async () => {
     const existingBlockedTime = addMinutes(mockedTime, 5).valueOf();
-    methods.maybeOne.mockResolvedValueOnce({ decisionExpiresAt: existingBlockedTime });
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce({
+      decisionExpiresAt: new Date(existingBlockedTime),
+    });
 
     const activity = createMockActivityReport();
     const decision = await sentinel.decide(activity);
@@ -182,8 +179,8 @@ describe('BasicSentinel  with custom policy', () => {
   });
 
   it('should return allowed if the activity is not blocked and there are less than 7 failed attempts', async () => {
-    methods.maybeOne.mockResolvedValueOnce(null);
-    methods.oneFirst.mockResolvedValueOnce(6);
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce(null);
+    (sentinel as any).sentinelActivities.countFailedAttempts.mockResolvedValueOnce(6);
 
     const activity = createMockActivityReport();
     const decision = await sentinel.decide(activity);
@@ -191,8 +188,8 @@ describe('BasicSentinel  with custom policy', () => {
   });
 
   it('should return blocked if the activity is not blocked and there are 7 failed attempts', async () => {
-    methods.maybeOne.mockResolvedValueOnce(null);
-    methods.oneFirst.mockResolvedValueOnce(7);
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce(null);
+    (sentinel as any).sentinelActivities.countFailedAttempts.mockResolvedValueOnce(7);
 
     const activity = createMockActivityReport();
     const decision = await sentinel.decide(activity);
@@ -200,8 +197,8 @@ describe('BasicSentinel  with custom policy', () => {
   });
 
   it('should return blocked if the activity is not blocked and there are 4 failed attempts and the current activity is failed', async () => {
-    methods.maybeOne.mockResolvedValueOnce(null);
-    methods.oneFirst.mockResolvedValueOnce(6);
+    (sentinel as any).sentinelActivities.findBlocked.mockResolvedValueOnce(null);
+    (sentinel as any).sentinelActivities.countFailedAttempts.mockResolvedValueOnce(6);
 
     const activity = createMockActivityReport();
     // eslint-disable-next-line @silverhand/fp/no-mutation
