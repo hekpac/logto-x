@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [ -f .env ]; then
+  set -o allexport
+  # shellcheck disable=SC1091
+  source .env
+  set +o allexport
+fi
+
 REQUIRED_NODE_VERSION="22.14.0"
 NODE_DIR="$(dirname "$0")/node"
 
@@ -34,5 +41,14 @@ corepack prepare pnpm@9 --activate
 
 pnpm install
 pnpm prepack
+
+REQUIRED_VARS=(MONGODB_URI OPENSEARCH_URL REDIS_URL ENDPOINT ADMIN_ENDPOINT)
+
+for var in "${REQUIRED_VARS[@]}"; do
+  if [ -z "${!var:-}" ]; then
+    echo "Environment variable $var is not set or empty" >&2
+    exit 1
+  fi
+done
 
 pnpm dev
