@@ -24,17 +24,11 @@ export const parseResponse = async (response: KyResponse) => {
   };
 };
 
-type SendWebhookRequest = {
-  hookConfig: HookConfig;
-  payload: HookEventPayload;
-  signingKey: string;
-};
-
-export const sendWebhookRequest = async ({
-  hookConfig,
-  payload,
-  signingKey,
-}: SendWebhookRequest) => {
+export const sendWebhookRequest = async (
+  hookConfig: HookConfig,
+  payload: HookEventPayload,
+  signingKey: string
+) => {
   const { url, headers, retries } = hookConfig;
 
   return ky.post(url, {
@@ -49,7 +43,13 @@ export const sendWebhookRequest = async ({
   });
 };
 
-export const generateHookTestPayload = (hookId: string, event: HookEvent): HookEventPayload => {
+export const generateHookTestPayload = ({
+  hookId,
+  event,
+}: {
+  hookId: string;
+  event: HookEvent;
+}): HookEventPayload => {
   const fakeUserId = 'fake-id';
   const now = new Date();
 
@@ -106,10 +106,10 @@ export const generateHookTestPayload = (hookId: string, event: HookEvent): HookE
   };
 };
 
-export const resolveManagementApiDataHookEvent = (
-  method: string,
-  route: IRouterParamContext['_matchedRoute']
-): DataHookEvent | undefined =>
+export const resolveManagementApiDataHookEvent = ({
+  method,
+  _matchedRoute: route,
+}: Pick<IRouterParamContext, 'method' | '_matchedRoute'>): DataHookEvent | undefined =>
   managementApiHooksRegistration[`${method} ${route}`];
 
 export const buildManagementApiContext = (
