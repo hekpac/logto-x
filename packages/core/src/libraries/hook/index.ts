@@ -58,11 +58,7 @@ export const createHookLibrary = (queries: Queries, userLibrary: UserLibrary) =>
 
     // Trigger web hook and log response
     try {
-      const response = await sendWebhookRequest({
-        hookConfig: config,
-        payload: json,
-        signingKey,
-      });
+      const response = await sendWebhookRequest(config, json, signingKey);
 
       logEntry.append({
         response: await parseResponse(response),
@@ -194,12 +190,8 @@ export const createHookLibrary = (queries: Queries, userLibrary: UserLibrary) =>
     try {
       await Promise.all(
         events.map(async (event) => {
-          const testPayload = generateHookTestPayload(hookId, event);
-          await sendWebhookRequest({
-            hookConfig: config,
-            payload: testPayload,
-            signingKey,
-          });
+          const testPayload = generateHookTestPayload({ hookId, event });
+          await sendWebhookRequest(config, testPayload, signingKey);
         })
       );
     } catch (error: unknown) {

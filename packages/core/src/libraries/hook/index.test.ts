@@ -104,9 +104,9 @@ describe('triggerInteractionHooks()', () => {
     expect(findAllHooks).toHaveBeenCalled();
     expect(findApplicationById).toHaveBeenCalledWith('some_client');
     expect(mockUserLibrary.getUserInfo).toHaveBeenCalledWith('123');
-    expect(sendWebhookRequest).toHaveBeenCalledWith({
-      hookConfig: hook.config,
-      payload: {
+    expect(sendWebhookRequest).toHaveBeenCalledWith(
+      hook.config,
+      {
         hookId: 'foo',
         event: 'PostSignIn',
         interactionEvent: 'SignIn',
@@ -116,8 +116,8 @@ describe('triggerInteractionHooks()', () => {
         application: { id: 'app_id' },
         createdAt: new Date(100_000).toISOString(),
       },
-      signingKey: hook.signingKey,
-    });
+      hook.signingKey
+    );
 
     const calledPayload: unknown = insertLog.mock.calls[0][0];
     expect(calledPayload).toHaveProperty('id', mockId);
@@ -149,15 +149,15 @@ describe('triggerTestHook', () => {
     jest.useFakeTimers().setSystemTime(100_000);
 
     await triggerTestHook(hook.id, [InteractionHookEvent.PostSignIn], hook.config);
-    const triggerTestHookPayload = generateHookTestPayload(
-      hook.id,
-      InteractionHookEvent.PostSignIn
-    );
-    expect(sendWebhookRequest).toHaveBeenCalledWith({
-      hookConfig: hook.config,
-      payload: triggerTestHookPayload,
-      signingKey: hook.signingKey,
+    const triggerTestHookPayload = generateHookTestPayload({
+      hookId: hook.id,
+      event: InteractionHookEvent.PostSignIn,
     });
+    expect(sendWebhookRequest).toHaveBeenCalledWith(
+      hook.config,
+      triggerTestHookPayload,
+      hook.signingKey
+    );
 
     jest.useRealTimers();
   });
@@ -203,17 +203,17 @@ describe('triggerDataHooks()', () => {
 
     expect(findAllHooks).toHaveBeenCalled();
     expect(findApplicationById).not.toHaveBeenCalled();
-    expect(sendWebhookRequest).toHaveBeenCalledWith({
-      hookConfig: dataHook.config,
-      payload: {
+    expect(sendWebhookRequest).toHaveBeenCalledWith(
+      dataHook.config,
+      {
         hookId: 'foo',
         event: 'Role.Created',
         createdAt: new Date(100_000).toISOString(),
         ...hookData,
         ...metadata,
       },
-      signingKey: dataHook.signingKey,
-    });
+      dataHook.signingKey
+    );
 
     const calledPayload: unknown = insertLog.mock.calls[0][0];
 
@@ -261,9 +261,9 @@ describe('triggerDataHooks()', () => {
 
     expect(findAllHooks).toHaveBeenCalled();
     expect(findApplicationById).toHaveBeenCalledWith('some_client');
-    expect(sendWebhookRequest).toHaveBeenCalledWith({
-      hookConfig: dataHook.config,
-      payload: {
+    expect(sendWebhookRequest).toHaveBeenCalledWith(
+      dataHook.config,
+      {
         hookId: 'foo',
         event: 'Role.Created',
         createdAt: new Date(100_000).toISOString(),
@@ -271,7 +271,7 @@ describe('triggerDataHooks()', () => {
         ...metadata,
         application: { id: 'app_id' },
       },
-      signingKey: dataHook.signingKey,
-    });
+      dataHook.signingKey
+    );
   });
 });

@@ -60,9 +60,7 @@ export class DataHookContextManager {
   getRegisteredDataHookEventContext(
     ctx: IRouterParamContext & Context
   ): Readonly<[DataHookEvent, DataHookContext]> | undefined {
-    const { method, _matchedRoute: matchedRoute } = ctx;
-
-    const event = resolveManagementApiDataHookEvent(method, matchedRoute);
+    const event = resolveManagementApiDataHookEvent(ctx);
 
     if (!event) {
       return;
