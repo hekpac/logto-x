@@ -12,9 +12,9 @@ export type WithHookContext<ContextT extends IRouterParamContext = IRouterParamC
 /**
  * Factory for the API hook middleware.
  *
- * Used by both the Management API and the user Account API. The middleware
- * collects contexts for DataHook events. User routes manually append contexts
- * while Management API routes may register events that are appended
+ * Mount on both Management and user Account API routers. The middleware
+ * collects contexts for DataHook events. Account API routes manually append
+ * contexts while Management API routes may register events that are appended
  * automatically.
  *
  * To trigger hooks, call `ctx.appendDataHookContext` in a route handler.

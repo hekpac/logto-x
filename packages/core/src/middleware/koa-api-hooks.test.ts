@@ -129,4 +129,21 @@ describe('koaApiHooks', () => {
       );
     });
   });
+
+  it('should not trigger hooks for unregistered management route', async () => {
+    const ctx: ParameterizedContext<unknown, WithHookContext> = {
+      ...createContextWithRouteParameters(),
+      header: {},
+      appendDataHookContext: notToBeCalled,
+      method: 'GET',
+      _matchedRoute: '/unregistered',
+      path: '/unregistered',
+      response: { body: {} },
+      status: 200,
+    } as any;
+
+    await koaApiHooks(mockHooksLibrary)(ctx, next);
+
+    expect(triggerDataHooks).not.toBeCalled();
+  });
 });
