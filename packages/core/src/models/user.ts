@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
   identities: { type: Object, default: {} },
   customData: { type: Object, default: {} },
   logtoConfig: { type: Object, default: {} },
+  unverifiedEmails: { type: Array, default: [] },
   mfaVerifications: { type: Array, default: [] },
   isSuspended: { type: Boolean, default: false },
   lastSignInAt: Date,
