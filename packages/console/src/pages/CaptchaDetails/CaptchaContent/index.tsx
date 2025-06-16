@@ -12,6 +12,7 @@ import CaptchaFormFields from '@/pages/Security/Captcha/CaptchaFormFields';
 import { captchaProviders } from '@/pages/Security/Captcha/CreateCaptchaForm/constants';
 import { type CaptchaFormType } from '@/pages/Security/Captcha/types';
 import { trySubmitSafe } from '@/utils/form';
+import { captchaScoreThreshold } from '@/consts/env';
 
 type Props = {
   readonly isDeleted: boolean;
@@ -34,7 +35,8 @@ function CaptchaContent({ isDeleted, captchaProvider, onUpdate }: Props) {
     reValidateMode: 'onBlur',
     defaultValues: {
       ...captchaProvider.config,
-      scoreThreshold: captchaProvider.config.scoreThreshold ?? 0.7,
+      scoreThreshold:
+        captchaProvider.config.scoreThreshold ?? captchaScoreThreshold,
     },
   });
 

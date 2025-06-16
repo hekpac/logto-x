@@ -19,3 +19,10 @@ export const consoleEmbeddedPricingUrl =
   'https://logto.io/console-embedded-pricing';
 
 export const inkeepApiKey = normalizeEnv(import.meta.env.INKEEP_API_KEY);
+
+const thresholdEnv = Number.parseFloat(
+  normalizeEnv(import.meta.env.CAPTCHA_SCORE_THRESHOLD) ?? ''
+);
+export const captchaScoreThreshold = Number.isFinite(thresholdEnv)
+  ? Math.min(Math.max(thresholdEnv, 0), 1)
+  : 0.7;

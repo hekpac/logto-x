@@ -28,4 +28,7 @@ Copy the API output and paste it in the [Swagger Editor](https://editor.swagger.
 
 ## CAPTCHA verification
 
-The default score threshold for reCAPTCHA Enterprise is **0.7**. You can override this value via `scoreThreshold` in the CAPTCHA provider configuration or set the `CAPTCHA_SCORE_THRESHOLD` environment variable.
+The default score threshold for reCAPTCHA Enterprise is **0.7**. You can override
+this value via the `scoreThreshold` field in CAPTCHA provider settings. The
+backend and Console will also read the `CAPTCHA_SCORE_THRESHOLD` environment
+variable to set the default value.
