@@ -85,6 +85,7 @@ describe('connector data routes', () => {
       await connectorRequest.delete('/connectors/id').send({});
       expect(deleteConnectorById).toHaveBeenCalledTimes(1);
       expect(removeUnavailableSocialConnectorTargets).toHaveBeenCalledTimes(1);
+      expect(transaction).toHaveBeenCalledTimes(1);
     });
 
     it('delete connector instance (connector factory is not social type)', async () => {
