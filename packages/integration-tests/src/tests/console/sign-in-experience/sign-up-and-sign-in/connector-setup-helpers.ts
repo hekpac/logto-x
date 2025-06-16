@@ -3,7 +3,7 @@ import { type Page } from 'puppeteer';
 
 import { logtoConsoleUrl as logtoConsoleUrlString } from '#src/constants.js';
 import { expectToClickDetailsPageOption, waitForToast } from '#src/ui-helpers/index.js';
-import { expectNavigation, appendPathname, cls } from '#src/utils.js';
+import { expectNavigation, appendPathname, cls } from '#src/test-env-utils.js';
 
 import {
   expectToConfirmConnectorDeletion,

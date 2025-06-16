@@ -6,7 +6,7 @@ import { updateSignInExperience } from '#src/api/sign-in-experience.js';
 import { demoAppUrl, logtoUrl } from '#src/constants.js';
 import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector-helper.js';
 import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
-import { generateEmail } from '#src/utils.js';
+import { generateEmail } from '#src/test-env-utils.js';
 
 describe('identifier input cache', () => {
   const testEmail = generateEmail();

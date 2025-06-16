@@ -3,7 +3,7 @@ import { SignInIdentifier } from '@logto/schemas';
 import { createOneTimeToken } from '#src/api/one-time-token.js';
 import { initExperienceClient } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { waitFor } from '#src/utils.js';
+import { waitFor } from '#src/test-env-utils.js';
 
 describe('One-time token verification APIs', () => {
   it('should successfully verify one-time token', async () => {

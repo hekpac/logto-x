@@ -2,7 +2,7 @@ import { type User } from '@logto/schemas';
 
 import { authedApi, deleteUser } from '#src/api/index.js';
 import { createUserByAdmin, expectRejects } from '#src/helpers/index.js';
-import { generateUsername } from '#src/utils.js';
+import { generateUsername } from '#src/test-env-utils.js';
 
 const getUsers = async <T>(
   init: string[][] | Record<string, string> | URLSearchParams

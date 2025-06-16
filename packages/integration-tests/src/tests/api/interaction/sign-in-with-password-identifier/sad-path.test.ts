@@ -8,7 +8,7 @@ import { clearSsoConnectors } from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
-import { generateName, generatePassword } from '#src/utils.js';
+import { generateName, generatePassword } from '#src/test-env-utils.js';
 
 describe('Sign-in flow sad path using password identifiers', () => {
   beforeAll(async () => {

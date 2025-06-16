@@ -3,7 +3,7 @@ import { type webcrypto } from 'node:crypto';
 import { type DeepPartial } from '@silverhand/essentials';
 import { z } from 'zod';
 
-import { getPwnPasswordsForTest, isIntegrationTest } from './utils/integration-test.js';
+import { getPwnPasswordsForTest, isIntegrationTest } from './utils/test-env-utils.js';
 
 /** Password policy configuration type. */
 export type PasswordPolicy = {

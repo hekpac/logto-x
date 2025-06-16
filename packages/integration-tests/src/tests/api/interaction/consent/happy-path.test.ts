@@ -20,7 +20,7 @@ import {
   generateRoleName,
   generateScopeName,
   getAccessTokenPayload,
-} from '#src/utils.js';
+} from '#src/test-env-utils.js';
 
 describe('consent api', () => {
   const applications = new Map<string, Application>();

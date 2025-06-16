@@ -10,7 +10,7 @@ import {
   resetMfaSettings,
 } from '#src/helpers/sign-in-experience-helper.js';
 import ExpectWebAuthnExperience from '#src/ui-helpers/expect-webauthn-experience-helper.js';
-import { generateUsername } from '#src/utils.js';
+import { generateUsername } from '#src/test-env-utils.js';
 
 describe('MFA - Backup Code', () => {
   beforeAll(async () => {

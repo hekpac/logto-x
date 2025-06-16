@@ -11,7 +11,7 @@ import {
 } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
 import ExpectWebAuthnExperience from '#src/ui-helpers/expect-webauthn-experience-helper.js';
-import { generateUsername, waitFor } from '#src/utils.js';
+import { generateUsername, waitFor } from '#src/test-env-utils.js';
 
 describe('MFA - WebAuthn', () => {
   beforeAll(async () => {

@@ -1,6 +1,6 @@
 import { type ElementHandle, type Page } from 'puppeteer';
 
-import { expectNavigation } from '#src/utils.js';
+import { expectNavigation } from '#src/test-env-utils.js';
 
 import { type PuppeteerInstance } from './index.js';
 

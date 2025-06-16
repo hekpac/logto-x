@@ -7,7 +7,7 @@ import { demoAppRedirectUri } from '#src/constants.js';
 import { processSession } from '#src/helpers/client-helper.js';
 import { createUserByAdmin } from '#src/helpers/index.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generateUsername, generatePassword } from '#src/utils.js';
+import { generateUsername, generatePassword } from '#src/test-env-utils.js';
 
 describe('always issue Refresh Token config', () => {
   const username = generateUsername();

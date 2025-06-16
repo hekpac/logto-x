@@ -22,7 +22,7 @@ import {
   OrganizationScopeApiTest,
 } from '#src/helpers/organization-helper.js';
 import { UserApiTest, generateNewUser } from '#src/helpers/user-helper.js';
-import { generateName, waitFor } from '#src/utils.js';
+import { generateName, waitFor } from '#src/test-env-utils.js';
 
 import WebhookMockServer, { verifySignature } from './WebhookMockServer.js';
 import {

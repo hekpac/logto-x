@@ -30,19 +30,19 @@ describe('sendWebhookRequest', () => {
   it('should call got.post with correct values', async () => {
     const mockHookId = 'mockHookId';
     const mockEvent: HookEvent = InteractionHookEvent.PostSignIn;
-    const testPayload = generateHookTestPayload(mockHookId, mockEvent);
+    const testPayload = generateHookTestPayload({ hookId: mockHookId, event: mockEvent });
 
     const mockUrl = 'https://logto.gg';
     const mockSigningKey = 'mockSigningKey';
 
-    await sendWebhookRequest({
-      hookConfig: {
+    await sendWebhookRequest(
+      {
         url: mockUrl,
         headers: { foo: 'bar' },
       },
-      payload: testPayload,
-      signingKey: mockSigningKey,
-    });
+      testPayload,
+      mockSigningKey
+    );
 
     expect(post).toBeCalledWith(mockUrl, {
       headers: {
@@ -57,17 +57,46 @@ describe('sendWebhookRequest', () => {
   });
 });
 
+describe('generateHookTestPayload', () => {
+  it('should generate interaction hook payload for interaction event', () => {
+    const payload = generateHookTestPayload({
+      hookId: 'id',
+      event: InteractionHookEvent.PostSignIn,
+    });
+
+    expect(payload).toMatchObject({
+      hookId: 'id',
+      event: InteractionHookEvent.PostSignIn,
+      sessionId: 'fake-session-id',
+      userId: 'fake-id',
+      application: { id: 'fake-spa-application-id' },
+    });
+  });
+
+  it('should generate data hook payload for data event', () => {
+    const payload = generateHookTestPayload({ hookId: 'id', event: 'Role.Created' });
+
+    expect(payload).toMatchObject({
+      hookId: 'id',
+      event: 'Role.Created',
+      path: '/fake-path/:id',
+    });
+  });
+});
+
 describe('resolveManagementApiDataHookEvent', () => {
   it('should return event for registered route', () => {
     const [key, event] = Object.entries(managementApiHooksRegistration)[0];
     const [method, route] = key.split(' ') as [string, string];
 
-    expect(resolveManagementApiDataHookEvent(method, route)).toBe(event);
+    expect(
+      resolveManagementApiDataHookEvent({ method, _matchedRoute: route })
+    ).toBe(event);
   });
 
   it('should return undefined for unregistered route', () => {
     expect(
-      resolveManagementApiDataHookEvent('GET', '/unregistered')
+      resolveManagementApiDataHookEvent({ method: 'GET', _matchedRoute: '/unregistered' })
     ).toBeUndefined();
   });
 });

@@ -18,7 +18,7 @@ import {
   enableAllVerificationCodeSignInMethods,
 } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser, UserApiTest } from '#src/helpers/user-helper.js';
-import { generateEmail, generatePassword } from '#src/utils.js';
+import { generateEmail, generatePassword } from '#src/test-env-utils.js';
 
 const identifiersTypeToUserProfile = Object.freeze({
   username: 'username',

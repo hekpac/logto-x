@@ -1,4 +1,4 @@
-import { cls, waitFor } from '#src/utils.js';
+import { cls, waitFor } from '#src/test-env-utils.js';
 
 import ExpectExperience from './expect-experience-helper.js';
 

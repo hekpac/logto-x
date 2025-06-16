@@ -11,7 +11,7 @@ import {
   updateRole,
 } from '#src/api/role.js';
 import { createScope } from '#src/api/scope.js';
-import { generateRoleName } from '#src/utils.js';
+import { generateRoleName } from '#src/test-env-utils.js';
 
 describe('roles', () => {
   it('should get roles list successfully', async () => {

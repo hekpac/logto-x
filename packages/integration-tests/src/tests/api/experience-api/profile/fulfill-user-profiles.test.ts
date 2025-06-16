@@ -22,7 +22,7 @@ import {
   resetMfaSettings,
 } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUserProfile, UserApiTest } from '#src/helpers/user-helper.js';
-import { generateEmail, generateNationalPhoneNumber } from '#src/utils.js';
+import { generateEmail, generateNationalPhoneNumber } from '#src/test-env-utils.js';
 
 describe('Fulfill User Profiles', () => {
   const userApi = new UserApiTest();

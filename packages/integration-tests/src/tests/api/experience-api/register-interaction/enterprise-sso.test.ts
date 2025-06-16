@@ -20,7 +20,7 @@ import {
 } from '#src/helpers/experience/verification-code-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { UserApiTest } from '#src/helpers/user-helper.js';
-import { generateEmail } from '#src/utils.js';
+import { generateEmail } from '#src/test-env-utils.js';
 
 describe('should reject the email registration if the email domain is enabled for SSO only', () => {
   const ssoConnectorApi = new SsoConnectorApi();

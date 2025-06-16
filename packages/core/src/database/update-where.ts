@@ -58,8 +58,7 @@ export const buildUpdateWhereWithPool =
           if (
             jsonbMode === 'merge' &&
             value &&
-            typeof value === 'object' &&
-            !Array.isArray(value)
+            typeof value === 'object'
           ) {
             /**
              * Jsonb || operator is used to shallow merge two jsonb types of data
@@ -68,7 +67,10 @@ export const buildUpdateWhereWithPool =
              */
             return sql`
               ${fields[key]}=
-                coalesce(${fields[key]},'{}'::jsonb) || ${convertToPrimitiveOrSql(key, value)}
+                coalesce(
+                  ${fields[key]},
+                  ${sql.raw(Array.isArray(value) ? "'[]'::jsonb" : "'{}'::jsonb")}
+                ) || ${convertToPrimitiveOrSql(key, value)}
             `;
           }
 

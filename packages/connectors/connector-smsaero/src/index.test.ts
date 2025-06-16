@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { ConnectorError, ConnectorErrorCodes, TemplateType } from '@logto/connector-kit';
 import { got, HTTPError, type PlainResponse } from 'got';
 import nock from 'nock';
@@ -146,6 +147,20 @@ describe('SMSAero SMS connector', () => {
         },
         invalidConfig
       )
+    ).rejects.toMatchObject({ code: ConnectorErrorCodes.InvalidConfig });
+  });
+
+  it('throws InvalidConfig when fetched config is invalid', async () => {
+    const invalidConfig: SmsAeroConfig = { ...mockedConfig, email: 'invalid-email' };
+    const invalidGetConfig = vi.fn().mockResolvedValue(invalidConfig);
+    const connector = await createConnector({ getConfig: invalidGetConfig });
+
+    await expect(
+      connector.sendMessage({
+        to: '+1234567890',
+        type: TemplateType.Generic,
+        payload: { code: '1234' },
+      })
     ).rejects.toMatchObject({ code: ConnectorErrorCodes.InvalidConfig });
   });
 });

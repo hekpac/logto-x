@@ -12,7 +12,7 @@ import {
 } from '#src/helpers/experience/enterprise-sso-verification-helper.js';
 import { successFullyCreateSocialVerification } from '#src/helpers/experience/social-verification-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateUserId, randomString } from '#src/utils.js';
+import { generateUserId, randomString } from '#src/test-env-utils.js';
 
 describe('enterprise sso verification', () => {
   const state = 'fake_state';

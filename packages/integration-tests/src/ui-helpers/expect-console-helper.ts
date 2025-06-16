@@ -3,7 +3,7 @@ import path from 'node:path';
 import { appendPath, condString } from '@silverhand/essentials';
 
 import { consolePassword, consoleUsername, logtoConsoleUrl } from '#src/constants.js';
-import { cls, dcls, waitFor } from '#src/utils.js';
+import { cls, dcls, waitFor } from '#src/test-env-utils.js';
 
 import ExpectPage, { ExpectPageError } from './expect-page-helper.js';
 import { expectConfirmModalAndAct, expectToSaveChanges, type PuppeteerInstance } from './index.js';

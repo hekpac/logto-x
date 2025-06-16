@@ -112,6 +112,21 @@ describe('organization invitation status update', () => {
     );
   });
 
+  it('should require acceptedUserId when accepting an invitation', async () => {
+    const organization = await organizationApi.create({ name: 'test' });
+    const invitation = await invitationApi.create({
+      organizationId: organization.id,
+      invitee: `${randomId()}@example.com`,
+      expiresAt: Date.now() + 1_000_000,
+    });
+
+    const error = await invitationApi
+      .updateStatus(invitation.id, OrganizationInvitationStatus.Accepted)
+      .catch((error: unknown) => error);
+
+    await expectErrorResponse(error, 422, 'organization_invitation.accepted_user_id_required');
+  });
+
   it('should not be able to accept an invitation with a different email', async () => {
     const organization = await organizationApi.create({ name: 'test' });
     const invitation = await invitationApi.create({

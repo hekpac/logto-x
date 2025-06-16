@@ -16,6 +16,7 @@ import useTenantPathname from '@/hooks/use-tenant-pathname';
 import { splitMarkdownByTitle } from '@/pages/Connectors/utils';
 import modalStyles from '@/scss/modal.module.scss';
 import { trySubmitSafe } from '@/utils/form';
+import { captchaScoreThreshold } from '@/consts/env';
 
 import { SecurityTabs } from '../../types';
 import CaptchaFormFields from '../CaptchaFormFields';
@@ -43,7 +44,7 @@ function Guide({ type, onClose }: Props) {
       siteKey: '',
       secretKey: '',
       projectId: '',
-      scoreThreshold: 0.7,
+      scoreThreshold: captchaScoreThreshold,
     },
   });
 

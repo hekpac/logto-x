@@ -1,4 +1,4 @@
-import { cls } from '#src/utils.js';
+import { cls } from '#src/test-env-utils.js';
 
 import ExpectConsole from './expect-console-helper.js';
 import { expectToClickDetailsPageOption, expectToClickModalAction } from './index.js';

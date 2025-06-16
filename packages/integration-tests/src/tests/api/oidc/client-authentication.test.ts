@@ -20,7 +20,7 @@ import {
 } from '#src/api/application.js';
 import { getAuditLogs } from '#src/api/index.js';
 import { createResource } from '#src/api/resource.js';
-import { devFeatureTest, randomString, waitFor } from '#src/utils.js';
+import { devFeatureTest, randomString, waitFor } from '#src/test-env-utils.js';
 
 type TokenResponse = {
   access_token: string;

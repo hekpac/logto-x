@@ -36,7 +36,7 @@ const { validateTotpToken } = mockEsm('../utils/totp-validation.js', () => ({
 }));
 
 const { verifyWebAuthnAuthentication, verifyWebAuthnRegistration } = mockEsm(
-  '../../experience/utils/verification/webauthn.js',
+  '../utils/webauthn.js',
   () => ({
     verifyWebAuthnAuthentication: jest.fn(),
     verifyWebAuthnRegistration: jest.fn().mockResolvedValue({

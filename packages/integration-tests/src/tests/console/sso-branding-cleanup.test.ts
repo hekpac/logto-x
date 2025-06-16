@@ -1,7 +1,7 @@
 import { logtoConsoleUrl as logtoConsoleUrlString, newOidcSsoConnectorPayload } from '#src/constants.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
 import { goToConsole, expectToSaveChanges, waitForToast } from '#src/ui-helpers/index.js';
-import { appendPathname, expectNavigation } from '#src/utils.js';
+import { appendPathname, expectNavigation } from '#src/test-env-utils.js';
 
 await page.setViewport({ width: 1920, height: 1080 });
 
@@ -51,5 +51,26 @@ describe('enterprise sso branding cleanup', () => {
     const patchRequest = await patchRequestPromise;
     const body = JSON.parse(patchRequest.postData() ?? '{}');
     expect(body).not.toHaveProperty('branding');
+  });
+
+  it('should keep non-empty branding fields in patch request', async () => {
+    const patchRequestPromise = page.waitForRequest(
+      (request) =>
+        request.method() === 'PATCH' &&
+        request.url().includes(`/api/sso-connectors/${connectorId}`)
+    );
+
+    await expect(page).toFillForm('form', {
+      'branding.displayName': 'Updated name',
+      'branding.logo': '',
+      'branding.darkLogo': '',
+    });
+
+    await expectToSaveChanges(page);
+    await waitForToast(page, { text: 'Saved' });
+
+    const patchRequest = await patchRequestPromise;
+    const body = JSON.parse(patchRequest.postData() ?? '{}');
+    expect(body.branding).toEqual({ displayName: 'Updated name' });
   });
 });

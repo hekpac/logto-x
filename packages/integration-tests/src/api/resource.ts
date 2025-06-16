@@ -1,7 +1,7 @@
 import type { Resource, CreateResource } from '@logto/schemas';
 import { type Options } from 'ky';
 
-import { generateResourceIndicator, generateResourceName } from '#src/utils.js';
+import { generateResourceIndicator, generateResourceName } from '#src/test-env-utils.js';
 
 import { authedApi } from './api.js';
 

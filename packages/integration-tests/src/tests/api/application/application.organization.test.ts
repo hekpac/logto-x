@@ -7,7 +7,7 @@ import {
   getOrganizations,
 } from '#src/api/application.js';
 import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
-import { generateTestName } from '#src/utils.js';
+import { generateTestName } from '#src/test-env-utils.js';
 
 describe('application organizations', () => {
   const organizationApi = new OrganizationApiTest();

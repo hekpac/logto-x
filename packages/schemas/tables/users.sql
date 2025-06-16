@@ -20,6 +20,7 @@ create table users (
   identities jsonb /* @use Identities */ not null default '{}'::jsonb,
   custom_data jsonb /* @use JsonObject */ not null default '{}'::jsonb,
   logto_config jsonb /* @use JsonObject */ not null default '{}'::jsonb,
+  unverified_emails jsonb /* @use JsonStringArray */ not null default '[]'::jsonb,
   mfa_verifications jsonb /* @use MfaVerifications */ not null default '[]'::jsonb,
   is_suspended boolean not null default false,
   last_sign_in_at timestamptz,

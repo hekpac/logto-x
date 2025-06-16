@@ -53,6 +53,7 @@ describe('user query', () => {
     identities: JSON.stringify(mockUser.identities),
     customData: JSON.stringify(mockUser.customData),
     logtoConfig: JSON.stringify(mockUser.logtoConfig),
+    unverifiedEmails: JSON.stringify(mockUser.unverifiedEmails),
     mfaVerifications: JSON.stringify(mockUser.mfaVerifications),
   };
 
@@ -279,6 +280,28 @@ describe('user query', () => {
     });
 
     await expect(updateUserById(id, { username })).resolves.toEqual(databaseValue);
+  });
+
+  it('updateUserById with jsonb array merge', async () => {
+    const id = 'foo';
+    const emails = ['bar@example.com'];
+    const expectSql = sql`
+      update ${table}
+      set ${sql.identifier(['unverified_emails'])}=coalesce(${sql.identifier(['unverified_emails'])},'[]'::jsonb) || $1
+      where ${fields.id}=$2
+      returning *
+    `;
+
+    mockQuery.mockImplementationOnce(async (sql, values) => {
+      expectSqlAssert(sql, expectSql.sql);
+      expect(values).toEqual([JSON.stringify(emails), id]);
+
+      return createMockQueryResult([databaseValue]);
+    });
+
+    await expect(
+      updateUserById(id, { unverifiedEmails: emails }, 'merge')
+    ).resolves.toEqual(databaseValue);
   });
 
   it('deleteUserById', async () => {
