@@ -16,7 +16,7 @@ import {
 } from '#src/helpers/connector-helper.js';
 import { expectRejects, readConnectorMessage } from '#src/helpers/index.js';
 import { generateNewUser, generateNewUserProfile } from '#src/helpers/user-helper.js';
-import { generatePassword } from '#src/utils.js';
+import { generatePassword } from '#src/test-env-utils.js';
 
 describe('reset password flow sad path', () => {
   it('Should fail to reset password with email if related user is not exist', async () => {

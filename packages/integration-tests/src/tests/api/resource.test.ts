@@ -10,7 +10,7 @@ import {
   setDefaultResource,
 } from '#src/api/index.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateResourceIndicator, generateResourceName } from '#src/utils.js';
+import { generateResourceIndicator, generateResourceName } from '#src/test-env-utils.js';
 
 describe('admin console api resources', () => {
   it('should get management api resource details successfully', async () => {

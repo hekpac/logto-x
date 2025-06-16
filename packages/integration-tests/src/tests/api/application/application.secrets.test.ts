@@ -10,7 +10,7 @@ import {
   getApplicationSecrets,
   updateApplicationSecret,
 } from '#src/api/application.js';
-import { randomString } from '#src/utils.js';
+import { randomString } from '#src/test-env-utils.js';
 
 const defaultSecretName = 'Default secret';
 

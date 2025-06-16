@@ -26,7 +26,7 @@ import {
   enableCaptcha,
 } from '#src/helpers/sign-in-experience-helper.js';
 import { UserApiTest, generateNewUser, generateNewUserProfile } from '#src/helpers/user-helper.js';
-import { generateEmail } from '#src/utils.js';
+import { generateEmail } from '#src/test-env-utils.js';
 
 import { successfullySendVerificationCode } from '../../../../helpers/experience/verification-code-helper.js';
 

@@ -15,7 +15,7 @@ import { processSession } from '#src/helpers/client-helper.js';
 import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { UserApiTest } from '#src/helpers/user-helper.js';
-import { generateUsername, generatePassword } from '#src/utils.js';
+import { generateUsername, generatePassword } from '#src/test-env-utils.js';
 
 /** A helper class to simplify the test on grant errors. */
 class GrantError extends Error {

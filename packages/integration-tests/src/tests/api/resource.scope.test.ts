@@ -6,7 +6,7 @@ import { HTTPError } from 'ky';
 import { createResource } from '#src/api/index.js';
 import { createScope, deleteScope, getScopes, updateScope } from '#src/api/scope.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { generateName, generateScopeName } from '#src/utils.js';
+import { generateName, generateScopeName } from '#src/test-env-utils.js';
 
 describe('scopes', () => {
   it('should get management api resource scopes successfully', async () => {

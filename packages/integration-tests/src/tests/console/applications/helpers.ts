@@ -8,7 +8,7 @@ import {
   expectToOpenNewPage,
   waitForToast,
 } from '#src/ui-helpers/index.js';
-import { expectNavigation } from '#src/utils.js';
+import { expectNavigation } from '#src/test-env-utils.js';
 
 import { frameworkGroupLabels, type ApplicationCase } from './constants.js';
 

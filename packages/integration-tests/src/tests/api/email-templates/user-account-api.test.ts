@@ -15,7 +15,7 @@ import {
   signInAndGetUserApi,
 } from '#src/helpers/profile-helper.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generateEmail } from '#src/utils.js';
+import { generateEmail } from '#src/test-env-utils.js';
 
 describe('user account email verification API with i18n email templates', () => {
   const emailTemplatesApi = new EmailTemplatesApiTest();

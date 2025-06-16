@@ -18,7 +18,7 @@ import {
 } from '#src/helpers/connector-helper.js';
 import { expectRejects, readConnectorMessage } from '#src/helpers/index.js';
 import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generateEmail, generateSsoConnectorName } from '#src/utils.js';
+import { generateEmail, generateSsoConnectorName } from '#src/test-env-utils.js';
 
 const happyPath = async (email: string) => {
   const user = await createUser({ primaryEmail: email });

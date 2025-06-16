@@ -6,7 +6,7 @@ import { initExperienceClient, logoutClient, processSession } from '#src/helpers
 import { setEmailConnector } from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
-import { generateUsername, generatePassword } from '#src/utils.js';
+import { generateUsername, generatePassword } from '#src/test-env-utils.js';
 
 describe('Register interaction with one-time token', () => {
   beforeAll(async () => {

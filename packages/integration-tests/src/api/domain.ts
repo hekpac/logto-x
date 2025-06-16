@@ -1,6 +1,6 @@
 import type { DomainResponse } from '@logto/schemas';
 
-import { generateDomain } from '#src/utils.js';
+import { generateDomain } from '#src/test-env-utils.js';
 
 import { authedApi } from './api.js';
 

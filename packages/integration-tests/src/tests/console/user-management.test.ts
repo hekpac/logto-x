@@ -17,7 +17,7 @@ import {
   generatePhone,
   generateUsername,
   waitFor,
-} from '#src/utils.js';
+} from '#src/test-env-utils.js';
 
 await page.setViewport({ width: 1280, height: 720 });
 

@@ -18,7 +18,7 @@ import {
 import { expectRejects, readConnectorMessage } from '#src/helpers/index.js';
 import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser, generateNewUserProfile } from '#src/helpers/user-helper.js';
-import { generateEmail, generatePhone } from '#src/utils.js';
+import { generateEmail, generatePhone } from '#src/test-env-utils.js';
 
 describe('Sign-in flow using verification-code identifiers', () => {
   beforeAll(async () => {

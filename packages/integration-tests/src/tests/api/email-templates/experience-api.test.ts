@@ -9,7 +9,7 @@ import { EmailTemplatesApiTest } from '#src/helpers/email-templates-helper.js';
 import { successfullySendVerificationCode } from '#src/helpers/experience/verification-code-helper.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
 import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
-import { generateEmail } from '#src/utils.js';
+import { generateEmail } from '#src/test-env-utils.js';
 
 const mockSignInTemplate: MockEmailTemplatePayload = {
   languageTag: 'en',

@@ -9,7 +9,7 @@ import {
   goToConsole,
   waitForToast,
 } from '#src/ui-helpers/index.js';
-import { appendPathname, dcls, expectNavigation } from '#src/utils.js';
+import { appendPathname, dcls, expectNavigation } from '#src/test-env-utils.js';
 
 import { expectToCreateWebhook } from './helpers.js';
 

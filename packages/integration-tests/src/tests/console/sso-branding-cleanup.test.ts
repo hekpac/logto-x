@@ -1,7 +1,7 @@
 import { logtoConsoleUrl as logtoConsoleUrlString, newOidcSsoConnectorPayload } from '#src/constants.js';
 import { SsoConnectorApi } from '#src/api/sso-connector.js';
 import { goToConsole, expectToSaveChanges, waitForToast } from '#src/ui-helpers/index.js';
-import { appendPathname, expectNavigation } from '#src/utils.js';
+import { appendPathname, expectNavigation } from '#src/test-env-utils.js';
 
 await page.setViewport({ width: 1920, height: 1080 });
 

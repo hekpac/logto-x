@@ -1,7 +1,7 @@
 import type { Scope, CreateScope } from '@logto/schemas';
 import { type Options } from 'ky';
 
-import { generateScopeName } from '#src/utils.js';
+import { generateScopeName } from '#src/test-env-utils.js';
 
 import { authedApi } from './api.js';
 

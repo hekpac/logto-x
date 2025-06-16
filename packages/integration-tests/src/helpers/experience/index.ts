@@ -11,7 +11,7 @@ import {
 } from '@logto/schemas';
 
 import { type ExperienceClient } from '#src/client/experience/index.js';
-import { generatePassword } from '#src/utils.js';
+import { generatePassword } from '#src/test-env-utils.js';
 
 import { initExperienceClient, logoutClient, processSession } from '../client-helper.js';
 import { expectRejects } from '../index.js';

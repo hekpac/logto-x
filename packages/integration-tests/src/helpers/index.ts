@@ -10,7 +10,7 @@ import {
 import { HTTPError } from 'ky';
 
 import { createUser } from '#src/api/index.js';
-import { generateUsername } from '#src/utils.js';
+import { generateUsername } from '#src/test-env-utils.js';
 
 export const createUserByAdmin = async (
   payload: {

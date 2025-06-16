@@ -7,7 +7,7 @@ import { EmailTemplatesApiTest } from '#src/helpers/email-templates-helper.js';
 import { readConnectorMessage } from '#src/helpers/index.js';
 import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers/organization-helper.js';
 import { UserApiTest } from '#src/helpers/user-helper.js';
-import { generateEmail } from '#src/utils.js';
+import { generateEmail } from '#src/test-env-utils.js';
 
 const mockEnTemplate: MockEmailTemplatePayload = {
   languageTag: 'en',

@@ -7,7 +7,7 @@ import {
   waitForToast,
 } from '#src/ui-helpers/index.js';
 import { selectDropdownMenuItem } from '#src/ui-helpers/select-dropdown-menu-item-helper.js';
-import { expectNavigation, appendPathname } from '#src/utils.js';
+import { expectNavigation, appendPathname } from '#src/test-env-utils.js';
 
 export const expectToSelectPermissionAction = async (
   page: Page,

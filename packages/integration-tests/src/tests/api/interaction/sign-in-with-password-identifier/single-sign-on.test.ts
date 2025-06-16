@@ -14,7 +14,7 @@ import {
 } from '#src/helpers/connector-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { enableAllPasswordSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
-import { generateEmail, generatePassword, generateSsoConnectorName } from '#src/utils.js';
+import { generateEmail, generatePassword, generateSsoConnectorName } from '#src/test-env-utils.js';
 
 const happyPath = async (email: string) => {
   const password = generatePassword();
