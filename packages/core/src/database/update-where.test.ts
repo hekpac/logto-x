@@ -69,6 +69,26 @@ describe('buildUpdateWhere()', () => {
     ).resolves.toStrictEqual({ id: 'foo', customClientMetadata: '{"idTokenTtl":3600}' });
   });
 
+  it('return query with jsonb partial update if input is json array', async () => {
+    const pool = createTestPool(
+      'update "users"\nset\n"mfa_verifications"=\ncoalesce("mfa_verifications",'\''[]'\''::jsonb) || $1\nwhere "id"=$2\nreturning *',
+      (_, [mfaVerifications, id]) => ({
+        id: String(id),
+        mfaVerifications: String(mfaVerifications),
+      })
+    );
+
+    const updateWhere = buildUpdateWhereWithPool(pool)(Users, true);
+
+    await expect(
+      updateWhere({
+        set: { mfaVerifications: [{ id: 'id' }] },
+        where: { id: 'foo' },
+        jsonbMode: 'merge',
+      })
+    ).resolves.toStrictEqual({ id: 'foo', mfaVerifications: '[{"id":"id"}]' });
+  });
+
   it('should skip the keys whose value is `undefined`', async () => {
     const user: CreateUser = {
       id: 'foo',
