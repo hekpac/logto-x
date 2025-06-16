@@ -30,7 +30,7 @@ import { validateTotpToken } from '../utils/totp-validation.js';
 import {
   verifyWebAuthnAuthentication,
   verifyWebAuthnRegistration,
-} from '../../experience/utils/verification/webauthn.js';
+} from '../utils/webauthn.js';
 
 const verifyBindTotp = async (
   interactionStorage: AnonymousInteractionResult,
