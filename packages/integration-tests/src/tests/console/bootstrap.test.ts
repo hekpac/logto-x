@@ -9,7 +9,7 @@ import {
   logtoConsoleUrl as logtoConsoleUrlString,
 } from '#src/constants.js';
 import { switchToLanguage } from '#src/ui-helpers/switch-language-helper.js';
-import { appendPathname, cls, dcls, expectNavigation, waitFor } from '#src/utils.js';
+import { appendPathname, cls, dcls, expectNavigation, waitFor } from '#src/test-env-utils.js';
 
 /**
  * NOTE: This test suite assumes test cases will run sequentially (which is Jest default).

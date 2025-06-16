@@ -2,7 +2,7 @@ import { LogResult, type Hook, type HookEvent } from '@logto/schemas';
 import { assert } from '@silverhand/essentials';
 
 import { getWebhookRecentLogs } from '#src/api/logs.js';
-import { waitFor } from '#src/utils.js';
+import { waitFor } from '#src/test-env-utils.js';
 
 import { mockHookResponseGuard, verifySignature } from './WebhookMockServer.js';
 

@@ -1,7 +1,7 @@
 import type { CreateRole, Role, Scope, User, Application } from '@logto/schemas';
 import { RoleType } from '@logto/schemas';
 
-import { generateRoleName } from '#src/utils.js';
+import { generateRoleName } from '#src/test-env-utils.js';
 
 import { authedApi } from './api.js';
 

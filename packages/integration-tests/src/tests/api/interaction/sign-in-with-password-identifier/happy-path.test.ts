@@ -16,7 +16,7 @@ import {
   enableAllVerificationCodeSignInMethods,
 } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser, generateNewUserProfile } from '#src/helpers/user-helper.js';
-import { generateUsername } from '#src/utils.js';
+import { generateUsername } from '#src/test-env-utils.js';
 
 describe('Sign-in flow using password identifiers', () => {
   beforeAll(async () => {

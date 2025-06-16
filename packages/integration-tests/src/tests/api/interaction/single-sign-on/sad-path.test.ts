@@ -4,7 +4,7 @@ import { getSsoAuthorizationUrl } from '#src/api/interaction-sso.js';
 import { putInteraction } from '#src/api/interaction.js';
 import { createSsoConnector, deleteSsoConnectorById } from '#src/api/sso-connector.js';
 import { initClient } from '#src/helpers/client-helper.js';
-import { randomString } from '#src/utils.js';
+import { randomString } from '#src/test-env-utils.js';
 
 describe('Single Sign On Sad Path', () => {
   const state = 'foo_state';

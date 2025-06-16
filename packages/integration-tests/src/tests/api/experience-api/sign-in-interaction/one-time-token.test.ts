@@ -17,7 +17,7 @@ import {
 import { initExperienceClient, logoutClient, processSession } from '#src/helpers/client-helper.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
-import { waitFor } from '#src/utils.js';
+import { waitFor } from '#src/test-env-utils.js';
 
 const { user, userProfile } = await generateNewUser({
   username: true,

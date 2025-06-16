@@ -7,7 +7,7 @@ import {
   deleteSsoConnectorById,
 } from '#src/api/sso-connector.js';
 import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
-import { randomString } from '#src/utils.js';
+import { randomString } from '#src/test-env-utils.js';
 
 const randomId = () => generateStandardId(6);
 

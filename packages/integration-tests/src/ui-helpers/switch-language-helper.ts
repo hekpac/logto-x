@@ -1,6 +1,6 @@
 import { type Page } from 'puppeteer';
 
-import { dcls } from '../utils.js';
+import { dcls } from '../test-env-utils.js';
 
 import { selectDropdownMenuItem } from './select-dropdown-menu-item-helper.js';
 

@@ -11,7 +11,7 @@ import {
 } from '#src/api/role.js';
 import { expectRejects } from '#src/helpers/index.js';
 import { generateNewUserProfile } from '#src/helpers/user-helper.js';
-import { generatePhone } from '#src/utils.js';
+import { generatePhone } from '#src/test-env-utils.js';
 
 describe('roles users', () => {
   it('should get role users successfully and can get roles correctly (specifying exclude user)', async () => {

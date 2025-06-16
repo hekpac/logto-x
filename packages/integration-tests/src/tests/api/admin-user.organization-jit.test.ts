@@ -1,7 +1,7 @@
 import { getUserOrganizations } from '#src/api/index.js';
 import { OrganizationApiTest } from '#src/helpers/organization-helper.js';
 import { UserApiTest } from '#src/helpers/user-helper.js';
-import { randomString } from '#src/utils.js';
+import { randomString } from '#src/test-env-utils.js';
 
 describe('organization just-in-time provisioning', () => {
   const organizationApi = new OrganizationApiTest();

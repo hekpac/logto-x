@@ -1,4 +1,4 @@
-import { cls, dcls } from '#src/utils.js';
+import { cls, dcls } from '#src/test-env-utils.js';
 
 import ExpectConsole from './expect-console-helper.js';
 import { selectDropdownMenuItem } from './select-dropdown-menu-item-helper.js';

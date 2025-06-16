@@ -1,6 +1,6 @@
 import { authenticator } from 'otplib';
 
-import { waitFor, dcls } from '#src/utils.js';
+import { waitFor, dcls } from '#src/test-env-utils.js';
 
 import ExpectMfaExperience from './expect-mfa-experience-helper.js';
 

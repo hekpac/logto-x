@@ -21,7 +21,7 @@ import {
 import { createRole, assignApplicationsToRole } from '#src/api/role.js';
 import { createScope } from '#src/api/scope.js';
 import { expectRejects } from '#src/helpers/index.js';
-import { getAccessTokenPayload } from '#src/utils.js';
+import { getAccessTokenPayload } from '#src/test-env-utils.js';
 
 describe('admin console application management (roles)', () => {
   it('should get empty list successfully', async () => {

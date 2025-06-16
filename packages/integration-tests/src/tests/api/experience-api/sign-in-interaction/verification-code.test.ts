@@ -15,7 +15,7 @@ import {
 import { expectRejects } from '#src/helpers/index.js';
 import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { generateNewUser } from '#src/helpers/user-helper.js';
-import { generateEmail, generatePhone } from '#src/utils.js';
+import { generateEmail, generatePhone } from '#src/test-env-utils.js';
 
 const verificationIdentifierType: readonly [SignInIdentifier.Email, SignInIdentifier.Phone] =
   Object.freeze([SignInIdentifier.Email, SignInIdentifier.Phone]);

@@ -8,7 +8,7 @@ import { createSsoConnector } from '#src/api/sso-connector.js';
 import { demoAppUrl, logtoUrl } from '#src/constants.js';
 import { clearConnectorsByTypes, setSocialConnector } from '#src/helpers/connector-helper.js';
 import ExpectExperience from '#src/ui-helpers/expect-experience-helper.js';
-import { dcls, dmodal, randomString } from '#src/utils.js';
+import { dcls, dmodal, randomString } from '#src/test-env-utils.js';
 
 /**
  * NOTE: This test suite assumes test cases will run sequentially (which is Jest default).

@@ -23,7 +23,7 @@ import { adminConsoleApplicationId, type Application } from '@logto/schemas';
 
 import { authedAdminTenantApi } from '#src/api/api.js';
 import ExpectConsole from '#src/ui-helpers/expect-console-helper.js';
-import { waitFor } from '#src/utils.js';
+import { waitFor } from '#src/test-env-utils.js';
 
 type RequestHistory = {
   method?: string;

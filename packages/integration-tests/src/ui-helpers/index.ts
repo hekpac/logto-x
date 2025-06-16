@@ -15,7 +15,7 @@ import {
   logtoConsoleUrl as logtoConsoleUrlString,
 } from '#src/constants.js';
 import { clearConnectorsByTypes, setEmailConnector } from '#src/helpers/connector-helper.js';
-import { dcls, expectNavigation, waitFor } from '#src/utils.js';
+import { dcls, expectNavigation, waitFor } from '#src/test-env-utils.js';
 
 import { selectDropdownMenuItem } from './select-dropdown-menu-item-helper.js';
 

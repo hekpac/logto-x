@@ -1,6 +1,6 @@
 import { type Page } from 'puppeteer';
 
-import { dcls } from '#src/utils.js';
+import { dcls } from '#src/test-env-utils.js';
 
 export const selectDropdownMenuItem = async (page: Page, itemSelector: string, text: string) => {
   // Wait for the dropdown menu to appear

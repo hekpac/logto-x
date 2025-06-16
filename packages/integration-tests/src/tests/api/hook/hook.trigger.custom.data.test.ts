@@ -19,10 +19,10 @@ import { OrganizationApiTest, OrganizationInvitationApiTest } from '#src/helpers
 import { enableAllVerificationCodeSignInMethods } from '#src/helpers/sign-in-experience-helper.js';
 import { registerNewUserWithSso } from '#src/helpers/single-sign-on-helper.js';
 import { UserApiTest } from '#src/helpers/user-helper.js';
-import { generateEmail, generateName, generateRoleName, randomString } from '#src/utils.js';
+import { generateEmail, generateName, generateRoleName, randomString } from '#src/test-env-utils.js';
 
 import WebhookMockServer from './WebhookMockServer.js';
-import { assertHookLogResult } from './utils.js';
+import { assertHookLogResult } from ../test-env-utils.js';
 
 describe('manual data hook tests', () => {
   const webbHookMockServer = new WebhookMockServer(9999);

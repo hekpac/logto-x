@@ -2,7 +2,7 @@ import { appendPath } from '@silverhand/essentials';
 
 import ExpectConsole from '#src/ui-helpers/expect-console-helper.js';
 import { Trace } from '#src/ui-helpers/trace-helper.js';
-import { devFeatureTest } from '#src/utils.js';
+import { devFeatureTest } from '#src/test-env-utils.js';
 
 describe('error handling', () => {
   const trace = new Trace();

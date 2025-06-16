@@ -1,6 +1,6 @@
 import { logtoConsoleUrl as logtoConsoleUrlString } from '#src/constants.js';
 import { expectToClickNavTab, goToConsole } from '#src/ui-helpers/index.js';
-import { expectNavigation, appendPathname, waitFor } from '#src/utils.js';
+import { expectNavigation, appendPathname, waitFor } from '#src/test-env-utils.js';
 
 import { expectToSaveSignInExperience, waitForFormCard } from '../helpers.js';
 

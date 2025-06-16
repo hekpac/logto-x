@@ -13,7 +13,7 @@ import {
   enableAllPasswordSignInMethods,
   enableAllVerificationCodeSignInMethods,
 } from '#src/helpers/sign-in-experience-helper.js';
-import { generateEmail, generatePhone } from '#src/utils.js';
+import { generateEmail, generatePhone } from '#src/test-env-utils.js';
 
 /**
  * Note: These test cases are designed to cover exceptional scenarios of API calls that

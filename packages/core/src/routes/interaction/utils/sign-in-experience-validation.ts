@@ -36,6 +36,11 @@ export const verifyIdentifierSettings = (
 ) => {
   const { signIn, signUp } = signInExperience;
 
+  // Connector identifiers are validated by connector-specific logic
+  if ('connectorId' in identifier) {
+    return;
+  }
+
   // Username Password Identifier
   if ('username' in identifier) {
     assertThat(
@@ -45,12 +50,6 @@ export const verifyIdentifierSettings = (
       forbiddenIdentifierError()
     );
 
-    return;
-  }
-
-  // Social Identifier
-  // Connector related identifiers are validated by each connector implementation
-  if ('connectorId' in identifier) {
     return;
   }
 

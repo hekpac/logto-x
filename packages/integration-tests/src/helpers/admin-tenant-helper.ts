@@ -19,7 +19,7 @@ import { authedAdminTenantApi as api, adminTenantApi } from '#src/api/api.js';
 import type { InteractionPayload } from '#src/api/interaction.js';
 import { adminConsoleRedirectUri, logtoConsoleUrl } from '#src/constants.js';
 import { initClient, initExperienceClient, processSession } from '#src/helpers/client-helper.js';
-import { generatePassword, generateUsername } from '#src/utils.js';
+import { generatePassword, generateUsername } from '#src/test-env-utils.js';
 
 import {
   successFullyCreateSocialVerification,
