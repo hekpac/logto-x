@@ -74,6 +74,8 @@ docker compose up
 
 ### Run locally
 
+Ensure you are using Node.js 22.14.0 or later. Run `nvm use` to switch automatically with the provided `.nvmrc`.
+
 Set required environment variables in a `.env` file or export them directly:
 
 ```env
